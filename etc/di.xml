@@ -25,7 +25,7 @@
     <!-- Billet Configuration reader -->
     <virtualType name="GetnetGatewayConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\FCamara\Getnet\Model\Ui\ConfigProvider::CODE</argument>
+            <argument name="methodCode" xsi:type="const">\FCamara\Getnet\Model\Ui\Billet\ConfigProvider::CODE</argument>
         </arguments>
     </virtualType>
 
@@ -108,7 +108,6 @@
             <argument name="config" xsi:type="object">GetnetGatewayConfig</argument>
         </arguments>
     </type>
-
     <!-- BILLET PAYMENT CONFIGURATION -->
 
 </config>

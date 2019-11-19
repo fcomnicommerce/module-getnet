@@ -9,7 +9,8 @@
     <type name="Magento\Checkout\Model\CompositeConfigProvider">
         <arguments>
             <argument name="configProviders" xsi:type="array">
-                <item name="getnet_billet_config_provider" xsi:type="object">FCamara\Getnet\Model\Ui\ConfigProvider</item>
+                <!-- BILLET CONFIG PROVIDER -->
+                <item name="getnet_billet_config_provider" xsi:type="object">FCamara\Getnet\Model\Ui\Billet\ConfigProvider</item>
             </argument>
         </arguments>
     </type>

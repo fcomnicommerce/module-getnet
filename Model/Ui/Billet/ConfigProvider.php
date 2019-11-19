@@ -200,4 +200,46 @@ class ConfigProvider implements ConfigProviderInterface, ConfigInterface
             ScopeInterface::SCOPE_STORE
         );
     }
+
+    /**
+     * Return production
+     *
+     * @return string
+     * @since 100.2.0
+     */
+    public function ourNumber()
+    {
+        return $this->scopeConfig->getValue(
+            ConfigInterface::XML_PATH_BILLET_OUR_NUMBER,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * Return production
+     *
+     * @return string
+     * @since 100.2.0
+     */
+    public function expirationDays()
+    {
+        return $this->scopeConfig->getValue(
+            ConfigInterface::XML_PATH_BILLET_EXPIRATION_DAYS,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * Return instructions
+     *
+     * @return string
+     * @since 100.2.0
+     */
+    public function instructions()
+    {
+        return $this->scopeConfig->getValue(
+            ConfigInterface::XML_PATH_BILLET_INSTRUCTIONS,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
 }

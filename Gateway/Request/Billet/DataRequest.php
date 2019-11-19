@@ -19,6 +19,7 @@ use FCamara\Getnet\Model\ConfigInterface;
 use Magento\Checkout\Model\Session;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Magento\Payment\Gateway\Request\BuilderInterface;
 
@@ -35,15 +36,23 @@ class DataRequest implements BuilderInterface
     private $checkoutSession;
 
     /**
+     * @var TimezoneInterface
+     */
+    private $timezone;
+
+    /**
      * @param ConfigInterface $config
+     * @param TimezoneInterface $timezone
      * @param Session $checkoutSession
      */
     public function __construct(
         ConfigInterface $config,
+        TimezoneInterface $timezone,
         Session $checkoutSession
     ) {
         $this->config = $config;
         $this->checkoutSession = $checkoutSession;
+        $this->timezone = $timezone;
     }
 
     /**
@@ -53,6 +62,7 @@ class DataRequest implements BuilderInterface
      * @return array
      * @throws LocalizedException
      * @throws NoSuchEntityException
+     * @throws \Zend_Date_Exception
      */
     public function build(array $buildSubject)
     {
@@ -86,6 +96,11 @@ class DataRequest implements BuilderInterface
             $district = $streetData[3];
         }
 
+        $time = $this->timezone->scopeTimeStamp();
+        $date = new \Zend_Date($time, \Zend_Date::TIMESTAMP);
+        $date->addDay($this->config->expirationDays());
+        $expirationDate = $date->get('dd-MM-YYYY');
+
         return [
             'body' => [
                 'seller_id' => $this->config->sellerId(),
@@ -97,11 +112,10 @@ class DataRequest implements BuilderInterface
                     'product_type' => 'service',
                 ],
                 'boleto' =>[
-                    'our_number' => '000001946598',
-                    'document_number' => '170500000019763',
-                    'expiration_date' => '30/11/2019',
-                    'instructions' => 'Não receber após o vencimento',
-                    'provider' => 'santander',
+                    'our_number' => $this->config->ourNumber(),
+                    'expiration_date' => $expirationDate,
+                    'instructions' => $this->config->instructions(),
+                    'provider' => $this->config->billetProvider(),
                 ],
                 'customer' => [
                     'first_name' => $customer->getFirstname(),

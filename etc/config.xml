@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <payment>
+            <getnet_billet>
+                <debug>1</debug>
+                <active>0</active>
+                <model>GetnetGatewayBilletFacade</model>
+                <order_status>pending_payment</order_status>
+                <payment_action>authorize</payment_action>
+                <title>Getnet Boleto</title>
+                <currency>BRL</currency>
+                <can_authorize>1</can_authorize>
+                <can_use_checkout>1</can_use_checkout>
+                <is_gateway>1</is_gateway>
+                <sort_order>1</sort_order>
+            </getnet_billet>
+        </payment>
+    </default>
+</config>

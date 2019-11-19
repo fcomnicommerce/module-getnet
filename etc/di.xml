@@ -1,0 +1,114 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="FCamara\Getnet\Model\ConfigInterface" type="FCamara\Getnet\Model\Ui\Billet\ConfigProvider" />
+
+    <!-- BILLET PAYMENT CONFIGURATION -->
+
+    <!-- Billet Payment Method Facade configuration -->
+    <virtualType name="GetnetGatewayBilletFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">\FCamara\Getnet\Model\Ui\Billet\ConfigProvider::CODE</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">FCamara\Getnet\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">GetnetGatewayValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">GetnetGatewayCommandPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Billet Configuration reader -->
+    <virtualType name="GetnetGatewayConfig" type="Magento\Payment\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">\FCamara\Getnet\Model\Ui\ConfigProvider::CODE</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Logger, initialized with GetnetGatewayConfig -->
+    <virtualType name="GetnetGatewayLogger" type="Magento\Payment\Model\Method\Logger">
+        <arguments>
+            <argument name="config" xsi:type="object">GetnetGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+
+
+    <!-- Billet Client Initialization -->
+    <type name="FCamara\Getnet\Gateway\Http\Client\ClientMock">
+        <arguments>
+            <argument name="logger" xsi:type="object">GetnetGatewayLogger</argument>
+        </arguments>
+    </type>
+
+    <!-- Billet Commands infrastructure -->
+    <virtualType name="GetnetGatewayCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="authorize" xsi:type="string">GetnetGatewayAuthorizeCommand</item>
+                <item name="capture" xsi:type="string">SamplePaymentGatewayCaptureCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Billet Authorize command -->
+    <virtualType name="GetnetGatewayAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">GetnetGatewayAuthorizationRequest</argument>
+            <argument name="handler" xsi:type="object">GetnetGatewayResponseHandlerComposite</argument>
+            <argument name="transferFactory" xsi:type="object">FCamara\Getnet\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">FCamara\Getnet\Gateway\Http\Client\ClientMock</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Billet Authorization Request -->
+    <virtualType name="GetnetGatewayAuthorizationRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="transaction" xsi:type="string">FCamara\Getnet\Gateway\Request\AuthorizationRequest</item>
+                <item name="data" xsi:type="string">FCamara\Getnet\Gateway\Request\Billet\DataRequest</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="FCamara\Getnet\Gateway\Request\AuthorizationRequest">
+        <arguments>
+            <argument name="config" xsi:type="object">GetnetGatewayConfig</argument>
+        </arguments>
+    </type>
+
+    <!-- Billet Response handlers -->
+    <virtualType name="GetnetGatewayResponseHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="txnid" xsi:type="string">FCamara\Getnet\Gateway\Response\TxnIdHandler</item>
+                <item name="fraud" xsi:type="string">FCamara\Getnet\Gateway\Response\FraudHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value handlers infrastructure -->
+    <virtualType name="GetnetGatewayValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">GetnetGatewayConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="GetnetGatewayConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">GetnetGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="FCamara\Getnet\Block\Info">
+        <arguments>
+            <argument name="config" xsi:type="object">GetnetGatewayConfig</argument>
+        </arguments>
+    </type>
+
+    <!-- BILLET PAYMENT CONFIGURATION -->
+
+</config>

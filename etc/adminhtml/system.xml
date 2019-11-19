@@ -1,0 +1,84 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="getnet" sortOrder="999" translate="label">
+            <label>pagar.me</label>
+        </tab>
+        <section id="payment" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+            <group id="getnet" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+                <label>
+                    <![CDATA[Getnet <i> by FCamara formação e consultioria</i>]]>
+                </label>
+                <group  id="general" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+                    <label>General</label>
+                    <field id="enabled" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label" type="select">
+                        <label>Enabled</label>
+                        <comment />
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/getnet/enabled</config_path>
+                    </field>
+                    <field id="environment" translate="label" type="select" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Environment</label>
+                        <source_model>FCamara\Getnet\Model\Adminhtml\Source\Environment</source_model>
+                        <config_path>payment/getnet/environment</config_path>
+                    </field>
+                    <field id="sandbox_endpoint" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Sandbox Endpoint</label>
+                        <depends>
+                            <field id="environment">sandbox</field>
+                        </depends>
+                        <config_path>payment/getnet/sandbox_endpoint</config_path>
+                    </field>
+                    <field id="production_endpoint" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Production Endpoint</label>
+                        <depends>
+                            <field id="environment">production</field>
+                        </depends>
+                        <config_path>payment/getnet/production_endpoint</config_path>
+                    </field>
+                </group>
+                <group id="credentials" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Credentials</label>
+                    <field id="seller_id" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Seller Id</label>
+                        <config_path>payment/getnet/seller_id</config_path>
+                    </field>
+                    <field id="client_id" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Client Id</label>
+                        <config_path>payment/getnet/client_id</config_path>
+                    </field>
+                    <field id="client_secret" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Client Secret</label>
+                        <config_path>payment/getnet/client_secret</config_path>
+                    </field>
+                </group>
+                <group id="methods" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Methods</label>
+                    <group id="billet" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Billet</label>
+                        <field id="billet_enabled" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label" type="select">
+                            <label>Enabled</label>
+                            <comment />
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/getnet_billet/active</config_path>
+                        </field>
+                        <field id="title" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label" type="text">
+                            <label>Title</label>
+                            <config_path>payment/getnet_billet/title</config_path>
+                        </field>
+                        <field id="payment_action" translate="label" type="select" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="0">
+                            <label>Payment Action</label>
+                            <source_model>FCamara\Getnet\Model\Adminhtml\Source\PaymentAction</source_model>
+                            <config_path>payment/getnet_billet/payment_action</config_path>
+                        </field>
+                        <field id="order_status" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                            <label>New Order Status</label>
+                            <source_model>Magento\Sales\Model\Config\Source\Order\Status\Processing</source_model>
+                            <config_path>payment/getnet_billet/order_status</config_path>
+                        </field>
+                    </group>
+                </group>
+            </group>
+        </section>
+    </system>
+</config>

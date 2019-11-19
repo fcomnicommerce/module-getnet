@@ -89,7 +89,7 @@ class DataRequest implements BuilderInterface
         return [
             'body' => [
                 'seller_id' => $this->config->sellerId(),
-                'amount' => $order->getGrandTotalAmount(),
+                'amount' => (float)$order->getGrandTotalAmount(),
                 'currency' => 'BRL',
                 'order' => [
                     'order_id' => $order->getOrderIncrementId(),

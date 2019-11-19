@@ -186,4 +186,18 @@ class ConfigProvider implements ConfigProviderInterface, ConfigInterface
     {
         return $this->endpoint() . '/v1/payments/boleto';
     }
+
+    /**
+     * Return production
+     *
+     * @return string
+     * @since 100.2.0
+     */
+    public function billetProvider()
+    {
+        return $this->scopeConfig->getValue(
+            ConfigInterface::XML_PATH_BILLET_PROVIDER,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
 }

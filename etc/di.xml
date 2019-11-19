@@ -16,23 +16,23 @@
         <arguments>
             <argument name="code" xsi:type="const">\FCamara\Getnet\Model\Ui\Billet\ConfigProvider::CODE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
-            <argument name="infoBlockType" xsi:type="string">FCamara\Getnet\Block\Info</argument>
-            <argument name="valueHandlerPool" xsi:type="object">GetnetGatewayValueHandlerPool</argument>
-            <argument name="commandPool" xsi:type="object">GetnetGatewayCommandPool</argument>
+            <argument name="infoBlockType" xsi:type="string">FCamara\Getnet\Block\Billet\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">GetnetGatewayBilletValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">GetnetGatewayBilletCommandPool</argument>
         </arguments>
     </virtualType>
 
     <!-- Billet Configuration reader -->
-    <virtualType name="GetnetGatewayConfig" type="Magento\Payment\Gateway\Config\Config">
+    <virtualType name="GetnetGatewayBilletConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
             <argument name="methodCode" xsi:type="const">\FCamara\Getnet\Model\Ui\Billet\ConfigProvider::CODE</argument>
         </arguments>
     </virtualType>
 
-    <!-- Logger, initialized with GetnetGatewayConfig -->
+    <!-- Logger, initialized with GetnetGatewayBilletConfig -->
     <virtualType name="GetnetGatewayLogger" type="Magento\Payment\Model\Method\Logger">
         <arguments>
-            <argument name="config" xsi:type="object">GetnetGatewayConfig</argument>
+            <argument name="config" xsi:type="object">GetnetGatewayBilletConfig</argument>
         </arguments>
     </virtualType>
 
@@ -45,27 +45,26 @@
     </type>
 
     <!-- Billet Commands infrastructure -->
-    <virtualType name="GetnetGatewayCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+    <virtualType name="GetnetGatewayBilletCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="authorize" xsi:type="string">GetnetGatewayAuthorizeCommand</item>
-                <item name="capture" xsi:type="string">SamplePaymentGatewayCaptureCommand</item>
+                <item name="authorize" xsi:type="string">GetnetGatewayBilletAuthorizeCommand</item>
             </argument>
         </arguments>
     </virtualType>
 
     <!-- Billet Authorize command -->
-    <virtualType name="GetnetGatewayAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+    <virtualType name="GetnetGatewayBilletAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
         <arguments>
-            <argument name="requestBuilder" xsi:type="object">GetnetGatewayAuthorizationRequest</argument>
-            <argument name="handler" xsi:type="object">GetnetGatewayResponseHandlerComposite</argument>
+            <argument name="requestBuilder" xsi:type="object">GetnetGatewayBilletAuthorizationRequest</argument>
+            <argument name="handler" xsi:type="object">GetnetGatewayBilletResponseHandlerComposite</argument>
             <argument name="transferFactory" xsi:type="object">FCamara\Getnet\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">FCamara\Getnet\Gateway\Http\Client\ClientMock</argument>
         </arguments>
     </virtualType>
 
     <!-- Billet Authorization Request -->
-    <virtualType name="GetnetGatewayAuthorizationRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+    <virtualType name="GetnetGatewayBilletAuthorizationRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
         <arguments>
             <argument name="builders" xsi:type="array">
                 <item name="transaction" xsi:type="string">FCamara\Getnet\Gateway\Request\AuthorizationRequest</item>
@@ -75,12 +74,12 @@
     </virtualType>
     <type name="FCamara\Getnet\Gateway\Request\AuthorizationRequest">
         <arguments>
-            <argument name="config" xsi:type="object">GetnetGatewayConfig</argument>
+            <argument name="config" xsi:type="object">GetnetGatewayBilletConfig</argument>
         </arguments>
     </type>
 
     <!-- Billet Response handlers -->
-    <virtualType name="GetnetGatewayResponseHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
+    <virtualType name="GetnetGatewayBilletResponseHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
         <arguments>
             <argument name="handlers" xsi:type="array">
                 <item name="txnid" xsi:type="string">FCamara\Getnet\Gateway\Response\TxnIdHandler</item>
@@ -90,22 +89,22 @@
     </virtualType>
 
     <!-- Value handlers infrastructure -->
-    <virtualType name="GetnetGatewayValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+    <virtualType name="GetnetGatewayBilletValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
             <argument name="handlers" xsi:type="array">
-                <item name="default" xsi:type="string">GetnetGatewayConfigValueHandler</item>
+                <item name="default" xsi:type="string">GetnetGatewayBilletConfigValueHandler</item>
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="GetnetGatewayConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+    <virtualType name="GetnetGatewayBilletConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>
-            <argument name="configInterface" xsi:type="object">GetnetGatewayConfig</argument>
+            <argument name="configInterface" xsi:type="object">GetnetGatewayBilletConfig</argument>
         </arguments>
     </virtualType>
 
-    <type name="FCamara\Getnet\Block\Info">
+    <type name="FCamara\Getnet\Block\Billet\Info">
         <arguments>
-            <argument name="config" xsi:type="object">GetnetGatewayConfig</argument>
+            <argument name="config" xsi:type="object">GetnetGatewayBilletConfig</argument>
         </arguments>
     </type>
     <!-- BILLET PAYMENT CONFIGURATION -->

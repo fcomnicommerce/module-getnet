@@ -13,7 +13,7 @@
  * @author    Jonatan Santos <jonatan.santos@fcamara.com.br>
  */
 
-namespace FCamara\Getnet\Block;
+namespace FCamara\Getnet\Block\Billet;
 
 use Magento\Framework\Phrase;
 use Magento\Payment\Block\ConfigurableInfo;

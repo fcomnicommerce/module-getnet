@@ -53,6 +53,11 @@ interface ConfigInterface
     const XML_PATH_PRODUCTION_ENDPOINT = 'payment/getnet/production_endpoint';
 
     /**
+     * Api billet provider
+     */
+    const XML_PATH_BILLET_PROVIDER = 'payment/getnet_billet/provider';
+
+    /**
      * Enabled config path
      */
     const XML_PATH_ENABLED = 'payment/getnet/enabled';
@@ -138,10 +143,18 @@ interface ConfigInterface
     public function authorizationEndpoint();
 
     /**
-     * Check auth endpoint
+     * Billet registration endpoint
      *
      * @return string
      * @since 100.2.0
      */
     public function billetRegistrationEndpoint();
+
+    /**
+     * Billet provider
+     *
+     * @return string
+     * @since 100.2.0
+     */
+    public function billetProvider();
 }

@@ -66,6 +66,11 @@
                             <label>Title</label>
                             <config_path>payment/getnet_billet/title</config_path>
                         </field>
+                        <field id="provider" translate="label" type="select" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Provider</label>
+                            <source_model>FCamara\Getnet\Model\Adminhtml\Source\provider</source_model>
+                            <config_path>payment/getnet_billet/provider</config_path>
+                        </field>
                         <field id="payment_action" translate="label" type="select" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="0">
                             <label>Payment Action</label>
                             <source_model>FCamara\Getnet\Model\Adminhtml\Source\PaymentAction</source_model>

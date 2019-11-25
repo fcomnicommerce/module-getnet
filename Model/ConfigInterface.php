@@ -58,6 +58,21 @@ interface ConfigInterface
     const XML_PATH_BILLET_PROVIDER = 'payment/getnet_billet/provider';
 
     /**
+     * Api billet provider
+     */
+    const XML_PATH_BILLET_OUR_NUMBER = 'payment/getnet_billet/our_number';
+
+    /**
+     * Api billet provider
+     */
+    const XML_PATH_BILLET_EXPIRATION_DAYS = 'payment/getnet_billet/expiration_days';
+
+    /**
+     * Api billet provider
+     */
+    const XML_PATH_BILLET_INSTRUCTIONS = 'payment/getnet_billet/instructions';
+
+    /**
      * Enabled config path
      */
     const XML_PATH_ENABLED = 'payment/getnet/enabled';
@@ -157,4 +172,28 @@ interface ConfigInterface
      * @since 100.2.0
      */
     public function billetProvider();
+
+    /**
+     * Billet our number
+     *
+     * @return string
+     * @since 100.2.0
+     */
+    public function ourNumber();
+
+    /**
+     * Billet expiration days
+     *
+     * @return string
+     * @since 100.2.0
+     */
+    public function expirationDays();
+
+    /**
+     * Billet instructions
+     *
+     * @return string
+     * @since 100.2.0
+     */
+    public function instructions();
 }

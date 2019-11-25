@@ -68,13 +68,20 @@
                         </field>
                         <field id="provider" translate="label" type="select" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Provider</label>
-                            <source_model>FCamara\Getnet\Model\Adminhtml\Source\provider</source_model>
+                            <source_model>FCamara\Getnet\Model\Adminhtml\Source\PaymentProvider</source_model>
                             <config_path>payment/getnet_billet/provider</config_path>
                         </field>
-                        <field id="payment_action" translate="label" type="select" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="0">
-                            <label>Payment Action</label>
-                            <source_model>FCamara\Getnet\Model\Adminhtml\Source\PaymentAction</source_model>
-                            <config_path>payment/getnet_billet/payment_action</config_path>
+                        <field id="our_number" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label" type="text">
+                            <label>Our Number</label>
+                            <config_path>payment/getnet_billet/our_number</config_path>
+                        </field>
+                        <field id="expiration_days" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label" type="text">
+                            <label>Expiration Days</label>
+                            <config_path>payment/getnet_billet/expiration_days</config_path>
+                        </field>
+                        <field id="instructions" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label" type="textarea">
+                            <label>Instructions</label>
+                            <config_path>payment/getnet_billet/instructions</config_path>
                         </field>
                         <field id="order_status" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
                             <label>New Order Status</label>

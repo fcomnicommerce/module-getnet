@@ -99,7 +99,7 @@ class DataRequest implements BuilderInterface
         $time = $this->timezone->scopeTimeStamp();
         $date = new \Zend_Date($time, \Zend_Date::TIMESTAMP);
         $date->addDay($this->config->expirationDays());
-        $expirationDate = $date->get('dd-MM-YYYY');
+        $expirationDate = $date->get('dd/MM/YYYY');
 
         $response = [
             'body' => [

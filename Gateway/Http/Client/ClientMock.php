@@ -129,6 +129,7 @@ class ClientMock implements ClientInterface
             $responseBody = $client->request()->getBody();
         } catch (\Exception $e) {
             $responseBody = $e->getMessage();
+            throw new \Exception($e->getMessage());
         }
 
         return $responseBody;
@@ -158,6 +159,7 @@ class ClientMock implements ClientInterface
             $responseBody = $client->request()->getBody();
         } catch (\Exception $e) {
             $responseBody = $e->getMessage();
+            throw new \Exception($e->getMessage());
         }
 
         return $responseBody;

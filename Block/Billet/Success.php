@@ -20,10 +20,12 @@ class Success extends \Magento\Checkout\Block\Success
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         array $data = []
     ) {
         $this->_orderFactory = $orderFactory;
+        $this->checkoutSession = $checkoutSession;
         parent::__construct($context, $orderFactory, $data);
     }
 
@@ -33,8 +35,9 @@ class Success extends \Magento\Checkout\Block\Success
     public function getRealOrderId()
     {
         /** @var \Magento\Sales\Model\Order $order */
-        $order = $this->_orderFactory->create()->load($this->getLastOrderId());
-        return $order->getIncrementId();
+        $lastorderId = $this->checkoutSession->getLastOrderId();
+        $order = $this->_orderFactory->create()->load($lastorderId);
+        return $order;
     }
 
     public function isBillet()

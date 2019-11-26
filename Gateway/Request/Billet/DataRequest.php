@@ -101,7 +101,7 @@ class DataRequest implements BuilderInterface
         $date->addDay($this->config->expirationDays());
         $expirationDate = $date->get('dd-MM-YYYY');
 
-        return [
+        $response = [
             'body' => [
                 'seller_id' => $this->config->sellerId(),
                 'amount' => (float)$order->getGrandTotalAmount(),
@@ -134,5 +134,7 @@ class DataRequest implements BuilderInterface
                 ],
             ]
         ];
+
+        return $response;
     }
 }

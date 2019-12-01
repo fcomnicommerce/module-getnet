@@ -47,10 +47,46 @@ class ConfigProvider implements ConfigProviderInterface, ConfigInterface
         return [
             'payment' => [
                 self::CODE => [
-                    'info' => 'no info to return'
+                    'info' => 'no info to return',
+                    'availableTypes' => [
+                        'vs' => 'Visa',
+                        'ms' => 'Master',
+                    ],
+                    'authorization' => $this->authorizationBearer(),
+                    'months' => [
+                        '01' => 'Janeiro',
+                        '02' => 'Fevereiro',
+                        '03' => 'Março',
+                        '04' => 'Abril',
+                        '05' => 'Maio',
+                        '06' => 'Junho',
+                        '07' => 'Julho',
+                        '08' => 'Agosto',
+                        '09' => 'Setembo',
+                        '10' => 'Outubro',
+                        '11' => 'Novembro',
+                        '12' => 'Dezembro',
+                    ],
+                    'years' => [
+                        '2020' => '2020',
+                        '2021' => '2021',
+                        '2022' => '2022',
+                        '2023' => '2023',
+                        '2024' => '2024',
+                        '2025' => '2025',
+                        '2026' => '2026',
+                        '2027' => '2027',
+                        '2028' => '2028',
+                        '2029' => '2029',
+                    ],
                 ]
             ]
         ];
+    }
+
+    public function authorizationBearer()
+    {
+        return base64_encode($this->clientId() . ':' . $this->clientSecret());
     }
 
     /**

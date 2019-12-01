@@ -33,10 +33,31 @@ class CreditCardDataAssignObserver extends AbstractDataAssignObserver
 
         $paymentInfo = $method->getInfoInstance();
 
-        if ($data->getDataByKey('transaction_result') !== null) {
+        if ($data->getDataByKey('number_token') !== null) {
             $paymentInfo->setAdditionalInformation(
-                'transaction_result',
-                $data->getDataByKey('transaction_result')
+                'number_token',
+                $data->getDataByKey('number_token')
+            );
+        }
+
+        if ($data->getDataByKey('cardholder_name') !== null) {
+            $paymentInfo->setAdditionalInformation(
+                'cardholder_name',
+                $data->getDataByKey('cardholder_name')
+            );
+        }
+
+        if ($data->getDataByKey('expiration_month') !== null) {
+            $paymentInfo->setAdditionalInformation(
+                'expiration_month',
+                $data->getDataByKey('expiration_month')
+            );
+        }
+
+        if ($data->getDataByKey('expiration_year') !== null) {
+            $paymentInfo->setAdditionalInformation(
+                'expiration_year',
+                $data->getDataByKey('expiration_year')
             );
         }
     }

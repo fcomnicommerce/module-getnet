@@ -52,7 +52,8 @@ class ConfigProvider implements ConfigProviderInterface, ConfigInterface
                         'vs' => 'Visa',
                         'ms' => 'Master',
                     ],
-                    'authorization' => $this->authorizationBearer(),
+                    'authorizationBasic' => $this->authorizationBasic(),
+                    'endpoint' => $this->endpoint(),
                     'months' => [
                         '01' => 'Janeiro',
                         '02' => 'Fevereiro',
@@ -84,9 +85,9 @@ class ConfigProvider implements ConfigProviderInterface, ConfigInterface
         ];
     }
 
-    public function authorizationBearer()
+    public function authorizationBasic()
     {
-        return base64_encode($this->clientId() . ':' . $this->clientSecret());
+        return 'Basic ' . base64_encode($this->clientId() . ':' . $this->clientSecret());
     }
 
     /**

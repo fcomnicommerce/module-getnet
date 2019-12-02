@@ -33,31 +33,45 @@ class CreditCardDataAssignObserver extends AbstractDataAssignObserver
 
         $paymentInfo = $method->getInfoInstance();
 
-        if ($data->getDataByKey('number_token') !== null) {
+        if ($data->getDataByKey('cc_number_token') !== null) {
             $paymentInfo->setAdditionalInformation(
-                'number_token',
-                $data->getDataByKey('number_token')
+                'cc_number_token',
+                $data->getDataByKey('cc_number_token')
             );
         }
 
-        if ($data->getDataByKey('cardholder_name') !== null) {
+        if ($data->getDataByKey('cc_name') !== null) {
             $paymentInfo->setAdditionalInformation(
-                'cardholder_name',
-                $data->getDataByKey('cardholder_name')
+                'cc_name',
+                $data->getDataByKey('cc_name')
             );
         }
 
-        if ($data->getDataByKey('expiration_month') !== null) {
+        if ($data->getDataByKey('cc_exp_month') !== null) {
             $paymentInfo->setAdditionalInformation(
-                'expiration_month',
-                $data->getDataByKey('expiration_month')
+                'cc_exp_month',
+                $data->getDataByKey('cc_exp_month')
             );
         }
 
-        if ($data->getDataByKey('expiration_year') !== null) {
+        if ($data->getDataByKey('cc_exp_year') !== null) {
             $paymentInfo->setAdditionalInformation(
-                'expiration_year',
-                $data->getDataByKey('expiration_year')
+                'cc_exp_year',
+                $data->getDataByKey('cc_exp_year')
+            );
+        }
+
+        if ($data->getDataByKey('cc_cid') !== null) {
+            $paymentInfo->setAdditionalInformation(
+                'cc_cid',
+                $data->getDataByKey('cc_cid')
+            );
+        }
+
+        if ($data->getDataByKey('cc_type') !== null) {
+            $paymentInfo->setAdditionalInformation(
+                'cc_type',
+                $data->getDataByKey('cc_type')
             );
         }
     }

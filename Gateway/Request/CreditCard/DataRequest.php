@@ -13,7 +13,7 @@
  * @author    Jonatan Santos <jonatan.santos@fcamara.com.br>
  */
 
-namespace FCamara\Getnet\Gateway\Request\Billet;
+namespace FCamara\Getnet\Gateway\Request\CreditCard;
 
 use FCamara\Getnet\Model\ConfigInterface;
 use Magento\Checkout\Model\Session;
@@ -81,7 +81,7 @@ class DataRequest implements BuilderInterface
         $address = $this->checkoutSession->getQuote()->getBillingAddress();
         $customer = $this->checkoutSession->getQuote()->getCustomer();
         $streetData = $address->getStreet();
-        $district = $complement = $number = $street = 'NAO INFORMADO';
+        $district = $complement = $number = $street = '';
 
         if (isset($streetData[0])) {
             $street = $streetData[0];
@@ -96,18 +96,10 @@ class DataRequest implements BuilderInterface
             $district = $streetData[3];
         }
 
-        $time = $this->timezone->date()->getTimestamp();
-        $date = new \Zend_Date($time, \Zend_Date::TIMESTAMP);
-
-        if (null != $this->config->expirationDays()) {
-            $date->addDay($this->config->expirationDays());
-        } else {
-            $date->addDay(1);
-        }
-
-        $expirationDate = $date->get('dd/MM/YYYY');
-
-        $postcode = str_replace('-', '', $address->getPostcode());
+        $time = $this->timezone->scopeTimeStamp();
+//        $date = new \Zend_Date($time, \Zend_Date::TIMESTAMP);
+//        $date->addDay($this->config->expirationDays());
+//        $expirationDate = $date->get('dd/MM/YYYY');
 
         $response = [
             'body' => [
@@ -121,7 +113,7 @@ class DataRequest implements BuilderInterface
                 ],
                 'boleto' =>[
                     'our_number' => $this->config->ourNumber(),
-                    'expiration_date' => $expirationDate,
+                    'expiration_date' => '10/12/2019',
                     'instructions' => $this->config->instructions(),
                     'provider' => $this->config->billetProvider(),
                 ],
@@ -137,7 +129,7 @@ class DataRequest implements BuilderInterface
                         'district' => $district,
                         'city' => $address->getCity(),
                         'state' => $address->getRegionCode(),
-                        'postal_code' => $postcode,
+                        'postal_code' => $address->getPostcode(),
                     ],
                 ],
             ]

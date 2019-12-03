@@ -9,5 +9,6 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
     <event name="payment_method_assign_data">
         <observer name="fcamara_getnet_data_assign" instance="FCamara\Getnet\Observer\DataAssignObserver" />
+        <observer name="fcamara_getnet_credit_card_data_assign" instance="FCamara\Getnet\Observer\CreditCardDataAssignObserver" />
     </event>
 </config>

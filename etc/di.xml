@@ -72,6 +72,7 @@
             </argument>
         </arguments>
     </virtualType>
+
     <type name="FCamara\Getnet\Gateway\Request\AuthorizationRequest">
         <arguments>
             <argument name="config" xsi:type="object">GetnetGatewayBilletConfig</argument>
@@ -96,6 +97,7 @@
             </argument>
         </arguments>
     </virtualType>
+
     <virtualType name="GetnetGatewayBilletConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>
             <argument name="configInterface" xsi:type="object">GetnetGatewayBilletConfig</argument>
@@ -108,5 +110,107 @@
         </arguments>
     </type>
     <!-- BILLET PAYMENT CONFIGURATION -->
+
+    <!-- CREDITCARD PAYMENT CONFIGURATION -->
+
+    <type name="FCamara\Getnet\Block\Billet\Info">
+        <arguments>
+            <argument name="config" xsi:type="object">GetnetGatewayCreditCardConfig</argument>
+        </arguments>
+    </type>
+
+    <!-- CreditCard Payment Method Facade configuration -->
+    <virtualType name="GetnetGatewayCreditCardFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">\FCamara\Getnet\Model\Ui\CreditCard\ConfigProvider::CODE</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">FCamara\Getnet\Block\CreditCard\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">GetnetGatewayCreditCardValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">GetnetGatewayCreditCardCommandPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- CreditCard Value handlers infrastructure -->
+    <virtualType name="GetnetGatewayCreditCardValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">GetnetGatewayCreditCardConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="GetnetGatewayCreditCardConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">GetnetGatewayCreditCardConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- CreditCard Configuration reader -->
+    <virtualType name="GetnetGatewayCreditCardConfig" type="Magento\Payment\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">\FCamara\Getnet\Model\Ui\CreditCard\ConfigProvider::CODE</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- CreditCard Commands infrastructure -->
+    <virtualType name="GetnetGatewayCreditCardCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="authorize" xsi:type="string">GetnetGatewayCreditCardAuthorizeCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- CreditCard Authorize command -->
+    <virtualType name="GetnetGatewayCreditCardAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">GetnetGatewayCreditCardAuthorizationRequest</argument>
+            <argument name="handler" xsi:type="object">GetnetGatewayCreditCardResponseHandlerComposite</argument>
+            <argument name="transferFactory" xsi:type="object">FCamara\Getnet\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">FCamara\Getnet\Gateway\Http\Client\CreditCard\AuthorizeClient</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- CreditCard AuthorizeClient Initialization -->
+    <type name="FCamara\Getnet\Gateway\Http\Client\CreditCard\AuthorizeClient">
+        <arguments>
+            <argument name="logger" xsi:type="object">GetnetGatewayCreditCardLogger</argument>
+        </arguments>
+    </type>
+
+    <!-- Logger, initialized with GetnetGatewayCreditCardConfig -->
+    <virtualType name="GetnetGatewayCreditCardLogger" type="Magento\Payment\Model\Method\Logger">
+        <arguments>
+            <argument name="config" xsi:type="object">GetnetGatewayCreditCardConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- CreditCard Authorization Request -->
+    <virtualType name="GetnetGatewayCreditCardAuthorizationRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="data" xsi:type="string">FCamara\Getnet\Gateway\Request\CreditCard\DataRequest</item>
+                <item name="transaction" xsi:type="string">FCamara\Getnet\Gateway\Request\CreditCard\AuthorizationRequest</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="FCamara\Getnet\Gateway\Request\AuthorizationRequest">
+        <arguments>
+            <argument name="config" xsi:type="object">GetnetGatewayCreditCardConfig</argument>
+        </arguments>
+    </type>
+
+    <!-- CreditCard Response handlers -->
+    <virtualType name="GetnetGatewayCreditCardResponseHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="txnid" xsi:type="string">FCamara\Getnet\Gateway\Response\CreditCard\TxnIdHandler</item>
+                <item name="fraud" xsi:type="string">FCamara\Getnet\Gateway\Response\CreditCard\FraudHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- CREDITCARD PAYMENT CONFIGURATION -->
 
 </config>

@@ -38,12 +38,26 @@ class AuthorizeClient implements ClientInterface
     private $logger;
 
     /**
+     * @var \Magento\Framework\HTTP\ZendClientFactory
+     */
+    private $httpClientFactory;
+
+    /**
+     * @var \FCamara\Getnet\Model\ConfigInterface
+     */
+    private $config;
+
+    /**
      * @param Logger $logger
      */
     public function __construct(
-        Logger $logger
+        Logger $logger,
+        \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory,
+        \FCamara\Getnet\Model\ConfigInterface $config
     ) {
         $this->logger = $logger;
+        $this->httpClientFactory = $httpClientFactory;
+        $this->config = $config;
     }
 
     /**
@@ -77,7 +91,6 @@ class AuthorizeClient implements ClientInterface
      */
     protected function generateResponseForCode($resultCode)
     {
-
         return array_merge(
             [
                 'RESULT_CODE' => $resultCode,
@@ -100,16 +113,32 @@ class AuthorizeClient implements ClientInterface
      *
      * @param TransferInterface $transfer
      * @return int
+     * @throws \Zend_Http_Client_Exception
      */
     private function getResultCode(TransferInterface $transfer)
     {
         $headers = $transfer->getHeaders();
+        $body = $transfer->getBody();
+
+        $client = $this->httpClientFactory->create();
+        $client->setUri($this->config->endpoint() . '/v1/payments/credit');
+        $client->setHeaders(['content-type: application/json; charset=utf-8']);
+        $client->setHeaders('Authorization', 'Bearer ' . $headers['authorization']);
+        $client->setMethod(\Zend_Http_Client::POST);
+        $client->setRawData(json_encode($body));
+
+        $request = $client->request();
+        $responseBody = $request->getBody();
+
+        if ($request->getStatus() != 202) {
+            throw new \Exception($responseBody);
+        }
 
         if (isset($headers['force_result'])) {
             return (int)$headers['force_result'];
         }
 
-        return $this->results[mt_rand(0, 1)];
+        return $responseBody;
     }
 
     /**

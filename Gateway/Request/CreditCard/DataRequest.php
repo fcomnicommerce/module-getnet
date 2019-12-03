@@ -77,8 +77,14 @@ class DataRequest implements BuilderInterface
         $payment = $paymentDO->getPayment();
         $order = $paymentDO->getOrder();
 
-        $transactionResult = $payment->getAdditionalInformation('transaction_result');
+        $ccNumberToken = $payment->getAdditionalInformation('cc_number_token');
+        $ccName = $payment->getAdditionalInformation('cc_name');
+        $ccExpMonth = $payment->getAdditionalInformation('cc_exp_month');
+        $ccExpYear = $payment->getAdditionalInformation('cc_exp_year');
+        $ccCid = $payment->getAdditionalInformation('cc_cid');
+        $ccType = $payment->getAdditionalInformation('cc_type');
         $address = $this->checkoutSession->getQuote()->getBillingAddress();
+        $shipping = $this->checkoutSession->getQuote()->getShippingAddress();
         $customer = $this->checkoutSession->getQuote()->getCustomer();
         $streetData = $address->getStreet();
         $district = $complement = $number = $street = '';
@@ -96,42 +102,69 @@ class DataRequest implements BuilderInterface
             $district = $streetData[3];
         }
 
-        $time = $this->timezone->scopeTimeStamp();
-//        $date = new \Zend_Date($time, \Zend_Date::TIMESTAMP);
-//        $date->addDay($this->config->expirationDays());
-//        $expirationDate = $date->get('dd/MM/YYYY');
-
         $response = [
             'body' => [
                 'seller_id' => $this->config->sellerId(),
-                'amount' => (float)$order->getGrandTotalAmount(),
+                'amount' => $order->getGrandTotalAmount(),
                 'currency' => 'BRL',
                 'order' => [
-                    'order_id' => $order->getOrderIncrementId(),
-                    'sales_tax' => 0,
-                    'product_type' => 'service',
-                ],
-                'boleto' =>[
-                    'our_number' => $this->config->ourNumber(),
-                    'expiration_date' => '10/12/2019',
-                    'instructions' => $this->config->instructions(),
-                    'provider' => $this->config->billetProvider(),
-                ],
-                'customer' => [
-                    'first_name' => $customer->getFirstname(),
-                    'name' => $customer->getFirstname() . ' ' . $customer->getLastname(),
-                    'document_type' => 'CPF',
-                    'document_number' => $customer->getTaxvat(),
-                    'billing_address' => [
-                        'street' => $street,
-                        'number' => $number,
-                        'complement' => $complement,
-                        'district' => $district,
-                        'city' => $address->getCity(),
-                        'state' => $address->getRegionCode(),
-                        'postal_code' => $address->getPostcode(),
+                        'order_id' => $order->getOrderIncrementId(),
                     ],
-                ],
+                'customer' => [
+                        'customer_id' => $customer->getId(),
+                        'first_name' => $customer->getFirstname(),
+                        'last_name' => $customer->getLastname(),
+                        'name' => $customer->getFirstname() . ' ' . $customer->getLastname(),
+                        'email' => $customer->getEmail(),
+                        'document_type' => 'CPF',
+                        'document_number' => $customer->getTaxvat(),
+                        'phone_number' => $address->getTelephone(),
+                        'billing_address' =>[
+                                'street' => $street,
+                                'number' => $number,
+                                'complement' => $complement,
+                                'district' => $district,
+                                'city' => $address->getCity(),
+                                'state' => $address->getRegion(),
+                                'country' => 'Brasil',
+                                'postal_code' => $address->getPostcode(),
+                            ],
+                    ],
+                'shippings' => [
+                        0 => [
+                                'first_name' => $shipping->getFirstname(),
+                                'name' => $customer->getFirstname() . ' ' . $customer->getLastname(),
+                                'email' => $customer->getEmail(),
+                                'phone_number' =>  $address->getTelephone(),
+                                'shipping_amount' => 3000,
+                                'address' =>[
+                                    'street' => $street,
+                                    'number' => $number,
+                                    'complement' => $complement,
+                                    'district' => $district,
+                                    'city' => $shipping->getCity(),
+                                    'state' => $shipping->getRegion(),
+                                    'country' => 'Brasil',
+                                    'postal_code' => $shipping->getPostcode(),
+                                    ],
+                            ],
+                    ],
+                'credit' => [
+                        'delayed' => false,
+                        'authenticated' => false,
+                        'pre_authorization' => true,
+                        'save_card_data' => false,
+                        'transaction_type' => 'FULL',
+                        'number_installments' => 1,
+                        'card' => [
+                                'number_token' => $ccNumberToken,
+                                'cardholder_name' => 'Jonatan Santos',
+                                'security_code' => $ccCid,
+                                'brand' => 'Mastercard',
+                                'expiration_month' => $ccExpMonth,
+                                'expiration_year' => $ccExpYear,
+                            ],
+                    ],
             ]
         ];
 

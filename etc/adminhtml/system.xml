@@ -127,6 +127,39 @@
                             <config_path>payment/getnet_credit_card/sort_order</config_path>
                         </field>
                     </group>
+                    <group id="debit_card" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Debit Card</label>
+                        <field id="active" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label" type="select">
+                            <label>Enabled</label>
+                            <comment />
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/getnet_debit_card/active</config_path>
+                        </field>
+                        <field id="title" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label" type="text">
+                            <label>Title</label>
+                            <config_path>payment/getnet_debit_card/title</config_path>
+                        </field>
+                        <field id="provider" translate="label" type="select" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Provider</label>
+                            <source_model>FCamara\Getnet\Model\Adminhtml\Source\PaymentProvider</source_model>
+                            <config_path>payment/getnet_debit_card/provider</config_path>
+                        </field>
+                        <field id="payment_action" translate="label" type="select" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Payment Action</label>
+                            <source_model>FCamara\Getnet\Model\Adminhtml\Source\PaymentAction</source_model>
+                            <config_path>payment/getnet_debit_card/payment_action</config_path>
+                        </field>
+                        <field id="order_status" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                            <label>New Order Status</label>
+                            <source_model>Magento\Sales\Model\Config\Source\Order\Status\Processing</source_model>
+                            <config_path>payment/getnet_debit_card/order_status</config_path>
+                        </field>
+                        <field id="sort_order" translate="label" type="text" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Sort Order</label>
+                            <frontend_class>validate-number</frontend_class>
+                            <config_path>payment/getnet_debit_card/sort_order</config_path>
+                        </field>
+                    </group>
                 </group>
             </group>
         </section>

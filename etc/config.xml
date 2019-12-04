@@ -37,6 +37,19 @@
                 <is_gateway>1</is_gateway>
                 <sort_order>1</sort_order>
             </getnet_credit_card>
+            <getnet_debit_card>
+                <debug>1</debug>
+                <active>1</active>
+                <model>GetnetGatewayDebitCardFacade</model>
+                <order_status>pending_payment</order_status>
+                <payment_action>authorize</payment_action>
+                <title>Getnet Debit Card</title>
+                <currency>BRL</currency>
+                <can_authorize>1</can_authorize>
+                <can_use_checkout>1</can_use_checkout>
+                <is_gateway>1</is_gateway>
+                <sort_order>1</sort_order>
+            </getnet_debit_card>
         </payment>
     </default>
 </config>

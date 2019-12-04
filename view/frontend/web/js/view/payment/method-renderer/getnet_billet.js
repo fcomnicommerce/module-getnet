@@ -19,10 +19,10 @@ define(
 
             initObservable: function () {
 
-                // this._super()
-                //     .observe([
-                //         'transactionResult'
-                //     ]);
+                this._super()
+                    .observe([
+                        'transactionResult'
+                    ]);
                 return this;
             },
 

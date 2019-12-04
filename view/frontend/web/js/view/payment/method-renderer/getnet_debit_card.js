@@ -50,7 +50,7 @@ define(
             },
 
             getCode: function() {
-                return 'getnet_credit_card';
+                return 'getnet_debit_card';
             },
 
             getData: function() {

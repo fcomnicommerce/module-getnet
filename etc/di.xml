@@ -171,24 +171,13 @@
         </arguments>
     </virtualType>
 
-    <!-- CreditCard AuthorizeClient Initialization -->
-    <type name="FCamara\Getnet\Gateway\Http\Client\CreditCard\AuthorizeClient">
-        <arguments>
-            <argument name="logger" xsi:type="object">GetnetGatewayCreditCardLogger</argument>
-        </arguments>
-    </type>
-
-    <!-- Logger, initialized with GetnetGatewayCreditCardConfig -->
-    <virtualType name="GetnetGatewayCreditCardLogger" type="Magento\Payment\Model\Method\Logger">
-        <arguments>
-            <argument name="config" xsi:type="object">GetnetGatewayCreditCardConfig</argument>
-        </arguments>
-    </virtualType>
-
     <!-- CreditCard Authorization Request -->
     <virtualType name="GetnetGatewayCreditCardAuthorizationRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
         <arguments>
             <argument name="builders" xsi:type="array">
+                <!--<item name="customer" xsi:type="string">FCamara\Getnet\Gateway\Request\CreditCard\CustomerDataBuild</item>-->
+                <!--<item name="shipping" xsi:type="string">FCamara\Getnet\Gateway\Request\CreditCard\ShippingDataBuild</item>-->
+                <!--<item name="credit" xsi:type="string">FCamara\Getnet\Gateway\Request\CreditCard\ShippingDataBuild</item>-->
                 <item name="data" xsi:type="string">FCamara\Getnet\Gateway\Request\CreditCard\DataRequest</item>
                 <item name="transaction" xsi:type="string">FCamara\Getnet\Gateway\Request\CreditCard\AuthorizationRequest</item>
             </argument>

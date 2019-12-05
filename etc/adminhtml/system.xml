@@ -97,7 +97,7 @@
                     <group id="credit_card" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Credit Card</label>
                         <field id="active" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label" type="select">
-                            <label>Enabled</label>
+                            <label>Active</label>
                             <comment />
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                             <config_path>payment/getnet_credit_card/active</config_path>

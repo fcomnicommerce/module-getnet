@@ -13,7 +13,7 @@
  * @author    Jonatan Santos <jonatan.santos@fcamara.com.br>
  */
 
-namespace FCamara\Getnet\Gateway\Request\CreditCard;
+namespace FCamara\Getnet\Gateway\Request\DebitCard;
 
 use FCamara\Getnet\Model\ConfigInterface;
 use Magento\Checkout\Model\Session;

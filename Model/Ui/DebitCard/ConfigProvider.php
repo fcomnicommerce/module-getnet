@@ -13,16 +13,16 @@
  * @author    Jonatan Santos <jonatan.santos@fcamara.com.br>
  */
 
-namespace FCamara\Getnet\Model\Ui\CreditCard;
+namespace FCamara\Getnet\Model\Ui\DebitCard;
 
 use FCamara\Getnet\Model\ConfigInterface;
 use Magento\Checkout\Model\ConfigProviderInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\ScopeInterface;
 
-class ConfigProvider implements ConfigProviderInterface, ConfigInterface
+class ConfigProvider implements ConfigProviderInterface
 {
-    const CODE = 'getnet_credit_card';
+    const CODE = 'getnet_debit_card';
 
     /**
      * @var ScopeConfigInterface
@@ -96,7 +96,7 @@ class ConfigProvider implements ConfigProviderInterface, ConfigInterface
     public function isEnabled()
     {
         return $this->scopeConfig->isSetFlag(
-            self::XML_PATH_ENABLED,
+            ConfigInterface::XML_PATH_ENABLED,
             ScopeInterface::SCOPE_STORE
         );
     }

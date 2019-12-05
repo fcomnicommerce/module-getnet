@@ -31,6 +31,14 @@
                                                                         </item>
                                                                     </item>
                                                                 </item>
+                                                                <item name="getnet_debit_card" xsi:type="array">
+                                                                    <item name="component" xsi:type="string">FCamara_Getnet/js/view/payment/getnet_debit_card</item>
+                                                                    <item name="methods" xsi:type="array">
+                                                                        <item name="getnet_debit_card" xsi:type="array">
+                                                                            <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
+                                                                        </item>
+                                                                    </item>
+                                                                </item>
                                                                 <item name="getnet_credit_card" xsi:type="array">
                                                                     <item name="component" xsi:type="string">FCamara_Getnet/js/view/payment/getnet_credit_card</item>
                                                                     <item name="methods" xsi:type="array">

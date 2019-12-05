@@ -30,48 +30,48 @@ class CreditCardDataAssignObserver extends AbstractDataAssignObserver
     {
         $method = $this->readMethodArgument($observer);
         $data = $this->readDataArgument($observer);
-
+        $additionalInfo = $data->getDataByKey('additional_data');
         $paymentInfo = $method->getInfoInstance();
 
-        if ($data->getDataByKey('cc_number_token') !== null) {
+        if (isset($additionalInfo['cc_number_token'])) {
             $paymentInfo->setAdditionalInformation(
                 'cc_number_token',
-                $data->getDataByKey('cc_number_token')
+                $additionalInfo['cc_number_token']
             );
         }
 
-        if ($data->getDataByKey('cc_name') !== null) {
+        if (isset($additionalInfo['cc_name'])) {
             $paymentInfo->setAdditionalInformation(
                 'cc_name',
-                $data->getDataByKey('cc_name')
+                $additionalInfo['cc_name']
             );
         }
 
-        if ($data->getDataByKey('cc_exp_month') !== null) {
+        if (isset($additionalInfo['cc_exp_month'])) {
             $paymentInfo->setAdditionalInformation(
                 'cc_exp_month',
-                $data->getDataByKey('cc_exp_month')
+                $additionalInfo['cc_exp_month']
             );
         }
 
-        if ($data->getDataByKey('cc_exp_year') !== null) {
+        if (isset($additionalInfo['cc_exp_year'])) {
             $paymentInfo->setAdditionalInformation(
                 'cc_exp_year',
-                $data->getDataByKey('cc_exp_year')
+                $additionalInfo['cc_exp_year']
             );
         }
 
-        if ($data->getDataByKey('cc_cid') !== null) {
+        if (isset($additionalInfo['cc_cid'])) {
             $paymentInfo->setAdditionalInformation(
                 'cc_cid',
-                $data->getDataByKey('cc_cid')
+                $additionalInfo['cc_cid']
             );
         }
 
-        if ($data->getDataByKey('cc_type') !== null) {
+        if (isset($additionalInfo['cc_type'])) {
             $paymentInfo->setAdditionalInformation(
                 'cc_type',
-                $data->getDataByKey('cc_type')
+                $additionalInfo['cc_type']
             );
         }
     }

@@ -138,15 +138,6 @@ define(
             },
 
             /**
-             * Should the cvv field be used
-             *
-             * @return {Boolean}
-             */
-            hasVerification: function () {
-                return window.checkoutConfig.payment[this.getCode()].useCvv;
-            },
-
-            /**
              * Show error messages
              *
              * @param {String[]} errorMessages

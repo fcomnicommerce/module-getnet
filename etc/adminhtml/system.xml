@@ -121,6 +121,11 @@
                             <source_model>FCamara\Getnet\Model\Adminhtml\Source\Cctype</source_model>
                             <config_path>payment/getnet_credit_card/cctypes</config_path>
                         </field>
+                        <field id="cvv_enabled" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                            <label>Enable Credit Card Verification Field</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/getnet_credit_card/cvv_enabled</config_path>
+                        </field>
                         <field id="order_status" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>New Order Status</label>
                             <source_model>Magento\Sales\Model\Config\Source\Order\Status\Processing</source_model>
@@ -158,6 +163,11 @@
                             <label>Credit Card Types</label>
                             <source_model>FCamara\Getnet\Model\Adminhtml\Source\Cctype</source_model>
                             <config_path>payment/getnet_debit_card/cctypes</config_path>
+                        </field>
+                        <field id="cvv_enabled" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                            <label>Enable Credit Card Verification Field</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/getnet_debit_card/cvv_enabled</config_path>
                         </field>
                         <field id="order_status" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>New Order Status</label>

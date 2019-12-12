@@ -27,6 +27,7 @@
             <getnet_credit_card>
                 <debug>1</debug>
                 <active>0</active>
+                <cvv_enabled>1</cvv_enabled>
                 <model>GetnetGatewayCreditCardFacade</model>
                 <order_status>pending_payment</order_status>
                 <payment_action>authorize</payment_action>
@@ -41,6 +42,7 @@
             <getnet_debit_card>
                 <debug>1</debug>
                 <active>1</active>
+                <cvv_enabled>1</cvv_enabled>
                 <model>GetnetGatewayDebitCardFacade</model>
                 <order_status>pending_payment</order_status>
                 <payment_action>authorize</payment_action>

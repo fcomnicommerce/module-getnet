@@ -116,6 +116,11 @@
                             <source_model>FCamara\Getnet\Model\Adminhtml\Source\PaymentAction</source_model>
                             <config_path>payment/getnet_credit_card/payment_action</config_path>
                         </field>
+                        <field id="cctypes" translate="label" type="multiselect" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                            <label>Credit Card Types</label>
+                            <source_model>FCamara\Getnet\Model\Adminhtml\Source\Cctype</source_model>
+                            <config_path>payment/getnet_credit_card/cctypes</config_path>
+                        </field>
                         <field id="order_status" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>New Order Status</label>
                             <source_model>Magento\Sales\Model\Config\Source\Order\Status\Processing</source_model>
@@ -148,6 +153,11 @@
                             <label>Payment Action</label>
                             <source_model>FCamara\Getnet\Model\Adminhtml\Source\PaymentAction</source_model>
                             <config_path>payment/getnet_debit_card/payment_action</config_path>
+                        </field>
+                        <field id="cctypes" translate="label" type="multiselect" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                            <label>Credit Card Types</label>
+                            <source_model>FCamara\Getnet\Model\Adminhtml\Source\Cctype</source_model>
+                            <config_path>payment/getnet_debit_card/cctypes</config_path>
                         </field>
                         <field id="order_status" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>New Order Status</label>

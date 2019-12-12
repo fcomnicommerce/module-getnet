@@ -7,14 +7,16 @@
 define(
     [
         'jquery',
-        'Magento_Checkout/js/view/payment/default'
+        'Magento_Payment/js/view/payment/cc-form'
     ],
     function ($, Component) {
         'use strict';
 
         return Component.extend({
             defaults: {
+                active: false,
                 template: 'FCamara_Getnet/payment/credit_card/form',
+                ccForm: 'Magento_Payment/payment/cc-form',
                 transactionResult: '',
                 creditCardType: '',
                 creditCardExpYear: '',
@@ -33,6 +35,7 @@ define(
 
                 this._super()
                     .observe([
+                        'active',
                         'transactionResult',
                         'creditCardType',
                         'creditCardExpYear',
@@ -53,6 +56,14 @@ define(
                 return 'getnet_credit_card';
             },
 
+            /**
+             * Initialize form elements for validation
+             */
+            initFormElement: function (element) {
+                this.formElement = element;
+                $(this.formElement).validation();
+            },
+
             getData: function() {
                 return {
                     'method': this.item.method,
@@ -68,152 +79,18 @@ define(
             },
 
             /**
-             * Get payment icons
-             * @param {String} type
+             * Check if payment is active
+             *
              * @returns {Boolean}
              */
-            getIcons: function (type) {
-                return window.checkoutConfig.payment.ccform.icons.hasOwnProperty(type) ?
-                    window.checkoutConfig.payment.ccform.icons[type]
-                    : false;
+            isActive: function () {
+                var active = this.getCode() === this.isChecked();
+
+                this.active(active);
+
+                return active;
             },
 
-            /**
-             * Get list of available credit card types
-             * @returns {Object}
-             */
-            getCcAvailableTypes: function () {
-                return window.checkoutConfig.payment.getnet_credit_card.availableTypes;
-            },
-
-            /**
-             * Get list of months
-             * @returns {Object}
-             */
-            getCcMonths: function () {
-                return window.checkoutConfig.payment.getnet_credit_card.months;
-            },
-
-            /**
-             * Get list of years
-             * @returns {Object}
-             */
-            getCcYears: function () {
-                return window.checkoutConfig.payment.getnet_credit_card.years;
-            },
-
-            /**
-             * Get authorization
-             * @returns {Object}
-             */
-            getAuthorizationBasic: function () {
-                return window.checkoutConfig.payment.getnet_credit_card.authorizationBasic;
-            },
-
-            /**
-             * Get authorization
-             * @returns {Object}
-             */
-            getEndpoint: function () {
-                return window.checkoutConfig.payment.getnet_credit_card.endpoint;
-            },
-
-            /**
-             * Get list of available credit card types values
-             * @returns {Object}
-             */
-            getCcAvailableTypesValues: function () {
-                return _.map(this.getCcAvailableTypes(), function (value, key) {
-                    return {
-                        'value': key,
-                        'type': value
-                    };
-                });
-            },
-            /**
-             * Get list of available month values
-             * @returns {Object}
-             */
-            getCcMonthsValues: function () {
-                return _.map(this.getCcMonths(), function (value, key) {
-                    return {
-                        'value': key,
-                        'month': value
-                    };
-                });
-            },
-
-            /**
-             * Get list of available year values
-             * @returns {Object}
-             */
-            getCcYearsValues: function () {
-                return _.map(this.getCcYears(), function (value, key) {
-                    return {
-                        'value': key,
-                        'year': value
-                    };
-                });
-            },
-
-            /**
-             * @deprecated
-             * @returns {Object}
-             */
-            getSsStartYearsValues: function () {
-                return _.map(this.getSsStartYears(), function (value, key) {
-                    return {
-                        'value': key,
-                        'year': value
-                    };
-                });
-            },
-
-            /**
-             * Get available credit card type by code
-             * @param {String} code
-             * @returns {String}
-             */
-            getCcTypeTitleByCode: function (code) {
-                var title = '',
-                    keyValue = 'value',
-                    keyType = 'type';
-
-                _.each(this.getCcAvailableTypesValues(), function (value) {
-                    if (value[keyValue] === code) {
-                        title = value[keyType];
-                    }
-                });
-
-                return title;
-            },
-
-            /**
-             * Prepare credit card number to output
-             * @param {String} number
-             * @returns {String}
-             */
-            formatDisplayCcNumber: function (number) {
-                return 'xxxx-' + number.substr(-4);
-            },
-
-            /**
-             * Get credit card details
-             * @returns {Array}
-             */
-            getInfo: function () {
-                return [
-                    {
-                        'name': 'Credit Card Type', value: this.getCcTypeTitleByCode(this.creditCardType())
-                    },
-                    {
-                        'name': 'Credit Card Number', value: this.formatDisplayCcNumber(this.creditCardNumber())
-                    },
-                    {
-                        'name': 'Credit Card Name', value: this.creditCardName()
-                    }
-                ];
-            },
             beforePlaceOrder: function () {
                 console.log('passei aqui antes de fechar o pedido');
 
@@ -258,6 +135,28 @@ define(
                     }
                 }.bind(this));
 
+            },
+
+            /**
+             * Should the cvv field be used
+             *
+             * @return {Boolean}
+             */
+            hasVerification: function () {
+                return window.checkoutConfig.payment[this.getCode()].useCvv;
+            },
+
+            /**
+             * Show error messages
+             *
+             * @param {String[]} errorMessages
+             */
+            _showErrors: function (errorMessages) {
+                $.each(errorMessages, function (index, message) {
+                    globalMessageList.addErrorMessage({
+                        message: message
+                    });
+                });
             }
 
         });

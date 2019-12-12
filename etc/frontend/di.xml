@@ -37,4 +37,11 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Payment\Model\CcGenericConfigProvider">
+        <arguments>
+            <argument name="methodCodes" xsi:type="array">
+                <item name="getnet_credit_card" xsi:type="const">FCamara\Getnet\Model\Ui\CreditCard\ConfigProvider::CODE</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

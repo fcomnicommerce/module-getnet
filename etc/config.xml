@@ -30,6 +30,7 @@
                 <model>GetnetGatewayCreditCardFacade</model>
                 <order_status>pending_payment</order_status>
                 <payment_action>authorize</payment_action>
+                <cctypes>AE,VI,MC,DI,JCB,DN</cctypes>
                 <title>Getnet Credit Card</title>
                 <currency>BRL</currency>
                 <can_authorize>1</can_authorize>
@@ -43,6 +44,7 @@
                 <model>GetnetGatewayDebitCardFacade</model>
                 <order_status>pending_payment</order_status>
                 <payment_action>authorize</payment_action>
+                <cctypes>AE,VI,MC,DI,JCB,DN</cctypes>
                 <title>Getnet Debit Card</title>
                 <currency>BRL</currency>
                 <can_authorize>1</can_authorize>

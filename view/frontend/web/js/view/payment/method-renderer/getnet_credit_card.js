@@ -16,7 +16,7 @@ define(
             defaults: {
                 active: false,
                 template: 'FCamara_Getnet/payment/credit_card/form',
-                ccForm: 'Magento_Payment/payment/cc-form',
+                ccForm: 'FCamara_Getnet/payment/cc-form',
                 transactionResult: '',
                 creditCardType: '',
                 creditCardExpYear: '',
@@ -91,7 +91,23 @@ define(
                 return active;
             },
 
-            beforePlaceOrder: function () {
+            /**
+             * Get authorization
+             * @returns {Object}
+             */
+            getAuthorizationBasic: function () {
+                return window.checkoutConfig.payment.getnet_credit_card.authorizationBasic;
+            },
+
+            /**
+             * Get authorization
+             * @returns {Object}
+             */
+            getEndpoint: function () {
+                return window.checkoutConfig.payment.getnet_credit_card.endpoint;
+            },
+
+        beforePlaceOrder: function () {
                 console.log('passei aqui antes de fechar o pedido');
 
                 var endpoint = this.getEndpoint();

@@ -50,9 +50,12 @@ class CustomerDataBuild implements BuilderInterface
         $paymentDO = $buildSubject['payment'];
         $order = $paymentDO->getOrder();
 
+        /**
+         * @todo get correct customer adddress
+        */
         $address = $order->getBillingAddress();
         $customer = $this->customerRepository->getById($order->getCustomerId());
-        $streetData = $address->getStreet();
+        $streetData = ['AAAA',"123", 'BBBB', 'CCCC'];
         $district = $complement = $number = $street = '';
 
         if (isset($streetData[0])) {
@@ -84,7 +87,7 @@ class CustomerDataBuild implements BuilderInterface
                         'complement' => $complement,
                         'district' => $district,
                         'city' => $address->getCity(),
-                        'state' => $address->getRegion(),
+                        'state' => 'SP',
                         'country' => 'Brasil',
                         'postal_code' => $address->getPostcode(),
                     ],

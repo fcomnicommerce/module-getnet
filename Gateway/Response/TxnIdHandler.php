@@ -43,7 +43,7 @@ class TxnIdHandler implements HandlerInterface
         $payment = $paymentDO->getPayment();
 
         /** @var $payment \Magento\Sales\Model\Order\Payment */
-        $payment->setTransactionId($response[self::TXN_ID]);
+//        $payment->setTransactionId($response[self::TXN_ID]);
         $payment->setIsTransactionClosed(false);
         $payment->setAdditionalInformation('response', $response['RESULT_CODE']);
     }

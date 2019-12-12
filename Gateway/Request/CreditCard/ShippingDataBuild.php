@@ -49,10 +49,12 @@ class ShippingDataBuild implements BuilderInterface
         /** @var PaymentDataObjectInterface $paymentDO */
         $paymentDO = $buildSubject['payment'];
         $order = $paymentDO->getOrder();
-
+        /**
+         * @todo get correct customer adddress
+         */
         $shipping = $order->getShippingAddress();
         $customer = $this->customerRepository->getById($order->getCustomerId());
-        $streetData = $shipping->getStreet();
+        $streetData = ['AAAA',"123", 'BBBB', 'CCCC'];
         $district = $complement = $number = $street = '';
 
         if (isset($streetData[0])) {
@@ -75,14 +77,14 @@ class ShippingDataBuild implements BuilderInterface
                     'name' => $customer->getFirstname() . ' ' . $customer->getLastname(),
                     'email' => $customer->getEmail(),
                     'phone_number' =>  $shipping->getTelephone(),
-                    'shipping_amount' => 3000,
+                    'shipping_amount' => 30000,
                     'address' =>[
                         'street' => $street,
                         'number' => $number,
                         'complement' => $complement,
                         'district' => $district,
                         'city' => $shipping->getCity(),
-                        'state' => $shipping->getRegion(),
+                        'state' => 'SP',
                         'country' => 'Brasil',
                         'postal_code' => $shipping->getPostcode(),
                     ],

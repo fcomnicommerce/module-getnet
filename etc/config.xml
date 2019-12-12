@@ -27,9 +27,11 @@
             <getnet_credit_card>
                 <debug>1</debug>
                 <active>0</active>
+                <cvv_enabled>1</cvv_enabled>
                 <model>GetnetGatewayCreditCardFacade</model>
                 <order_status>pending_payment</order_status>
                 <payment_action>authorize</payment_action>
+                <cctypes>AE,VI,MC,DI,JCB,DN</cctypes>
                 <title>Getnet Credit Card</title>
                 <currency>BRL</currency>
                 <can_authorize>1</can_authorize>
@@ -40,9 +42,11 @@
             <getnet_debit_card>
                 <debug>1</debug>
                 <active>1</active>
+                <cvv_enabled>1</cvv_enabled>
                 <model>GetnetGatewayDebitCardFacade</model>
                 <order_status>pending_payment</order_status>
                 <payment_action>authorize</payment_action>
+                <cctypes>AE,VI,MC,DI,JCB,DN</cctypes>
                 <title>Getnet Debit Card</title>
                 <currency>BRL</currency>
                 <can_authorize>1</can_authorize>

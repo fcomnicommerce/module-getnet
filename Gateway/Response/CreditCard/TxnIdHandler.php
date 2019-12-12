@@ -20,7 +20,7 @@ use Magento\Payment\Gateway\Response\HandlerInterface;
 
 class TxnIdHandler implements HandlerInterface
 {
-    const TXN_ID = 'TXN_ID';
+    const TXN_ID = 'payment_id';
 
     /**
      * Handles response
@@ -43,8 +43,8 @@ class TxnIdHandler implements HandlerInterface
         $payment = $paymentDO->getPayment();
 
         /** @var $payment \Magento\Sales\Model\Order\Payment */
-        $payment->setTransactionId($response[self::TXN_ID]);
+        $payment->setTransactionId($response['object'][self::TXN_ID]);
         $payment->setIsTransactionClosed(false);
-        $payment->setAdditionalInformation('response', $response['RESULT_CODE']);
+        $payment->setAdditionalInformation('response', $response);
     }
 }

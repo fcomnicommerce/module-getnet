@@ -28,17 +28,18 @@ class GetnetAdapter
     {
         $this->clientFactory = $clientFactory;
     }
-    public function authorize($data, $captureNow = false)
+
+    public function authorize($requestParameters, $captureNow = false)
     {
-        $requestParameters = [];
-        $requestParameters = $data;
         $client = $this->clientFactory->create();
 
-        $client->authorize($requestParameters);
+        $response = $client->authorize($requestParameters);
 
         if ($captureNow) {
             $this->capture();
         }
+
+        return $response;
     }
 
     public function capture()

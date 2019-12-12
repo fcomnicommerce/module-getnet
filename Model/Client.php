@@ -123,6 +123,7 @@ class Client implements ClientInterface
     {
         $token = $this->authentication();
         $responseBody = false;
+        $requestParameters['seller_id'] = $this->creditCardConfig->sellerId();
         $client = $this->httpClientFactory->create();
         $client->setUri($this->creditCardConfig->authorizeEndpoint());
         $client->setHeaders(['content-type: application/json; charset=utf-8']);
@@ -131,7 +132,7 @@ class Client implements ClientInterface
         $client->setRawData(json_encode($requestParameters));
 
         try {
-            $responseBody = $client->request()->getBody();
+            $responseBody = json_decode($client->request()->getBody(), true);
         } catch (\Exception $e) {
             $e->getMessage();
         }

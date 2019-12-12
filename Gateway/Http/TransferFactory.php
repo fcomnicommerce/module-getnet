@@ -45,15 +45,8 @@ class TransferFactory implements TransferFactoryInterface
     public function create(array $request)
     {
         return $this->transferBuilder
-            ->setBody($request['body'])
+            ->setBody($request)
             ->setMethod('POST')
-            ->setHeaders(
-                [
-                    'authorization' => isset($request[AuthorizationRequest::AUTHORIZATION])
-                        ? $request[AuthorizationRequest::AUTHORIZATION]
-                        : null
-                ]
-            )
             ->build();
     }
 }

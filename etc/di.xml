@@ -168,6 +168,7 @@
             <argument name="handler" xsi:type="object">GetnetGatewayCreditCardResponseHandlerComposite</argument>
             <argument name="transferFactory" xsi:type="object">FCamara\Getnet\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">FCamara\Getnet\Gateway\Http\Client\CreditCard\AuthorizeClient</argument>
+            <argument name="validator" xsi:type="object">GetnetGatewayCreditCardTransactionValidator</argument>
         </arguments>
     </virtualType>
 
@@ -175,11 +176,12 @@
     <virtualType name="GetnetGatewayCreditCardAuthorizationRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
         <arguments>
             <argument name="builders" xsi:type="array">
-                <!--<item name="customer" xsi:type="string">FCamara\Getnet\Gateway\Request\CreditCard\CustomerDataBuild</item>-->
-                <!--<item name="shipping" xsi:type="string">FCamara\Getnet\Gateway\Request\CreditCard\ShippingDataBuild</item>-->
-                <!--<item name="credit" xsi:type="string">FCamara\Getnet\Gateway\Request\CreditCard\ShippingDataBuild</item>-->
-                <item name="data" xsi:type="string">FCamara\Getnet\Gateway\Request\CreditCard\DataRequest</item>
-                <item name="transaction" xsi:type="string">FCamara\Getnet\Gateway\Request\CreditCard\AuthorizationRequest</item>
+                <item name="general" xsi:type="string">FCamara\Getnet\Gateway\Request\CreditCard\GeneralDataBuild</item>
+                <item name="order" xsi:type="string">FCamara\Getnet\Gateway\Request\CreditCard\OrderDataBuild</item>
+                <item name="customer" xsi:type="string">FCamara\Getnet\Gateway\Request\CreditCard\CustomerDataBuild</item>
+                <item name="device" xsi:type="string">FCamara\Getnet\Gateway\Request\CreditCard\DeviceDataBuild</item>
+                <item name="shipping" xsi:type="string">FCamara\Getnet\Gateway\Request\CreditCard\ShippingDataBuild</item>
+                <item name="credit" xsi:type="string">FCamara\Getnet\Gateway\Request\CreditCard\CreditDataBuild</item>
             </argument>
         </arguments>
     </virtualType>
@@ -199,6 +201,21 @@
             </argument>
         </arguments>
     </virtualType>
+
+    <!-- CreditCard transaction Validators -->
+
+    <virtualType name="GetnetGatewayCreditCardTransactionValidator" type="Magento\Payment\Gateway\Validator\ValidatorComposite">
+        <arguments>
+            <argument name="chainBreakingValidators" xsi:type="array">
+                <item name="general" xsi:type="boolean">true</item>
+            </argument>
+            <argument name="validators" xsi:type="array">
+                <item name="general" xsi:type="string">FCamara\Getnet\Gateway\Validator\GeneralResponseValidator</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- CreditCard transaction Validators -->
 
     <!-- CREDITCARD PAYMENT CONFIGURATION -->
 

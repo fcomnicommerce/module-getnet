@@ -15,13 +15,20 @@
 
 namespace FCamara\Getnet\Model\Adminhtml\Source;
 
-class Cctype extends \Magento\Payment\Model\Source\Cctype
+
+class StreetLine implements \Magento\Framework\Data\OptionSourceInterface
 {
+
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function getAllowedTypes(): array
+    public function toOptionArray()
     {
-        return ['VI', 'MC', 'AM', 'ELO', 'HC'];
+        return [
+            [ 'label' => __('Line 1'), 'value' => 0 ],
+            [ 'label' => __('Line 2'), 'value' => 1 ],
+            [ 'label' => __('Line 3'), 'value' => 2 ],
+            [ 'label' => __('Line 4'), 'value' => 3 ],
+        ];
     }
 }

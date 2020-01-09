@@ -33,7 +33,15 @@ class GeneralResponseValidator extends AbstractValidator
     {
         $messages = [];
 
-//        $response = $validationSubject['object']['response'];
+        if (isset($validationSubject['response'])) {
+            if (isset($validationSubject['response']['object'])) {
+                if (isset($validationSubject['response']['object']['status_code'])) {
+                    if ($validationSubject['response']['object']['status_code'] == 400) {
+                        return $this->createResult(false, ['error']);
+                    }
+                }
+            }
+        }
 
         return $this->createResult(true, ['foi']);
     }

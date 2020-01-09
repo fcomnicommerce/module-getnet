@@ -15,6 +15,7 @@
 
 namespace FCamara\Getnet\Gateway\Request\CreditCard;
 
+use FCamara\Getnet\Model\Client;
 use Magento\Payment\Gateway\Request\BuilderInterface;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 
@@ -47,6 +48,8 @@ class CreditDataBuild implements BuilderInterface
         $ccExpYear = $payment->getAdditionalInformation('cc_exp_year');
         $ccCid = $payment->getAdditionalInformation('cc_cid');
         $ccType = $payment->getAdditionalInformation('cc_type');
+        $ccType = Client::CREDIT_CARD_BRADS[$ccType];
+        $ccExpMonth = Client::CREDIT_CARD_MONTH_EXP[$ccExpMonth];
 
         $response = [
             'credit' => [
@@ -58,11 +61,11 @@ class CreditDataBuild implements BuilderInterface
                 'number_installments' => 1,
                 'card' => [
                     'number_token' => $ccNumberToken,
-                    'cardholder_name' => "JOAO DA SILVA",
+                    'cardholder_name' => $ccName,
                     'security_code' => $ccCid,
-                    'brand' => "Mastercard",
+                    'brand' => $ccType,
                     'expiration_month' => $ccExpMonth,
-                    'expiration_year' => $ccExpYear,
+                    'expiration_year' => substr($ccExpYear, -2),
                 ],
             ],
         ];

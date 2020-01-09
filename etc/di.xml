@@ -157,6 +157,8 @@
         <arguments>
             <argument name="commands" xsi:type="array">
                 <item name="authorize" xsi:type="string">GetnetGatewayCreditCardAuthorizeCommand</item>
+                <item name="capture" xsi:type="string">GetnetGatewayCreditCardCaptureStrategyCommand</item>
+                <item name="sale" xsi:type="string">GetnetGatewayCreditCardSaleCommand</item>
             </argument>
         </arguments>
     </virtualType>
@@ -192,6 +194,24 @@
         </arguments>
     </type>
 
+    <!-- CreditCard Capture strategy command -->
+    <virtualType name="GetnetGatewayCreditCardCaptureStrategyCommand" type="FCamara\Getnet\Gateway\Command\CaptureStrategyCommand">
+        <arguments>
+            <argument name="commandPool" xsi:type="object">GetnetGatewayCreditCardCommandPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Authorize and Capture command -->
+    <virtualType name="GetnetGatewayCreditCardSaleCommand" type="Amazon\Payment\Gateway\Command\AmazonAuthCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">GetnetGatewayCreditCardAuthorizationRequest</argument>
+            <argument name="handler" xsi:type="object">GetnetGatewayCreditCardResponseHandlerComposite</argument>
+            <argument name="transferFactory" xsi:type="object">FCamara\Getnet\Gateway\Http\TransferFactory</argument>
+            <argument name="validator" xsi:type="object">GetnetGatewayCreditCardTransactionValidator</argument>
+            <argument name="client" xsi:type="object">FCamara\Getnet\Gateway\Http\Client\CreditCard\CaptureClient</argument>
+        </arguments>
+    </virtualType>
+
     <!-- CreditCard Response handlers -->
     <virtualType name="GetnetGatewayCreditCardResponseHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
         <arguments>
@@ -217,6 +237,11 @@
 
     <!-- CreditCard transaction Validators -->
 
+    <type name="Magento\Payment\Gateway\Data\Order\AddressAdapterFactory">
+        <arguments>
+            <argument name="instanceName" xsi:type="string">\FCamara\Getnet\Gateway\Data\Order\AddressAdapter</argument>
+        </arguments>
+    </type>
     <!-- CREDITCARD PAYMENT CONFIGURATION -->
 
     <!-- DEBITCARD PAYMENT CONFIGURATION -->

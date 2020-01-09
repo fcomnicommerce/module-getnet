@@ -54,6 +54,46 @@ interface ConfigInterface
     const XML_PATH_PRODUCTION_ENDPOINT = 'payment/getnet/production_endpoint';
 
     /**
+     * Check if CPF is the same as CNPJ
+     */
+    const XML_PATH_CPF_SAME_AS_CNPJ = 'payment/getnet/cpf_same_as_cnpj';
+
+    /**
+     * Document Number
+     */
+    const XML_PATH_DOCUMENT_ATTRIBUTE = 'payment/getnet/document_attribute';
+
+    /**
+     * CPF attribute
+     */
+    const XML_PATH_CPF_ATTRIBUTE = 'payment/getnet/cpf_attribute';
+
+    /**
+     * CNPJ attribute
+     */
+    const XML_PATH_CNPJ_ATTRIBUTE = 'payment/getnet/cnpj_attribute';
+
+    /**
+     * CNPJ attribute
+     */
+    const XML_PATH_STREET = 'payment/getnet/street';
+
+    /**
+     * CNPJ attribute
+     */
+    const XML_PATH_NUMBER = 'payment/getnet/number';
+
+    /**
+     * CNPJ attribute
+     */
+    const XML_PATH_COMPLEMENT = 'payment/getnet/complement';
+
+    /**
+     * CNPJ attribute
+     */
+    const XML_PATH_DISTRICT = 'payment/getnet/district';
+
+    /**
      * Check if getnet module is enabled
      *
      * @return bool
@@ -116,6 +156,70 @@ interface ConfigInterface
      * @since 102.0.3
      */
     public function productionEndpoint();
+
+    /**
+     * Return if CPF is the same attribute as CNPJ
+     *
+     * @return string
+     * @since 102.0.3
+     */
+    public function cpfSameAsCnpj();
+
+    /**
+     * Return Document Attribute
+     *
+     * @return string
+     * @since 102.0.3
+     */
+    public function documentAttribute();
+
+    /**
+     * Return CPF Attribute
+     *
+     * @return string
+     * @since 102.0.3
+     */
+    public function cpfAttribute();
+
+    /**
+     * Return CNPJ Attribute
+     *
+     * @return string
+     * @since 102.0.3
+     */
+    public function cnpjAttribute();
+
+    /**
+     * Return street line
+     *
+     * @return string
+     * @since 102.0.3
+     */
+    public function streetLine();
+
+    /**
+     * Return number line
+     *
+     * @return string
+     * @since 102.0.3
+     */
+    public function numberLine();
+
+    /**
+     * Return complement line
+     *
+     * @return string
+     * @since 102.0.3
+     */
+    public function complementLine();
+
+    /**
+     * Return district line
+     *
+     * @return string
+     * @since 102.0.3
+     */
+    public function districtLine();
 
     /**
      * Return authentication endpoint

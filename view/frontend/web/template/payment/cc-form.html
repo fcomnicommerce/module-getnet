@@ -50,9 +50,9 @@
                                     id: getCode() + '_cc_name',
                                     title: $t('Credit Card Name'),
                                     'data-container': getCode() + '-cc-name',
-                                    'data-validate': JSON.stringify({'required-number':true, 'validate-card-type':getCcAvailableTypesValues(), 'validate-card-number':'#' + getCode() + '_cc_type', 'validate-cc-type':'#' + getCode() + '_cc_type'})},
+                                    'data-validate': JSON.stringify({'required':true})},
                               enable: isActive($parents),
-                              value: creditCardNumber,
+                              value: creditCardName,
                               valueUpdate: 'keyup' "/>
         </div>
     </div>
@@ -67,9 +67,9 @@
                                     id: getCode() + '_cc_number',
                                     title: $t('Credit Card Number'),
                                     'data-container': getCode() + '-cc-number',
-                                    'data-validate': JSON.stringify({'required':true})},
+                                    'data-validate': JSON.stringify({'required-number':true, 'validate-card-type':getCcAvailableTypesValues(), 'validate-card-number':'#' + getCode() + '_cc_type', 'validate-cc-type':'#' + getCode() + '_cc_type'})},
                               enable: isActive($parents),
-                              value: creditCardName,
+                              value: creditCardNumber,
                               valueUpdate: 'keyup' "/>
         </div>
     </div>

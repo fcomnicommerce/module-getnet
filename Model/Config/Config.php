@@ -130,4 +130,92 @@ class Config implements ConfigInterface
     {
         return $this->endpoint() . '/auth/oauth/v2/token';
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function cpfSameAsCnpj()
+    {
+        return $this->scopeConfig->isSetFlag(
+            self::XML_PATH_CPF_SAME_AS_CNPJ,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function documentAttribute()
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_DOCUMENT_ATTRIBUTE,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function cpfAttribute()
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_CPF_ATTRIBUTE,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function cnpjAttribute()
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_CNPJ_ATTRIBUTE,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function streetLine()
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_STREET,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function numberLine()
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_NUMBER,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function complementLine()
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_COMPLEMENT,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function districtLine()
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_DISTRICT,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
 }

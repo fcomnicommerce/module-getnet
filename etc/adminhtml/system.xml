@@ -4,7 +4,7 @@
         <tab id="getnet" sortOrder="999" translate="label">
             <label>pagar.me</label>
         </tab>
-        <section id="payment" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+        <section id="payment" showInDefault="1" showInStore="1" showInWebsite="1" translate="label">
             <group id="getnet" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
                 <label>
                     <![CDATA[Getnet <i> by FCamara formação e consultioria</i>]]>
@@ -22,20 +22,76 @@
                         <source_model>FCamara\Getnet\Model\Adminhtml\Source\Environment</source_model>
                         <config_path>payment/getnet/environment</config_path>
                     </field>
-                    <field id="sandbox_endpoint" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <field id="sandbox_endpoint" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Sandbox Endpoint</label>
                         <depends>
                             <field id="environment">sandbox</field>
                         </depends>
                         <config_path>payment/getnet/sandbox_endpoint</config_path>
                     </field>
-                    <field id="production_endpoint" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <field id="production_endpoint" translate="label" type="text" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Production Endpoint</label>
                         <depends>
                             <field id="environment">production</field>
                         </depends>
                         <config_path>payment/getnet/production_endpoint</config_path>
                     </field>
+                    <group id="cpf_cnpj_settings" translate="label" type="text" sortOrder="400" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>CPF/CNPJ</label>
+                        <field id="cpf_same_as_cnpj" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="140" translate="label" type="select">
+                            <label>Is CPF attribute the same as CNPJ</label>
+                            <comment />
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/getnet/cpf_same_as_cnpj</config_path>
+                        </field>
+                        <field id="document_attribute" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="160" translate="label" type="select">
+                            <label>CPF/CNPJ</label>
+                            <source_model>FCamara\Getnet\Model\Adminhtml\Source\CustomerAttribute</source_model>
+                            <depends>
+                                <field id="cpf_same_as_cnpj">1</field>
+                            </depends>
+                            <config_path>payment/getnet/document_attribute</config_path>
+                        </field>
+                        <field id="cpf_attribute" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="150" translate="label" type="select">
+                            <label>CPF</label>
+                            <source_model>FCamara\Getnet\Model\Adminhtml\Source\CustomerAttribute</source_model>
+                            <depends>
+                                <field id="cpf_same_as_cnpj">0</field>
+                            </depends>
+                            <config_path>payment/getnet/cpf_attribute</config_path>
+                        </field>
+                        <field id="cnpj_attribute" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="160" translate="label" type="select">
+                            <label>CNPJ</label>
+                            <source_model>FCamara\Getnet\Model\Adminhtml\Source\CustomerAttribute</source_model>
+                            <depends>
+                                <field id="cpf_same_as_cnpj">0</field>
+                            </depends>
+                            <config_path>payment/getnet/cnpj_attribute</config_path>
+                        </field>
+                    </group>
+                    <group id="street_settings" translate="label" type="text" sortOrder="500" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Street</label>
+                        <field id="street" translate="label" type="select" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Street Line</label>
+                            <source_model>FCamara\Getnet\Model\Adminhtml\Source\StreetLine</source_model>
+                            <config_path>payment/getnet/street</config_path>
+                        </field>
+                        <field id="number" translate="label" type="select" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Number Line</label>
+                            <source_model>FCamara\Getnet\Model\Adminhtml\Source\StreetLine</source_model>
+                            <config_path>payment/getnet/number</config_path>
+                        </field>
+                        <field id="complement" translate="label" type="select" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Complement Line</label>
+                            <source_model>FCamara\Getnet\Model\Adminhtml\Source\StreetLine</source_model>
+                            <config_path>payment/getnet/complement</config_path>
+                        </field>
+                        <field id="district" translate="label" type="select" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>District Line</label>
+                            <source_model>FCamara\Getnet\Model\Adminhtml\Source\StreetLine</source_model>
+                            <config_path>payment/getnet/district</config_path>
+                        </field>
+                    </group>
                 </group>
                 <group id="credentials" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Credentials</label>

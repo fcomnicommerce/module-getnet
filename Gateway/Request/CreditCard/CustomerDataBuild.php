@@ -15,8 +15,8 @@
 
 namespace FCamara\Getnet\Gateway\Request\CreditCard;
 
-use Magento\Payment\Gateway\Request\BuilderInterface;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
+use Magento\Payment\Gateway\Request\BuilderInterface;
 
 class CustomerDataBuild implements BuilderInterface
 {
@@ -25,9 +25,24 @@ class CustomerDataBuild implements BuilderInterface
     */
     private $customerRepository;
 
-    public function __construct(\Magento\Customer\Model\ResourceModel\CustomerRepository $customerRepository)
-    {
+    /**
+     * @var \Magento\Sales\Model\OrderRepository
+    */
+    private $orderRepository;
+
+    /**
+     * @var \FCamara\Getnet\Model\Config\CreditCardConfig
+     */
+    private $creditCardConfig;
+
+    public function __construct(
+        \Magento\Sales\Model\OrderRepository $orderRepository,
+        \Magento\Customer\Model\ResourceModel\CustomerRepository $customerRepository,
+        \FCamara\Getnet\Model\Config\CreditCardConfig $creditCardConfig
+    ) {
+        $this->orderRepository = $orderRepository;
         $this->customerRepository = $customerRepository;
+        $this->creditCardConfig = $creditCardConfig;
     }
 
     /**
@@ -49,28 +64,13 @@ class CustomerDataBuild implements BuilderInterface
         /** @var PaymentDataObjectInterface $paymentDO */
         $paymentDO = $buildSubject['payment'];
         $order = $paymentDO->getOrder();
+//        $order = $this->orderRepository->get($order->getId());
 
-        /**
-         * @todo get correct customer adddress
-        */
-        $address = $order->getBillingAddress();
+        $billingAddress = $order->getBillingAddress();
         $customer = $this->customerRepository->getById($order->getCustomerId());
-        $streetData = ['AAAA',"123", 'BBBB', 'CCCC'];
-        $district = $complement = $number = $street = '';
 
-        if (isset($streetData[0])) {
-            $street = $streetData[0];
-        }
-        if (isset($streetData[1])) {
-            $number = $streetData[1];
-        }
-        if (isset($streetData[2])) {
-            $complement = $streetData[2];
-        }
-        if (isset($streetData[3])) {
-            $district = $streetData[3];
-        }
-
+        $customerDocument = $this->customerDocument($customer);
+        $address = $this->customerAddress($order);
         $response = [
                 'customer' => [
                     'customer_id' => $customer->getId(),
@@ -78,22 +78,88 @@ class CustomerDataBuild implements BuilderInterface
                     'last_name' => $customer->getLastname(),
                     'name' => $customer->getFirstname() . ' ' . $customer->getLastname(),
                     'email' => $customer->getEmail(),
-                    'document_type' => 'CPF',
-                    'document_number' => $customer->getTaxvat(),
-                    'phone_number' => $address->getTelephone(),
-                    'billing_address' =>[
-                        'street' => $street,
-                        'number' => $number,
-                        'complement' => $complement,
-                        'district' => $district,
-                        'city' => $address->getCity(),
-                        'state' => 'SP',
-                        'country' => 'Brasil',
-                        'postal_code' => $address->getPostcode(),
+                    'document_type' => $customerDocument['document_type'],
+                    'document_number' => $customerDocument['document_number'],
+                    'phone_number' => $billingAddress->getTelephone(),
+                    'billing_address' => [
+                        'street' => $address['street'],
+                        'number' => $address['number'],
+                        'complement' => $address['complement'],
+                        'district' => $address['district'],
+                        'city' => $billingAddress->getCity(),
+                        'state' => $order->getBillingAddress()->getRegionCode(),
+                        'country' => $order->getBillingAddress()->getCountryId(),
+                        'postal_code' => $billingAddress->getPostcode(),
                     ],
                 ]
         ];
 
         return $response;
+    }
+
+    private function customerDocument(\Magento\Customer\Api\Data\CustomerInterface $customer)
+    {
+        $documentType = 'CPF';
+        $documentAttribute = $this->creditCardConfig->documentAttribute();
+        $documentNumber = 'NÃO INFORMADO';
+        $customerData = $customer->__toArray();
+
+        if ($this->creditCardConfig->cpfSameAsCnpj()) {
+            $documentNumber = preg_replace('/[^0-9]/', '', $customerData[$documentAttribute]);
+            if (strlen($documentNumber) == 14) {
+                $documentType = 'CNPJ';
+            }
+            return ['document_type' => $documentType, 'document_number' => $documentNumber];
+        }
+
+        $cpfAttribute = $this->creditCardConfig->cpfAttribute();
+        $cnpjAttribute = $this->creditCardConfig->cnpjAttribute();
+        $cpfNumber = preg_replace('/[^0-9]/', '', $customerData[$cpfAttribute]);
+        $cnpjNumber = preg_replace('/[^0-9]/', '', $customerData[$cnpjAttribute]);
+
+        if (strlen($cpfNumber) == 11) {
+            $documentType = 'CPF';
+            $documentNumber = $cnpjNumber;
+        }
+
+        if (strlen($cnpjNumber) == 14) {
+            $documentType = 'CNPJ';
+            $documentNumber = $cnpjNumber;
+        }
+
+        return ['document_type' => $documentType, 'document_number' => $documentNumber];
+    }
+
+    private function customerAddress(\Magento\Payment\Gateway\Data\OrderAdapterInterface $order)
+    {
+        $billingAddress = $order->getBillingAddress();
+
+        $address = [
+            $billingAddress->getStreetLine1(),
+            $billingAddress->getStreetLine2(),
+            $billingAddress->getStreetLine3(),
+            $billingAddress->getStreetLine4()
+        ];
+
+        if (!isset($address)) {
+            return [
+                'street' => 'NÃO INFORMADO',
+                'number' => 'NÃO INFORMADO',
+                'complement' => 'NÃO INFORMADO',
+                'district' => 'NÃO INFORMADO'
+            ];
+        }
+
+        $street = $address[$this->creditCardConfig->streetLine()];
+        $number = $address[$this->creditCardConfig->numberLine()];
+        $complement = $address[$this->creditCardConfig->complementLine()];
+        $district = $address[$this->creditCardConfig->districtLine()];
+
+        return [
+            'street' => $street,
+            'number' => $number,
+            'complement' => $complement,
+            'district' => $district
+        ];
     }
 }

@@ -143,9 +143,25 @@ class Client implements ClientInterface
     /**
      * {@inheritDoc}
      */
-    public function capture()
+    public function capture($requestParameters)
     {
-        // TODO: Implement capture() method.
+        $token = $this->authentication();
+        $responseBody = false;
+        $requestParameters['seller_id'] = $this->creditCardConfig->sellerId();
+        $client = $this->httpClientFactory->create();
+        $client->setUri(str_replace('{payment_id}', $requestParameters['payment_id'], $this->creditCardConfig->captureEndpoint()));
+        $client->setHeaders(['content-type: application/json; charset=utf-8']);
+        $client->setHeaders('Authorization', 'Bearer ' . $token);
+        $client->setMethod(\Zend_Http_Client::POST);
+        $client->setRawData(json_encode($requestParameters));
+
+        try {
+            $responseBody = json_decode($client->request()->getBody(), true);
+        } catch (\Exception $e) {
+            $e->getMessage();
+        }
+
+        return $responseBody;
     }
 
     /**

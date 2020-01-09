@@ -13,15 +13,19 @@
  * @author    Jonatan Santos <jonatan.santos@fcamara.com.br>
  */
 
-namespace FCamara\Getnet\Model\Adminhtml\Source;
+namespace FCamara\Getnet\Gateway\Http\Client\CreditCard;
 
-class Cctype extends \Magento\Payment\Model\Source\Cctype
+class CaptureClient extends AbstractClient
 {
     /**
-     * @inheritdoc
+     * Process http request
+     * @param array $data
+     * @return mixed
      */
-    public function getAllowedTypes(): array
+    protected function process(array $data)
     {
-        return ['VI', 'MC', 'AM', 'ELO', 'HC'];
+        $adapter = $this->adapterFactory->create();
+
+        return $adapter->authorize($data, true);
     }
 }

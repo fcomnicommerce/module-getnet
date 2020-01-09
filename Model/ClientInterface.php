@@ -20,6 +20,9 @@ namespace FCamara\Getnet\Model;
 */
 interface ClientInterface
 {
+    const CREDIT_CARD_BRADS = ["MC" => "Mastercard", "VI" => "Visa", "AM" => "Amex", "ELO" => "Elo", "HC" => "Hipercard"];
+    const CREDIT_CARD_MONTH_EXP = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+
     /**
      * Setter for Getnet ClientId
      * @param string $clientId
@@ -166,7 +169,7 @@ interface ClientInterface
      *
      * @return array
      */
-    public function capture();
+    public function capture($requestParameters);
 
     /**
      * Endpoint responsible for void credit card transactions.

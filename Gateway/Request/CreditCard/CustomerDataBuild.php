@@ -71,6 +71,7 @@ class CustomerDataBuild implements BuilderInterface
 
         $customerDocument = $this->customerDocument($customer);
         $address = $this->customerAddress($order);
+        $postcode = $this->cleanZipcode($billingAddress->getPostcode());
         $response = [
                 'customer' => [
                     'customer_id' => $customer->getId(),
@@ -89,7 +90,7 @@ class CustomerDataBuild implements BuilderInterface
                         'city' => $billingAddress->getCity(),
                         'state' => $order->getBillingAddress()->getRegionCode(),
                         'country' => $order->getBillingAddress()->getCountryId(),
-                        'postal_code' => $billingAddress->getPostcode(),
+                        'postal_code' => $postcode,
                     ],
                 ]
         ];
@@ -161,5 +162,15 @@ class CustomerDataBuild implements BuilderInterface
             'complement' => $complement,
             'district' => $district
         ];
+    }
+
+    /**
+     * @param $postcode
+     * @return string
+     */
+    public function cleanZipcode($postcode)
+    {
+        $postcode = explode("-", $postcode);
+        return count($postcode) > 1 ? $postcode[0] . $postcode[1] : $postcode;
     }
 }

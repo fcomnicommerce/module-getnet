@@ -49,7 +49,7 @@ class CreditDataBuild implements BuilderInterface
         $ccCid = $payment->getAdditionalInformation('cc_cid');
         $ccType = $payment->getAdditionalInformation('cc_type');
         $ccType = Client::CREDIT_CARD_BRADS[$ccType];
-        $ccExpMonth = Client::CREDIT_CARD_MONTH_EXP[$ccExpMonth];
+//        $ccExpMonth = Client::CREDIT_CARD_MONTH_EXP[$ccExpMonth];
 
         $response = [
             'credit' => [

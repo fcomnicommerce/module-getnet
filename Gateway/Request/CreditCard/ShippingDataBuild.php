@@ -54,6 +54,9 @@ class ShippingDataBuild implements BuilderInterface
          */
         $shipping = $order->getShippingAddress();
         $customer = $this->customerRepository->getById($order->getCustomerId());
+//        foreach ($order->getItems() as $item) {
+//            $item->g
+//        }
         $streetData = ['AAAA',"123", 'BBBB', 'CCCC'];
         $district = $complement = $number = $street = '';
 
@@ -70,28 +73,38 @@ class ShippingDataBuild implements BuilderInterface
             $district = $streetData[3];
         }
 
-        $response = [
-            'shippings' => [
-                0 => [
-                    'first_name' => $shipping->getFirstname(),
-                    'name' => $customer->getFirstname() . ' ' . $customer->getLastname(),
-                    'email' => $customer->getEmail(),
-                    'phone_number' =>  $shipping->getTelephone(),
-                    'shipping_amount' => 30000,
-                    'address' =>[
-                        'street' => $street,
-                        'number' => $number,
-                        'complement' => $complement,
-                        'district' => $district,
-                        'city' => $shipping->getCity(),
-                        'state' => 'SP',
-                        'country' => 'Brasil',
-                        'postal_code' => $shipping->getPostcode(),
-                    ],
-                ],
+        $shipping_amount = 10000;
+
+        $postcode =  $this->cleanZipcode($shipping->getPostcode());
+
+        $response['shippings'][] = [
+            'first_name' => $shipping->getFirstname(),
+            'name' => $customer->getFirstname() . ' ' . $customer->getLastname(),
+            'email' => $customer->getEmail(),
+            'phone_number' =>  $shipping->getTelephone(),
+            'shipping_amount' => $shipping_amount,
+            'address' =>[
+                'street' => $street,
+                'number' => $number,
+                'complement' => $complement,
+                'district' => $district,
+                'city' => $shipping->getCity(),
+                'state' => $order->getShippingAddress()->getRegionCode(),
+                'country' => 'Brasil',
+                'postal_code' => $postcode,
             ],
         ];
 
         return $response;
+    }
+
+    /**
+     * @param $postcode
+     * @return string
+     */
+    public function cleanZipcode($postcode)
+    {
+        $postcode = explode("-", $postcode);
+        return count($postcode) > 1 ? $postcode[0] . $postcode[1] : $postcode;
     }
 }

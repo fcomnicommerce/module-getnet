@@ -7,9 +7,10 @@
 define(
     [
         'jquery',
-        'Magento_Payment/js/view/payment/cc-form'
+        'Magento_Payment/js/view/payment/cc-form',
+        'card'
     ],
-    function ($, Component) {
+    function ($, Component, card) {
         'use strict';
 
         return Component.extend({
@@ -22,6 +23,7 @@ define(
                 creditCardExpYear: '',
                 creditCardExpMonth: '',
                 creditCardName: '',
+                creditCardExpiry: '',
                 creditCardNumber: '',
                 creditCardNumberToken: '',
                 creditCardSsStartMonth: '',
@@ -43,6 +45,7 @@ define(
                         'creditCardNumber',
                         'creditCardNumberToken',
                         'creditCardName',
+                        'creditCardExpiry',
                         'creditCardVerificationNumber',
                         'creditCardSsStartMonth',
                         'creditCardSsStartYear',
@@ -62,7 +65,24 @@ define(
             initFormElement: function (element) {
                 this.formElement = element;
                 $(this.formElement).validation();
+
+                new Card({
+                    form: document.querySelector('.getnet-card'),
+                    container: '.card-wrapper'
+                });
             },
+
+            // loadCardForm: function() {
+            //     new Card({
+            //         form: document.querySelector('.getnet-card'),
+            //         container: '.card-wrapper'
+            //     });
+            //
+            //     // this.checkNumberCard();
+            //     // this.checkNameCard();
+            //     // this.checkExpirationDateCard();
+            //     // this.checkCvvCard();
+            // },
 
             getData: function() {
                 return {
@@ -73,7 +93,8 @@ define(
                         'cc_exp_year': this.creditCardExpYear(),
                         'cc_exp_month': this.creditCardExpMonth(),
                         'cc_number_token': this.creditCardNumberToken(),
-                        'cc_name': this.creditCardName()
+                        'cc_name': this.creditCardName(),
+                        'cc_expiry': this.creditCardExpiry()
                     }
                 };
             },

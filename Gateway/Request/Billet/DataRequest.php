@@ -81,7 +81,7 @@ class DataRequest implements BuilderInterface
         $address = $this->checkoutSession->getQuote()->getBillingAddress();
         $customer = $this->checkoutSession->getQuote()->getCustomer();
         $streetData = $address->getStreet();
-        $district = $complement = $number = $street = '';
+        $district = $complement = $number = $street = 'NAO INFORMADO';
 
         if (isset($streetData[0])) {
             $street = $streetData[0];
@@ -96,10 +96,18 @@ class DataRequest implements BuilderInterface
             $district = $streetData[3];
         }
 
-        $time = $this->timezone->scopeTimeStamp();
+        $time = $this->timezone->date()->getTimestamp();
         $date = new \Zend_Date($time, \Zend_Date::TIMESTAMP);
-        $date->addDay($this->config->expirationDays());
+
+        if (null != $this->config->expirationDays()) {
+            $date->addDay($this->config->expirationDays());
+        } else {
+            $date->addDay(1);
+        }
+
         $expirationDate = $date->get('dd/MM/YYYY');
+
+        $postcode = str_replace('-', '', $address->getPostcode());
 
         $response = [
             'body' => [
@@ -129,7 +137,7 @@ class DataRequest implements BuilderInterface
                         'district' => $district,
                         'city' => $address->getCity(),
                         'state' => $address->getRegionCode(),
-                        'postal_code' => $address->getPostcode(),
+                        'postal_code' => $postcode,
                     ],
                 ],
             ]

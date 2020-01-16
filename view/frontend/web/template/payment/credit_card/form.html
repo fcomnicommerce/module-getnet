@@ -24,9 +24,18 @@
         <div class="payment-method-billing-address">
             <each args="$parent.getRegion(getBillingAddressFormName())" render="" />
         </div>
-        <form class="form" id="co-payment-form" method="post" afterRender="initFormElement">
-            <render args="ccForm" />
-        </form>
+        <div class="card-container">
+            <div class="form-container active">
+<!--                <form class="getnet-card" data-bind="afterRender: loadCardForm()" action="">-->
+<!--                    <input placeholder="Número do cartão" class="number-card" type="tel" name="numberaa">-->
+<!--                    <input placeholder="Nome impresso no cartão" class="full-name-card" type="text" name="namea">-->
+<!--                    <input placeholder="MM/AAAA" class="date-card" type="tel" name="expirya">-->
+<!--                    <input placeholder="CVV" class="cvv-card" type="number" name="cvva">-->
+<!--                </form>-->
+                <render args="ccForm" />
+            </div>
+            <div class="card-wrapper"></div>
+        </div>
         <div class="checkout-agreements-block">
             <each args="$parent.getRegion('before-place-order')" render="" />
         </div>

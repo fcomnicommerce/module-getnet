@@ -1,0 +1,61 @@
+// /**
+//  * Copyright © Magento, Inc. All rights reserved.
+//  * See COPYING.txt for license details.
+//  */
+
+@import '_credit-card';
+
+
+//
+//  Common
+//  _____________________________________________
+
+& when (@media-common = true) {
+  .download-billet {
+    .iframe-section {
+      .btn-download {
+        border: 1px solid @button-primary__background;
+        padding: 0.2em;
+        margin-bottom: 1em;
+        display: inline-block;
+      }
+    }
+  }
+}
+
+//
+//  Desktop
+//  _____________________________________________
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+  .download-billet {
+    text-align: center;
+    margin-top: 5em;
+
+    .iframe-section {
+      display: inline-block;
+      text-align: left;
+    }
+  }
+}
+
+//
+//  Mobile
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+  .download-billet {
+
+    .iframe-section {
+      iframe {
+        display: none;
+      }
+
+      .btn-download {
+        width: 100%;
+        margin-top: 2em;
+        text-align: center;
+        padding: 0.5em 0;
+      }
+    }
+  }
+}

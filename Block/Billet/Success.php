@@ -53,6 +53,28 @@ class Success extends \Magento\Checkout\Block\Success
     {
         $order = $this->getRealOrderId();
 
-        return $order->getPayment()->getAdditionalInformation('return');
+        return $order->getPayment()->getAdditionalInformation('response');
+    }
+
+    public function getBilletHtmlUrl()
+    {
+        $order = $this->getRealOrderId();
+        $response = json_decode($order->getPayment()->getAdditionalInformation('response'), true);
+
+        if(isset($response['boleto']['_links'][1]['href'])) {
+            return 'https://api-sandbox.getnet.com.br' . $response['boleto']['_links'][1]['href'];
+        }
+        return '';
+    }
+
+    public function getBilletPdfUrl()
+    {
+        $order = $this->getRealOrderId();
+        $response = json_decode($order->getPayment()->getAdditionalInformation('response'), true);
+
+        if(isset($response['boleto']['_links'][0]['href'])) {
+            return 'https://api-sandbox.getnet.com.br' . $response['boleto']['_links'][0]['href'];
+        }
+        return '';
     }
 }

@@ -1,3 +1,12 @@
 <?php if($block->isBillet()):?>
- <?php echo __('teste'); ?>
+    <div class="download-billet">
+        <div class="iframe-section">
+            <div class="primary">
+                <a class="btn-download" target="_blank" href="<?php echo $block->getBilletPdfUrl(); ?>">
+                    <span>Download PDF</span>
+                </a>
+            </div>
+            <iframe src="<?php echo $block->getBilletHtmlUrl(); ?>" width="668" height="900">
+        </div>
+    </div>
 <?php endif;?>

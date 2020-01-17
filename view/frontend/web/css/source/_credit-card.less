@@ -1,0 +1,59 @@
+//
+//  Common
+//  _____________________________________________
+
+& when (@media-common = true) {
+  .checkout-payment-method {
+    .credit-card-types {
+      display: none;
+    }
+
+    .ccard {
+      .number {
+        .control {
+          .input-text {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+//
+//  Desktop
+//  _____________________________________________
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+  .card-container {
+    .form-container {
+      float: left;
+      width: 48%;
+    }
+
+    .card-wrapper {
+      float: right;
+      width: 48%;
+    }
+  }
+
+  .payment-method-content {
+    .actions-toolbar {
+      display: inline-block;
+      width: 100%;
+    }
+  }
+}
+
+
+//
+//  Mobile
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+  .payment-method-content {
+    .card-container {
+      margin-bottom: 20px;
+    }
+  }
+}

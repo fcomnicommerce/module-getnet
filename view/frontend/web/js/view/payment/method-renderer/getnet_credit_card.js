@@ -85,13 +85,23 @@ define(
             // },
 
             getData: function() {
+                let creditCardExpiry = this.creditCardExpiry();
+                let expiryArray = creditCardExpiry.split("/");
+                let exp_year = '';
+                let exp_month = '';
+                if(expiryArray.length === 2) {
+                    exp_month = expiryArray[0];
+                    exp_month = exp_month.trim();
+                    exp_year = expiryArray[1];
+                    exp_year = exp_year.trim();
+                }
                 return {
                     'method': this.item.method,
                     'additional_data': {
                         'cc_cid': this.creditCardVerificationNumber(),
                         'cc_type': this.creditCardType(),
-                        'cc_exp_year': this.creditCardExpYear(),
-                        'cc_exp_month': this.creditCardExpMonth(),
+                        'cc_exp_year': exp_year,
+                        'cc_exp_month': exp_month,
                         'cc_number_token': this.creditCardNumberToken(),
                         'cc_name': this.creditCardName(),
                         'cc_expiry': this.creditCardExpiry()
@@ -134,6 +144,7 @@ define(
                 var endpoint = this.getEndpoint();
                 var authorization = this.getAuthorizationBasic();
                 var creditCardNumber = this.creditCardNumber();
+                creditCardNumber = creditCardNumber.replace(/\s/g, '');
 
                 $.ajax({
                     showLoader: true,

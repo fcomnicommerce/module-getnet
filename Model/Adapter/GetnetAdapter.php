@@ -45,6 +45,7 @@ class GetnetAdapter
     public function capture($requestParameters)
     {
         $client = $this->clientFactory->create();
-        $client->capture($requestParameters);
+        $response = $client->capture($requestParameters);
+        return $response;
     }
 }

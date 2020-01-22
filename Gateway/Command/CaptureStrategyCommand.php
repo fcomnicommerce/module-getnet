@@ -101,9 +101,7 @@ class CaptureStrategyCommand implements CommandInterface
         $payment = $paymentDO->getPayment();
         ContextHelper::assertOrderPayment($payment);
 
-        // If auth transaction does not exist then execute authorize&capture command
-        $captureExists = $this->captureTransactionExists($payment);
-        if (!$payment->getAuthorizationTransaction() && !$captureExists) {
+        if (!isset($payment)) {
             return self::SALE;
         }
 

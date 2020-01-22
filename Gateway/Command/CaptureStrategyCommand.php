@@ -101,7 +101,7 @@ class CaptureStrategyCommand implements CommandInterface
         $payment = $paymentDO->getPayment();
         ContextHelper::assertOrderPayment($payment);
 
-        if (!isset($payment)) {
+        if (!$payment->getAdditionalInformation('payment_id')) {
             return self::SALE;
         }
 

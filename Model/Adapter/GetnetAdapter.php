@@ -34,17 +34,14 @@ class GetnetAdapter
         $client = $this->clientFactory->create();
 
         $response = $client->authorize($requestParameters);
-        if ($captureNow) {
-            $requestParameters['payment_id'] = $response['payment_id'];
-            $this->capture($requestParameters);
-        }
-
+        
         return $response;
     }
 
     public function capture($requestParameters)
     {
         $client = $this->clientFactory->create();
-        $client->capture($requestParameters);
+        $response = $client->capture($requestParameters);
+        return $response;
     }
 }

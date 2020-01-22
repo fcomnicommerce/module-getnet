@@ -35,6 +35,7 @@
                 <title>Getnet Credit Card</title>
                 <currency>BRL</currency>
                 <can_authorize>1</can_authorize>
+                <can_capture>1</can_capture>
                 <can_use_checkout>1</can_use_checkout>
                 <is_gateway>1</is_gateway>
                 <sort_order>1</sort_order>

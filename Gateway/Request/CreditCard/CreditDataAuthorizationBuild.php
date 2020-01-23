@@ -22,6 +22,17 @@ use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 class CreditDataAuthorizationBuild implements BuilderInterface
 {
     /**
+     * @var \FCamara\Getnet\Model\Config\CreditCardConfig
+     */
+    private $creditCardConfig;
+
+    public function __construct(
+        \FCamara\Getnet\Model\Config\CreditCardConfig $creditCardConfig
+    ) {
+        $this->creditCardConfig = $creditCardConfig;
+    }
+
+    /**
      * Builds ENV request
      *
      * @param array $buildSubject

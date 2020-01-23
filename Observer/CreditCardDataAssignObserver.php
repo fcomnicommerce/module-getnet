@@ -74,5 +74,12 @@ class CreditCardDataAssignObserver extends AbstractDataAssignObserver
                 $additionalInfo['cc_type']
             );
         }
+
+        if (isset($additionalInfo['installments'])) {
+            $paymentInfo->setAdditionalInformation(
+                'installments',
+                $additionalInfo['installments']
+            );
+        }
     }
 }

@@ -187,6 +187,11 @@
                             <source_model>Magento\Sales\Model\Config\Source\Order\Status\Processing</source_model>
                             <config_path>payment/getnet_credit_card/order_status</config_path>
                         </field>
+                        <field id="installments" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Installments</label>
+                            <source_model>FCamara\Getnet\Model\Adminhtml\Source\CreditCardInstallmentsAction</source_model>
+                            <config_path>payment/getnet_credit_card/installments</config_path>
+                        </field>
                         <field id="sort_order" translate="label" type="text" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Sort Order</label>
                             <frontend_class>validate-number</frontend_class>

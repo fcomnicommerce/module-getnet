@@ -160,7 +160,7 @@
             </div>
         </div>
         <div class="field installment required" data-bind="attr: {id: getCode() + '_cc_type_installment_div'}">
-            <label data-bind="attr: {for: getCode() + '_expiration'}" class="label">
+            <label data-bind="attr: {for: getCode() + '_cc_installment'}" class="label">
                 <span><!-- ko i18n: 'Installment'--><!-- /ko --></span>
             </label>
             <div class="control">
@@ -169,23 +169,13 @@
                         <div class="control">
                             <select  name="payment[cc_installment]"
                                      class="select select-installment"
-                                     data-bind="attr: {id: getCode() + '_cc_installment',
+                                     data-bind="attr: {id: getCode() + '_cc_installment', 'data-container': getCode() + '-cc-installment'},
                                                 enable: isActive($parents),
                                                 options: getCcInstallmentValues(),
                                                 optionsValue: 'value',
                                                 optionsText: 'installment',
                                                 optionsCaption: $t('Installment'),
                                                 value: creditCardInstallment">
-                                <option value="1x">1x de R$ 1000,00</option>
-                                <option value="2x">2x de R$ 500,00</option>
-                                <option value="3x">3x de R$ 333,33</option>
-                                <option value="4x">4x de R$ 250,00</option>
-                                <option value="5x">5x de R$ 200,00</option>
-                                <option value="6x">6x de R$ 166,66</option>
-                                <option value="7x">7x de R$ 142,85</option>
-                                <option value="8x">8x de R$ 125,00</option>
-                                <option value="9x">9x de R$ 111,11</option>
-                                <option value="10x">10x de R$ 100,00</option>
                             </select>
                         </div>
                     </div>

@@ -60,7 +60,13 @@ class CreditDataAuthorizationBuild implements BuilderInterface
         $ccCid = $payment->getAdditionalInformation('cc_cid');
         $ccType = $payment->getAdditionalInformation('cc_type');
         $ccType = Client::CREDIT_CARD_BRADS[$ccType];
-//        $ccExpMonth = Client::CREDIT_CARD_MONTH_EXP[$ccExpMonth];
+
+        $installments = $payment->getAdditionalInformation('cc_installment') ? $payment->getAdditionalInformation('cc_installment') : 1;
+        $transactionType = 'FULL';
+
+        if ($installments > 1) {
+            $transactionType = $this->creditCardConfig->installments();
+        }
 
         $response = [
             'credit' => [
@@ -68,8 +74,8 @@ class CreditDataAuthorizationBuild implements BuilderInterface
                 'authenticated' => false,
                 'pre_authorization' => true,
                 'save_card_data' => false,
-                'transaction_type' => 'FULL',
-                'number_installments' => 1,
+                'transaction_type' => $transactionType,
+                'number_installments' => $installments,
                 'card' => [
                     'number_token' => $ccNumberToken,
                     'cardholder_name' => $ccName,

@@ -61,7 +61,7 @@ class CreditDataAuthorizeAndCaptureBuild implements BuilderInterface
         $ccType = $payment->getAdditionalInformation('cc_type');
         $ccType = Client::CREDIT_CARD_BRADS[$ccType];
 
-        $installments = $payment->getAdditionalInformation('installments');
+        $installments = $payment->getAdditionalInformation('cc_installment') ? $payment->getAdditionalInformation('cc_installment') : 1;
         $transactionType = 'FULL';
 
         if ($installments > 1) {

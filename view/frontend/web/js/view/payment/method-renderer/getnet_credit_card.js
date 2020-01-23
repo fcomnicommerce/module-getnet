@@ -30,6 +30,7 @@ define(
                 creditCardSsStartYear: '',
                 creditCardSsIssue: '',
                 creditCardVerificationNumber: '',
+                creditCardInstallment: '',
                 selectedCardType: null
             },
 
@@ -46,6 +47,7 @@ define(
                         'creditCardNumberToken',
                         'creditCardName',
                         'creditCardExpiry',
+                        'creditCardInstallment',
                         'creditCardVerificationNumber',
                         'creditCardSsStartMonth',
                         'creditCardSsStartYear',
@@ -104,7 +106,8 @@ define(
                         'cc_exp_month': exp_month,
                         'cc_number_token': this.creditCardNumberToken(),
                         'cc_name': this.creditCardName(),
-                        'cc_expiry': this.creditCardExpiry()
+                        'cc_expiry': this.creditCardExpiry(),
+                        'cc_installment': this.creditCardInstallment()
                     }
                 };
             },

@@ -17,6 +17,17 @@
         }
       }
     }
+
+    .getnet-card {
+      .fieldset > .field, .fieldset > .fields > .field {
+        width: 100%;
+        float: left;
+      }
+
+      .fieldset > .field .fields.group.group-2 .field.installment {
+        width: 100% !important;
+      }
+    }
   }
 }
 
@@ -42,6 +53,21 @@
     .actions-toolbar {
       display: inline-block;
       width: 100%;
+    }
+  }
+
+  .checkout-payment-method {
+    .getnet-card {
+      .field {
+        &.expiry {
+          width: 40%;
+        }
+
+        &.cvv {
+          width: 55%;
+          margin-left: 5%;
+        }
+      }
     }
   }
 }

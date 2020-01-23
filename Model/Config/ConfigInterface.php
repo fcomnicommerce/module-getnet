@@ -192,7 +192,7 @@ interface ConfigInterface
     /**
      * Return street line
      *
-     * @return string
+     * @return string | null
      * @since 102.0.3
      */
     public function streetLine();
@@ -200,7 +200,7 @@ interface ConfigInterface
     /**
      * Return number line
      *
-     * @return string
+     * @return string | null
      * @since 102.0.3
      */
     public function numberLine();
@@ -208,7 +208,7 @@ interface ConfigInterface
     /**
      * Return complement line
      *
-     * @return string
+     * @return string | null
      * @since 102.0.3
      */
     public function complementLine();
@@ -216,7 +216,7 @@ interface ConfigInterface
     /**
      * Return district line
      *
-     * @return string
+     * @return string | null
      * @since 102.0.3
      */
     public function districtLine();

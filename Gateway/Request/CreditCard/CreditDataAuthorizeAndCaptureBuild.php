@@ -16,11 +16,22 @@
 namespace FCamara\Getnet\Gateway\Request\CreditCard;
 
 use FCamara\Getnet\Model\Client;
-use Magento\Payment\Gateway\Request\BuilderInterface;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
+use Magento\Payment\Gateway\Request\BuilderInterface;
 
 class CreditDataAuthorizeAndCaptureBuild implements BuilderInterface
 {
+    /**
+     * @var \FCamara\Getnet\Model\Config\CreditCardConfig
+     */
+    private $creditCardConfig;
+
+    public function __construct(
+        \FCamara\Getnet\Model\Config\CreditCardConfig $creditCardConfig
+    ) {
+        $this->creditCardConfig = $creditCardConfig;
+    }
+
     /**
      * Builds ENV request
      *
@@ -50,14 +61,21 @@ class CreditDataAuthorizeAndCaptureBuild implements BuilderInterface
         $ccType = $payment->getAdditionalInformation('cc_type');
         $ccType = Client::CREDIT_CARD_BRADS[$ccType];
 
+        $installments = $payment->getAdditionalInformation('cc_installment') ? $payment->getAdditionalInformation('cc_installment') : 1;
+        $transactionType = 'FULL';
+
+        if ($installments > 1) {
+            $transactionType = $this->creditCardConfig->installments();
+        }
+
         $response = [
             'credit' => [
                 'delayed' => false,
                 'authenticated' => false,
                 'pre_authorization' => false,
                 'save_card_data' => false,
-                'transaction_type' => 'FULL',
-                'number_installments' => 1,
+                'transaction_type' => $transactionType,
+                'number_installments' => $installments,
                 'card' => [
                     'number_token' => $ccNumberToken,
                     'cardholder_name' => $ccName,

@@ -8,6 +8,7 @@ define(
     [
         'jquery',
         'Magento_Payment/js/view/payment/cc-form',
+        'Magento_Payment/js/model/credit-card-validation/credit-card-data',
         'card'
     ],
     function ($, Component, card) {
@@ -72,6 +73,36 @@ define(
                     form: document.querySelector('.getnet-card'),
                     container: '.card-wrapper'
                 });
+            },
+
+            getCcInstallmentValues: function () {
+                console.log("PASSOU AQUI!!!!");
+                return [
+                    {
+                        'value': '1',
+                        'installment': '1 vez',
+                    },
+                    {
+                        'value': '2',
+                        'installment': '2 vezes',
+                    },
+                    {
+                        'value': '3',
+                        'installment': '3 vezes',
+                    },
+                    {
+                        'value': '4',
+                        'installment': '4 vezes',
+                    },
+                    {
+                        'value': '5',
+                        'installment': '5 vezes',
+                    },
+                    {
+                        'value': '6',
+                        'installment': '6 vezes',
+                    },
+                ];
             },
 
             // loadCardForm: function() {

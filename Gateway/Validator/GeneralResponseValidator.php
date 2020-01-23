@@ -23,6 +23,11 @@ use Magento\Payment\Gateway\Validator\ResultInterface;
 
 class GeneralResponseValidator extends AbstractValidator
 {
+    const successCodes = [
+        200,
+        201,
+        202
+    ];
     /**
      * Performs validation of result code
      *
@@ -31,18 +36,14 @@ class GeneralResponseValidator extends AbstractValidator
      */
     public function validate(array $validationSubject)
     {
-        $messages = [];
-
-        if (isset($validationSubject['response'])) {
-            if (isset($validationSubject['response']['object'])) {
-                if (isset($validationSubject['response']['object']['status_code'])) {
-                    if ($validationSubject['response']['object']['status_code'] == 400) {
-                        return $this->createResult(false, ['error']);
-                    }
-                }
-            }
+        if (
+            isset($validationSubject['response']) &&
+            isset($validationSubject['response']['object']) &&
+            isset($validationSubject['response']['object']['status_code']) &&
+            !in_array($validationSubject['response']['object']['status_code'], self::successCodes)
+        ) {
+            return $this->createResult(false);
         }
-
-        return $this->createResult(true, ['foi']);
+        return $this->createResult(true);
     }
 }

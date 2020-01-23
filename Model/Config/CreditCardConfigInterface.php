@@ -49,6 +49,11 @@ interface CreditCardConfigInterface
     const XML_PATH_SORT_ORDER = 'payment/getnet_credit_card/sort_order';
 
     /**
+     * Credit card installments config path
+     */
+    const XML_PATH_INSTALLMENTS = 'payment/getnet_credit_card/installments';
+
+    /**
      * Check if getnet credit card method is active
      *
      * @return bool
@@ -95,6 +100,14 @@ interface CreditCardConfigInterface
      * @since 102.0.3
      */
     public function sortOrder();
+
+    /**
+     * Return credit card installments
+     *
+     * @return string
+     * @since 102.0.3
+     */
+    public function installments();
 
     /**
      * Return credit card verification endpoint

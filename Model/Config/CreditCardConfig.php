@@ -88,6 +88,17 @@ class CreditCardConfig extends Config implements CreditCardConfigInterface
     /**
      * {@inheritDoc}
      */
+    public function installments()
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_INSTALLMENTS,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function verificationEndpoint()
     {
         return $this->endpoint() . '/v1/cards/verification';

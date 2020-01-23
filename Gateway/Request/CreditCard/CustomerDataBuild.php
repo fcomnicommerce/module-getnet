@@ -64,13 +64,12 @@ class CustomerDataBuild implements BuilderInterface
         /** @var PaymentDataObjectInterface $paymentDO */
         $paymentDO = $buildSubject['payment'];
         $order = $paymentDO->getOrder();
-//        $order = $this->orderRepository->get($order->getId());
 
         $billingAddress = $order->getBillingAddress();
         $customer = $this->customerRepository->getById($order->getCustomerId());
 
         $customerDocument = $this->customerDocument($customer);
-        $address = $this->customerAddress($order);
+        $address = $this->getAddressLines($billingAddress);
         $postcode = $this->cleanZipcode($billingAddress->getPostcode());
         $response = [
                 'customer' => [
@@ -83,10 +82,10 @@ class CustomerDataBuild implements BuilderInterface
                     'document_number' => $customerDocument['document_number'],
                     'phone_number' => $billingAddress->getTelephone(),
                     'billing_address' => [
-                        'street' => $address['street'],
-                        'number' => $address['number'],
-                        'complement' => $address['complement'],
-                        'district' => $address['district'],
+                        'street' => $address[0],
+                        'number' => $address[1],
+                        'complement' => $address[2],
+                        'district' => $address[3],
                         'city' => $billingAddress->getCity(),
                         'state' => $order->getBillingAddress()->getRegionCode(),
                         'country' => $order->getBillingAddress()->getCountryId(),
@@ -131,39 +130,20 @@ class CustomerDataBuild implements BuilderInterface
         return ['document_type' => $documentType, 'document_number' => $documentNumber];
     }
 
-    private function customerAddress(\Magento\Payment\Gateway\Data\OrderAdapterInterface $order)
+    private function getAddressLines($billingAddress)
     {
-        $billingAddress = $order->getBillingAddress();
-
-        $address = [
-            $billingAddress->getStreetLine1(),
-            $billingAddress->getStreetLine2(),
-            $billingAddress->getStreetLine3(),
-            $billingAddress->getStreetLine4()
-        ];
-
-        if (!isset($address)) {
-            return [
-                'street' => 'NÃO INFORMADO',
-                'number' => 'NÃO INFORMADO',
-                'complement' => 'NÃO INFORMADO',
-                'district' => 'NÃO INFORMADO'
-            ];
+        $streetPos = $this->creditCardConfig->streetLine() != null ? $this->creditCardConfig->streetLine() + 1 : 0;
+        $numberPos = $this->creditCardConfig->numberLine() != null ? $this->creditCardConfig->numberLine() + 1 : 0;
+        $complementPos = $this->creditCardConfig->complementLine() != null ? $this->creditCardConfig->complementLine() + 1 : 0;
+        $districtPos = $this->creditCardConfig->districtLine() != null ? $this->creditCardConfig->districtLine() + 1 : 0;
+        $positions = [$streetPos, $numberPos, $complementPos, $districtPos];
+        $addressLines = [];
+        foreach ($positions as $position) {
+            $function_pos = "getStreetLine" . $position;
+            $addressLines[] = $billingAddress->$function_pos();
         }
-
-        $street = $address[$this->creditCardConfig->streetLine()];
-        $number = $address[$this->creditCardConfig->numberLine()];
-        $complement = $address[$this->creditCardConfig->complementLine()];
-        $district = $address[$this->creditCardConfig->districtLine()];
-
-        return [
-            'street' => $street,
-            'number' => $number,
-            'complement' => $complement,
-            'district' => $district
-        ];
+        return $addressLines;
     }
-
     /**
      * @param $postcode
      * @return string

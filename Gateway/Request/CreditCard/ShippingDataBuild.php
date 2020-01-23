@@ -15,19 +15,24 @@
 
 namespace FCamara\Getnet\Gateway\Request\CreditCard;
 
-use Magento\Payment\Gateway\Request\BuilderInterface;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
+use Magento\Payment\Gateway\Request\BuilderInterface;
 
 class ShippingDataBuild implements BuilderInterface
 {
-    /**
-     * @var \Magento\Customer\Model\ResourceModel\CustomerRepository
-    */
+    /** @var \Magento\Customer\Model\ResourceModel\CustomerRepository */
     private $customerRepository;
 
-    public function __construct(\Magento\Customer\Model\ResourceModel\CustomerRepository $customerRepository)
-    {
+    /** @var \FCamara\Getnet\Model\Config\CreditCardConfig */
+    private $creditCardConfig;
+
+    public function __construct(
+        \Magento\Customer\Model\ResourceModel\CustomerRepository $customerRepository,
+        \FCamara\Getnet\Model\Config\CreditCardConfig $creditCardConfig
+    ) {
         $this->customerRepository = $customerRepository;
+        $this->creditCardConfig = $creditCardConfig;
     }
 
     /**
@@ -54,25 +59,12 @@ class ShippingDataBuild implements BuilderInterface
          */
         $shipping = $order->getShippingAddress();
         $customer = $this->customerRepository->getById($order->getCustomerId());
-//        foreach ($order->getItems() as $item) {
-//            $item->g
-//        }
-        $streetData = ['AAAA',"123", 'BBBB', 'CCCC'];
-        $district = $complement = $number = $street = '';
-
-        if (isset($streetData[0])) {
-            $street = $streetData[0];
-        }
-        if (isset($streetData[1])) {
-            $number = $streetData[1];
-        }
-        if (isset($streetData[2])) {
-            $complement = $streetData[2];
-        }
-        if (isset($streetData[3])) {
-            $district = $streetData[3];
-        }
-
+        $address = $this->getAddressLines($shipping);
+        $street = $address[0];
+        $number = $address[1];
+        $complement = $address[2];
+        $district = $address[3];
+        /** @todo desmocar valor de entrega */
         $shipping_amount = 10000;
 
         $postcode =  $this->cleanZipcode($shipping->getPostcode());
@@ -97,14 +89,28 @@ class ShippingDataBuild implements BuilderInterface
 
         return $response;
     }
-
     /**
      * @param $postcode
      * @return string
      */
-    public function cleanZipcode($postcode)
+    private function cleanZipcode($postcode)
     {
         $postcode = explode("-", $postcode);
         return count($postcode) > 1 ? $postcode[0] . $postcode[1] : $postcode;
+    }
+
+    private function getAddressLines($billingAddress)
+    {
+        $streetPos = $this->creditCardConfig->streetLine() != null ? $this->creditCardConfig->streetLine() + 1 : 0;
+        $numberPos = $this->creditCardConfig->numberLine() != null ? $this->creditCardConfig->numberLine() + 1 : 0;
+        $complementPos = $this->creditCardConfig->complementLine() != null ? $this->creditCardConfig->complementLine() + 1 : 0;
+        $districtPos = $this->creditCardConfig->districtLine() != null ? $this->creditCardConfig->districtLine() + 1 : 0;
+        $positions = [$streetPos, $numberPos, $complementPos, $districtPos];
+        $addressLines = [];
+        foreach ($positions as $position) {
+            $function_pos = "getStreetLine" . $position;
+            $addressLines[] = $billingAddress->$function_pos();
+        }
+        return $addressLines;
     }
 }

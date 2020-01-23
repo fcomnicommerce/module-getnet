@@ -54,9 +54,7 @@ class ShippingDataBuild implements BuilderInterface
         /** @var PaymentDataObjectInterface $paymentDO */
         $paymentDO = $buildSubject['payment'];
         $order = $paymentDO->getOrder();
-        /**
-         * @todo get correct customer adddress
-         */
+
         $shipping = $order->getShippingAddress();
         $customer = $this->customerRepository->getById($order->getCustomerId());
         $address = $this->getAddressLines($shipping);
@@ -64,8 +62,6 @@ class ShippingDataBuild implements BuilderInterface
         $number = $address[1];
         $complement = $address[2];
         $district = $address[3];
-        /** @todo desmocar valor de entrega */
-        $shipping_amount = 10000;
 
         $postcode =  $this->cleanZipcode($shipping->getPostcode());
 
@@ -74,7 +70,7 @@ class ShippingDataBuild implements BuilderInterface
             'name' => $customer->getFirstname() . ' ' . $customer->getLastname(),
             'email' => $customer->getEmail(),
             'phone_number' =>  $shipping->getTelephone(),
-            'shipping_amount' => $shipping_amount,
+            'shipping_amount' => (int) $paymentDO->getPayment()->getOrder()->getShippingAmount() * 100,
             'address' =>[
                 'street' => $street,
                 'number' => $number,

@@ -34,7 +34,7 @@ class GetnetAdapter
         $client = $this->clientFactory->create();
 
         $response = $client->authorize($requestParameters);
-        
+
         return $response;
     }
 

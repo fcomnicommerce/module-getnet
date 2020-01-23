@@ -8,6 +8,13 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
         <payment>
+            <getnet>
+                <street>0</street>
+                <number>1</number>
+                <complement>2</complement>
+                <district>3</district>
+                <document_attribute>taxvat</document_attribute>
+            </getnet>
             <getnet_billet>
                 <debug>1</debug>
                 <active>0</active>

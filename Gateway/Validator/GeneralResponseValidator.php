@@ -28,22 +28,33 @@ class GeneralResponseValidator extends AbstractValidator
         201,
         202
     ];
+
     /**
      * Performs validation of result code
      *
      * @param  array $validationSubject
      * @return ResultInterface
      */
-    public function validate(array $validationSubject)
+    public function validate(array $validationSubject): ResultInterface
     {
+        $isValid    = true;
+        $messages   = [];
+        $errorCodes = [];
+
         if (
             isset($validationSubject['response']) &&
             isset($validationSubject['response']['object']) &&
             isset($validationSubject['response']['object']['status_code']) &&
             !in_array($validationSubject['response']['object']['status_code'], self::successCodes)
         ) {
-            return $this->createResult(false);
+            $isValid = false;
+
+            foreach ($validationSubject['response']['object']['details'] as $detail) {
+                $messages[]     = $detail['description'];
+                $errorCodes[]   = $detail['error_code'];
+            }
         }
-        return $this->createResult(true);
+
+        return $this->createResult($isValid, $messages, $errorCodes);
     }
 }

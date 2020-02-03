@@ -21,12 +21,8 @@ use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 class DeviceDataBuild implements BuilderInterface
 {
     /**
-     * Builds ENV request
-     *
      * @param array $buildSubject
      * @return array
-     * @throws \Magento\Framework\Exception\LocalizedException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function build(array $buildSubject)
     {

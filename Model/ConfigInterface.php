@@ -8,7 +8,7 @@
  *
  * @category  Fcamara
  * @package   Fcamara_Getnet
- * @copyright Copyright (c) 2019 FCamara Formação e Consultoria
+ * @copyright Copyright (c) 2020 Getnet
  * @Agency    FCamara Formação e Consultoria, Inc. (http://www.fcamara.com.br)
  * @author    Jonatan Santos <jonatan.santos@fcamara.com.br>
  */

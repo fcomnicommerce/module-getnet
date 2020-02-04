@@ -8,7 +8,7 @@
  *
  * @category  FCamara
  * @package   FCamara_Getnet
- * @copyright Copyright (c) 2019 FCamara Formação e Consultoria
+ * @copyright Copyright (c) 2020 Getnet
  * @Agency    FCamara Formação e Consultoria, Inc. (http://www.fcamara.com.br)
  * @author    Jonatan Santos <jonatan.santos@fcamara.com.br>
  */
@@ -23,27 +23,44 @@ use Magento\Payment\Gateway\Validator\ResultInterface;
 
 class GeneralResponseValidator extends AbstractValidator
 {
-    const successCodes = [
+    const SUCCESS_CODES = [
         200,
         201,
         202
     ];
+
     /**
      * Performs validation of result code
      *
      * @param  array $validationSubject
      * @return ResultInterface
      */
-    public function validate(array $validationSubject)
+    public function validate(array $validationSubject): ResultInterface
     {
+        $isValid = true;
+        $messages = [];
+        $errorCodes = [];
+
         if (
             isset($validationSubject['response']) &&
             isset($validationSubject['response']['object']) &&
             isset($validationSubject['response']['object']['status_code']) &&
-            !in_array($validationSubject['response']['object']['status_code'], self::successCodes)
+            !in_array($validationSubject['response']['object']['status_code'], self::SUCCESS_CODES)
         ) {
-            return $this->createResult(false);
+            $isValid = false;
+
+            foreach ($validationSubject['response']['object']['details'] as $detail) {
+                $messages[] = $detail['description'];
+
+                if ($detail['error_code'] == 'GENERIC-400') {
+                    $errorCode =  explode('"', $detail['description_detail']);
+                    $errorCodes[] =  $detail['error_code'] . '_' . $errorCode[1];
+                } else {
+                    $errorCodes[] =  $detail['error_code'];
+                }
+            }
         }
-        return $this->createResult(true);
+
+        return $this->createResult($isValid, $messages, $errorCodes);
     }
 }

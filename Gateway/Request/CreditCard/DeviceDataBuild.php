@@ -8,7 +8,7 @@
  *
  * @category  FCamara
  * @package   FCamara_Getnet
- * @copyright Copyright (c) 2019 FCamara Formação e Consultoria
+ * @copyright Copyright (c) 2020 Getnet
  * @Agency    FCamara Formação e Consultoria, Inc. (http://www.fcamara.com.br)
  * @author    Jonatan Santos <jonatan.santos@fcamara.com.br>
  */
@@ -21,12 +21,8 @@ use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 class DeviceDataBuild implements BuilderInterface
 {
     /**
-     * Builds ENV request
-     *
      * @param array $buildSubject
      * @return array
-     * @throws \Magento\Framework\Exception\LocalizedException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function build(array $buildSubject)
     {

@@ -61,5 +61,51 @@
         <message code="PAYMENTS-117" translate="true">Ask the carrier to call the issuer</message>
         <message code="PAYMENTS-118" translate="true">Invalid card or product not enabled</message>
         <message code="PAYMENTS-999" translate="true">Transaction not processed</message>
+
+        <!-- Credit/Debit - 402 Business Error -->
+        <message code="PAYMENTS-001" translate="true">Value not informed</message>
+        <message code="PAYMENTS-002" translate="true">Invalid card</message>
+        <message code="PAYMENTS-003" translate="true">Card expired</message>
+        <message code="PAYMENTS-004" translate="true">Invalid param</message>
+        <message code="PAYMENTS-005" translate="true">Security code is invalid</message>
+        <message code="PAYMENTS-006" translate="true">Invalid flag</message>
+        <message code="PAYMENTS-007" translate="true">Operation not allowed</message>
+        <message code="PAYMENTS-008" translate="true">Invalid data</message>
+        <message code="PAYMENTS-009" translate="true">Minimum installment value is invalid</message>
+        <message code="PAYMENTS-010" translate="true">Invalid number of installments</message>
+        <message code="PAYMENTS-011" translate="true">Number of installments exceeds limit</message>
+        <message code="PAYMENTS-014" translate="true">Installments not allowed</message>
+        <message code="PAYMENTS-022" translate="true">Invalid currency code</message>
+        <message code="PAYMENTS-023" translate="true">Flag does not belong to the network</message>
+        <message code="PAYMENTS-030" translate="true">User authentication error</message>
+        <message code="PAYMENTS-032" translate="true">Denied by the issuer</message>
+        <message code="PAYMENTS-033" translate="true">Invalid establishment</message>
+        <message code="PAYMENTS-034" translate="true">Unauthorized request</message>
+        <message code="PAYMENTS-036" translate="true">Request identification</message>
+        <message code="PAYMENTS-037" translate="true">Transaction in progress</message>
+        <message code="PAYMENTS-038" translate="true">Invalid transaction</message>
+        <message code="PAYMENTS-039" translate="true">Invalid transaction amount</message>
+        <message code="PAYMENTS-041" translate="true">Redo the transaction</message>
+        <message code="PAYMENTS-045" translate="true">Restricted card</message>
+        <message code="PAYMENTS-046" translate="true">Lost card</message>
+        <message code="PAYMENTS-047" translate="true">Stolen card</message>
+        <message code="PAYMENTS-048" translate="true">Card without registration</message>
+        <message code="PAYMENTS-049" translate="true">Transaction not allowed for this customer</message>
+        <message code="PAYMENTS-052" translate="true">Duplicate transaction</message>
+        <message code="PAYMENTS-053" translate="true">Card blocked</message>
+        <message code="PAYMENTS-067" translate="true">Limit value exceeded</message>
+        <message code="PAYMENTS-077" translate="true">Invalid card number</message>
+        <message code="PAYMENTS-096" translate="true">Exceeded credit</message>
+        <message code="PAYMENTS-101" translate="true">Offline authorizer</message>
+        <message code="PAYMENTS-102" translate="true">Customer without credit limit</message>
+        <message code="PAYMENTS-103" translate="true">Transaction not authorized by the authorization network</message>
+        <message code="PAYMENTS-104" translate="true">Integration error</message>
+        <message code="PAYMENTS-105" translate="true">Unauthorized transaction</message>
+        <message code="PAYMENTS-109" translate="true">There is a transaction to confirm</message>
+        <message code="PAYMENTS-112" translate="true">Document does not exist to cancel</message>
+        <message code="PAYMENTS-113" translate="true">Insufficient funds</message>
+        <message code="PAYMENTS-114" translate="true">Exceeds the Approval Amount Limit</message>
+        <message code="PAYMENTS-115" translate="true">Exceeds Withdrawal Frequency Cap</message>
+        <message code="PAYMENTS-116" translate="true">Authorization refused</message>
     </message_list>
 </mapping>

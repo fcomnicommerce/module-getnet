@@ -17,6 +17,49 @@
 
 <mapping xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Payment:etc/error_mapping.xsd">
     <message_list>
-        <message code="GENERIC-400" translate="true">Customer document number is invalid</message>
+        <!-- Credit/Debit Crédito/Débito - 400 Bad Request -->
+        <message code="GENERIC-400_document_number" translate="true">Customer "document_number" is not allowed to be empty</message>
+        <message code="GENERIC-400_district" translate="true">"district" is not allowed to be empty</message>
+        <message code="PAYMENTS-012" translate="true">Entry amount greater than or equal to the transaction amount</message>
+        <message code="PAYMENTS-013" translate="true">Invalid installment value</message>
+        <message code="PAYMENTS-015" translate="true">Contact issuer</message>
+        <message code="PAYMENTS-016" translate="true">Invalid NSU</message>
+        <message code="PAYMENTS-019" translate="true">Invalid card issue date</message>
+        <message code="PAYMENTS-020" translate="true">Invalid expiration date</message>
+        <message code="PAYMENTS-024" translate="true">Transaction undone</message>
+        <message code="PAYMENTS-025" translate="true">Invalid authentication</message>
+        <message code="PAYMENTS-026" translate="true">Invalid authorization</message>
+        <message code="PAYMENTS-029" translate="true">Invalid pre-authorization</message>
+        <message code="PAYMENTS-044" translate="true">Format error</message>
+        <message code="PAYMENTS-050" translate="true">Contact the institution</message>
+        <message code="PAYMENTS-051" translate="true">Negative parameterized response</message>
+        <message code="PAYMENTS-054" translate="true">Pending verification</message>
+        <message code="PAYMENTS-055" translate="true">Transaction canceled</message>
+        <message code="PAYMENTS-056" translate="true">Transaction not allowed in this cycle</message>
+        <message code="PAYMENTS-058" translate="true">Reversed transaction</message>
+        <message code="PAYMENTS-060" translate="true">Card required in the transaction</message>
+        <message code="PAYMENTS-061" translate="true">Generic rejection</message>
+        <message code="PAYMENTS-066" translate="true">Invalid form of payment</message>
+        <message code="PAYMENTS-068" translate="true">Invalid card digit</message>
+        <message code="PAYMENTS-069" translate="true">Repeated transaction</message>
+        <message code="PAYMENTS-070" translate="true">Card number does not match</message>
+        <message code="PAYMENTS-072" translate="true">Non-cancelable transaction</message>
+        <message code="PAYMENTS-073" translate="true">Transaction already canceled</message>
+        <message code="PAYMENTS-078" translate="true">Invalid data at cancellation</message>
+        <message code="PAYMENTS-079" translate="true">Invalid cancellation amount</message>
+        <message code="PAYMENTS-080" translate="true">Invalid Card</message>
+        <message code="PAYMENTS-081" translate="true">Exceeds date</message>
+        <message code="PAYMENTS-082" translate="true">Invalid cancellation</message>
+        <message code="PAYMENTS-083" translate="true">Use the debit function</message>
+        <message code="PAYMENTS-084" translate="true">Use the credit function</message>
+        <message code="PAYMENTS-085" translate="true">Transaction already completed</message>
+        <message code="PAYMENTS-090" translate="true">Unauthorized card transaction</message>
+        <message code="PAYMENTS-091" translate="true">Out of time allowed</message>
+        <message code="PAYMENTS-093" translate="true">Authorization is already being processed</message>
+        <message code="PAYMENTS-094" translate="true">Authorization to confirm receipt</message>
+        <message code="PAYMENTS-098" translate="true">Customer not registered</message>
+        <message code="PAYMENTS-117" translate="true">Ask the carrier to call the issuer</message>
+        <message code="PAYMENTS-118" translate="true">Invalid card or product not enabled</message>
+        <message code="PAYMENTS-999" translate="true">Transaction not processed</message>
     </message_list>
 </mapping>

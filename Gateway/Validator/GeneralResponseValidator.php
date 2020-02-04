@@ -23,7 +23,7 @@ use Magento\Payment\Gateway\Validator\ResultInterface;
 
 class GeneralResponseValidator extends AbstractValidator
 {
-    const successCodes = [
+    const SUCCESS_CODE = [
         200,
         201,
         202
@@ -37,21 +37,27 @@ class GeneralResponseValidator extends AbstractValidator
      */
     public function validate(array $validationSubject): ResultInterface
     {
-        $isValid    = true;
-        $messages   = [];
+        $isValid = true;
+        $messages = [];
         $errorCodes = [];
 
         if (
             isset($validationSubject['response']) &&
             isset($validationSubject['response']['object']) &&
             isset($validationSubject['response']['object']['status_code']) &&
-            !in_array($validationSubject['response']['object']['status_code'], self::successCodes)
+            !in_array($validationSubject['response']['object']['status_code'], self::SUCCESS_CODE)
         ) {
             $isValid = false;
 
             foreach ($validationSubject['response']['object']['details'] as $detail) {
-                $messages[]     = $detail['description'];
-                $errorCodes[]   = $detail['error_code'];
+                $messages[] = $detail['description'];
+
+                if ($detail['error_code'] == 'GENERIC-400') {
+                    $errorCode =  explode('"', $detail['description_detail']);
+                    $errorCodes[] =  $detail['error_code'] . '_' . $errorCode[1];
+                } else {
+                    $errorCodes[] =  $detail['error_code'];
+                }
             }
         }
 

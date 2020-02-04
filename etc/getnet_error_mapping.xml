@@ -18,8 +18,8 @@
 <mapping xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Payment:etc/error_mapping.xsd">
     <message_list>
         <!-- Credit/Debit Crédito/Débito - 400 Bad Request -->
-        <message code="GENERIC-400_document_number" translate="true">Customer "document_number" is not allowed to be empty</message>
-        <message code="GENERIC-400_district" translate="true">"district" is not allowed to be empty</message>
+        <message code="GENERIC-400_document_number" translate="true">Customer document number is not allowed to be empty</message>
+        <message code="GENERIC-400_district" translate="true">District is not allowed to be empty</message>
         <message code="PAYMENTS-012" translate="true">Entry amount greater than or equal to the transaction amount</message>
         <message code="PAYMENTS-013" translate="true">Invalid installment value</message>
         <message code="PAYMENTS-015" translate="true">Contact issuer</message>

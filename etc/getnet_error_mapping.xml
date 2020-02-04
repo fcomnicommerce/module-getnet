@@ -126,5 +126,8 @@
         <message code="PAYMENTS-100" translate="true">Disconnected channel</message>
         <message code="PAYMENTS-107" translate="true">Comunication error</message>
         <message code="PAYMENTS-500" translate="true">Internal Server Error</message>
+
+        <!-- Credit/Debit - 503 Service Unavailable -->
+        <message code="PAYMENTS-021" translate="true">Sender System unavailable - Try again</message>
     </message_list>
 </mapping>

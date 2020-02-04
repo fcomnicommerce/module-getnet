@@ -113,5 +113,18 @@
         <message code="PAYMENTS-057" translate="true">Transaction does not exist</message>
         <message code="PAYMENTS-076" translate="true">Transaction not available</message>
         <message code="PAYMENTS-095" translate="true">Authorization not found</message>
+
+        <!-- Credit/Debit - 500 Internal Server Error -->
+        <message code="PAYMENTS-042" translate="true">Invalid response</message>
+        <message code="PAYMENTS-059" translate="true">Local network problem</message>
+        <message code="PAYMENTS-062" translate="true">Institution temporarily out of operation</message>
+        <message code="PAYMENTS-063" translate="true">System malfunction</message>
+        <message code="PAYMENTS-064" translate="true">Database error</message>
+        <message code="PAYMENTS-071" translate="true">Authorizer temporarily blocked</message>
+        <message code="PAYMENTS-086" translate="true">Transaction error</message>
+        <message code="PAYMENTS-099" translate="true">Authorizer not initialized</message>
+        <message code="PAYMENTS-100" translate="true">Disconnected channel</message>
+        <message code="PAYMENTS-107" translate="true">Comunication error</message>
+        <message code="PAYMENTS-500" translate="true">Internal Server Error</message>
     </message_list>
 </mapping>

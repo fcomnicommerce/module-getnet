@@ -133,5 +133,37 @@
         <!-- Credit/Debit - 504 Gateway Timeout -->
         <message code="PAYMENTS-031" translate="true">Timeout</message>
         <message code="PAYMENTS-089" translate="true">Internal Timeout</message>
+
+        <!-- Billet - 402 Business Error (In Testing) -->
+
+        <!-- Denied by Anti-Fraud -->
+        <message code="fraud" translate="true">Transaction denied by security rule of the Anti-Fraud system</message>
+        <message code="200" translate="true">Transaction denied by security rule of the Anti-Fraud system</message>
+        <message code="250" translate="true">Transaction denied by security rule of the Anti-Fraud system</message>
+        <message code="0700" translate="true">Transaction denied by security rule of the Anti-Fraud system</message>
+        <message code="2000" translate="true">Transaction denied by security rule of the Anti-Fraud system</message>
+        <message code="480" translate="true">Transaction denied by security rule of the Anti-Fraud system</message>
+        <message code="481" translate="true">Transaction denied by security rule of the Anti-Fraud system</message>
+        <message code="0150" translate="true">Transaction sent with field "amount" filled with null or invalid</message>
+        <message code="0902" translate="true">Transaction sent with the "required" field filled with a null or invalid value</message>
+        <message code="101" translate="true">Transaction sent with the "required" field filled with a null or invalid value</message>
+        <message code="102" translate="true">Transaction sent with the "required" field filled with a null or invalid value</message>
+        <message code="231" translate="true">Credit card details incorrectly filled</message>
+        <message code="0400" translate="true">Credit card details incorrectly filled</message>
+        <message code="202" translate="true">Credit card details incorrectly filled</message>
+        <message code="400" translate="true">Credit card issuer did not approve the transaction</message>
+        <message code="0330" translate="true">Credit card issuer did not approve the transaction</message>
+        <message code="0500" translate="true">Credit card issuer did not approve the transaction</message>
+        <message code="0600" translate="true">Credit card issuer did not approve the transaction</message>
+        <message code="1300" translate="true">Credit card issuer did not approve the transaction</message>
+        <message code="0800" translate="true">Credit card issuer did not approve the transaction</message>
+        <message code="234" translate="true">Unavailability in the Anti-Fraud system. Contact GetNet</message>
+        <message code="0901" translate="true">Unavailability in the Anti-Fraud system. Contact GetNet</message>
+        <message code="0000" translate="true">Unavailability in the Anti-Fraud system. Contact GetNet</message>
+        <message code="0903" translate="true">Unavailability in the Anti-Fraud system. Contact GetNet</message>
+        <message code="150" translate="true">Unavailability in the Anti-Fraud system. Contact GetNet</message>
+        <message code="151" translate="true">Unavailability in the Anti-Fraud system. Contact GetNet</message>
+        <message code="121" translate="true">Unavailability in the Anti-Fraud system. Contact GetNet</message>
+        <message code="500" translate="true">Unavailability in the Anti-Fraud system. Contact GetNet</message>
     </message_list>
 </mapping>

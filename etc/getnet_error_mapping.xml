@@ -129,5 +129,9 @@
 
         <!-- Credit/Debit - 503 Service Unavailable -->
         <message code="PAYMENTS-021" translate="true">Sender System unavailable - Try again</message>
+
+        <!-- Credit/Debit - 504 Gateway Timeout -->
+        <message code="PAYMENTS-031" translate="true">Timeout</message>
+        <message code="PAYMENTS-089" translate="true">Internal Timeout</message>
     </message_list>
 </mapping>

@@ -107,5 +107,11 @@
         <message code="PAYMENTS-114" translate="true">Exceeds the Approval Amount Limit</message>
         <message code="PAYMENTS-115" translate="true">Exceeds Withdrawal Frequency Cap</message>
         <message code="PAYMENTS-116" translate="true">Authorization refused</message>
+
+        <!-- Credit/Debit - 404 Not Found -->
+        <message code="PAYMENTS-043" translate="true">Register not found</message>
+        <message code="PAYMENTS-057" translate="true">Transaction does not exist</message>
+        <message code="PAYMENTS-076" translate="true">Transaction not available</message>
+        <message code="PAYMENTS-095" translate="true">Authorization not found</message>
     </message_list>
 </mapping>

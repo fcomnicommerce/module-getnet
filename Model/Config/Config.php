@@ -218,4 +218,49 @@ class Config implements ConfigInterface
             ScopeInterface::SCOPE_STORE
         );
     }
+
+    /**
+     * @return mixed
+     */
+    public function fingerprintOrgId()
+    {
+        if ($this->environment() == \FCamara\Getnet\Model\Adminhtml\Source\Environment::SANDBOX_ENVIRONMENT) {
+            return $this->fingerprintSandboxOrgId();
+        }
+
+        return $this->fingerprintProductionOrgId();
+    }
+
+    /**
+     * @return mixed|string
+     */
+    public function fingerprintEndpoint()
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_FINGERPRINT_ENDPOINT,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * @return mixed
+     */
+    public function fingerprintSandboxOrgId()
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_FINGERPRINT_SANDBOX_ORG_ID,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * @return mixed
+     */
+    public function fingerprintProductionOrgId()
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_FINGERPRINT_PRODUCTION_ORG_ID,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
 }

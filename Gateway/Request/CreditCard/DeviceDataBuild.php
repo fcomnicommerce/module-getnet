@@ -21,6 +21,17 @@ use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 class DeviceDataBuild implements BuilderInterface
 {
     /**
+     * @var \Magento\Customer\Model\Session
+     */
+    private $customerSession;
+
+    public function __construct(
+        \Magento\Customer\Model\Session $customerSession
+    ) {
+        $this->customerSession = $customerSession;
+    }
+
+    /**
      * @param array $buildSubject
      * @return array
      */
@@ -39,7 +50,7 @@ class DeviceDataBuild implements BuilderInterface
         $response = [
             'device' => [
                 'ip_address' => $order->getRemoteIp(),
-                'device_id' => 'hash-device-id',
+                'device_id' => $this->customerSession->getSessionId(),
             ]
         ];
 

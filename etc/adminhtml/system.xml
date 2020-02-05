@@ -36,6 +36,24 @@
                         </depends>
                         <config_path>payment/getnet/production_endpoint</config_path>
                     </field>
+                    <field id="fingerprint_endpoint" translate="label" type="text" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Fingerprint Endpoint</label>
+                        <config_path>payment/getnet/fingerprint_endpoint</config_path>
+                    </field>
+                    <field id="fingerprint_sandbox_org_id" translate="label" type="text" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Fingerprint Sandbox Org Id</label>
+                        <depends>
+                            <field id="environment">sandbox</field>
+                        </depends>
+                        <config_path>payment/getnet/fingerprint_sandbox_org_id</config_path>
+                    </field>
+                    <field id="fingerprint_production_org_id" translate="label" type="text" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Fingerprint Production Org Id</label>
+                        <depends>
+                            <field id="environment">production</field>
+                        </depends>
+                        <config_path>payment/getnet/fingerprint_production_org_id</config_path>
+                    </field>
                     <group id="cpf_cnpj_settings" translate="label" type="text" sortOrder="400" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>CPF/CNPJ</label>
                         <field id="cpf_same_as_cnpj" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="140" translate="label" type="select">
@@ -90,14 +108,6 @@
                             <label>District Line</label>
                             <source_model>FCamara\Getnet\Model\Adminhtml\Source\StreetLine</source_model>
                             <config_path>payment/getnet/district</config_path>
-                        </field>
-                    </group>
-                    <group id="device_fingerprint_settings" translate="label" type="text" sortOrder="600" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Device Fingerprint</label>
-                        <field id="environment_device_fingerprint" translate="label" type="select" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
-                            <label>Environment</label>
-                            <source_model>FCamara\Getnet\Model\Adminhtml\Source\EnvironmentDeviceFingerprint</source_model>
-                            <config_path>payment/getnet/environment_device_fingerprint</config_path>
                         </field>
                     </group>
                 </group>

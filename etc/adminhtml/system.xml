@@ -96,7 +96,7 @@
                         <label>Device Fingerprint</label>
                         <field id="environment_device_fingerprint" translate="label" type="select" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Environment</label>
-                            <source_model>FCamara\Getnet\Model\Adminhtml\Source\Environment</source_model>
+                            <source_model>FCamara\Getnet\Model\Adminhtml\Source\EnvironmentDeviceFingerprint</source_model>
                             <config_path>payment/getnet/environment_device_fingerprint</config_path>
                         </field>
                     </group>

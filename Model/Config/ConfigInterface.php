@@ -94,6 +94,11 @@ interface ConfigInterface
     const XML_PATH_DISTRICT = 'payment/getnet/district';
 
     /**
+     * Api environment device fingerprint config path
+     */
+    const XML_PATH_ENVIRONMENT_DEVICE_FINGERPRINT = 'payment/getnet/environment_device_fingerprint';
+
+    /**
      * Check if getnet module is enabled
      *
      * @return bool
@@ -228,4 +233,11 @@ interface ConfigInterface
      * @since 102.0.3
      */
     public function authenticationEndpoint();
+
+    /**
+     * Return environment device fingerprint
+     *
+     * @return mixed
+     */
+    public function environmentDeviceFingerprint();
 }

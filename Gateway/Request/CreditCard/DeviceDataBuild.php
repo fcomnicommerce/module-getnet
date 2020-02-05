@@ -21,6 +21,17 @@ use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 class DeviceDataBuild implements BuilderInterface
 {
     /**
+     * @var \FCamara\Getnet\Model\Config\CreditCardConfig
+     */
+    private $creditCardConfig;
+
+    public function __construct(
+        \FCamara\Getnet\Model\Config\CreditCardConfig $creditCardConfig
+    ) {
+        $this->creditCardConfig = $creditCardConfig;
+    }
+
+    /**
      * @param array $buildSubject
      * @return array
      */

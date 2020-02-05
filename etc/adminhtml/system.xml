@@ -2,7 +2,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
         <tab id="getnet" sortOrder="999" translate="label">
-            <label>pagar.me</label>
+            <label>getnet</label>
         </tab>
         <section id="payment" showInDefault="1" showInStore="1" showInWebsite="1" translate="label">
             <group id="getnet" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
@@ -90,6 +90,14 @@
                             <label>District Line</label>
                             <source_model>FCamara\Getnet\Model\Adminhtml\Source\StreetLine</source_model>
                             <config_path>payment/getnet/district</config_path>
+                        </field>
+                    </group>
+                    <group id="device_fingerprint_settings" translate="label" type="text" sortOrder="600" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Device Fingerprint</label>
+                        <field id="environment_device_fingerprint" translate="label" type="select" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Environment</label>
+                            <source_model>FCamara\Getnet\Model\Adminhtml\Source\Environment</source_model>
+                            <config_path>payment/getnet/environment_device_fingerprint</config_path>
                         </field>
                     </group>
                 </group>

@@ -218,4 +218,15 @@ class Config implements ConfigInterface
             ScopeInterface::SCOPE_STORE
         );
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function environmentDeviceFingerprint()
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_ENVIRONMENT_DEVICE_FINGERPRINT,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
 }

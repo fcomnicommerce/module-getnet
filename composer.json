@@ -8,7 +8,7 @@
     "suggest": {
     },
     "type": "magento2-module",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "license": [
 
     ],
@@ -19,13 +19,5 @@
         "psr-4": {
             "FCamara\\Getnet\\": ""
         }
-    },
-    "extra": {
-        "map": [
-            [
-                "*",
-                "FCamara/Getnet"
-            ]
-        ]
     }
 }

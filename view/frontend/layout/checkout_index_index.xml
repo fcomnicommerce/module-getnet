@@ -7,10 +7,14 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
+        <referenceContainer name="content">
+            <block name="fingerprint" template="FCamara_Getnet::fingerprint.phtml" before="-" cacheable="false">
+                <arguments>
+                    <argument name="fingerprint" xsi:type="object">FCamara\Getnet\ViewModel\Fingerprint</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
         <referenceBlock name="checkout.root">
-            <action method="setTemplate">
-                <argument name="template" xsi:type="string">FCamara_Getnet::checkout/onepage.phtml</argument>
-            </action>
             <arguments>
                 <argument name="jsLayout" xsi:type="array">
                     <item name="components" xsi:type="array">

@@ -21,14 +21,14 @@ use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 class DeviceDataBuild implements BuilderInterface
 {
     /**
-     * @var \FCamara\Getnet\Model\Config\CreditCardConfig
+     * @var \Magento\Customer\Model\Session
      */
-    private $creditCardConfig;
+    private $customerSession;
 
     public function __construct(
-        \FCamara\Getnet\Model\Config\CreditCardConfig $creditCardConfig
+        \Magento\Customer\Model\Session $customerSession
     ) {
-        $this->creditCardConfig = $creditCardConfig;
+        $this->customerSession = $customerSession;
     }
 
     /**
@@ -50,7 +50,7 @@ class DeviceDataBuild implements BuilderInterface
         $response = [
             'device' => [
                 'ip_address' => $order->getRemoteIp(),
-                'device_id' => 'hash-device-id',
+                'device_id' => $this->customerSession->getSessionId(),
             ]
         ];
 

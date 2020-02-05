@@ -8,10 +8,8 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="content">
-            <block name="fingerprint" template="FCamara_Getnet::fingerprint.phtml" before="-" cacheable="false">
-                <arguments>
-                    <argument name="fingerprint" xsi:type="object">FCamara\Getnet\ViewModel\Fingerprint</argument>
-                </arguments>
+            <block name="fingerprint" class="FCamara\Getnet\Block\Fingerprint" template="FCamara_Getnet::fingerprint.phtml" before="-" cacheable="false">
+
             </block>
         </referenceContainer>
         <referenceBlock name="checkout.root">

@@ -13,12 +13,13 @@
  * @author    Danilo Cavalcanti de Moura <danilo.moura@fcamara.com.br>
  */
 
-namespace FCamara\Getnet\ViewModel;
+namespace FCamara\Getnet\Block;
 
-use Magento\Framework\View\Element\Block\ArgumentInterface;
+use Magento\Framework\View\Element\Template;
 use FCamara\Getnet\Model\Config\Config;
+use Magento\Customer\Model\Session;
 
-class Fingerprint implements ArgumentInterface
+class Fingerprint extends Template
 {
     /**
      * @var \Magento\Customer\Model\Session
@@ -32,15 +33,18 @@ class Fingerprint implements ArgumentInterface
 
     /**
      * Fingerprint constructor.
+     * @param Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param Config $configGetnet
      */
     public function __construct(
-        \Magento\Customer\Model\Session $customerSession,
+        Template\Context $context,
+        Session $customerSession,
         Config $configGetnet
     ) {
         $this->customerSession = $customerSession;
         $this->configGetnet = $configGetnet;
+        parent::__construct($context);
     }
 
     /**

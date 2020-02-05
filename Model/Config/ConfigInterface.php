@@ -54,6 +54,21 @@ interface ConfigInterface
     const XML_PATH_PRODUCTION_ENDPOINT = 'payment/getnet/production_endpoint';
 
     /**
+     * Api fingerprint endpoint
+     */
+    const XML_PATH_FINGERPRINT_ENDPOINT = 'payment/getnet/fingerprint_endpoint';
+
+    /**
+     * Api fingerprint sandbox param ord_id
+     */
+    const XML_PATH_FINGERPRINT_SANDBOX_ORG_ID = 'payment/getnet/fingerprint_sandbox_org_id';
+
+    /**
+     * Api fingerprint production param ord_id
+     */
+    const XML_PATH_FINGERPRINT_PRODUCTION_ORG_ID = 'payment/getnet/fingerprint_production_org_id';
+
+    /**
      * Check if CPF is the same as CNPJ
      */
     const XML_PATH_CPF_SAME_AS_CNPJ = 'payment/getnet/cpf_same_as_cnpj';
@@ -228,4 +243,26 @@ interface ConfigInterface
      * @since 102.0.3
      */
     public function authenticationEndpoint();
+
+    /**
+     * Return fingerprint endpoint
+     *
+     * @return string
+     * @since 102.0.3
+     */
+    public function fingerprintEndpoint();
+
+    /**
+     * Return fingerprint sandbox param org_id
+     *
+     * @return mixed
+     */
+    public function fingerprintSandboxOrgId();
+
+    /**
+     * Return fingerprint production param org_id
+     *
+     * @return mixed
+     */
+    public function fingerprintProductionOrgId();
 }

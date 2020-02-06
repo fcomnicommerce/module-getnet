@@ -43,7 +43,7 @@
             </getnet_credit_card>
             <getnet_debit_card>
                 <debug>1</debug>
-                <active>1</active>
+                <active>0</active>
                 <cvv_enabled>1</cvv_enabled>
                 <model>GetnetGatewayDebitCardFacade</model>
                 <order_status>pending_payment</order_status>

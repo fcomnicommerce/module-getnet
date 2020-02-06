@@ -263,4 +263,15 @@ class Config implements ConfigInterface
             ScopeInterface::SCOPE_STORE
         );
     }
+
+    /**
+     * @return mixed
+     */
+    public function isEnabledFingerprint()
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_ENABLED_FINGERPRINT,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
 }

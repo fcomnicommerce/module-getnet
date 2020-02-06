@@ -17,6 +17,8 @@ namespace FCamara\Getnet\Gateway\Request\CreditCard;
 
 use Magento\Payment\Gateway\Request\BuilderInterface;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
+use FCamara\Getnet\Model\Config\Config;
+use \Magento\Customer\Model\Session;
 
 class DeviceDataBuild implements BuilderInterface
 {
@@ -25,10 +27,22 @@ class DeviceDataBuild implements BuilderInterface
      */
     private $customerSession;
 
+    /**
+     * @var  FCamara\Getnet\Model\Config\Config
+     */
+    private $configGetnet;
+
+    /**
+     * DeviceDataBuild constructor.
+     * @param Session $customerSession
+     * @param Config $configGetnet
+     */
     public function __construct(
-        \Magento\Customer\Model\Session $customerSession
+        Session $customerSession,
+        Config $configGetnet
     ) {
         $this->customerSession = $customerSession;
+        $this->configGetnet = $configGetnet;
     }
 
     /**
@@ -50,7 +64,7 @@ class DeviceDataBuild implements BuilderInterface
         $response = [
             'device' => [
                 'ip_address' => $order->getRemoteIp(),
-                'device_id' => $this->customerSession->getSessionId(),
+                'device_id' => $this->configGetnet->isEnabledFingerprint() ? $this->customerSession->getSessionId() : 'hash-device-id',
             ]
         ];
 

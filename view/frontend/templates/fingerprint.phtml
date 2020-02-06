@@ -13,11 +13,13 @@
  * @author    Danilo Cavalcanti de Moura <danilo.moura@fcamara.com.br>
  */
 ?>
-<noscript>
-    <iframe
-            style="width: 100px; height: 100px; border: 0; position:absolute; top: -5000px;"
-            src="<?= $block->getFingerprinEndpoint() ?>">
-    </iframe>
-</noscript>
+<?php if ($block->isEnabledFingerprint()): ?>
+    <noscript>
+        <iframe
+                style="width: 100px; height: 100px; border: 0; position:absolute; top: -5000px;"
+                src="<?= $block->getFingerprinEndpoint() ?>">
+        </iframe>
+    </noscript>
+<?php endif;?>
 
 

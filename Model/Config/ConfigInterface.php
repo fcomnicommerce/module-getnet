@@ -109,6 +109,12 @@ interface ConfigInterface
     const XML_PATH_DISTRICT = 'payment/getnet/district';
 
     /**
+     * Enabled config path figerprint
+     */
+
+    const XML_PATH_ENABLED_FINGERPRINT = 'payment/getnet/enabled_fingerprint';
+
+    /**
      * Check if getnet module is enabled
      *
      * @return bool
@@ -265,4 +271,11 @@ interface ConfigInterface
      * @return mixed
      */
     public function fingerprintProductionOrgId();
+
+    /**
+     * Return fingerprint is enabled
+     *
+     * @return mixed
+     */
+    public function isEnabledFingerprint();
 }

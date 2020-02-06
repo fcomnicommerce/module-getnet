@@ -62,4 +62,11 @@ class Fingerprint extends Template
         return str_replace(' ', '', $endpoint);
     }
 
+    /**
+     * @return mixed
+     */
+    public function isEnabledFingerprint()
+    {
+        return $this->configGetnet->isEnabledFingerprint();
+    }
 }

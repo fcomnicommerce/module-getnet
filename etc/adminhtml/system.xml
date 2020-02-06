@@ -36,20 +36,31 @@
                         </depends>
                         <config_path>payment/getnet/production_endpoint</config_path>
                     </field>
-                    <field id="fingerprint_endpoint" translate="label" type="text" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <field id="enabled_fingerprint" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="140" translate="label" type="select">
+                        <label>Enabled Fingerprint</label>
+                        <comment />
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/getnet/enabled_fingerprint</config_path>
+                    </field>
+                    <field id="fingerprint_endpoint" translate="label" type="text" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Fingerprint Endpoint</label>
+                        <depends>
+                            <field id="enabled_fingerprint">1</field>
+                        </depends>
                         <config_path>payment/getnet/fingerprint_endpoint</config_path>
                     </field>
-                    <field id="fingerprint_sandbox_org_id" translate="label" type="text" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <field id="fingerprint_sandbox_org_id" translate="label" type="text" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Fingerprint Sandbox Org Id</label>
                         <depends>
+                            <field id="enabled_fingerprint">1</field>
                             <field id="environment">sandbox</field>
                         </depends>
                         <config_path>payment/getnet/fingerprint_sandbox_org_id</config_path>
                     </field>
-                    <field id="fingerprint_production_org_id" translate="label" type="text" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <field id="fingerprint_production_org_id" translate="label" type="text" sortOrder="170" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Fingerprint Production Org Id</label>
                         <depends>
+                            <field id="enabled_fingerprint">1</field>
                             <field id="environment">production</field>
                         </depends>
                         <config_path>payment/getnet/fingerprint_production_org_id</config_path>

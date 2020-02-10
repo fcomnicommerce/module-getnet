@@ -268,6 +268,7 @@
         <arguments>
             <argument name="handlers" xsi:type="array">
                 <item name="payment_id" xsi:type="string">FCamara\Getnet\Gateway\Response\PaymentIdHandler</item>
+                <item name="vault_details" xsi:type="string">FCamara\Getnet\Gateway\Response\VaultDetailsHandler</item>
             </argument>
         </arguments>
     </virtualType>
@@ -380,6 +381,7 @@
             <argument name="handlers" xsi:type="array">
                 <item name="txnid" xsi:type="string">FCamara\Getnet\Gateway\Response\DebitCard\TxnIdHandler</item>
                 <item name="fraud" xsi:type="string">FCamara\Getnet\Gateway\Response\DebitCard\FraudHandler</item>
+                <item name="vault_details" xsi:type="string">FCamara\Getnet\Gateway\Response\VaultDetailsHandler</item>
             </argument>
         </arguments>
     </virtualType>
@@ -503,5 +505,13 @@
             </argument>
         </arguments>
     </type>
+
+    <!-- Value handlers infrastructure -->
+    <type name="FCamara\Getnet\Gateway\Response\VaultDetailsHandler">
+        <arguments>
+            <argument name="paymentTokenFactory" xsi:type="object">Magento\Vault\Api\Data\PaymentTokenFactoryInterface</argument>
+        </arguments>
+    </type>
+
     <!-- END Configuration for Vault payments -->
 </config>

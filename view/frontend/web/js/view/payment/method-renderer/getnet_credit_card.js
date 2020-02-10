@@ -9,9 +9,10 @@ define(
         'jquery',
         'Magento_Payment/js/view/payment/cc-form',
         'Magento_Payment/js/model/credit-card-validation/credit-card-data',
-        'card'
+        'card',
+        'Magento_Vault/js/view/payment/vault-enabler'
     ],
-    function ($, Component, card) {
+    function ($, Component, card, VaultEnabler) {
         'use strict';
 
         return Component.extend({
@@ -33,6 +34,24 @@ define(
                 creditCardVerificationNumber: '',
                 creditCardInstallment: '',
                 selectedCardType: null
+            },
+
+            /**
+             * @returns {exports.initialize}
+             */
+            initialize: function () {
+                var self = this;
+
+                self._super();
+                self.vaultEnabler = new VaultEnabler();
+                self.vaultEnabler.setPaymentCode(self.getVaultCode());
+
+                kount.getDeviceData()
+                    .then(function (deviceData) {
+                        self.additionalData['device_data'] = deviceData;
+                    });
+
+                return self;
             },
 
             initObservable: function () {
@@ -128,7 +147,8 @@ define(
                     exp_year = expiryArray[1];
                     exp_year = exp_year.trim();
                 }
-                return {
+
+                var data = {
                     'method': this.item.method,
                     'additional_data': {
                         'cc_cid': this.creditCardVerificationNumber(),
@@ -141,6 +161,27 @@ define(
                         'cc_installment': this.creditCardInstallment()
                     }
                 };
+
+                data['additional_data'] = _.extend(data['additional_data'], this.additionalData);
+                this.vaultEnabler.visitAdditionalData(data);
+
+                return data;
+            },
+
+            /**
+             * @returns {Boolean}
+             */
+            isVaultEnabled: function () {
+                return this.vaultEnabler.isVaultEnabled();
+            },
+
+            /**
+             * Returns vault code.
+             *
+             * @returns {String}
+             */
+            getVaultCode: function () {
+                return window.checkoutConfig.payment[this.getCode()].ccVaultCode;
             },
 
             /**

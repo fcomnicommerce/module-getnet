@@ -200,6 +200,7 @@
                 <item name="device" xsi:type="string">FCamara\Getnet\Gateway\Request\CreditCard\DeviceDataBuild</item>
                 <item name="shipping" xsi:type="string">FCamara\Getnet\Gateway\Request\CreditCard\ShippingDataBuild</item>
                 <item name="credit" xsi:type="string">FCamara\Getnet\Gateway\Request\CreditCard\CreditDataAuthorizationBuild</item>
+                <item name="vault" xsi:type="string">FCamara\Getnet\Gateway\Request\VaultDataBuilder</item>
             </argument>
         </arguments>
     </virtualType>
@@ -362,6 +363,7 @@
             <argument name="builders" xsi:type="array">
                 <item name="data" xsi:type="string">FCamara\Getnet\Gateway\Request\DebitCard\DataRequest</item>
                 <item name="transaction" xsi:type="string">FCamara\Getnet\Gateway\Request\DebitCard\AuthorizationRequest</item>
+                <item name="vault" xsi:type="string">FCamara\Getnet\Gateway\Request\VaultDataBuilder</item>
             </argument>
         </arguments>
     </virtualType>
@@ -451,7 +453,6 @@
                 <item name="device" xsi:type="string">FCamara\Getnet\Gateway\Request\CreditCard\DeviceDataBuild</item>
                 <item name="shipping" xsi:type="string">FCamara\Getnet\Gateway\Request\CreditCard\ShippingDataBuild</item>
                 <item name="credit" xsi:type="string">FCamara\Getnet\Gateway\Request\CreditCard\CreditDataAuthorizationBuild</item>
-                <item name="vault" xsi:type="string">FCamara\Getnet\Gateway\Request\VaultDataBuilder</item>
             </argument>
         </arguments>
     </virtualType>

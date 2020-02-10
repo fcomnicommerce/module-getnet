@@ -3,7 +3,8 @@
     "description": "",
     "require": {
         "php": "~7.1.3||~7.2.0",
-        "magento/magento-composer-installer": "*"
+        "magento/magento-composer-installer": "*",
+        "magento/module-vault": "101.1.*"
     },
     "suggest": {
     },

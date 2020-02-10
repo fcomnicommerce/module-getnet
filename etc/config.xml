@@ -61,6 +61,7 @@
                 <getnet_cc_vault>
                     <model>GetnetCreditCardVaultFacade</model>
                     <title>Stored Cards (Getnet)</title>
+                    <can_authorize_vault>1</can_authorize_vault>
                 </getnet_cc_vault>
             </getnet>
         </payment>

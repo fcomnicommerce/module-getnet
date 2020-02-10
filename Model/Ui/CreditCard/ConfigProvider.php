@@ -24,6 +24,8 @@ class ConfigProvider implements ConfigProviderInterface, ConfigInterface
 {
     const CODE = 'getnet_credit_card';
 
+    const CC_VAULT_CODE = 'getnet_cc_vault';
+
     /**
      * @var ScopeConfigInterface
      */

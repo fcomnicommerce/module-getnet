@@ -430,7 +430,7 @@
         <arguments>
             <argument name="config" xsi:type="object">GetnetVaultPaymentConfig</argument>
             <argument name="valueHandlerPool" xsi:type="object">GetnetVaultPaymentValueHandlerPool</argument>
-            <argument name="vaultProvider" xsi:type="object">GetnetFacade</argument>
+            <argument name="vaultProvider" xsi:type="object">GetnetGatewayCreditCardFacade</argument>
             <argument name="code" xsi:type="const">FCamara\Getnet\Model\Ui\CreditCard\ConfigProvider::CC_VAULT_CODE</argument>
         </arguments>
     </virtualType>
@@ -446,7 +446,7 @@
             <argument name="errorMessageMapper" xsi:type="object">FCamara\Getnet\Gateway\ErrorMapper\VirtualErrorMessageMapper</argument>
         </arguments>
     </virtualType>
-    <virtualType name="GetnetVaultAuthorizeRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+    <virtualType name="GetnetVaultAuthorizeRequest" type="VaultDataBuilder">
         <arguments>
             <argument name="builders" xsi:type="array">
                 <item name="general" xsi:type="string">FCamara\Getnet\Gateway\Request\CreditCard\GeneralDataBuild</item>

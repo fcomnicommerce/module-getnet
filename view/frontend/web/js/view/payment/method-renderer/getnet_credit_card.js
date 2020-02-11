@@ -10,9 +10,10 @@ define(
         'Magento_Payment/js/view/payment/cc-form',
         'Magento_Payment/js/model/credit-card-validation/credit-card-data',
         'card',
-        'Magento_Vault/js/view/payment/vault-enabler'
+        'Magento_Vault/js/view/payment/vault-enabler',
+        'Magento_Braintree/js/view/payment/kount'
     ],
-    function ($, Component, cardData, card, VaultEnabler) {
+    function ($, Component, cardData, card, VaultEnabler, kount) {
         'use strict';
 
         return Component.extend({

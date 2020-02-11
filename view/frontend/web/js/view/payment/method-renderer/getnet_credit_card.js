@@ -10,14 +10,12 @@ define(
         'Magento_Payment/js/view/payment/cc-form',
         'Magento_Payment/js/model/credit-card-validation/credit-card-data',
         'card',
-        'Magento_Vault/js/view/payment/vault-enabler',
-        'Magento_Braintree/js/view/payment/kount'
+        'Magento_Vault/js/view/payment/vault-enabler'
     ],
-    function ($, Component, cardData, card, VaultEnabler, kount) {
+    function ($, Component, card, VaultEnabler) {
         'use strict';
 
         return Component.extend({
-
             /**
              * @returns {exports.initialize}
              */
@@ -25,13 +23,8 @@ define(
                 var self = this;
 
                 self._super();
-                self.vaultEnabler = new VaultEnabler();
-                self.vaultEnabler.setPaymentCode(self.getVaultCode());
-
-                kount.getDeviceData()
-                    .then(function (deviceData) {
-                        self.additionalData['device_data'] = deviceData;
-                    });
+                this.vaultEnabler = new VaultEnabler();
+                this.vaultEnabler.setPaymentCode(this.getVaultCode());
 
                 return self;
             },
@@ -101,27 +94,27 @@ define(
                 return [
                     {
                         'value': '1',
-                        'installment': '1 vez',
+                        'installment': '1',
                     },
                     {
                         'value': '2',
-                        'installment': '2 vezes',
+                        'installment': '2',
                     },
                     {
                         'value': '3',
-                        'installment': '3 vezes',
+                        'installment': '3',
                     },
                     {
                         'value': '4',
-                        'installment': '4 vezes',
+                        'installment': '4',
                     },
                     {
                         'value': '5',
-                        'installment': '5 vezes',
+                        'installment': '5',
                     },
                     {
                         'value': '6',
-                        'installment': '6 vezes',
+                        'installment': '6',
                     },
                 ];
             },
@@ -143,15 +136,8 @@ define(
                 let expiryArray = creditCardExpiry.split("/");
                 let exp_year = '';
                 let exp_month = '';
-                if(expiryArray.length === 2) {
-                    exp_month = expiryArray[0];
-                    exp_month = exp_month.trim();
-                    exp_year = expiryArray[1];
-                    exp_year = exp_year.trim();
-                }
-
-                var data = {
-                    'method': this.item.method,
+                let data = {
+                    'method': this.getCode(),
                     'additional_data': {
                         'cc_cid': this.creditCardVerificationNumber(),
                         'cc_type': this.creditCardType(),
@@ -160,9 +146,17 @@ define(
                         'cc_number_token': this.creditCardNumberToken(),
                         'cc_name': this.creditCardName(),
                         'cc_expiry': this.creditCardExpiry(),
-                        'cc_installment': this.creditCardInstallment()
+                        'cc_installment': this.creditCardInstallment(),
+                        'payment_method_nonce': this.paymentPayload.nonce
                     }
                 };
+
+                if(expiryArray.length === 2) {
+                    exp_month = expiryArray[0];
+                    exp_month = exp_month.trim();
+                    exp_year = expiryArray[1];
+                    exp_year = exp_year.trim();
+                }
 
                 data['additional_data'] = _.extend(data['additional_data'], this.additionalData);
                 this.vaultEnabler.visitAdditionalData(data);
@@ -176,6 +170,7 @@ define(
             isVaultEnabled: function () {
                 return this.vaultEnabler.isVaultEnabled();
             },
+
 
             /**
              * Returns vault code.

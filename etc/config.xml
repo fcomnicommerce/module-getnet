@@ -57,7 +57,7 @@
                 <sort_order>1</sort_order>
             </getnet_debit_card>
             <getnet>
-                <model>GetnetFacade</model>
+                <model>GetnetGatewayCreditCardFacade</model>
                 <getnet_cc_vault>
                     <model>GetnetCreditCardVaultFacade</model>
                     <title>Stored Cards (Getnet)</title>

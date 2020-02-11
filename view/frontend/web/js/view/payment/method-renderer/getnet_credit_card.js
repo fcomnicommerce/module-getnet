@@ -12,10 +12,29 @@ define(
         'card',
         'Magento_Vault/js/view/payment/vault-enabler'
     ],
-    function ($, Component, card, VaultEnabler) {
+    function ($, Component, cardData, card, VaultEnabler) {
         'use strict';
 
         return Component.extend({
+
+            /**
+             * @returns {exports.initialize}
+             */
+            initialize: function () {
+                var self = this;
+
+                self._super();
+                self.vaultEnabler = new VaultEnabler();
+                self.vaultEnabler.setPaymentCode(self.getVaultCode());
+
+                kount.getDeviceData()
+                    .then(function (deviceData) {
+                        self.additionalData['device_data'] = deviceData;
+                    });
+
+                return self;
+            },
+
             defaults: {
                 active: false,
                 template: 'FCamara_Getnet/payment/credit_card/form',
@@ -34,24 +53,6 @@ define(
                 creditCardVerificationNumber: '',
                 creditCardInstallment: '',
                 selectedCardType: null
-            },
-
-            /**
-             * @returns {exports.initialize}
-             */
-            initialize: function () {
-                var self = this;
-
-                self._super();
-                self.vaultEnabler = new VaultEnabler();
-                self.vaultEnabler.setPaymentCode(self.getVaultCode());
-
-                kount.getDeviceData()
-                    .then(function (deviceData) {
-                        self.additionalData['device_data'] = deviceData;
-                    });
-
-                return self;
             },
 
             initObservable: function () {

@@ -171,9 +171,9 @@
                 <item name="capture" xsi:type="string">GetnetGatewayCreditCardStrategyCommand</item>
                 <item name="sale" xsi:type="string">GetnetGatewayCreditCardSaleCommand</item>
                 <item name="settle" xsi:type="string">GetnetGatewayCreditCardSettleCommand</item>
-                <item name="vault_authorize" xsi:type="string">BraintreeVaultAuthorizeCommand</item>
-                <item name="vault_sale" xsi:type="string">BraintreeVaultSaleCommand</item>
-                <item name="vault_capture" xsi:type="string">BraintreeVaultCaptureCommand</item>
+                <item name="vault_authorize" xsi:type="string">GetnetVaultAuthorizeCommand</item>
+                <item name="vault_sale" xsi:type="string">GetnetVaultSaleCommand</item>
+                <item name="vault_capture" xsi:type="string">GetnetVaultCaptureCommand</item>
             </argument>
         </arguments>
     </virtualType>
@@ -487,7 +487,7 @@
     <virtualType name="GetnetVaultCaptureRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
         <arguments>
             <argument name="builders" xsi:type="array">
-                <item name="amount" xsi:type="string">FCamara\Getnet\Gateway\Request\CreditCard\AmountBuild</item>
+                <item name="vault_capture" xsi:type="string">FCamara\Getnet\Gateway\Request\VaultCaptureDataBuilder</item>
             </argument>
         </arguments>
     </virtualType>

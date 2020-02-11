@@ -9,7 +9,6 @@ define(
         'jquery',
         'Magento_Payment/js/view/payment/cc-form',
         'Magento_Payment/js/model/credit-card-validation/credit-card-data',
-        'card',
         'Magento_Vault/js/view/payment/vault-enabler'
     ],
     function ($, Component, card, VaultEnabler) {

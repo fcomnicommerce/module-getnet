@@ -215,7 +215,7 @@ define(
                 return window.checkoutConfig.payment.getnet_credit_card.endpoint;
             },
 
-        beforePlaceOrder: function () {
+            beforePlaceOrder: function () {
                 console.log('passei aqui antes de fechar o pedido');
 
                 var endpoint = this.getEndpoint();

@@ -30,7 +30,7 @@ class CardRenderer extends AbstractCardRenderer
      */
     public function canRender(PaymentTokenInterface $token)
     {
-        return $token->getPaymentMethodCode() === ConfigProvider::CC_VAULT_CODE;
+        return true;
     }
 
     /**

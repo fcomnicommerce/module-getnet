@@ -40,6 +40,7 @@
                 <is_gateway>1</is_gateway>
                 <installments>INSTALL_NO_INTEREST</installments>
                 <sort_order>1</sort_order>
+                <can_authorize_vault>1</can_authorize_vault>
             </getnet_credit_card>
             <getnet_debit_card>
                 <debug>1</debug>
@@ -55,6 +56,7 @@
                 <can_use_checkout>1</can_use_checkout>
                 <is_gateway>1</is_gateway>
                 <sort_order>1</sort_order>
+                <can_authorize_vault>1</can_authorize_vault>
             </getnet_debit_card>
             <getnet_cc_vault>
                 <model>GetnetCreditCardVaultFacade</model>

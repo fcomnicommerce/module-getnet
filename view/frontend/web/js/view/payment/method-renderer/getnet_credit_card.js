@@ -9,12 +9,25 @@ define(
         'jquery',
         'Magento_Payment/js/view/payment/cc-form',
         'Magento_Payment/js/model/credit-card-validation/credit-card-data',
-        'card'
+        'card',
+        'Magento_Vault/js/view/payment/vault-enabler'
     ],
-    function ($, Component, card) {
+    function ($, Component, card, cardCard, VaultEnabler) {
         'use strict';
 
         return Component.extend({
+            /**
+             * @returns {exports.initialize}
+             */
+            initialize: function () {
+                var self = this;
+
+                self._super();
+                this.vaultEnabler = new VaultEnabler();
+                this.vaultEnabler.setPaymentCode(this.getVaultCode());
+                return self;
+            },
+            
             defaults: {
                 active: false,
                 template: 'FCamara_Getnet/payment/credit_card/form',
@@ -32,7 +45,11 @@ define(
                 creditCardSsIssue: '',
                 creditCardVerificationNumber: '',
                 creditCardInstallment: '',
-                selectedCardType: null
+                selectedCardType: null,
+                paymentPayload: {
+                    nonce: null
+                },
+                additionalData: {}
             },
 
             initObservable: function () {
@@ -80,27 +97,27 @@ define(
                 return [
                     {
                         'value': '1',
-                        'installment': '1 vez',
+                        'installment': '1',
                     },
                     {
                         'value': '2',
-                        'installment': '2 vezes',
+                        'installment': '2',
                     },
                     {
                         'value': '3',
-                        'installment': '3 vezes',
+                        'installment': '3',
                     },
                     {
                         'value': '4',
-                        'installment': '4 vezes',
+                        'installment': '4',
                     },
                     {
                         'value': '5',
-                        'installment': '5 vezes',
+                        'installment': '5',
                     },
                     {
                         'value': '6',
-                        'installment': '6 vezes',
+                        'installment': '6',
                     },
                 ];
             },
@@ -122,13 +139,15 @@ define(
                 let expiryArray = creditCardExpiry.split("/");
                 let exp_year = '';
                 let exp_month = '';
+
                 if(expiryArray.length === 2) {
                     exp_month = expiryArray[0];
                     exp_month = exp_month.trim();
                     exp_year = expiryArray[1];
                     exp_year = exp_year.trim();
                 }
-                return {
+
+                let data = {
                     'method': this.item.method,
                     'additional_data': {
                         'cc_cid': this.creditCardVerificationNumber(),
@@ -138,9 +157,15 @@ define(
                         'cc_number_token': this.creditCardNumberToken(),
                         'cc_name': this.creditCardName(),
                         'cc_expiry': this.creditCardExpiry(),
-                        'cc_installment': this.creditCardInstallment()
+                        'cc_installment': this.creditCardInstallment(),
+                        'payment_method_nonce': this.paymentPayload.nonce
                     }
                 };
+
+                data['additional_data'] = _.extend(data['additional_data'], this.additionalData);
+                this.vaultEnabler.visitAdditionalData(data);
+
+                return data;
             },
 
             /**
@@ -230,7 +255,24 @@ define(
                         message: message
                     });
                 });
-            }
+            },
+
+            /**
+             * @returns {Boolean}
+             */
+            isVaultEnabled: function () {
+                return this.vaultEnabler.isVaultEnabled();
+            },
+
+
+            /**
+             * Returns vault code.
+             *
+             * @returns {String}
+             */
+            getVaultCode: function () {
+                return window.checkoutConfig.payment[this.getCode()].ccVaultCode;
+            },
 
         });
     }

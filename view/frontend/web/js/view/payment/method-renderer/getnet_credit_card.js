@@ -9,25 +9,12 @@ define(
         'jquery',
         'Magento_Payment/js/view/payment/cc-form',
         'Magento_Payment/js/model/credit-card-validation/credit-card-data',
-        'Magento_Vault/js/view/payment/vault-enabler'
+        'card'
     ],
-    function ($, Component, card, VaultEnabler) {
+    function ($, Component, card) {
         'use strict';
 
         return Component.extend({
-            /**
-             * @returns {exports.initialize}
-             */
-            initialize: function () {
-                var self = this;
-
-                self._super();
-                this.vaultEnabler = new VaultEnabler();
-                this.vaultEnabler.setPaymentCode(this.getVaultCode());
-
-                return self;
-            },
-
             defaults: {
                 active: false,
                 template: 'FCamara_Getnet/payment/credit_card/form',
@@ -45,10 +32,7 @@ define(
                 creditCardSsIssue: '',
                 creditCardVerificationNumber: '',
                 creditCardInstallment: '',
-                selectedCardType: null,
-                paymentPayload: {
-                    nonce: null
-                },
+                selectedCardType: null
             },
 
             initObservable: function () {
@@ -96,27 +80,27 @@ define(
                 return [
                     {
                         'value': '1',
-                        'installment': '1',
+                        'installment': '1 vez',
                     },
                     {
                         'value': '2',
-                        'installment': '2',
+                        'installment': '2 vezes',
                     },
                     {
                         'value': '3',
-                        'installment': '3',
+                        'installment': '3 vezes',
                     },
                     {
                         'value': '4',
-                        'installment': '4',
+                        'installment': '4 vezes',
                     },
                     {
                         'value': '5',
-                        'installment': '5',
+                        'installment': '5 vezes',
                     },
                     {
                         'value': '6',
-                        'installment': '6',
+                        'installment': '6 vezes',
                     },
                 ];
             },
@@ -138,8 +122,14 @@ define(
                 let expiryArray = creditCardExpiry.split("/");
                 let exp_year = '';
                 let exp_month = '';
-                let data = {
-                    'method': this.getCode(),
+                if(expiryArray.length === 2) {
+                    exp_month = expiryArray[0];
+                    exp_month = exp_month.trim();
+                    exp_year = expiryArray[1];
+                    exp_year = exp_year.trim();
+                }
+                return {
+                    'method': this.item.method,
                     'additional_data': {
                         'cc_cid': this.creditCardVerificationNumber(),
                         'cc_type': this.creditCardType(),
@@ -151,35 +141,6 @@ define(
                         'cc_installment': this.creditCardInstallment()
                     }
                 };
-
-                if(expiryArray.length === 2) {
-                    exp_month = expiryArray[0];
-                    exp_month = exp_month.trim();
-                    exp_year = expiryArray[1];
-                    exp_year = exp_year.trim();
-                }
-
-                data['additional_data'] = _.extend(data['additional_data'], this.additionalData);
-                this.vaultEnabler.visitAdditionalData(data);
-
-                return data;
-            },
-
-            /**
-             * @returns {Boolean}
-             */
-            isVaultEnabled: function () {
-                return this.vaultEnabler.isVaultEnabled();
-            },
-
-
-            /**
-             * Returns vault code.
-             *
-             * @returns {String}
-             */
-            getVaultCode: function () {
-                return window.checkoutConfig.payment[this.getCode()].ccVaultCode;
             },
 
             /**

@@ -45,7 +45,10 @@ define(
                 creditCardSsIssue: '',
                 creditCardVerificationNumber: '',
                 creditCardInstallment: '',
-                selectedCardType: null
+                selectedCardType: null,
+                paymentPayload: {
+                    nonce: null
+                },
             },
 
             initObservable: function () {
@@ -145,8 +148,7 @@ define(
                         'cc_number_token': this.creditCardNumberToken(),
                         'cc_name': this.creditCardName(),
                         'cc_expiry': this.creditCardExpiry(),
-                        'cc_installment': this.creditCardInstallment(),
-                        'payment_method_nonce': this.paymentPayload.nonce
+                        'cc_installment': this.creditCardInstallment()
                     }
                 };
 

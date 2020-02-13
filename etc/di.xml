@@ -513,14 +513,5 @@
         </arguments>
     </type>
 
-    <type name="Magento\Vault\Model\Ui\TokensConfigProvider">
-        <arguments>
-            <argument name="tokenUiComponentProviders" xsi:type="array">
-                <item name="getnet" xsi:type="object">FCamara\Getnet\Model\Ui\TokenUiComponentProvider</item>
-            </argument>
-        </arguments>
-    </type>
-
-
     <!-- END Configuration for Vault payments -->
 </config>

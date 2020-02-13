@@ -226,6 +226,14 @@
                             <frontend_class>validate-number</frontend_class>
                             <config_path>payment/getnet_credit_card/sort_order</config_path>
                         </field>
+                        <field id="getnet_cc_vault_active" translate="label" type="select" sortOrder="170" showInDefault="1" showInWebsite="1" showInStore="0">
+                            <label>Vault Enabled</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/getnet_cc_vault/active</config_path>
+                            <requires>
+                                <group id="braintree_required"/>
+                            </requires>
+                        </field>
                     </group>
                     <!--group id="debit_card" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Debit Card</label>

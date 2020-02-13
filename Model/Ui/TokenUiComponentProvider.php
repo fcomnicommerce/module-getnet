@@ -37,7 +37,7 @@ class TokenUiComponentProvider implements TokenUiComponentProviderInterface
                     TokenUiComponentProviderInterface::COMPONENT_DETAILS => $jsonDetails,
                     TokenUiComponentProviderInterface::COMPONENT_PUBLIC_HASH => $paymentToken->getPublicHash()
                 ],
-                'name' => 'Magento_Braintree/js/view/payment/method-renderer/vault'
+                'name' => 'FCamara_Getnet/js/view/payment/method-renderer/vault'
             ]
         );
 

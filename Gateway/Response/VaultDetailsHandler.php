@@ -15,20 +15,68 @@
 
 namespace FCamara\Getnet\Gateway\Response;
 
-use Magento\Vault\Api\Data\PaymentTokenFactoryInterface;
-use Magento\Vault\Api\Data\PaymentTokenInterface;
-use Magento\Payment\Gateway\Response\HandlerInterface;
+use Braintree\Transaction;
+use FCamara\Getnet\Model\Config\Config;
+use \Magento\Braintree\Gateway\SubjectReader;
+use \Magento\Payment\Gateway\Response\HandlerInterface;
+use \Magento\Payment\Model\InfoInterface;
+use \Magento\Sales\Api\Data\OrderPaymentExtensionInterface;
+use \Magento\Sales\Api\Data\OrderPaymentExtensionInterfaceFactory;
+use \Magento\Vault\Api\Data\PaymentTokenFactoryInterface;
+use \Magento\Vault\Api\Data\PaymentTokenInterface;
 
 class VaultDetailsHandler implements HandlerInterface
 {
     /**
+     * @var PaymentTokenFactoryInterface
+     */
+    protected $paymentTokenFactory;
+
+    /**
+     * @var OrderPaymentExtensionInterfaceFactory
+     */
+    protected $paymentExtensionFactory;
+
+    /**
+     * @var SubjectReader
+     */
+    protected $subjectReader;
+
+    /**
+     * @var Config
+     */
+    protected $config;
+
+    /**
+     * VaultDetailsHandler constructor.
+     *
+     * @param PaymentTokenFactoryInterface $paymentTokenFactory
+     * @param OrderPaymentExtensionInterfaceFactory $paymentExtensionFactory
+     * @param Config $config
+     * @param SubjectReader $subjectReader
+     * @throws \RuntimeException
+     */
+    public function __construct(
+        PaymentTokenFactoryInterface $paymentTokenFactory,
+        OrderPaymentExtensionInterfaceFactory $paymentExtensionFactory,
+        Config $config,
+        SubjectReader $subjectReader
+    ) {
+        $this->paymentTokenFactory = $paymentTokenFactory;
+        $this->paymentExtensionFactory = $paymentExtensionFactory;
+        $this->config = $config;
+        $this->subjectReader = $subjectReader;
+    }
+
+    /**
      * @param array $handlingSubject
      * @param array $response
+     * @throws \Exception
      */
     public function handle(array $handlingSubject, array $response)
     {
         $paymentDO = $this->subjectReader->readPayment($handlingSubject);
-        $transaction = $this->subjectReader->readTransaction($response);
+        $transaction = $response['object']['credit'];
         $payment = $paymentDO->getPayment();
 
         // add vault payment token entity to extension attributes
@@ -42,11 +90,12 @@ class VaultDetailsHandler implements HandlerInterface
     /**
      * @param Transaction $transaction
      * @return PaymentTokenInterface|null
+     * @throws \Exception
      */
-    protected function getVaultPaymentToken(Transaction $transaction)
+    protected function getVaultPaymentToken($transaction)
     {
         // Check token existing in gateway response
-        $token = $transaction->creditCardDetails->token;
+        $token = $transaction['transaction_id'];
         if (empty($token)) {
             return null;
         }
@@ -56,13 +105,64 @@ class VaultDetailsHandler implements HandlerInterface
         $paymentToken->setGatewayToken($token);
         $paymentToken->setExpiresAt($this->getExpirationDate($transaction));
 
-        $paymentToken->setTokenDetails($this->convertDetailsToJSON([
-            'type' => $this->getCreditCardType($transaction->creditCardDetails->cardType),
-            'maskedCC' => $transaction->creditCardDetails->last4,
-            'expirationDate' => $transaction->creditCardDetails->expirationDate
+        $paymentToken->setTokenDetails(json_encode([
+            'type' => $transaction['brand'],
+            'maskedCC' => 4444,
+            'expirationDate' => new \DateTime()
         ]));
 
         return $paymentToken;
+    }
+
+    /**
+     * @return string
+     * @throws \Exception
+     */
+    private function getExpirationDate()
+    {
+        $expDate = new \DateTime();
+        $expDate->add(new \DateInterval('P1M'));
+        return $expDate->format('Y-m-d 00:00:00');
+    }
+
+    /**
+     * Convert payment token details to JSON
+     * @param array $details
+     * @return string
+     */
+    private function convertDetailsToJSON($details)
+    {
+        $json = $this->serializer->serialize($details);
+        return $json ? $json : '{}';
+    }
+
+    /**
+     * Get type of credit card mapped from Braintree
+     *
+     * @param string $type
+     * @return array
+     */
+    private function getCreditCardType($type)
+    {
+        $replaced = str_replace(' ', '-', strtolower($type));
+        $mapper = $this->config->getCcTypesMapper();
+
+        return $mapper[$replaced];
+    }
+
+    /**
+     * Get payment extension attributes
+     * @param InfoInterface $payment
+     * @return OrderPaymentExtensionInterface
+     */
+    private function getExtensionAttributes(InfoInterface $payment)
+    {
+        $extensionAttributes = $payment->getExtensionAttributes();
+        if (null === $extensionAttributes) {
+            $extensionAttributes = $this->paymentExtensionFactory->create();
+            $payment->setExtensionAttributes($extensionAttributes);
+        }
+        return $extensionAttributes;
     }
 }
 

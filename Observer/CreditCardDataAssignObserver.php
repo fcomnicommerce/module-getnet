@@ -81,5 +81,12 @@ class CreditCardDataAssignObserver extends AbstractDataAssignObserver
                 $additionalInfo['cc_installment']
             );
         }
+
+        if (isset($additionalInfo['save_card_data'])) {
+            $paymentInfo->setAdditionalInformation(
+                'save_card_data',
+                (boolean) $additionalInfo['save_card_data']
+            );
+        }
     }
 }

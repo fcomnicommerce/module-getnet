@@ -32,7 +32,8 @@ define(
                 creditCardSsIssue: '',
                 creditCardVerificationNumber: '',
                 creditCardInstallment: '',
-                selectedCardType: null
+                selectedCardType: null,
+                saveCardData: ''
             },
 
             initObservable: function () {
@@ -53,7 +54,8 @@ define(
                         'creditCardSsStartMonth',
                         'creditCardSsStartYear',
                         'creditCardSsIssue',
-                        'selectedCardType'
+                        'selectedCardType',
+                        'saveCardData'
                     ]);
                 return this;
             },
@@ -80,27 +82,27 @@ define(
                 return [
                     {
                         'value': '1',
-                        'installment': '1 vez',
+                        'installment': '1',
                     },
                     {
                         'value': '2',
-                        'installment': '2 vezes',
+                        'installment': '2',
                     },
                     {
                         'value': '3',
-                        'installment': '3 vezes',
+                        'installment': '3',
                     },
                     {
                         'value': '4',
-                        'installment': '4 vezes',
+                        'installment': '4',
                     },
                     {
                         'value': '5',
-                        'installment': '5 vezes',
+                        'installment': '5',
                     },
                     {
                         'value': '6',
-                        'installment': '6 vezes',
+                        'installment': '6',
                     },
                 ];
             },
@@ -138,7 +140,8 @@ define(
                         'cc_number_token': this.creditCardNumberToken(),
                         'cc_name': this.creditCardName(),
                         'cc_expiry': this.creditCardExpiry(),
-                        'cc_installment': this.creditCardInstallment()
+                        'cc_installment': this.creditCardInstallment(),
+                        'save_card_data': this.saveCardData()
                     }
                 };
             },

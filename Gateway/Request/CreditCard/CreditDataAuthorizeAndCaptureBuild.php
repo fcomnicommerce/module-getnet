@@ -60,6 +60,7 @@ class CreditDataAuthorizeAndCaptureBuild implements BuilderInterface
         $ccCid = $payment->getAdditionalInformation('cc_cid');
         $ccType = $payment->getAdditionalInformation('cc_type');
         $ccType = Client::CREDIT_CARD_BRADS[$ccType];
+        $saveCardData = $payment->getAdditionalInformation('save_card_data');
 
         $installments = $payment->getAdditionalInformation('cc_installment') ? $payment->getAdditionalInformation('cc_installment') : 1;
         $transactionType = 'FULL';
@@ -73,7 +74,7 @@ class CreditDataAuthorizeAndCaptureBuild implements BuilderInterface
                 'delayed' => false,
                 'authenticated' => false,
                 'pre_authorization' => false,
-                'save_card_data' => false,
+                'save_card_data' => $saveCardData,
                 'transaction_type' => $transactionType,
                 'number_installments' => $installments,
                 'card' => [

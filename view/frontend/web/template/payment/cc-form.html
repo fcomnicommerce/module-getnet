@@ -144,6 +144,20 @@
                 </div>
             </div>
         </div>
+        <div class="field save-card-data">
+            <div class="control">
+                <input type="checkbox"
+                       id="save_card_data"
+                       autocomplete="off"
+                       class="input-radio"
+                       name="payment[save_card_data]"
+                       value=""
+                       data-bind="attr: {id: getCode() + '_save_card_data', checked: saveCardData}" />
+                <label data-bind="attr: {for: getCode() + '_save_card_data'}" class="label">
+                    <span><!-- ko i18n: 'Save for later use.'--><!-- /ko --></span>
+                </label>
+            </div>
+        </div>
         <!-- /ko -->
     </fieldset>
 </form>

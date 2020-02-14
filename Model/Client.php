@@ -16,6 +16,8 @@
 namespace FCamara\Getnet\Model;
 
 
+use mysql_xdevapi\Exception;
+
 class Client implements ClientInterface
 {
     const SUCCESS_CODES = [
@@ -259,6 +261,28 @@ class Client implements ClientInterface
         $client->setHeaders('Authorization', 'Bearer ' . $token);
         $client->setMethod(\Zend_Http_Client::GET);
         $client->setParameterGet('customer_id', $customerId);
+
+        try {
+            $responseBody = json_decode($client->request()->getBody(), true);
+        } catch (\Exception $e) {
+            $e->getMessage();
+        }
+
+        return $responseBody;
+    }
+
+    /**
+     * @param $cardId
+     * @return bool|mixed
+     */
+    public function deleteCard($cardId)
+    {
+        $responseBody = false;
+        $token = $this->authentication();
+        $client = $this->httpClientFactory->create();
+        $client->setUri($this->creditCardConfig->vaultEndpoint() . '/' . $cardId);
+        $client->setHeaders('Authorization', 'Bearer ' . $token);
+        $client->setMethod(\Zend\Http\Request::METHOD_DELETE);
 
         try {
             $responseBody = json_decode($client->request()->getBody(), true);

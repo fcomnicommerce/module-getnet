@@ -33,7 +33,11 @@
                         <td><?= $block->escapeHtml(__('**** **** **** ' . $_card['last_four_digits'])) ?></td>
                         <td><?= $block->escapeHtml(__($_card['expiration_month'] . '/' . $_card['expiration_year'])) ?></td>
                         <td><?= $block->escapeHtml(__($_card['brand'])) ?></td>
-                        <td><a href="#"><?= $block->escapeHtml(__('Delete')) ?></a></td>
+                        <td>
+                            <a href="<?= $block->getUrl('getnet/cards/deleteaction', ['_current' => true, '_query' => ['card_id' => $_card['card_id']]]) ?>">
+                                <?= $block->escapeHtml(__('Delete')) ?>
+                            </a>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>

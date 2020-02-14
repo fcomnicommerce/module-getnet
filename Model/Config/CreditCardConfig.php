@@ -127,4 +127,20 @@ class CreditCardConfig extends Config implements CreditCardConfigInterface
     {
         return $this->endpoint() . '/v1/payments/credit/{payment_id}/cancel';
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function vaultEndpoint()
+    {
+        return $this->endpoint() . '/v1/cards';
+    }
+
+    /**
+     * @return string
+     */
+    public function tokensCardEndpoint()
+    {
+        return $this->endpoint() . '/v1/tokens/card';
+    }
 }

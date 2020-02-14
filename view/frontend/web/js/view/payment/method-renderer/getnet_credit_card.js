@@ -141,7 +141,8 @@ define(
                         'cc_name': this.creditCardName(),
                         'cc_expiry': this.creditCardExpiry(),
                         'cc_installment': this.creditCardInstallment(),
-                        'save_card_data': this.saveCardData()
+                        'save_card_data': this.saveCardData(),
+                        'cc_number': this.creditCardNumber()
                     }
                 };
             },

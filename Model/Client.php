@@ -18,6 +18,12 @@ namespace FCamara\Getnet\Model;
 
 class Client implements ClientInterface
 {
+    const SUCCESS_CODES = [
+        200,
+        201,
+        202
+    ];
+
     /**
      * @var Config\CreditCardConfig
     */
@@ -97,7 +103,22 @@ class Client implements ClientInterface
      */
     public function tokenCard($requestParameters = [])
     {
-        // TODO: Implement tokenCard() method.
+        $token = $this->authentication();
+        $responseBody = false;
+        $client = $this->httpClientFactory->create();
+        $client->setUri($this->creditCardConfig->tokensCardEndpoint());
+        $client->setHeaders(['content-type: application/json; charset=utf-8']);
+        $client->setHeaders('Authorization', 'Bearer ' . $token);
+        $client->setMethod(\Zend_Http_Client::POST);
+        $client->setRawData(json_encode($requestParameters));
+
+        try {
+            $responseBody = json_decode($client->request()->getBody(), true);
+        } catch (\Exception $e) {
+            $e->getMessage();
+        }
+
+        return $responseBody['number_token'];
     }
 
     /**
@@ -133,6 +154,9 @@ class Client implements ClientInterface
 
         try {
             $responseBody = json_decode($client->request()->getBody(), true);
+            if (isset($responseBody['status']) && $responseBody['status'] == 'APPROVED') {
+                $this->saveCardData($requestParameters);
+            }
         } catch (\Exception $e) {
             $e->getMessage();
         }
@@ -157,6 +181,9 @@ class Client implements ClientInterface
 
         try {
             $responseBody = json_decode($client->request()->getBody(), true);
+            if (isset($responseBody['status']) && $responseBody['status'] == 'APPROVED') {
+                $this->saveCardData($requestParameters);
+            }
         } catch (\Exception $e) {
             $e->getMessage();
         }
@@ -170,5 +197,51 @@ class Client implements ClientInterface
     public function void($requestParameters = [])
     {
         // TODO: Implement void() method.
+    }
+
+    /**
+     * @param $requestParameters
+     * @return bool|mixed
+     */
+    protected function saveCardData($requestParameters)
+    {
+        $token = $this->authentication();
+        $responseBody = false;
+        $requestParameters['seller_id'] = $this->creditCardConfig->sellerId();
+
+        if (!$requestParameters['credit']['save_card_data']) {
+            return;
+        }
+
+        $cardData = $requestParameters['credit']['card'];
+        $requestCardParams = [
+            'number_token' => $this->tokenCard([
+                'card_number' => $requestParameters['cc_number'],
+                'customer_id' => $requestParameters['customer']['customer_id']
+            ]),
+            'brand' =>  $cardData['brand'],
+            'cardholder_name' => $cardData['cardholder_name'],
+            'expiration_month' => $cardData['expiration_month'],
+            'expiration_year' => $cardData['expiration_year'],
+            'customer_id' => $requestParameters['customer']['customer_id'],
+            'cardholder_identification' => $requestParameters['customer']['document_number'],
+            'verify_card' => false,
+            'security_code' => $cardData['security_code']
+        ];
+
+        $client = $this->httpClientFactory->create();
+        $client->setUri($this->creditCardConfig->vaultEndpoint());
+        $client->setHeaders(['content-type: application/json; charset=utf-8']);
+        $client->setHeaders('Authorization', 'Bearer ' . $token);
+        $client->setMethod(\Zend_Http_Client::POST);
+        $client->setRawData(json_encode($requestCardParams));
+
+        try {
+            $responseBody = json_decode($client->request()->getBody(), true);
+        } catch (\Exception $e) {
+            $e->getMessage();
+        }
+
+        return $responseBody;
     }
 }

@@ -13,4 +13,32 @@
  * @author    Danilo Cavalcanti de Moura <danilo.moura@fcamara.com.br>
  */
 ?>
-Template: FCamara_Getnet::customer_account/cards/listaction.phtml
+<?php $_cards = $block->getCardList(); ?>
+
+<?php if (count($_cards)): ?>
+    <div class="table-wrapper my-credit-cards">
+        <table class="data table table-credit-cards" id="my-orders-table">
+            <caption class="table-caption"><?= $block->escapeHtml(__('Stored Payment Methods')) ?></caption>
+            <thead>
+            <tr>
+                <th scope="col" class="col card-number"><?= $block->escapeHtml(__('Card Number')) ?></th>
+                <th scope="col" class="col expire"><?= $block->escapeHtml(__('Expiration Date')) ?></th>
+                <th scope="col" class="col card-type"><?= $block->escapeHtml(__('Type')) ?></th>
+                <th scope="col" class="col actions">&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($_cards as $_card): ?>
+                    <tr>
+                        <td><?= $block->escapeHtml(__('**** **** **** ' . $_card['last_four_digits'])) ?></td>
+                        <td><?= $block->escapeHtml(__($_card['expiration_month'] . '/' . $_card['expiration_year'])) ?></td>
+                        <td><?= $block->escapeHtml(__($_card['brand'])) ?></td>
+                        <td><a href="#"><?= $block->escapeHtml(__('Delete')) ?></a></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+<?php else: ?>
+    <div class="message info empty"><span><?= $block->escapeHtml(__('You have no stored payment methods.')) ?></span></div>
+<?php endif; ?>

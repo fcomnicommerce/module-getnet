@@ -244,4 +244,28 @@ class Client implements ClientInterface
 
         return $responseBody;
     }
+
+    /**
+     * @param $customerId
+     * @return bool|mixed
+     */
+    public function cardList($customerId)
+    {
+        $responseBody = false;
+        $token = $this->authentication();
+        $client = $this->httpClientFactory->create();
+        $client->setUri($this->creditCardConfig->vaultEndpoint());
+        $client->setHeaders(['content-type: application/json; charset=utf-8']);
+        $client->setHeaders('Authorization', 'Bearer ' . $token);
+        $client->setMethod(\Zend_Http_Client::GET);
+        $client->setParameterGet('customer_id', $customerId);
+
+        try {
+            $responseBody = json_decode($client->request()->getBody(), true);
+        } catch (\Exception $e) {
+            $e->getMessage();
+        }
+
+        return $responseBody;
+    }
 }

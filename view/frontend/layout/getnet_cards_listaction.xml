@@ -18,6 +18,6 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <update handle="customer_account"/>
     <referenceContainer name="content">
-        <block class="FCamara\Getnet\Block\Customer\Cards\Listaction" name="getnet_cards_list" template="FCamara_Getnet::customer/cards/listaction.phtml" />
+        <block class="FCamara\Getnet\Block\Customer\Cards\Listaction" name="getnet_cards_list" cacheable="false" template="FCamara_Getnet::customer/cards/listaction.phtml" />
     </referenceContainer>
 </page>

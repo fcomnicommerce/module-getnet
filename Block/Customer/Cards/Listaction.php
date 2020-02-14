@@ -16,8 +16,45 @@
 namespace FCamara\Getnet\Block\Customer\Cards;
 
 use \Magento\Framework\View\Element\Template;
+use FCamara\Getnet\Model\Client;
+use \Magento\Customer\Model\Session;
 
 class Listaction extends Template
 {
+    /**
+     * @var Client
+     */
+    protected $client;
 
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    private $customerSession;
+
+    /**
+     * Listaction constructor.
+     * @param Template\Context $context
+     * @param Client $client
+     * @param Session $customerSession
+     * @param array $data
+     */
+    public function __construct(
+        Template\Context $context,
+        Client $client,
+        Session $customerSession,
+        array $data = []
+    ) {
+        $this->client = $client;
+        $this->customerSession = $customerSession;
+        parent::__construct($context, $data);
+    }
+
+    /**
+     * @return bool|mixed
+     */
+    public function getCardList()
+    {
+        $cards = $this->client->cardList($this->customerSession->getCustomerId());
+        return $cards['cards'];
+    }
 }

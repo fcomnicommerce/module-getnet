@@ -23,7 +23,7 @@
                    ifconfig="payment/getnet/enabled"
             >
                 <arguments>
-                    <argument name="path" xsi:type="string">getnet/cards/list</argument>
+                    <argument name="path" xsi:type="string">getnet/cards/listaction</argument>
                     <argument name="label" xsi:type="string" translate="true">My Saved Cards</argument>
                     <argument name="sortOrder" xsi:type="number">160</argument>
                 </arguments>

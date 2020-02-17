@@ -116,8 +116,8 @@ define(
                 return window.checkoutConfig.payment.saved_cards;
             },
 
-            selectSavedCard: function() {
-                alert($('input[name="payment[saved_card]"]').val());
+            selectSavedCard: function(id) {
+                alert('true');
             },
 
             getData: function() {
@@ -186,43 +186,62 @@ define(
                 var creditCardNumber = this.creditCardNumber();
                 creditCardNumber = creditCardNumber.replace(/\s/g, '');
 
-                $.ajax({
-                    showLoader: true,
-                    url: endpoint + 'auth/oauth/v2/token',
-                    beforeSend: function (request) {
-                        request.setRequestHeader("Authorization", authorization);
-                        request.setRequestHeader("content-type", 'application/x-www-form-urlencoded');
-                        request.setRequestHeader("Accept", 'application/json');
-                    },
-                    data: 'scope=oob&grant_type=client_credentials',
-                    type: "POST",
-                    dataType: 'json'
-                }).fail(function(data) {
-                    console.log(data);
-                }).done(function (data) {
-                    console.log(data);
-                    if(data.access_token) {
-                        $.ajax({
-                            showLoader: true,
-                            url: endpoint + 'v1/tokens/card',
-                            beforeSend: function (request) {
-                                request.setRequestHeader("Authorization", 'Bearer ' + data.access_token);
-                                request.setRequestHeader("Accept", 'application/json');
-                            },
-                            data: {
-                                "card_number": creditCardNumber
-                            },
-                            type: "POST",
-                            dataType: 'json'
-                        }).fail(function(data) {
-                            console.log(data);
-                        }).done(function (data) {
-                            this.creditCardNumberToken(data.number_token);
-                            this.placeOrder();
-                        }.bind(this));
-                    }
-                }.bind(this));
+                if (this.cardId()) {
+                    var savedCards = window.checkoutConfig.payment.saved_cards;
 
+                    for (var i = 0; i < savedCards.length; i++) {
+                        if (savedCards[i].card_id === this.cardId()) {
+                            var card = savedCards[i];
+                            alert(card.card_id);
+                            this.creditCardVerificationNumber(card.last_four_digits);
+                            this.creditCardType(card.brand);
+                            this.creditCardExpiry(card.expiration_month + '/' + card.expiration_year);
+                            this.creditCardNumberToken(card.number_token);
+                            this.creditCardName(card.cardholder_name);
+                            this.saveCardData(false);
+                            this.cardId(card.id);
+                        }
+                    }
+
+                    this.placeOrder();
+                } else {
+                    $.ajax({
+                        showLoader: true,
+                        url: endpoint + 'auth/oauth/v2/token',
+                        beforeSend: function (request) {
+                            request.setRequestHeader("Authorization", authorization);
+                            request.setRequestHeader("content-type", 'application/x-www-form-urlencoded');
+                            request.setRequestHeader("Accept", 'application/json');
+                        },
+                        data: 'scope=oob&grant_type=client_credentials',
+                        type: "POST",
+                        dataType: 'json'
+                    }).fail(function(data) {
+                        console.log(data);
+                    }).done(function (data) {
+                        console.log(data);
+                        if(data.access_token) {
+                            $.ajax({
+                                showLoader: true,
+                                url: endpoint + 'v1/tokens/card',
+                                beforeSend: function (request) {
+                                    request.setRequestHeader("Authorization", 'Bearer ' + data.access_token);
+                                    request.setRequestHeader("Accept", 'application/json');
+                                },
+                                data: {
+                                    "card_number": creditCardNumber
+                                },
+                                type: "POST",
+                                dataType: 'json'
+                            }).fail(function(data) {
+                                console.log(data);
+                            }).done(function (data) {
+                                this.creditCardNumberToken(data.number_token);
+                                this.placeOrder();
+                            }.bind(this));
+                        }
+                    }.bind(this));
+                }
             },
 
             /**

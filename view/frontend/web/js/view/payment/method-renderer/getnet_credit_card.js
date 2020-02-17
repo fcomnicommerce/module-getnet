@@ -193,7 +193,6 @@ define(
                         if (savedCards[i].card_id === this.cardId()) {
                             var card = savedCards[i];
                             alert(card.card_id);
-                            this.creditCardVerificationNumber(card.last_four_digits);
                             this.creditCardType(card.brand);
                             this.creditCardExpiry(card.expiration_month + '/' + card.expiration_year);
                             this.creditCardNumberToken(card.number_token);

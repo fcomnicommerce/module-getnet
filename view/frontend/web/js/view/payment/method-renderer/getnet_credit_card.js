@@ -33,7 +33,8 @@ define(
                 creditCardVerificationNumber: '',
                 creditCardInstallment: '',
                 selectedCardType: null,
-                saveCardData: ''
+                saveCardData: '',
+                cardId: null
             },
 
             initObservable: function () {
@@ -55,7 +56,8 @@ define(
                         'creditCardSsStartYear',
                         'creditCardSsIssue',
                         'selectedCardType',
-                        'saveCardData'
+                        'saveCardData',
+                        'cardId'
                     ]);
                 return this;
             },
@@ -107,17 +109,56 @@ define(
                 ];
             },
 
-            // loadCardForm: function() {
-            //     new Card({
-            //         form: document.querySelector('.getnet-card'),
-            //         container: '.card-wrapper'
-            //     });
-            //
-            //     // this.checkNumberCard();
-            //     // this.checkNameCard();
-            //     // this.checkExpirationDateCard();
-            //     // this.checkCvvCard();
-            // },
+            /**
+             *
+             * @returns {*[]}
+             */
+            getSavedCardsList: function () {
+                var cards = [];
+
+                $.ajax({
+                    url:window.checkout.baseUrl + 'rest/V1/getnet/cards?customer_id=' + window.checkoutConfig.customerData.id,
+                    dataType: 'json',
+                    type:"get",
+                    success:function(response){
+                        alert("Success");
+                    },
+                    error:function(error){
+                        alert("Error");
+                    }
+                });
+
+                return [
+                    {
+                        'card_id': '1',
+                        'card_data': '**** **** **** 1234',
+                    },
+                    {
+                        'card_id': '2',
+                        'card_data': '**** **** **** 1234',
+                    },
+                    {
+                        'card_id': '3',
+                        'card_data': '**** **** **** 1234',
+                    },
+                    {
+                        'card_id': '4',
+                        'card_data': '**** **** **** 1234',
+                    },
+                    {
+                        'card_id': '5',
+                        'card_data': '**** **** **** 1234',
+                    },
+                    {
+                        'card_id': '6',
+                        'card_data': '**** **** **** 1234',
+                    },
+                ];
+            },
+
+            selectSavedCard: function() {
+                alert($('input[name="payment[saved_card]"]').val());
+            },
 
             getData: function() {
                 let creditCardExpiry = this.creditCardExpiry();
@@ -142,7 +183,8 @@ define(
                         'cc_expiry': this.creditCardExpiry(),
                         'cc_installment': this.creditCardInstallment(),
                         'save_card_data': this.saveCardData(),
-                        'cc_number': this.creditCardNumber()
+                        'cc_number': this.creditCardNumber(),
+                        'card_id': this.cardId()
                     }
                 };
             },
@@ -176,7 +218,7 @@ define(
                 return window.checkoutConfig.payment.getnet_credit_card.endpoint;
             },
 
-        beforePlaceOrder: function () {
+            beforePlaceOrder: function () {
                 console.log('passei aqui antes de fechar o pedido');
 
                 var endpoint = this.getEndpoint();

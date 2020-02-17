@@ -95,5 +95,12 @@ class CreditCardDataAssignObserver extends AbstractDataAssignObserver
                 str_replace(' ', '', $additionalInfo['cc_number'])
             );
         }
+
+        if (isset($additionalInfo['card_id'])) {
+            $paymentInfo->setAdditionalInformation(
+                'card_id',
+                $additionalInfo['card_id']
+            );
+        }
     }
 }

@@ -11,6 +11,30 @@
             <span><!-- ko i18n: 'Credit Card Information'--><!-- /ko --></span>
         </legend><br />
         <!-- /ko -->
+        <div class="field saved-cards" data-bind="attr: {id: getCode() + '_saved-cards'}">
+            <label data-bind="attr: {for: getCode() + '_saved-cards'}" class="label">
+                <span><!-- ko i18n: 'Saved Cards'--><!-- /ko --></span>
+            </label>
+            <div class="control">
+                <div class="fields group group-2">
+                    <div class="field no-label saved-cards">
+                        <div class="control">
+                            <select  name="payment[saved_card]"
+                                     class="select select-saved-cards"
+                                     data-bind="attr: {id: getCode() + 'saved-cards', 'data-container': getCode() + '-saved-cards'},
+                                                enable: isActive($parents),
+                                                options: getSavedCardsList(),
+                                                optionsValue: 'card_id',
+                                                optionsText: 'card_data',
+                                                optionsCaption: $t('Saved Cards'),
+                                                value: cardId
+                                                event: {change: selectSavedCard()}">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="field type">
             <div class="control">
                 <ul class="credit-card-types">

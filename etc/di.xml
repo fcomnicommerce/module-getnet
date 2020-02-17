@@ -400,4 +400,7 @@
             <argument name="messageMapping" xsi:type="object">FCamara\Getnet\Gateway\ErrorMapper\VirtualMappingData</argument>
         </arguments>
     </virtualType>
+
+    <!-- API -->
+    <preference for="FCamara\Getnet\Api\CardsInterface" type="FCamara\Getnet\Model\Cards" />
 </config>

@@ -16,8 +16,6 @@
 namespace FCamara\Getnet\Model;
 
 
-use mysql_xdevapi\Exception;
-
 class Client implements ClientInterface
 {
     const SUCCESS_CODES = [

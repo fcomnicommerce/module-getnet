@@ -80,7 +80,6 @@ define(
             },
 
             getCcInstallmentValues: function () {
-                console.log("PASSOU AQUI!!!!");
                 return [
                     {
                         'value': '1',
@@ -110,50 +109,11 @@ define(
             },
 
             /**
-             *
-             * @returns {*[]}
+             * Return cards saved
+             * @returns {Array}
              */
             getSavedCardsList: function () {
-                var cards = [];
-
-                $.ajax({
-                    url:window.checkout.baseUrl + 'rest/V1/getnet/cards?customer_id=' + window.checkoutConfig.customerData.id,
-                    dataType: 'json',
-                    type:"get",
-                    success:function(response){
-                        alert("Success");
-                    },
-                    error:function(error){
-                        alert("Error");
-                    }
-                });
-
-                return [
-                    {
-                        'card_id': '1',
-                        'card_data': '**** **** **** 1234',
-                    },
-                    {
-                        'card_id': '2',
-                        'card_data': '**** **** **** 1234',
-                    },
-                    {
-                        'card_id': '3',
-                        'card_data': '**** **** **** 1234',
-                    },
-                    {
-                        'card_id': '4',
-                        'card_data': '**** **** **** 1234',
-                    },
-                    {
-                        'card_id': '5',
-                        'card_data': '**** **** **** 1234',
-                    },
-                    {
-                        'card_id': '6',
-                        'card_data': '**** **** **** 1234',
-                    },
-                ];
+                return window.checkoutConfig.payment.saved_cards;
             },
 
             selectSavedCard: function() {

@@ -30,6 +30,14 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Checkout\Model\CompositeConfigProvider">
+        <arguments>
+            <argument name="configProviders" xsi:type="array">
+                <!-- SAVED CARDS CONFIG PROVIDER -->
+                <item name="getnet_saved_card_config_provider" xsi:type="object">FCamara\Getnet\Model\Ui\SavedCardConfigProvider</item>
+            </argument>
+        </arguments>
+    </type>
     <type name="FCamara\Getnet\Block\Info">
         <arguments>
             <argument name="data" xsi:type="array">

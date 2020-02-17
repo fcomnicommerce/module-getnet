@@ -179,8 +179,6 @@ define(
             },
 
             beforePlaceOrder: function () {
-                console.log('passei aqui antes de fechar o pedido');
-
                 var endpoint = this.getEndpoint();
                 var authorization = this.getAuthorizationBasic();
                 var creditCardNumber = this.creditCardNumber();
@@ -199,11 +197,12 @@ define(
                             this.creditCardName(card.cardholder_name);
                             this.saveCardData(false);
                             this.cardId(card.id);
+
+                            this.placeOrder();
                         }
                     }
-
-                    this.placeOrder();
                 } else {
+                    alert('else');
                     $.ajax({
                         showLoader: true,
                         url: endpoint + 'auth/oauth/v2/token',

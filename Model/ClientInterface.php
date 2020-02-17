@@ -20,7 +20,19 @@ namespace FCamara\Getnet\Model;
 */
 interface ClientInterface
 {
-    const CREDIT_CARD_BRADS = ["MC" => "Mastercard", "VI" => "Visa", "AM" => "Amex", "ELO" => "Elo", "HC" => "Hipercard"];
+    const CREDIT_CARD_BRADS = [
+        "MC" => "Mastercard",
+        "VI" => "Visa",
+        "AM" => "Amex",
+        "ELO" => "Elo",
+        "HC" => "Hipercard",
+        "Mastercard" => "Mastercard",
+        "Visa" => "Visa",
+        "Amex" => "Amex",
+        "Elo" => "Elo",
+        "Hipercard" => "Hipercard"
+    ];
+
     const CREDIT_CARD_MONTH_EXP = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
 
     /**

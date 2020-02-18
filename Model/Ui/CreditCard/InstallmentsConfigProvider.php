@@ -19,7 +19,6 @@ use \Magento\Checkout\Model\ConfigProviderInterface;
 use FCamara\Getnet\Model\Config\CreditCardConfig;
 use Magento\Checkout\Model\Session;
 use \Psr\Log\LoggerInterface;
-use \Magento\Framework\Pricing\PriceCurrencyInterface as PricingHelper;
 
 class InstallmentsConfigProvider implements ConfigProviderInterface
 {
@@ -40,25 +39,20 @@ class InstallmentsConfigProvider implements ConfigProviderInterface
      */
     protected $logger;
 
-    protected $pricingHelper;
-
     /**
      * InstallmentsConfigProvider constructor.
      * @param CreditCardConfig $creditCardConfig
      * @param Session $checkoutSession
      * @param LoggerInterface $logger
-     * @param PricingHelper $pricingHelper
      */
     public function __construct(
         CreditCardConfig $creditCardConfig,
         Session $checkoutSession,
-        LoggerInterface $logger,
-        PricingHelper $pricingHelper
+        LoggerInterface $logger
     ) {
         $this->creditCardConfig = $creditCardConfig;
         $this->checkoutSession = $checkoutSession;
         $this->logger = $logger;
-        $this->pricingHelper = $pricingHelper;
     }
 
     public function getConfig()
@@ -69,34 +63,14 @@ class InstallmentsConfigProvider implements ConfigProviderInterface
             $qtyInstallments = (int) $this->creditCardConfig->qtyInstallments();
             $minInstallment = (int) $this->creditCardConfig->minInstallment();
             $grandTotal = $this->checkoutSession->getQuote()->getGrandTotal();
-            $store = $this->checkoutSession->getQuote()->getStore();
 
             $installmentValue = $grandTotal / $qtyInstallments;
 
             if ($installmentValue < $minInstallment) {
                 $qtyInstallments = ceil($grandTotal / $minInstallment);
-
-                if ($qtyInstallments > 1) {
-                    $installmentValue = $grandTotal / $qtyInstallments;
-                } else {
-                    $installmentValue = $grandTotal;
-                }
             }
 
-            for ($i = 0; $i < $qtyInstallments; $i++) {
-                $installmentLabel = $qtyInstallments . ' x ' . $this->pricingHelper->convertAndFormat(
-                        $installmentValue,
-                        false,
-                        $this->pricingHelper::DEFAULT_PRECISION,
-                        $store,
-                        null
-                    );
-
-                $output['payment'][self::PAYMENT_CODE]['installments'][] = [
-                    'value' => $qtyInstallments,
-                    'installment' => $installmentLabel
-                ];
-            }
+            $output['payment'][self::PAYMENT_CODE]['qty_installments'] = $qtyInstallments;
 
         } catch (\Exception $e) {
             $this->logger->critical('Error message', ['exception' => $e]);

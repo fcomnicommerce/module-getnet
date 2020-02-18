@@ -80,7 +80,19 @@ define(
             },
 
             getCcInstallmentValues: function () {
-                return window.checkoutConfig.payment.getnet_credit_card.installments;
+                var allInstallments = [];
+                var totalPrice  = window.checkoutConfig.quoteData.grand_total;
+                var installmentsQty = window.checkoutConfig.payment.getnet_credit_card.qty_installments;
+
+                for (var i = 1; i <= installmentsQty; i++) {
+                    var installmentPrice = (totalPrice/i).toFixed(2).toString().replace(".", ",");
+                    allInstallments.push({
+                        'value': i,
+                        'installment': i + ' x R$ ' + installmentPrice
+                    });
+                }
+
+                return allInstallments;
             },
 
             /**

@@ -105,11 +105,10 @@ define(
 
             changeSavedCard: function(id) {
                 if (id) {
-                    console.info('cardId:', id);
-                    jQuery('div.field.type, div.field.name.required, div.field.number.required, div.field.expiry.required, div.field.save-card-data, div.card-wrapper').toggle('low');
+                    jQuery('div.field.type, div.field.name.required, div.field.number.required, div.field.expiry.required, div.field.save-card-data, div.card-wrapper').fadeOut();
                 } else {
-                    console.info('cardId:', 'não existe');
-                    jQuery('div.field.type, div.field.name.required, div.field.number.required, div.field.expiry.required, div.field.save-card-data, div.card-wrapper').toggle('low');
+                    jQuery('#co-payment-form .payment-method._active input').val('');
+                    jQuery('div.field.type, div.field.name.required, div.field.number.required, div.field.expiry.required, div.field.save-card-data, div.card-wrapper').fadeIn('low');
                 }
             },
 

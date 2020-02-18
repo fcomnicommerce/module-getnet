@@ -97,6 +97,28 @@ class CreditCardConfig extends Config implements CreditCardConfigInterface
     }
 
     /**
+     * @return mixed
+     */
+    public function qtyInstallments()
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_QTY_INSTALLMENTS,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * @return mixed
+     */
+    public function minInstallment()
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_MIN_INSTALLMENTS,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function verificationEndpoint()

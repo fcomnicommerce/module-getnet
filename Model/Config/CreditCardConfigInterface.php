@@ -54,6 +54,16 @@ interface CreditCardConfigInterface
     const XML_PATH_INSTALLMENTS = 'payment/getnet_credit_card/installments';
 
     /**
+     * Credit card qty installments config path
+     */
+    const XML_PATH_QTY_INSTALLMENTS = 'payment/getnet_credit_card/qty_installments';
+
+    /**
+     * Credit card minimum installment config path
+     */
+    const XML_PATH_MIN_INSTALLMENTS = 'payment/getnet_credit_card/min_installment';
+
+    /**
      * Check if getnet credit card method is active
      *
      * @return bool
@@ -140,4 +150,18 @@ interface CreditCardConfigInterface
      * @since 102.0.3
      */
     public function voidEndpoint();
+
+    /**
+     * Return credit card qty installments
+     *
+     * @return mixed
+     */
+    public function qtyInstallments();
+
+    /**
+     * Return credit card minimum installment
+     *
+     * @return mixed
+     */
+    public function minInstallment();
 }

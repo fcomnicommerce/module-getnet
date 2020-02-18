@@ -190,7 +190,6 @@ define(
                     for (var i = 0; i < savedCards.length; i++) {
                         if (savedCards[i].card_id === this.cardId()) {
                             var card = savedCards[i];
-                            alert(card.card_id);
                             this.creditCardType(card.brand);
                             this.creditCardExpiry(card.expiration_month + '/' + card.expiration_year);
                             this.creditCardNumberToken(card.number_token);
@@ -202,7 +201,6 @@ define(
                         }
                     }
                 } else {
-                    alert('else');
                     $.ajax({
                         showLoader: true,
                         url: endpoint + 'auth/oauth/v2/token',

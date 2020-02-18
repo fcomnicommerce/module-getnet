@@ -103,8 +103,14 @@ define(
                 return window.checkoutConfig.payment.saved_cards;
             },
 
-            selectSavedCard: function(id) {
-                alert('true');
+            changeSavedCard: function(id) {
+                if (id) {
+                    console.info('cardId:', id);
+                    jQuery('div.field.type, div.field.name.required, div.field.number.required, div.field.expiry.required, div.field.save-card-data, div.card-wrapper').toggle('low');
+                } else {
+                    console.info('cardId:', 'não existe');
+                    jQuery('div.field.type, div.field.name.required, div.field.number.required, div.field.expiry.required, div.field.save-card-data, div.card-wrapper').toggle('low');
+                }
             },
 
             getData: function() {

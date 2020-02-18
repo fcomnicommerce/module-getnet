@@ -21,13 +21,13 @@
                         <div class="control">
                             <select  name="payment[saved_card]"
                                      class="select select-saved-cards"
+                                     event="change: changeSavedCard(cardId())"
                                      data-bind="enable: isActive($parents),
                                                 options: getSavedCardsList(),
                                                 optionsValue: 'card_id',
                                                 optionsText: 'card_data',
                                                 optionsCaption: $t('Saved Cards'),
-                                                value: cardId
-                                                event: {change: selectSavedCard(cardId())}">
+                                                value: cardId">
                             </select>
                         </div>
                     </div>

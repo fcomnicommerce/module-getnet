@@ -80,32 +80,7 @@ define(
             },
 
             getCcInstallmentValues: function () {
-                return [
-                    {
-                        'value': '1',
-                        'installment': '1',
-                    },
-                    {
-                        'value': '2',
-                        'installment': '2',
-                    },
-                    {
-                        'value': '3',
-                        'installment': '3',
-                    },
-                    {
-                        'value': '4',
-                        'installment': '4',
-                    },
-                    {
-                        'value': '5',
-                        'installment': '5',
-                    },
-                    {
-                        'value': '6',
-                        'installment': '6',
-                    },
-                ];
+                return window.checkoutConfig.payment.getnet_credit_card.installments;
             },
 
             /**

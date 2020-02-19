@@ -77,7 +77,7 @@ class SavedCardConfigProvider implements ConfigProviderInterface
                     'created_at' => $card['created_at'],
                     'updated_at' => $card['updated_at'],
                     'status' => $card['status'],
-                    'card_data' => '**** **** **** ' . $card['last_four_digits'] . ' - ' . $card['brand']
+                    'card_data' => __('Final card ') . $card['last_four_digits'] . ' - ' . $card['brand']
                 ];
             }
         } catch (\Exception $e) {

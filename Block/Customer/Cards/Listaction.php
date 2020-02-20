@@ -55,6 +55,6 @@ class Listaction extends Template
     public function getCardList()
     {
         $cards = $this->client->cardList($this->customerSession->getCustomerId());
-        return $cards['cards'];
+        return isset($cards['cards']) ? $cards['cards'] : [];
     }
 }

@@ -154,7 +154,7 @@ class Client implements ClientInterface
 
         try {
             $responseBody = json_decode($client->request()->getBody(), true);
-            if (isset($responseBody['status']) && $responseBody['status'] == 'AUTHORIZED') {
+            if (isset($responseBody['status']) && $responseBody['status'] == 'AUTHORIZED' || $responseBody['status'] == 'APPROVED') {
                 $this->saveCardData($requestParameters);
             }
         } catch (\Exception $e) {

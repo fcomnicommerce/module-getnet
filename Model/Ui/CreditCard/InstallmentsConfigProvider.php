@@ -71,6 +71,7 @@ class InstallmentsConfigProvider implements ConfigProviderInterface
             }
 
             $output['payment'][self::PAYMENT_CODE]['qty_installments'] = $qtyInstallments;
+            $output['payment'][self::PAYMENT_CODE]['min_installment'] = $minInstallment;
 
         } catch (\Exception $e) {
             $this->logger->critical('Error message', ['exception' => $e]);

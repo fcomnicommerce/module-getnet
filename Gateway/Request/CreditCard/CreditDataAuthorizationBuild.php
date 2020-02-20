@@ -37,8 +37,6 @@ class CreditDataAuthorizationBuild implements BuilderInterface
      *
      * @param array $buildSubject
      * @return array
-     * @throws \Magento\Framework\Exception\LocalizedException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function build(array $buildSubject)
     {
@@ -60,6 +58,8 @@ class CreditDataAuthorizationBuild implements BuilderInterface
         $ccCid = $payment->getAdditionalInformation('cc_cid');
         $ccType = $payment->getAdditionalInformation('cc_type');
         $ccType = Client::CREDIT_CARD_BRADS[$ccType];
+        $saveCardData = $payment->getAdditionalInformation('save_card_data');
+        $ccNumber = $payment->getAdditionalInformation('cc_number');
 
         $installments = $payment->getAdditionalInformation('cc_installment') ? $payment->getAdditionalInformation('cc_installment') : 1;
         $transactionType = 'FULL';
@@ -73,7 +73,7 @@ class CreditDataAuthorizationBuild implements BuilderInterface
                 'delayed' => false,
                 'authenticated' => false,
                 'pre_authorization' => true,
-                'save_card_data' => false,
+                'save_card_data' => $saveCardData,
                 'transaction_type' => $transactionType,
                 'number_installments' => $installments,
                 'card' => [
@@ -85,6 +85,7 @@ class CreditDataAuthorizationBuild implements BuilderInterface
                     'expiration_year' => substr($ccExpYear, -2),
                 ],
             ],
+            'cc_number' => $ccNumber
         ];
 
         return $response;

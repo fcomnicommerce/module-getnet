@@ -55,6 +55,9 @@ class InstallmentsConfigProvider implements ConfigProviderInterface
         $this->logger = $logger;
     }
 
+    /**
+     * @return array
+     */
     public function getConfig()
     {
         $output = [];
@@ -67,7 +70,7 @@ class InstallmentsConfigProvider implements ConfigProviderInterface
             $installmentValue = $grandTotal / $qtyInstallments;
 
             if ($installmentValue < $minInstallment) {
-                $qtyInstallments = ceil($grandTotal / $minInstallment);
+                $qtyInstallments = floor($grandTotal / $minInstallment);
             }
 
             $output['payment'][self::PAYMENT_CODE]['qty_installments'] = $qtyInstallments;

@@ -63,7 +63,7 @@ class CatalogProductSaveAfter implements ObserverInterface
                 $requestParams = [
                     'name' => $product->getData('recurrence_name'),
                     'description' => $product->getData('recurrence_description'),
-                    'amount' => $product->getData('recurrence_amount'),
+                    'amount' => (int) $product->getData('recurrence_amount'),
                     'currency' => 'BRL',
                     'payment_types' => [
                         'credit_card'
@@ -73,7 +73,7 @@ class CatalogProductSaveAfter implements ObserverInterface
                     'period' => [
                         'type' => $product->getData('recurrence_period_type'),
                         'billing_cycle' => (int) $product->getData('recurrence_billing_cycle'),
-                        'specific_cycle_in_days' => $recurrenceSpecific
+                        'specific_cycle_in_days' => (int) $recurrenceSpecific
                     ]
                 ];
 

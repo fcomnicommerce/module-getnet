@@ -304,7 +304,6 @@ class Client implements ClientInterface
         $client->setUri($this->creditCardConfig->plansEndpoint());
         $client->setHeaders(['content-type: application/json; charset=utf-8']);
         $client->setHeaders('Authorization', 'Bearer ' . $token);
-        $client->setHeaders('seller_id', $this->creditCardConfig->sellerId());
         $client->setMethod(\Zend_Http_Client::POST);
         $client->setRawData(json_encode($requestParams));
 

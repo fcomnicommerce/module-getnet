@@ -82,8 +82,9 @@ class CatalogProductSaveAfter implements ObserverInterface
                 if (isset($responseBody['plan_id'])) {
                     $product->addData(['plan_id' => $responseBody['plan_id']]);
                     $product->save();
-
                     $this->messageManager->addSuccessMessage('Recurrence successfully saved!');
+                } else {
+                    $this->messageManager->addErrorMessage(__('Error saving the recurrence plan, please try again!'));
                 }
             }
         } catch (\Exception $e) {

@@ -302,8 +302,23 @@ class Client implements ClientInterface
 
         $client = $this->httpClientFactory->create();
         $client->setUri($this->creditCardConfig->plansEndpoint());
+        $client->setConfig([
+            'maxredirects'    => 5,
+            'strictredirects' => false,
+            'useragent'       => 'Zend_Http_Client',
+            'timeout'         => 10,
+            'adapter'         => 'Zend_Http_Client_Adapter_Socket',
+            'httpversion'     => \Zend_Http_Client::HTTP_1,
+            'keepalive'       => false,
+            'storeresponse'   => true,
+            'strict'          => false,
+            'output_stream'   => false,
+            'encodecookies'   => true,
+            'rfc3986_strict'  => false
+        ]);
         $client->setHeaders(['content-type: application/json; charset=utf-8']);
         $client->setHeaders('Authorization', 'Bearer ' . $token);
+        $client->setHeaders(['seller_id' => $requestParams['seller_id']]);
         $client->setMethod(\Zend_Http_Client::POST);
         $client->setRawData(json_encode($requestParams));
 

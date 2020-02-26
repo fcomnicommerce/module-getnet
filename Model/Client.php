@@ -15,7 +15,6 @@
 
 namespace FCamara\Getnet\Model;
 
-
 class Client implements ClientInterface
 {
     const SUCCESS_CODES = [
@@ -281,6 +280,33 @@ class Client implements ClientInterface
         $client->setUri($this->creditCardConfig->vaultEndpoint() . '/' . $cardId);
         $client->setHeaders('Authorization', 'Bearer ' . $token);
         $client->setMethod(\Zend\Http\Request::METHOD_DELETE);
+
+        try {
+            $responseBody = json_decode($client->request()->getBody(), true);
+        } catch (\Exception $e) {
+            $e->getMessage();
+        }
+
+        return $responseBody;
+    }
+
+    /**
+     * @param $requestParams
+     * @return bool|mixed
+     */
+    public function plans($requestParams)
+    {
+        $token = $this->authentication();
+        $responseBody = false;
+        $requestParams['seller_id'] = $this->creditCardConfig->sellerId();
+
+        $client = $this->httpClientFactory->create();
+        $client->setUri($this->creditCardConfig->plansEndpoint());
+        $client->setHeaders(['content-type: application/json; charset=utf-8']);
+        $client->setHeaders('Authorization', 'Bearer ' . $token);
+        $client->setHeaders('seller_id', $this->creditCardConfig->sellerId());
+        $client->setMethod(\Zend_Http_Client::POST);
+        $client->setRawData(json_encode($requestParams));
 
         try {
             $responseBody = json_decode($client->request()->getBody(), true);

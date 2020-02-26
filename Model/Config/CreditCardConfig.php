@@ -165,4 +165,12 @@ class CreditCardConfig extends Config implements CreditCardConfigInterface
     {
         return $this->endpoint() . '/v1/tokens/card';
     }
+
+    /**
+     * @return string
+     */
+    public function plansEndpoint()
+    {
+        return $this->endpoint() . '/v1/plans';
+    }
 }

@@ -11,4 +11,10 @@
         <observer name="fcamara_getnet_data_assign" instance="FCamara\Getnet\Observer\DataAssignObserver" />
         <observer name="fcamara_getnet_credit_card_data_assign" instance="FCamara\Getnet\Observer\CreditCardDataAssignObserver" />
     </event>
+    <event name="catalog_product_save_after">
+        <observer name="fcamara_getnet_catalog_product_save_after" instance="FCamara\Getnet\Observer\CatalogProductSaveAfter" />
+    </event>
+    <event name="catalog_product_delete_after">
+        <observer name="fcamara_getnet_catalog_product_delete_after" instance="FCamara\Getnet\Observer\CatalogProductDeleteAfter" />
+    </event>
 </config>

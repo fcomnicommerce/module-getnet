@@ -115,6 +115,11 @@ interface ConfigInterface
     const XML_PATH_ENABLED_FINGERPRINT = 'payment/getnet/enabled_fingerprint';
 
     /**
+     * Enabled config path Checkout Iframe
+     */
+    const XML_PATH_ENABLED_CHECKOUT_IFRAME = 'payment/getnet/checkout_iframe_enabled';
+
+    /**
      * Check if getnet module is enabled
      *
      * @return bool
@@ -278,4 +283,11 @@ interface ConfigInterface
      * @return mixed
      */
     public function isEnabledFingerprint();
+
+    /**
+     * Return Checkout Iframe is enabled
+     *
+     * @return mixed
+     */
+    public function isEnabledCheckoutIframe();
 }

@@ -274,4 +274,15 @@ class Config implements ConfigInterface
             ScopeInterface::SCOPE_STORE
         );
     }
+
+    /**
+     * @return mixed
+     */
+    public function isEnabledCheckoutIframe()
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_ENABLED_CHECKOUT_IFRAME,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
 }

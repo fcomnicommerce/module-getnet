@@ -61,6 +61,14 @@ class GeneralResponseValidator extends AbstractValidator
             }
         }
 
+        if (
+            isset($validationSubject['response'])
+            && isset($validationSubject['response']['object'])
+            && $validationSubject['response']['object'] == false
+        ) {
+            $isValid = false;
+        }
+
         return $this->createResult($isValid, $messages, $errorCodes);
     }
 }

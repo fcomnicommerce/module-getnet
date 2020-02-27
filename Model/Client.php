@@ -15,12 +15,29 @@
 
 namespace FCamara\Getnet\Model;
 
+use Magento\Checkout\Model\Cart;
+
 class Client implements ClientInterface
 {
     const SUCCESS_CODES = [
         200,
         201,
         202
+    ];
+
+    const CONFIG_HTTP_CLIENT = [
+        'maxredirects'    => 5,
+        'strictredirects' => false,
+        'useragent'       => 'Zend_Http_Client',
+        'timeout'         => 10,
+        'adapter'         => 'Zend_Http_Client_Adapter_Socket',
+        'httpversion'     => \Zend_Http_Client::HTTP_1,
+        'keepalive'       => false,
+        'storeresponse'   => true,
+        'strict'          => false,
+        'output_stream'   => false,
+        'encodecookies'   => true,
+        'rfc3986_strict'  => false
     ];
 
     /**
@@ -34,15 +51,24 @@ class Client implements ClientInterface
     private $httpClientFactory;
 
     /**
+     * @var Cart
+     */
+    private $cart;
+
+    /**
+     * Client constructor.
      * @param \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory
      * @param Config\CreditCardConfig $creditCardConfig
+     * @param Cart $cart
      */
     public function __construct(
         \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory,
-        Config\CreditCardConfig $creditCardConfig
+        Config\CreditCardConfig $creditCardConfig,
+        Cart $cart
     ) {
         $this->creditCardConfig = $creditCardConfig;
         $this->httpClientFactory = $httpClientFactory;
+        $this->cart = $cart;
     }
 
     /**
@@ -152,6 +178,21 @@ class Client implements ClientInterface
         $client->setRawData(json_encode($requestParameters));
 
         try {
+            $quoteItems = $this->cart->getQuote()->getAllVisibleItems();
+
+            foreach ($quoteItems as $item) {
+                $product = $item->getProduct();
+                if ($product->getData('is_recurrence') && $product->getData('recurrence_plan_id')) {
+                    $registerCustomer = $this->customers($requestParameters['customer']);
+
+                    if ($registerCustomer) {
+
+                    } else {
+                        throw new \Exception('Error saving recurrence.');
+                    }
+                }
+            }
+
             $responseBody = json_decode($client->request()->getBody(), true);
             if (isset($responseBody['status']) && $responseBody['status'] == 'AUTHORIZED' || $responseBody['status'] == 'APPROVED') {
                 $this->saveCardData($requestParameters);
@@ -179,6 +220,14 @@ class Client implements ClientInterface
         $client->setRawData(json_encode($requestParameters));
 
         try {
+            $quoteItems = $this->quote->getAllVisibleItems();
+
+            foreach ($quoteItems as $item) {
+                if ($item->getData('is_recurrence')) {
+                    $registerCustomer = $this->customers($requestParameters);
+                }
+            }
+
             $responseBody = json_decode($client->request()->getBody(), true);
             if (isset($responseBody['status']) && $responseBody['status'] == 'APPROVED') {
                 $this->saveCardData($requestParameters);
@@ -302,20 +351,7 @@ class Client implements ClientInterface
 
         $client = $this->httpClientFactory->create();
         $client->setUri($this->creditCardConfig->plansEndpoint());
-        $client->setConfig([
-            'maxredirects'    => 5,
-            'strictredirects' => false,
-            'useragent'       => 'Zend_Http_Client',
-            'timeout'         => 10,
-            'adapter'         => 'Zend_Http_Client_Adapter_Socket',
-            'httpversion'     => \Zend_Http_Client::HTTP_1,
-            'keepalive'       => false,
-            'storeresponse'   => true,
-            'strict'          => false,
-            'output_stream'   => false,
-            'encodecookies'   => true,
-            'rfc3986_strict'  => false
-        ]);
+        $client->setConfig(self::CONFIG_HTTP_CLIENT);
         $client->setHeaders(['content-type: application/json; charset=utf-8']);
         $client->setHeaders('Authorization', 'Bearer ' . $token);
         $client->setHeaders(['seller_id' => $requestParams['seller_id']]);
@@ -329,5 +365,43 @@ class Client implements ClientInterface
         }
 
         return $responseBody;
+    }
+
+    /**
+     * @param $data
+     * @return bool|mixed
+     */
+    public function customers($data)
+    {
+        $token = $this->authentication();
+        $responseStatus = false;
+        $requestParams = [
+            'seller_id' => $this->creditCardConfig->sellerId(),
+            'customer_id' => $data['customer_id'],
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'document_type' => $data['document_type'],
+            'document_number' => $data['document_number'],
+            'phone_number' => $data['phone_number'],
+            'email' => $data['email'],
+            'address' => $data['billing_address']
+        ];
+
+        $client = $this->httpClientFactory->create();
+        $client->setUri($this->creditCardConfig->plansEndpoint());
+        $client->setConfig(self::CONFIG_HTTP_CLIENT);
+        $client->setHeaders(['content-type: application/json; charset=utf-8']);
+        $client->setHeaders('Authorization', 'Bearer ' . $token);
+        $client->setHeaders(['seller_id' => $requestParams['seller_id']]);
+        $client->setMethod(\Zend_Http_Client::POST);
+        $client->setRawData(json_encode($requestParams));
+
+        try {
+            $responseStatus = in_array($client->request()->getStatus(), self::SUCCESS_CODES);
+        } catch (\Exception $e) {
+            $e->getMessage();
+        }
+
+        return $responseStatus;
     }
 }

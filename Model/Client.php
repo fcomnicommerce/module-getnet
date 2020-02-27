@@ -186,7 +186,13 @@ class Client implements ClientInterface
                     $registerCustomer = $this->customers($requestParameters['customer']);
 
                     if ($registerCustomer) {
+                        $subscription = $this->subscriptions($requestParameters);
 
+                        if (!$subscription) {
+                            throw new \Exception('Error saving recurrence.');
+                        }
+
+                        $responseBody = $subscription;
                     } else {
                         throw new \Exception('Error saving recurrence.');
                     }
@@ -220,11 +226,24 @@ class Client implements ClientInterface
         $client->setRawData(json_encode($requestParameters));
 
         try {
-            $quoteItems = $this->quote->getAllVisibleItems();
+            $quoteItems = $this->cart->getQuote()->getAllVisibleItems();
 
             foreach ($quoteItems as $item) {
-                if ($item->getData('is_recurrence')) {
-                    $registerCustomer = $this->customers($requestParameters);
+                $product = $item->getProduct();
+                if ($product->getData('is_recurrence') && $product->getData('recurrence_plan_id')) {
+                    $registerCustomer = $this->customers($requestParameters['customer']);
+
+                    if ($registerCustomer) {
+                        $subscription = $this->subscriptions($requestParameters);
+
+                        if (!$subscription) {
+                            throw new \Exception('Error saving recurrence.');
+                        }
+
+                        $responseBody = $subscription;
+                    } else {
+                        throw new \Exception('Error saving recurrence.');
+                    }
                 }
             }
 
@@ -389,6 +408,53 @@ class Client implements ClientInterface
 
         $client = $this->httpClientFactory->create();
         $client->setUri($this->creditCardConfig->plansEndpoint());
+        $client->setConfig(self::CONFIG_HTTP_CLIENT);
+        $client->setHeaders(['content-type: application/json; charset=utf-8']);
+        $client->setHeaders('Authorization', 'Bearer ' . $token);
+        $client->setHeaders(['seller_id' => $requestParams['seller_id']]);
+        $client->setMethod(\Zend_Http_Client::POST);
+        $client->setRawData(json_encode($requestParams));
+
+        try {
+            $responseStatus = in_array($client->request()->getStatus(), self::SUCCESS_CODES);
+        } catch (\Exception $e) {
+            $e->getMessage();
+        }
+
+        return true;
+    }
+
+    /**
+     * @param $data
+     * @return bool|mixed
+     */
+    public function subscriptions($data)
+    {
+        $token = $this->authentication();
+        $responseStatus = false;
+        $requestParams = [
+            'seller_id' => $this->creditCardConfig->sellerId(),
+            'customer_id' => $data['customer']['customer_id'],
+            'plan_id' => $data['plan_id'],
+            'subscription' => [
+                'payment_type' => [
+                    'credit' => [
+                        'transaction_type' =>  $data['credit']['transaction_type'],
+                        'number_installments' => 1,
+                        'card' => [
+                            'cardholder_name' => $data['credit']['card']['cardholder_name'],
+                            'brand' => $data['credit']['card']['brand'],
+                            'expiration_month' => $data['credit']['card']['expiration_month'],
+                            'expiration_year' => $data['credit']['card']['expiration_year'],
+                            'bin' => substr($data['cc_number'], 0, 6)
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        $client = $this->httpClientFactory->create();
+        $client->setUri($this->creditCardConfig->subscriptionsEndpoint());
         $client->setConfig(self::CONFIG_HTTP_CLIENT);
         $client->setHeaders(['content-type: application/json; charset=utf-8']);
         $client->setHeaders('Authorization', 'Bearer ' . $token);

@@ -215,10 +215,9 @@ define(
                                 beforeSend: function (request) {
                                     request.setRequestHeader("Authorization", 'Bearer ' + data.access_token);
                                     request.setRequestHeader("Accept", 'application/json');
+                                    request.setRequestHeader("Content-type", 'application/json; charset=utf-8');
                                 },
-                                data: {
-                                    "card_number": creditCardNumber
-                                },
+                                data: JSON.stringify({card_number: creditCardNumber}),
                                 type: "POST",
                                 dataType: 'json'
                             }).fail(function(data) {

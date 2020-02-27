@@ -408,7 +408,7 @@ class Client implements ClientInterface
         ];
 
         $client = $this->httpClientFactory->create();
-        $client->setUri($this->creditCardConfig->plansEndpoint());
+        $client->setUri($this->creditCardConfig->customersEndpoint());
         $client->setConfig(self::CONFIG_HTTP_CLIENT);
         $client->setHeaders(['content-type: application/json; charset=utf-8']);
         $client->setHeaders('Authorization', 'Bearer ' . $token);
@@ -422,7 +422,7 @@ class Client implements ClientInterface
             $e->getMessage();
         }
 
-        return true;
+        return $responseStatus;
     }
 
     /**

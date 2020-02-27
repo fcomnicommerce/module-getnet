@@ -217,6 +217,7 @@ class Client implements ClientInterface
     {
         $token = $this->authentication();
         $responseBody = false;
+        $isRecurrence = false;
         $requestParameters['seller_id'] = $this->creditCardConfig->sellerId();
         $client = $this->httpClientFactory->create();
         $client->setUri(str_replace('{payment_id}', $requestParameters['payment_id'], $this->creditCardConfig->captureEndpoint()));
@@ -231,25 +232,24 @@ class Client implements ClientInterface
             foreach ($quoteItems as $item) {
                 $product = $item->getProduct();
                 if ($product->getData('is_recurrence') && $product->getData('recurrence_plan_id')) {
-                    $registerCustomer = $this->customers($requestParameters['customer']);
+                    $isRecurrence = true;
+                    $this->customers($requestParameters['customer']);
+                    $requestParameters['plan_id'] = $product->getData('recurrence_plan_id');
+                    $subscription = $this->subscriptions($requestParameters);
 
-                    if ($registerCustomer) {
-                        $subscription = $this->subscriptions($requestParameters);
-
-                        if (!$subscription) {
-                            throw new \Exception('Error saving recurrence.');
-                        }
-
-                        $responseBody = $subscription;
-                    } else {
+                    if (!$subscription) {
                         throw new \Exception('Error saving recurrence.');
                     }
+
+                    $responseBody = $subscription;
                 }
             }
 
-            $responseBody = json_decode($client->request()->getBody(), true);
-            if (isset($responseBody['status']) && $responseBody['status'] == 'APPROVED') {
-                $this->saveCardData($requestParameters);
+            if (!$isRecurrence) {
+                $responseBody = json_decode($client->request()->getBody(), true);
+                if (isset($responseBody['status']) && $responseBody['status'] == 'APPROVED') {
+                    $this->saveCardData($requestParameters);
+                }
             }
         } catch (\Exception $e) {
             $e->getMessage();

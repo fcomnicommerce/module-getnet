@@ -169,6 +169,7 @@ class Client implements ClientInterface
     {
         $token = $this->authentication();
         $responseBody = false;
+        $isRecurrence = false;
         $requestParameters['seller_id'] = $this->creditCardConfig->sellerId();
         $client = $this->httpClientFactory->create();
         $client->setUri($this->creditCardConfig->authorizeEndpoint());
@@ -183,26 +184,24 @@ class Client implements ClientInterface
             foreach ($quoteItems as $item) {
                 $product = $item->getProduct();
                 if ($product->getData('is_recurrence') && $product->getData('recurrence_plan_id')) {
-                    $registerCustomer = $this->customers($requestParameters['customer']);
+                    $isRecurrence = true;
+                    $this->customers($requestParameters['customer']);
+                    $requestParameters['plan_id'] = $product->getData('recurrence_plan_id');
+                    $subscription = $this->subscriptions($requestParameters);
 
-                    if ($registerCustomer) {
-                        $requestParameters['plan_id'] = $product->getData('recurrence_plan_id');
-                        $subscription = $this->subscriptions($requestParameters);
-
-                        if (!$subscription) {
-                            throw new \Exception('Error saving recurrence.');
-                        }
-
-                        $responseBody = $subscription;
-                    } else {
+                    if (!$subscription) {
                         throw new \Exception('Error saving recurrence.');
                     }
+
+                    $responseBody = $subscription;
                 }
             }
 
-            $responseBody = json_decode($client->request()->getBody(), true);
-            if (isset($responseBody['status']) && $responseBody['status'] == 'AUTHORIZED' || $responseBody['status'] == 'APPROVED') {
-                $this->saveCardData($requestParameters);
+            if (!$isRecurrence) {
+                $responseBody = json_decode($client->request()->getBody(), true);
+                if (isset($responseBody['status']) && $responseBody['status'] == 'AUTHORIZED' || $responseBody['status'] == 'APPROVED') {
+                    $this->saveCardData($requestParameters);
+                }
             }
         } catch (\Exception $e) {
             $e->getMessage();
@@ -394,7 +393,7 @@ class Client implements ClientInterface
     public function customers($data)
     {
         $token = $this->authentication();
-        $responseStatus = false;
+        $responseBody = false;
         $requestParams = [
             'seller_id' => $this->creditCardConfig->sellerId(),
             'customer_id' => $data['customer_id'],
@@ -417,12 +416,12 @@ class Client implements ClientInterface
         $client->setRawData(json_encode($requestParams));
 
         try {
-            $responseStatus = in_array($client->request()->getStatus(), self::SUCCESS_CODES);
+            $responseBody = json_decode($client->request()->getBody(), true);
         } catch (\Exception $e) {
             $e->getMessage();
         }
 
-        return $responseStatus;
+        return isset($responseBody['status']) && $responseBody['status'] == 'success';
     }
 
     /**
@@ -432,7 +431,7 @@ class Client implements ClientInterface
     public function subscriptions($data)
     {
         $token = $this->authentication();
-        $responseStatus = false;
+        $responseBody = false;
         $requestParams = [
             'seller_id' => $this->creditCardConfig->sellerId(),
             'customer_id' => $data['customer']['customer_id'],
@@ -443,6 +442,7 @@ class Client implements ClientInterface
                         'transaction_type' =>  $data['credit']['transaction_type'],
                         'number_installments' => 1,
                         'card' => [
+                            'number_token' => $data['credit']['card']['number_token'],
                             'cardholder_name' => $data['credit']['card']['cardholder_name'],
                             'brand' => $data['credit']['card']['brand'],
                             'expiration_month' => $data['credit']['card']['expiration_month'],
@@ -464,11 +464,11 @@ class Client implements ClientInterface
         $client->setRawData(json_encode($requestParams));
 
         try {
-            $responseStatus = in_array($client->request()->getStatus(), self::SUCCESS_CODES);
+            $responseBody = json_decode($client->request()->getBody(), true);
         } catch (\Exception $e) {
             $e->getMessage();
         }
 
-        return $responseStatus;
+        return isset($responseBody['status']) && $responseBody['status'] == 'success';
     }
 }

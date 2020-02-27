@@ -80,7 +80,7 @@ class CatalogProductSaveAfter implements ObserverInterface
                 $responseBody = $this->client->plans($requestParams);
 
                 if (isset($responseBody['plan_id'])) {
-                    $product->addData(['plan_id' => $responseBody['plan_id']]);
+                    $product->addData(['recurrence_plan_id' => $responseBody['plan_id']]);
                     $product->save();
                     $this->messageManager->addSuccessMessage('Recurrence successfully saved!');
                 } else {
@@ -90,5 +90,7 @@ class CatalogProductSaveAfter implements ObserverInterface
         } catch (\Exception $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
         }
+
+        return $this;
     }
 }

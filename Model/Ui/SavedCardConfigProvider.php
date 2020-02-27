@@ -19,6 +19,8 @@ use \Magento\Checkout\Model\ConfigProviderInterface;
 use FCamara\Getnet\Model\Client;
 use \Magento\Customer\Model\Session;
 use \Psr\Log\LoggerInterface;
+use Magento\Checkout\Model\Session as CheckoutSession;
+use Magento\Catalog\Model\ProductFactory;
 
 class SavedCardConfigProvider implements ConfigProviderInterface
 {
@@ -38,19 +40,37 @@ class SavedCardConfigProvider implements ConfigProviderInterface
     protected $logger;
 
     /**
+     * @var \Magento\Quote\Model\Quote
+     */
+    private $quote;
+
+    /**
+     * @var ProductFactory
+     */
+    private $product;
+
+    /**
      * SavedCardConfigProvider constructor.
      * @param Client $client
      * @param Session $customerSession
      * @param LoggerInterface $logger
+     * @param CheckoutSession $checkoutSession
+     * @param ProductFactory $product
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function __construct(
         Client $client,
         Session $customerSession,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        CheckoutSession $checkoutSession,
+        ProductFactory $product
     ) {
         $this->client = $client;
         $this->customerSession = $customerSession;
         $this->logger = $logger;
+        $this->quote = $checkoutSession->getQuote();
+        $this->product = $product;
     }
 
     /**
@@ -59,8 +79,13 @@ class SavedCardConfigProvider implements ConfigProviderInterface
     public function getConfig()
     {
         $output = [];
+        $isRecurrence = $this->isRecurrence();
 
         try {
+            if ($isRecurrence) {
+                return $output;
+            }
+
             $cards = $this->client->cardList($this->customerSession->getCustomerId());
 
             foreach ($cards['cards'] as $card) {
@@ -85,5 +110,23 @@ class SavedCardConfigProvider implements ConfigProviderInterface
         }
 
         return $output;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isRecurrence()
+    {
+        $isRecurrence = false;
+        $quoteItems = $this->quote->getAllVisibleItems();
+
+        foreach ($quoteItems as $item) {
+            $product = $this->product->create()->load($item->getProduct()->getId());
+            if ($product->getData('is_recurrence') && $product->getData('recurrence_plan_id')) {
+                $isRecurrence = true;
+            }
+        }
+
+        return $isRecurrence;
     }
 }

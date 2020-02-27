@@ -15,7 +15,7 @@
 
 namespace FCamara\Getnet\Model;
 
-use Magento\Checkout\Model\Cart;
+use Magento\Checkout\Model\Session;
 
 class Client implements ClientInterface
 {
@@ -51,24 +51,26 @@ class Client implements ClientInterface
     private $httpClientFactory;
 
     /**
-     * @var Cart
+     * @var \Magento\Quote\Model\Quote
      */
-    private $cart;
+    private $quote;
 
     /**
      * Client constructor.
      * @param \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory
      * @param Config\CreditCardConfig $creditCardConfig
-     * @param Cart $cart
+     * @param Session $session
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function __construct(
         \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory,
         Config\CreditCardConfig $creditCardConfig,
-        Cart $cart
+        Session $session
     ) {
         $this->creditCardConfig = $creditCardConfig;
         $this->httpClientFactory = $httpClientFactory;
-        $this->cart = $cart;
+        $this->quote = $session->getQuote();
     }
 
     /**
@@ -179,7 +181,7 @@ class Client implements ClientInterface
         $client->setRawData(json_encode($requestParameters));
 
         try {
-            $quoteItems = $this->cart->getQuote()->getAllVisibleItems();
+            $quoteItems = $this->quote->getAllVisibleItems();
 
             foreach ($quoteItems as $item) {
                 $product = $item->getProduct();
@@ -227,7 +229,7 @@ class Client implements ClientInterface
         $client->setRawData(json_encode($requestParameters));
 
         try {
-            $quoteItems = $this->cart->getQuote()->getAllVisibleItems();
+            $quoteItems = $this->quote->getAllVisibleItems();
 
             foreach ($quoteItems as $item) {
                 $product = $item->getProduct();

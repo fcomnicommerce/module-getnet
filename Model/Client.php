@@ -186,6 +186,7 @@ class Client implements ClientInterface
                     $registerCustomer = $this->customers($requestParameters['customer']);
 
                     if ($registerCustomer) {
+                        $requestParameters['plan_id'] = $product->getData('recurrence_plan_id');
                         $subscription = $this->subscriptions($requestParameters);
 
                         if (!$subscription) {

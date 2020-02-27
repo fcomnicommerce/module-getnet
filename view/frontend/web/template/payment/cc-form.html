@@ -11,6 +11,7 @@
             <span><!-- ko i18n: 'Credit Card Information'--><!-- /ko --></span>
         </legend><br />
         <!-- /ko -->
+        <!-- ko if: (getSavedCardsList().length > 0) -->
         <div class="field saved-cards" data-bind="attr: {id: getCode() + '_saved-cards'}">
             <label data-bind="attr: {for: getCode() + '_saved-cards'}" class="label">
                 <span><!-- ko i18n: 'Saved Cards'--><!-- /ko --></span>
@@ -34,6 +35,7 @@
                 </div>
             </div>
         </div>
+        <!-- /ko -->
         <div class="field type">
             <div class="control">
                 <ul class="credit-card-types">
@@ -145,6 +147,7 @@
             </div>
         </div>
         <div class="field installment required" data-bind="attr: {id: getCode() + '_cc_type_installment_div'}">
+            <!-- ko if: (!isRecurrence()) -->
             <label data-bind="attr: {for: getCode() + '_cc_installment'}" class="label">
                 <span><!-- ko i18n: 'Installment'--><!-- /ko --></span>
             </label>
@@ -166,8 +169,10 @@
                     </div>
                 </div>
             </div>
+            <!-- /ko -->
         </div>
         <div class="field save-card-data">
+            <!-- ko if: (!isRecurrence()) -->
             <div class="control">
                 <input type="checkbox"
                        id="save_card_data"
@@ -180,6 +185,7 @@
                     <span><!-- ko i18n: 'Save for later use.'--><!-- /ko --></span>
                 </label>
             </div>
+            <!-- /ko -->
         </div>
         <!-- /ko -->
     </fieldset>

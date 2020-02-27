@@ -78,11 +78,13 @@ class SavedCardConfigProvider implements ConfigProviderInterface
      */
     public function getConfig()
     {
-        $output = [];
+        $output['payment']['saved_cards'] = [];
+        $output['payment']['is_recurrence'] = false;
         $isRecurrence = $this->isRecurrence();
 
         try {
             if ($isRecurrence) {
+                $output['payment']['is_recurrence'] = true;
                 return $output;
             }
 

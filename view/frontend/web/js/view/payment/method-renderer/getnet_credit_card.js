@@ -103,6 +103,14 @@ define(
                 return window.checkoutConfig.payment.saved_cards;
             },
 
+            /**
+             * Check is recurrence method
+             * @returns {*}
+             */
+            isRecurrence: function () {
+                return window.checkoutConfig.payment.is_recurrence;
+            },
+
             changeSavedCard: function(id) {
                 if (id) {
                     jQuery('div.field.type, div.field.name.required, div.field.number.required, div.field.expiry.required, div.field.save-card-data, div.card-wrapper').fadeOut();

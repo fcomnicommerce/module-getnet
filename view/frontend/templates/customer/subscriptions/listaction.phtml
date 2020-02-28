@@ -1,0 +1,48 @@
+<?php
+/**
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to https://www.fcamara.com.br/ for more information.
+ *
+ * @category  FCamara
+ * @package   FCamara_Getnet
+ * @copyright Copyright (c) 2020 Getnet
+ * @Agency    FCamara Formação e Consultoria, Inc. (http://www.fcamara.com.br)
+ * @author    Danilo Cavalcanti de Moura <danilo.moura@fcamara.com.br>
+ */
+?>
+<?php $_subscriptions = $block->getSubscriptionsList(); ?>
+
+<?php if (count($_subscriptions)): ?>
+    <div class="table-wrapper my-credit-cards">
+        <table class="data table table-credit-cards" id="my-orders-table">
+            <caption class="table-caption"><?= $block->escapeHtml(__('My Subscriptions')) ?></caption>
+            <thead>
+            <tr>
+                <th scope="col" class="col card-number"><?= $block->escapeHtml(__('Plan Id')) ?></th>
+                <th scope="col" class="col expire"><?= $block->escapeHtml(__('Plan Name')) ?></th>
+                <th scope="col" class="col card-type"><?= $block->escapeHtml(__('Amount')) ?></th>
+                <th scope="col" class="col actions">&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($_subscriptions as $_subscription): ?>
+                    <tr>
+                        <td><?= $block->escapeHtml($_subscription['plan_id']) ?></td>
+                        <td><?= $block->escapeHtml($_subscription['name']) ?></td>
+                        <td><?= $block->escapeHtml($_subscription['amount']) ?></td>
+                        <td>
+                            <a href="<?= $block->getUrl('getnet/subscriptions/deleteaction', ['_current' => true, '_query' => ['card_id' => $_card['card_id']]]) ?>">
+                                <?= $block->escapeHtml(__('Delete')) ?>
+                            </a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+<?php else: ?>
+    <div class="message info empty"><span><?= $block->escapeHtml(__('You have subscriptions.')) ?></span></div>
+<?php endif; ?>

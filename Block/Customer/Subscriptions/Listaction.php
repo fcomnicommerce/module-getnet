@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER
  *
@@ -15,9 +16,11 @@
 
 namespace FCamara\Getnet\Block\Customer\Subscriptions;
 
-use \Magento\Framework\View\Element\Template;
+use Magento\Framework\View\Element\Template;
 use FCamara\Getnet\Model\Client;
-use \Magento\Customer\Model\Session;
+use Magento\Customer\Model\Session;
+use Magento\Sales\Model\ResourceModel\Order\CollectionFactory;
+use Magento\Sales\Model\Order\Config as OrderConfig;
 
 class Listaction extends Template
 {
@@ -32,29 +35,67 @@ class Listaction extends Template
     private $customerSession;
 
     /**
+     * @var CollectionFactory
+     */
+    private $orderCollection;
+
+    /**
+     * @var OrderConfig
+     */
+    private $orderConfig;
+
+    /**
      * Listaction constructor.
      * @param Template\Context $context
      * @param Client $client
      * @param Session $customerSession
+     * @param CollectionFactory $orderCollection
+     * @param OrderConfig $orderConfig
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
         Client $client,
         Session $customerSession,
+        CollectionFactory $orderCollection,
+        OrderConfig $orderConfig,
         array $data = []
     ) {
         $this->client = $client;
         $this->customerSession = $customerSession;
+        $this->orderCollection = $orderCollection;
+        $this->orderConfig = $orderConfig;
         parent::__construct($context, $data);
     }
 
     /**
-     * @return bool|mixed
+     * @return array
      */
     public function getSubscriptionsList()
     {
         $subscriptions = [];
+        $customerId = $this->customerSession->getCustomerId();
+        $orders = $this->orderCollection->create($customerId)->addFieldToSelect(
+            '*'
+        )->addFieldToFilter(
+            'status',
+            ['in' => $this->orderConfig->getVisibleOnFrontStatuses()]
+        )->addFieldToFilter(
+            'subscription_id',
+            ['neq' => '']
+        )->setOrder(
+            'created_at',
+            'desc'
+        );
+
+        foreach ($orders as $order) {
+            $subscriptions[] = [
+                'plan_id' => $order['entity_id'],
+                'name' => $order['entity_id'],
+                'amount' => $order['grand_total']
+            ];
+        }
+
         return $subscriptions;
     }
 }

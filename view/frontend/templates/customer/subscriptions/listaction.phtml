@@ -34,7 +34,7 @@
                         <td><?= $block->escapeHtml($_subscription['name']) ?></td>
                         <td><?= $block->escapeHtml($_subscription['amount']) ?></td>
                         <td>
-                            <a href="<?= $block->getUrl('getnet/subscriptions/deleteaction', ['_current' => true, '_query' => ['card_id' => $_card['card_id']]]) ?>">
+                            <a href="#">
                                 <?= $block->escapeHtml(__('Delete')) ?>
                             </a>
                         </td>

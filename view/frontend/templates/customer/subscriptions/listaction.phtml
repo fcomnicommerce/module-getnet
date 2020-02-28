@@ -32,7 +32,7 @@
                     <tr>
                         <td><?= $block->escapeHtml($_subscription['plan_id']) ?></td>
                         <td><?= $block->escapeHtml($_subscription['name']) ?></td>
-                        <td><?= $block->escapeHtml($_subscription['amount']) ?></td>
+                        <td>R$ <?= $block->escapeHtml(number_format($_subscription['amount'], 2, ',', '.')) ?></td>
                         <td>
                             <a href="#">
                                 <?= $block->escapeHtml(__('Delete')) ?>

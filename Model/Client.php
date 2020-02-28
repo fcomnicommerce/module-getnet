@@ -467,6 +467,11 @@ class Client implements ClientInterface
 
         try {
             $responseBody = json_decode($client->request()->getBody(), true);
+
+            if (isset($responseBody['subscription']['subscription_id'])) {
+                $this->quote->addData(['subscription_id' => $responseBody['subscription']['subscription_id']]);
+                $this->quote->save();
+            }
         } catch (\Exception $e) {
             $e->getMessage();
         }

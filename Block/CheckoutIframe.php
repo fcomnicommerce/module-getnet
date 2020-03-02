@@ -86,7 +86,7 @@ class CheckoutIframe extends Template
 
         $data = [
             'seller_id' => $this->creditCardConfig->sellerId(),
-            'token' => $this->client->authentication(),
+            'token' => 'Bearer ' . $this->client->authentication(),
             'amount' => $quote->getData('grand_total'),
             'customerid' => $customer->getId(),
             'installments' => $this->creditCardConfig->qtyInstallments(),

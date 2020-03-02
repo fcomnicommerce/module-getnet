@@ -285,4 +285,15 @@ class Config implements ConfigInterface
             ScopeInterface::SCOPE_STORE
         );
     }
+
+    /**
+     * @return mixed
+     */
+    public function urlCheckoutIframe()
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_URL_CHECKOUT_IFRAME,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
 }

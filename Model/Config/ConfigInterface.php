@@ -120,6 +120,11 @@ interface ConfigInterface
     const XML_PATH_ENABLED_CHECKOUT_IFRAME = 'payment/getnet/checkout_iframe_enabled';
 
     /**
+     * Url config path Checkout Iframe
+     */
+    const XML_PATH_URL_CHECKOUT_IFRAME = 'payment/getnet/url_checkout_iframe';
+
+    /**
      * Check if getnet module is enabled
      *
      * @return bool
@@ -290,4 +295,11 @@ interface ConfigInterface
      * @return mixed
      */
     public function isEnabledCheckoutIframe();
+
+    /**
+     * Return Url Checkout Iframe
+     *
+     * @return mixed
+     */
+    public function urlCheckoutIframe();
 }

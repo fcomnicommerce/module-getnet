@@ -19,12 +19,12 @@
 
 <a class="pay-button-getnet">Finalizar</a>
 
-<script async src="https://checkout-homologacao.getnet.com.br/loader.js"
+<script async src="<?= $data['url'] ?>"
         data-getnet-sellerid="<?= $data['seller_id'] ?>"
         data-getnet-token="<?= $data['token'] ?>"
         data-getnet-amount="<?= $data['amount'] ?>"
         data-getnet-customerid="<?= $data['customerid'] ?>"
-        data-getnet-orderid=""
+        data-getnet-orderid="<?= $data['orderid'] ?>"
         data-getnet-button-class="pay-button-getnet"
         data-getnet-installments="<?= $data['installments'] ?>"
         data-getnet-customer-first-name="<?= $data['customer']['first_name'] ?>"
@@ -41,8 +41,7 @@
         data-getnet-customer-address-state="<?= $data['customer']['billing_address']['state'] ?>"
         data-getnet-customer-address-zipcode="<?= $data['customer']['billing_address']['postal_code'] ?>"
         data-getnet-customer-country="<?= $data['customer']['billing_address']['country'] ?>"
-        data-getnet-shipping-address='<?= json_encode($data['customer']['shipping_address']) ?>'
-        data-getnet-items='<?= json_encode($data['items']) ?>'
+        data-getnet-items='[<?= json_encode($data['items']) ?>]'
         data-getnet-url-callback="https://ecommerce.com.br/sucesso"
         data-getnet-pre-authorization-credit="">
 </script>

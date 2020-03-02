@@ -85,11 +85,13 @@ class CheckoutIframe extends Template
         $postcodeShippingAddress = $this->cleanZipcode($shippingAddress->getPostcode());
 
         $data = [
+            'url' => $this->creditCardConfig->urlCheckoutIframe(),
             'seller_id' => $this->creditCardConfig->sellerId(),
             'token' => 'Bearer ' . $this->client->authentication(),
-            'amount' => $quote->getData('grand_total'),
+            'amount' => number_format($quote->getData('grand_total'), 2, '.', ''),
             'customerid' => $customer->getId(),
             'installments' => $this->creditCardConfig->qtyInstallments(),
+            'orderid' => $quote->getId(),
             'customer' => [
                 'first_name' => $customer->getData('firstname'),
                 'last_name' => $customer->getData('lastname'),
@@ -112,7 +114,7 @@ class CheckoutIframe extends Template
                     'name' => $customer->getData('firstname') . ' ' . $customer->getData('lastname'),
                     'email' => $customer->getData('email'),
                     'phone_number' => $shippingAddress->getTelephone(),
-                    'shipping_amount' => $shippingAddress->getShippingAmount(),
+                    'shipping_amount' => number_format($shippingAddress->getShippingAmount(), 2, '.', ''),
                     'address' => [
                         'street' => $shippingAddressLines[0],
                         'complement' => $shippingAddressLines[2],

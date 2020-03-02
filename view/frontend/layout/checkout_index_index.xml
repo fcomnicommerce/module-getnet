@@ -11,6 +11,9 @@
             <block name="fingerprint" class="FCamara\Getnet\Block\Fingerprint" template="FCamara_Getnet::fingerprint.phtml" before="-" cacheable="false">
 
             </block>
+            <block name="checkout.iframe" class="FCamara\Getnet\Block\CheckoutIframe" template="FCamara_Getnet::checkout_iframe.phtml" ifconfig="newsletter/general/active" before="-" cacheable="false">
+
+            </block>
         </referenceContainer>
         <referenceBlock name="checkout.root">
             <arguments>

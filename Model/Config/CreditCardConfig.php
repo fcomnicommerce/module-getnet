@@ -198,4 +198,13 @@ class CreditCardConfig extends Config implements CreditCardConfigInterface
     {
         return $this->endpoint() . '/v1/subscriptions/' . $subscriptionId;
     }
+
+    /**
+     * @param $subscriptionId
+     * @return string
+     */
+    public function cancelSubscriptionEndpoint($subscriptionId)
+    {
+        return $this->endpoint() . '/v1/subscriptions/' . $subscriptionId . '/cancel';
+    }
 }

@@ -508,4 +508,35 @@ class Client implements ClientInterface
 
         return $responseBody;
     }
+
+    /**
+     * @param $subscriptionId
+     * @return bool
+     */
+    public function cancelSubscription($subscriptionId)
+    {
+        $token = $this->authentication();
+        $responseBody = false;
+        $requestParams = [
+            'seller_id' => $this->creditCardConfig->sellerId(),
+            'status_details' => 'Cliente não tem mais interesse no serviço/produto'
+        ];
+
+        $client = $this->httpClientFactory->create();
+        $client->setUri($this->creditCardConfig->cancelSubscriptionEndpoint($subscriptionId));
+        $client->setConfig(self::CONFIG_HTTP_CLIENT);
+        $client->setHeaders(['content-type: application/json; charset=utf-8']);
+        $client->setHeaders('Authorization', 'Bearer ' . $token);
+        $client->setHeaders(['seller_id' => $requestParams['seller_id']]);
+        $client->setMethod(\Zend_Http_Client::POST);
+        $client->setRawData(json_encode($requestParams));
+
+        try {
+            $responseBody = json_decode($client->request()->getBody(), true);
+        } catch (\Exception $e) {
+            $e->getMessage();
+        }
+
+        return $responseBody;
+    }
 }

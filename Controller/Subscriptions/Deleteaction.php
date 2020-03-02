@@ -44,17 +44,17 @@ class Deleteaction extends Action
     {
         try {
             $subscriptionId = $this->getRequest()->getParam('subscription_id', null);
-            $delete = $this->client->deleteSubscription($subscriptionId);
+            $cancel = $this->client->cancelSubscription($subscriptionId);
 
-            if ($delete['status_code'] != '200') {
-                throw new \Exception($delete['details'][0]['description_detail']);
+            if ($cancel['status'] != 'canceled') {
+                throw new \Exception($cancel['details'][0]['description_detail']);
             }
 
-            $this->messageManager->addSuccessMessage('Card successfully deleted');
+            $this->messageManager->addSuccessMessage('Subscription successfully canceled!');
         } catch (\Exception $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
         }
 
-        $this->_redirect('getnet/cards/listaction');
+        $this->_redirect('getnet/subscriptions/listaction');
     }
 }

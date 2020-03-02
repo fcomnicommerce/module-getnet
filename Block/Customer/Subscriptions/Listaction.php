@@ -91,7 +91,7 @@ class Listaction extends Template
         foreach ($orders as $order) {
             $subscription = $this->client->getSubscription($order['subscription_id']);
 
-            if ($subscription['status'] != 'canceled') {
+            if (isset($subscription['status']) && $subscription['status'] != 'canceled') {
                 $subscriptions[] = [
                     'subscription_id' => $subscription['subscription']['subscription_id'],
                     'name' => $subscription['plan']['name'],

@@ -13,17 +13,18 @@
  * @author    Danilo Cavalcanti de Moura <danilo.moura@fcamara.com.br>
  */
 ?>
+<?php $data = $block->getCheckoutIframeData(); ?>
 
 <h1>Checkout Iframe</h1>
 
-<a class=”pay-button-getnet”>Finalizar</a>
+<a class="pay-button-getnet">Finalizar</a>
 
 <script async src="https://checkout-homologacao.getnet.com.br/loader.js"
         data-getnet-sellerid="SELLER ID"
         data-getnet-token="Bearer 62e05f4b-4097-4008-b1ba-0d78eaba49cf"
         data-getnet-amount="25.00"
         data-getnet-customerid="12345"
-        data-getnet-orderid="12345"
+        data-getnet-orderid=""
         data-getnet-button-class="pay-button-getnet"
         data-getnet-installments="4"
         data-getnet-customer-first-name="João"

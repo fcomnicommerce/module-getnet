@@ -18,6 +18,7 @@ namespace FCamara\Getnet\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Message\ManagerInterface;
+use Magento\Quote\Api\CartRepositoryInterface;
 
 class SalesOrderPlaceAfter implements ObserverInterface
 {
@@ -27,12 +28,19 @@ class SalesOrderPlaceAfter implements ObserverInterface
     private $messageManager;
 
     /**
-     * CatalogProductSaveAfter constructor.
-     * @param ManagerInterface $messageManager
+     * @var CartRepositoryInterface
      */
-    public function __construct(ManagerInterface $messageManager)
+    private $quoteRepository;
+
+    /**
+     * SalesOrderPlaceAfter constructor.
+     * @param ManagerInterface $messageManager
+     * @param CartRepositoryInterface $quoteRepository
+     */
+    public function __construct(ManagerInterface $messageManager, CartRepositoryInterface $quoteRepository)
     {
         $this->messageManager = $messageManager;
+        $this->quoteRepository = $quoteRepository;
     }
 
     /**
@@ -42,16 +50,16 @@ class SalesOrderPlaceAfter implements ObserverInterface
     public function execute(Observer $observer)
     {
         try {
-            $order = $observer->getEvent()->getOrder();
-            $quote = $order->getQuote();
+            $order = $observer->getOrder();
+            $quote = $this->quoteRepository->get($order->getData('quote_id'));
 
             if ($quote->getData('subscription_id')) {
                 $order->addData(['subscription_id' => $quote->getData('subscription_id')]);
+                $order->save();
             }
+
         } catch (\Exception $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
         }
-
-        return $this;
     }
 }

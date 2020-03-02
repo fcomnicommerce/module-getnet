@@ -13,7 +13,7 @@
  * @author    Danilo Cavalcanti de Moura <danilo.moura@fcamara.com.br>
  */
 
-namespace FCamara\Getnet\Controller\Cards;
+namespace FCamara\Getnet\Controller\Subscriptions;
 
 use Magento\Framework\App\Action\Action;
 use FCamara\Getnet\Model\Client;
@@ -43,8 +43,8 @@ class Deleteaction extends Action
     public function execute()
     {
         try {
-            $cardId = $this->getRequest()->getParam('card_id', null);
-            $delete = $this->client->deleteCard($cardId);
+            $subscriptionId = $this->getRequest()->getParam('subscription_id', null);
+            $delete = $this->client->deleteSubscription($subscriptionId);
 
             if ($delete['status_code'] != '200') {
                 throw new \Exception($delete['details'][0]['description_detail']);

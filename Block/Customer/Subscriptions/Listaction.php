@@ -89,11 +89,15 @@ class Listaction extends Template
         );
 
         foreach ($orders as $order) {
-            $subscriptions[] = [
-                'plan_id' => $order['entity_id'],
-                'name' => $order['entity_id'],
-                'amount' => $order['grand_total']
-            ];
+            $subscription = $this->client->getSubscription($order['subscription_id']);
+
+            if ($subscription) {
+                $subscriptions[] = [
+                    'subscription_id' => $subscription['subscription']['subscription_id'],
+                    'name' => $subscription['plan']['name'],
+                    'amount' => $subscription['plan']['amount']
+                ];
+            }
         }
 
         return $subscriptions;

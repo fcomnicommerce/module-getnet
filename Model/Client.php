@@ -478,4 +478,34 @@ class Client implements ClientInterface
 
         return isset($responseBody['status']) && $responseBody['status'] == 'success';
     }
+
+    /**
+     * @param $subscriptionId
+     * @return bool|mixed
+     */
+    public function getSubscription($subscriptionId)
+    {
+        $token = $this->authentication();
+        $responseBody = false;
+        $client = $this->httpClientFactory->create();
+        $client->setUri($this->creditCardConfig->getSubscriptionEndpoint($subscriptionId));
+        $client->setConfig(self::CONFIG_HTTP_CLIENT);
+        $client->setHeaders(['content-type: application/json; charset=utf-8']);
+        $client->setHeaders('Authorization', 'Bearer ' . $token);
+        $client->setHeaders(['seller_id' => $this->creditCardConfig->sellerId()]);
+        $client->setMethod(\Zend_Http_Client::GET);
+
+        try {
+            $responseBody = json_decode($client->request()->getBody(), true);
+
+            if (!isset($responseBody['subscription']['subscription_id'])) {
+                $responseBody = false;
+                throw new \Exception('Subscription Not Found!');
+            }
+        } catch (\Exception $e) {
+            $e->getMessage();
+        }
+
+        return $responseBody;
+    }
 }

@@ -21,7 +21,7 @@
             <caption class="table-caption"><?= $block->escapeHtml(__('My Subscriptions')) ?></caption>
             <thead>
             <tr>
-                <th scope="col" class="col card-number"><?= $block->escapeHtml(__('Plan Id')) ?></th>
+                <th scope="col" class="col card-number"><?= $block->escapeHtml(__('Subscription Id')) ?></th>
                 <th scope="col" class="col expire"><?= $block->escapeHtml(__('Plan Name')) ?></th>
                 <th scope="col" class="col card-type"><?= $block->escapeHtml(__('Amount')) ?></th>
                 <th scope="col" class="col actions">&nbsp;</th>
@@ -30,7 +30,7 @@
             <tbody>
                 <?php foreach ($_subscriptions as $_subscription): ?>
                     <tr>
-                        <td><?= $block->escapeHtml($_subscription['plan_id']) ?></td>
+                        <td><?= $block->escapeHtml($_subscription['subscription_id']) ?></td>
                         <td><?= $block->escapeHtml($_subscription['name']) ?></td>
                         <td>R$ <?= $block->escapeHtml(number_format($_subscription['amount'], 2, ',', '.')) ?></td>
                         <td>

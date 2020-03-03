@@ -12,4 +12,14 @@
             <label>Amex</label>
         </type>
     </credit_cards>
+    <groups>
+        <group id="offline">
+            <label>Offline Payment Methods</label>
+        </group>
+    </groups>
+    <methods>
+        <method name="getnet_checkout_frame">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
+    </methods>
 </payment>

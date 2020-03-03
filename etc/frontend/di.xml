@@ -60,4 +60,12 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Checkout\Model\CompositeConfigProvider">
+        <arguments>
+            <argument name="configProviders" xsi:type="array">
+                <!-- CHECKOUT IFRAME CONFIG PROVIDER -->
+                <item name="getnet_checkout_iframe_config_provider" xsi:type="object">FCamara\Getnet\Model\Ui\CheckoutIframeConfigProvider</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

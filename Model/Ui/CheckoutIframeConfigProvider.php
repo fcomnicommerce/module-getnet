@@ -1,0 +1,214 @@
+<?php
+
+/**
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to https://www.fcamara.com.br/ for more information.
+ *
+ * @category  FCamara
+ * @package   FCamara_Getnet
+ * @copyright Copyright (c) 2020 Getnet
+ * @Agency    FCamara Formação e Consultoria, Inc. (http://www.fcamara.com.br)
+ * @author    Danilo Cavalcanti de Moura <danilo.moura@fcamara.com.br>
+ */
+
+namespace FCamara\Getnet\Model\Ui;
+
+use Magento\Checkout\Model\ConfigProviderInterface;
+use Magento\Checkout\Model\Session;
+use FCamara\Getnet\Model\Config\Config;
+use FCamara\Getnet\Model\Client;
+use Magento\Customer\Model\Session as CustomerSession;
+
+class CheckoutIframeConfigProvider implements ConfigProviderInterface
+{
+    /**
+     * @var Session
+     */
+    private $checkoutSession;
+
+    /**
+     * @var Config
+     */
+    private $config;
+
+    /**
+     * @var Client
+     */
+    private $client;
+
+    /**
+     * @var CustomerSession
+     */
+    private $customerSession;
+
+    /**
+     * CheckoutIframeConfigProvider constructor.
+     * @param Session $checkoutSession
+     * @param Config $creditCardConfig
+     * @param Client $client
+     * @param CustomerSession $customerSession
+     */
+    public function __construct(
+        Session $checkoutSession,
+        Config $config,
+        Client $client,
+        CustomerSession $customerSession
+    ) {
+        $this->checkoutSession = $checkoutSession;
+        $this->config = $config;
+        $this->client = $client;
+        $this->customerSession = $customerSession;
+    }
+
+    /**
+     * @return array|mixed
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function getConfig()
+    {
+        $output['payment']['getnet_checkout_iframe'] = [];
+        $quote = $this->checkoutSession->getQuote();
+        $customer = $this->customerSession->getCustomer();
+        $customerDocument = $this->customerDocument($customer);
+        $billingAddress = $quote->getBillingAddress();
+        $shippingAddress = $quote->getShippingAddress();
+        $address = $this->getAddressLines($billingAddress);
+        $shippingAddressLines = $this->getAddressLines($shippingAddress);
+        $postcode = $this->cleanZipcode($billingAddress->getPostcode());
+        $postcodeShippingAddress = $this->cleanZipcode($shippingAddress->getPostcode());
+
+        $output['payment']['getnet_checkout_iframe'] = [
+            'url' => $this->config->urlCheckoutIframe(),
+            'seller_id' => $this->config->sellerId(),
+            'token' => 'Bearer ' . $this->client->authentication(),
+            'amount' => number_format($quote->getData('grand_total'), 2, '.', ''),
+            'customerid' => $customer->getId(),
+            'installments' => $this->config->qtyInstallments(),
+            'orderid' => $quote->getId(),
+            'customer' => [
+                'first_name' => $customer->getData('firstname'),
+                'last_name' => $customer->getData('lastname'),
+                'document_type' => $customerDocument['document_type'],
+                'document_number' => $customerDocument['document_number'],
+                'email' => $customer->getData('email'),
+                'phone_number' => $shippingAddress->getTelephone(),
+                'billing_address' => [
+                    'street' => $address[0],
+                    'number' => $address[1],
+                    'complement' => $address[2],
+                    'neighborhood' => $address[3],
+                    'city' => $billingAddress->getCity(),
+                    'state' => $billingAddress->getRegionCode(),
+                    'country' => $billingAddress->getCountryId(),
+                    'postal_code' => $postcode,
+                ],
+                'shipping_address' => [
+                    'first_name' => $customer->getData('firstname'),
+                    'name' => $customer->getData('firstname') . ' ' . $customer->getData('lastname'),
+                    'email' => $customer->getData('email'),
+                    'phone_number' => $shippingAddress->getTelephone(),
+                    'shipping_amount' => number_format($shippingAddress->getShippingAmount(), 2, '.', ''),
+                    'address' => [
+                        'street' => $shippingAddressLines[0],
+                        'complement' => $shippingAddressLines[2],
+                        'number' => $shippingAddressLines[1],
+                        'district' => $shippingAddressLines[3],
+                        'city' => $shippingAddress->getCity(),
+                        'state' => $shippingAddress->getRegionCode(),
+                        'country' => $shippingAddress->getCountryId(),
+                        'postal_code' => $postcodeShippingAddress,
+                    ]
+                ]
+            ]
+        ];
+
+        foreach ($quote->getAllVisibleItems() as $item) {
+            $output['payment']['getnet_checkout_iframe']['items'][] = [
+                'name' => $item->getName(),
+                'description' => '',
+                'value' => $item->getPrice(),
+                'quantity' => $item->getQty(),
+                'sku' => $item->getSku()
+            ];
+        }
+
+        return $output;
+    }
+
+    /**
+     * @param $customer
+     * @return array
+     */
+    private function customerDocument($customer)
+    {
+        $documentType = 'CPF';
+        $documentAttribute = $this->config->documentAttribute();
+        $documentNumber = 'NÃO INFORMADO';
+        $customerData = $customer->getData();
+
+        if ($this->config->cpfSameAsCnpj()) {
+            $documentNumber = preg_replace('/[^0-9]/', '', $customerData[$documentAttribute]);
+            if (strlen($documentNumber) == 14) {
+                $documentType = 'CNPJ';
+            }
+            return ['document_type' => $documentType, 'document_number' => $documentNumber];
+        }
+
+        $cpfAttribute = $this->config->cpfAttribute();
+        $cnpjAttribute = $this->config->cnpjAttribute();
+        $cpfNumber = preg_replace('/[^0-9]/', '', $customerData[$cpfAttribute]);
+        $cnpjNumber = preg_replace('/[^0-9]/', '', $customerData[$cnpjAttribute]);
+
+        if (strlen($cpfNumber) == 11) {
+            $documentType = 'CPF';
+            $documentNumber = $cnpjNumber;
+        }
+
+        if (strlen($cnpjNumber) == 14) {
+            $documentType = 'CNPJ';
+            $documentNumber = $cnpjNumber;
+        }
+
+        return ['document_type' => $documentType, 'document_number' => $documentNumber];
+    }
+
+    /**
+     * @param $billingAddress
+     * @return array
+     */
+    private function getAddressLines($billingAddress)
+    {
+        $streetPos = $this->config->streetLine() != null ? $this->config->streetLine() + 1 : 0;
+        $numberPos = $this->config->numberLine() != null ? $this->config->numberLine() + 1 : 0;
+
+        $complementPos = $this->config->complementLine() != null
+            ? $this->config->complementLine() + 1 : 0;
+
+        $districtPos = $this->config->districtLine() != null
+            ? $this->config->districtLine() + 1 : 0;
+
+        $positions = [$streetPos, $numberPos, $complementPos, $districtPos];
+        $addressLines = [];
+
+        foreach ($positions as $position) {
+            $function_pos = 'getStreetLine';
+            $addressLines[] = $billingAddress->$function_pos($position);
+        }
+
+        return $addressLines;
+    }
+
+    /**
+     * @param $postcode
+     * @return string
+     */
+    public function cleanZipcode($postcode)
+    {
+        $postcode = explode("-", $postcode);
+        return count($postcode) > 1 ? $postcode[0] . $postcode[1] : $postcode;
+    }
+}

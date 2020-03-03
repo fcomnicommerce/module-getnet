@@ -15,10 +15,10 @@
 
 namespace FCamara\Getnet\Model\Ui;
 
-use \Magento\Checkout\Model\ConfigProviderInterface;
+use Magento\Checkout\Model\ConfigProviderInterface;
 use FCamara\Getnet\Model\Client;
-use \Magento\Customer\Model\Session;
-use \Psr\Log\LoggerInterface;
+use Magento\Customer\Model\Session;
+use Psr\Log\LoggerInterface;
 use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Catalog\Model\ProductFactory;
 

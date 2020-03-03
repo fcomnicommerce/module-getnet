@@ -121,22 +121,6 @@
                             <config_path>payment/getnet/district</config_path>
                         </field>
                     </group>
-                    <group id="checkout_iframe_settings" translate="label" type="text" sortOrder="600" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Checkout Iframe</label>
-                        <field id="checkout_iframe_enabled" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label" type="select">
-                            <label>Enabled</label>
-                            <comment />
-                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                            <config_path>payment/getnet/checkout_iframe_enabled</config_path>
-                        </field>
-                        <field id="url_checkout_iframe" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
-                            <label>Url Checkout Iframe</label>
-                            <depends>
-                                <field id="checkout_iframe_enabled">1</field>
-                            </depends>
-                            <config_path>payment/getnet/url_checkout_iframe</config_path>
-                        </field>
-                    </group>
                 </group>
                 <group id="credentials" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Credentials</label>
@@ -328,6 +312,10 @@
                             <label>Maximum Order Total</label>
                         </field>
                         <field id="model"></field>
+                        <field id="url_checkout_iframe" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Url Checkout Iframe</label>
+                            <config_path>payment/getnet/url_checkout_iframe</config_path>
+                        </field>
                     </group>
                 </group>
             </group>

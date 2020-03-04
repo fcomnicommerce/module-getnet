@@ -33,38 +33,18 @@
         </div>
         <div class="actions-toolbar">
             <div class="primary">
-                <button class="action primary checkout pay-button-getnet" type="button" data-bind="attr: {title: $t('Place Order')}, css: {disabled: !isPlaceOrderActionAllowed()}, enable: (getCode() == isChecked())" disabled>
+                <button class="action primary checkout"
+                        type="button"
+                        data-bind="
+                        click: placeCheckoutIframe,
+                        attr: {title: $t('Place Order')},
+                        css: {disabled: !isPlaceOrderActionAllowed()},
+                        enable: (getCode() == isChecked())
+                        "
+                        disabled>
                     <span data-bind="i18n: 'Place Order'"></span>
                 </button>
             </div>
         </div>
-
-        <script async
-                data-bind="attr: {
-                    'src': getUrl(),
-                    'data-getnet-sellerid': getSellerId(),
-                    'data-getnet-token': getToken(),
-                    'data-getnet-amount': getAmount(),
-                    'data-getnet-customerid': getCustomerId(),
-                    'data-getnet-orderid': getOrderId(),
-                    'data-getnet-button-class': getButtonClass(),
-                    'data-getnet-installments': getInstallments(),
-                    'data-getnet-customer-first-name': getCustomerFirstName(),
-                    'data-getnet-customer-last-name': getCustomerLastName(),
-                    'data-getnet-customer-document-type': getCustomerDocumentType(),
-                    'data-getnet-customer-document-number':  getCustomerDocumentNumber(),
-                    'data-getnet-customer-email': getCustomerEmail(),
-                    'data-getnet-customer-phone-number': getCustomerPhoneNumber(),
-                    'data-getnet-customer-address-street': getCustomerAddressStreet(),
-                    'data-getnet-customer-address-street-number': getCustomerAddressStreetNumber(),
-                    'data-getnet-customer-address-neighborhood': getCustomerAddressNeighborhood(),
-                    'data-getnet-customer-address-city': getCustomerAddressCity(),
-                    'data-getnet-customer-address-state': getCustomerAddressState(),
-                    'data-getnet-customer-address-zipcode':  getCustomerAddressZipcode(),
-                    'data-getnet-customer-country': getCustomerCountry(),
-                    'data-getnet-items': getGetItems()
-                }"
-        >
-        </script>
     </div>
 </div>

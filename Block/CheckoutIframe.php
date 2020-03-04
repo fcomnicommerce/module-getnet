@@ -139,6 +139,8 @@ class CheckoutIframe extends Template
             ];
         }
 
+        $data['items'] = json_encode($data['items']);
+
         return $data;
     }
 

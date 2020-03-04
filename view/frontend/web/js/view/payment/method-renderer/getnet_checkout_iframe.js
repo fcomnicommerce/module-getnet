@@ -24,12 +24,6 @@ define(
                 template: 'FCamara_Getnet/payment/getnet_checkout_iframe'
             },
 
-/*            initObservable: function () {
-                alert('initObservable');
-                jQuery('#checkout_iframe script').attr('data-getnet-test', '321');
-                return this;
-            },*/
-
             /** Returns send check to info */
             getMailingAddress: function() {
                 return window.checkoutConfig.payment.getnet_checkout_iframe.mailingAddress;
@@ -126,6 +120,12 @@ define(
 
             getGetItems: function () {
                 return window.checkoutConfig.payment.getnet_checkout_iframe.items;
+            },
+
+            placeCheckoutIframe: function () {
+                alert(true);
+                jQuery('#container-checkout-iframe .action.primary.checkout.pay-button-getnet').trigger('click');
+                //this.placeOrder();
             }
         });
     }

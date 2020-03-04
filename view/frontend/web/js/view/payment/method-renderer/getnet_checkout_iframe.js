@@ -14,14 +14,22 @@
 
 define(
     [
-        'Magento_Checkout/js/view/payment/default'
+        'Magento_Checkout/js/view/payment/default',
+        'jquery'
     ],
-    function (Component) {
+    function (Component, jQuery) {
         'use strict';
         return Component.extend({
             defaults: {
                 template: 'FCamara_Getnet/payment/getnet_checkout_iframe'
             },
+
+/*            initObservable: function () {
+                alert('initObservable');
+                jQuery('#checkout_iframe script').attr('data-getnet-test', '321');
+                return this;
+            },*/
+
             /** Returns send check to info */
             getMailingAddress: function() {
                 return window.checkoutConfig.payment.getnet_checkout_iframe.mailingAddress;
@@ -30,6 +38,14 @@ define(
             /** Returns payable to info */
             getPayableTo: function() {
                 return window.checkoutConfig.payment.getnet_checkout_iframe.payableTo;
+            },
+
+            getUrl: function () {
+                return window.checkoutConfig.payment.getnet_checkout_iframe.url;
+            },
+
+            getSellerId() {
+                return window.checkoutConfig.payment.getnet_checkout_iframe.seller_id;
             }
         });
     }

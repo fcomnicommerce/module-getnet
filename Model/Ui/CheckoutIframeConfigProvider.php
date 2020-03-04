@@ -18,7 +18,7 @@ namespace FCamara\Getnet\Model\Ui;
 
 use Magento\Checkout\Model\ConfigProviderInterface;
 use Magento\Checkout\Model\Session;
-use FCamara\Getnet\Model\Config\Config;
+use FCamara\Getnet\Model\Config\CreditCardConfig;
 use FCamara\Getnet\Model\Client;
 use Magento\Customer\Model\Session as CustomerSession;
 
@@ -30,9 +30,9 @@ class CheckoutIframeConfigProvider implements ConfigProviderInterface
     private $checkoutSession;
 
     /**
-     * @var Config
+     * @var CreditCardConfig
      */
-    private $config;
+    private $creditCardConfig;
 
     /**
      * @var Client
@@ -47,18 +47,18 @@ class CheckoutIframeConfigProvider implements ConfigProviderInterface
     /**
      * CheckoutIframeConfigProvider constructor.
      * @param Session $checkoutSession
-     * @param Config $creditCardConfig
+     * @param CreditCardConfig $creditCardConfig
      * @param Client $client
      * @param CustomerSession $customerSession
      */
     public function __construct(
         Session $checkoutSession,
-        Config $config,
+        CreditCardConfig $creditCardConfig,
         Client $client,
         CustomerSession $customerSession
     ) {
         $this->checkoutSession = $checkoutSession;
-        $this->config = $config;
+        $this->creditCardConfig = $creditCardConfig;
         $this->client = $client;
         $this->customerSession = $customerSession;
     }
@@ -82,12 +82,12 @@ class CheckoutIframeConfigProvider implements ConfigProviderInterface
         $postcodeShippingAddress = $this->cleanZipcode($shippingAddress->getPostcode());
 
         $output['payment']['getnet_checkout_iframe'] = [
-            'url' => $this->config->urlCheckoutIframe(),
-            'seller_id' => $this->config->sellerId(),
+            'url' => $this->creditCardConfig->urlCheckoutIframe(),
+            'seller_id' => $this->creditCardConfig->sellerId(),
             'token' => 'Bearer ' . $this->client->authentication(),
             'amount' => number_format($quote->getData('grand_total'), 2, '.', ''),
             'customerid' => $customer->getId(),
-            'installments' => $this->config->qtyInstallments(),
+            'installments' => $this->creditCardConfig->qtyInstallments(),
             'orderid' => $quote->getId(),
             'customer' => [
                 'first_name' => $customer->getData('firstname'),
@@ -146,11 +146,11 @@ class CheckoutIframeConfigProvider implements ConfigProviderInterface
     private function customerDocument($customer)
     {
         $documentType = 'CPF';
-        $documentAttribute = $this->config->documentAttribute();
+        $documentAttribute = $this->creditCardConfig->documentAttribute();
         $documentNumber = 'NÃO INFORMADO';
         $customerData = $customer->getData();
 
-        if ($this->config->cpfSameAsCnpj()) {
+        if ($this->creditCardConfig->cpfSameAsCnpj()) {
             $documentNumber = preg_replace('/[^0-9]/', '', $customerData[$documentAttribute]);
             if (strlen($documentNumber) == 14) {
                 $documentType = 'CNPJ';
@@ -158,8 +158,8 @@ class CheckoutIframeConfigProvider implements ConfigProviderInterface
             return ['document_type' => $documentType, 'document_number' => $documentNumber];
         }
 
-        $cpfAttribute = $this->config->cpfAttribute();
-        $cnpjAttribute = $this->config->cnpjAttribute();
+        $cpfAttribute = $this->creditCardConfig->cpfAttribute();
+        $cnpjAttribute = $this->creditCardConfig->cnpjAttribute();
         $cpfNumber = preg_replace('/[^0-9]/', '', $customerData[$cpfAttribute]);
         $cnpjNumber = preg_replace('/[^0-9]/', '', $customerData[$cnpjAttribute]);
 
@@ -182,14 +182,14 @@ class CheckoutIframeConfigProvider implements ConfigProviderInterface
      */
     private function getAddressLines($billingAddress)
     {
-        $streetPos = $this->config->streetLine() != null ? $this->config->streetLine() + 1 : 0;
-        $numberPos = $this->config->numberLine() != null ? $this->config->numberLine() + 1 : 0;
+        $streetPos = $this->creditCardConfig->streetLine() != null ? $this->creditCardConfig->streetLine() + 1 : 0;
+        $numberPos = $this->creditCardConfig->numberLine() != null ? $this->creditCardConfig->numberLine() + 1 : 0;
 
-        $complementPos = $this->config->complementLine() != null
-            ? $this->config->complementLine() + 1 : 0;
+        $complementPos = $this->creditCardConfig->complementLine() != null
+            ? $this->creditCardConfig->complementLine() + 1 : 0;
 
-        $districtPos = $this->config->districtLine() != null
-            ? $this->config->districtLine() + 1 : 0;
+        $districtPos = $this->creditCardConfig->districtLine() != null
+            ? $this->creditCardConfig->districtLine() + 1 : 0;
 
         $positions = [$streetPos, $numberPos, $complementPos, $districtPos];
         $addressLines = [];

@@ -44,8 +44,88 @@ define(
                 return window.checkoutConfig.payment.getnet_checkout_iframe.url;
             },
 
-            getSellerId() {
+            getSellerId: function () {
                 return window.checkoutConfig.payment.getnet_checkout_iframe.seller_id;
+            },
+
+            getToken: function () {
+                return window.checkoutConfig.payment.getnet_checkout_iframe.token;
+            },
+
+            getAmount: function () {
+                return window.checkoutConfig.payment.getnet_checkout_iframe.amount;
+            },
+
+            getCustomerId: function () {
+                return window.checkoutConfig.payment.getnet_checkout_iframe.customerid;
+            },
+
+            getOrderId: function () {
+                return window.checkoutConfig.payment.getnet_checkout_iframe.orderid;
+            },
+
+            getButtonClass: function () {
+                return 'pay-button-getnet';
+            },
+
+            getInstallments: function () {
+                return window.checkoutConfig.payment.getnet_checkout_iframe.installments;
+            },
+
+            getCustomerFirstName: function () {
+                return window.checkoutConfig.payment.getnet_checkout_iframe.customer.first_name;
+            },
+
+            getCustomerLastName: function () {
+                return window.checkoutConfig.payment.getnet_checkout_iframe.customer.last_name;
+            },
+
+            getCustomerDocumentType: function () {
+                return window.checkoutConfig.payment.getnet_checkout_iframe.customer.document_type;
+            },
+
+            getCustomerDocumentNumber: function () {
+                return window.checkoutConfig.payment.getnet_checkout_iframe.customer.document_number;
+            },
+
+            getCustomerEmail: function () {
+                return window.checkoutConfig.payment.getnet_checkout_iframe.customer.email;
+            },
+
+            getCustomerPhoneNumber: function () {
+                return window.checkoutConfig.payment.getnet_checkout_iframe.customer.phone_number;
+            },
+
+            getCustomerAddressStreet: function () {
+                return window.checkoutConfig.payment.getnet_checkout_iframe.customer.billing_address.street;
+            },
+
+            getCustomerAddressStreetNumber: function () {
+                return window.checkoutConfig.payment.getnet_checkout_iframe.customer.billing_address.number;
+            },
+
+            getCustomerAddressNeighborhood: function () {
+                return window.checkoutConfig.payment.getnet_checkout_iframe.customer.billing_address.neighborhood;
+            },
+
+            getCustomerAddressCity: function () {
+                return window.checkoutConfig.payment.getnet_checkout_iframe.customer.billing_address.city;
+            },
+
+            getCustomerAddressState: function () {
+                return window.checkoutConfig.payment.getnet_checkout_iframe.customer.billing_address.state;
+            },
+
+            getCustomerAddressZipcode: function () {
+                return window.checkoutConfig.payment.getnet_checkout_iframe.customer.billing_address.postal_code;
+            },
+
+            getCustomerCountry: function () {
+                return window.checkoutConfig.payment.getnet_checkout_iframe.customer.billing_address.country;
+            },
+
+            getGetItems: function () {
+                return window.checkoutConfig.payment.getnet_checkout_iframe.items;
             }
         });
     }

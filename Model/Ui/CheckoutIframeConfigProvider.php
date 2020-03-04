@@ -136,6 +136,10 @@ class CheckoutIframeConfigProvider implements ConfigProviderInterface
             ];
         }
 
+        $output['payment']['getnet_checkout_iframe']['items'] = json_encode(
+            $output['payment']['getnet_checkout_iframe']['items']
+        );
+
         return $output;
     }
 

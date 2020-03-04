@@ -43,45 +43,7 @@
             data-getnet-customer-address-zipcode="<?= $data['customer']['billing_address']['postal_code'] ?>"
             data-getnet-customer-country="<?= $data['customer']['billing_address']['country'] ?>"
             data-getnet-items='<?= $data['items'] ?>'
-            data-getnet-url-callback=""
+            data-getnet-url-callback="<?= $block->getUrl('getnet/checkoutIframe/successaction') ?>"
             data-getnet-pre-authorization-credit="">
-        window.addEventListener('load', ev => {
-            // Funções compatíveis com IE e outros navegadores
-            var eventMethod = (window.addEventListener ? 'addEventListener' : 'attachEvent');
-            var eventer = window[eventMethod];
-            var messageEvent = (eventMethod === 'attachEvent') ? 'onmessage' : 'message';
-
-            // Ouvindo o evento do loader
-            eventer(messageEvent, function iframeMessage(e) {
-                var data = e.data || '';
-
-                switch (data.status || data) {
-                    // Corfirmação positiva do checkout.
-                    case 'success':
-                        console.log('Transação realizada.');
-                        break;
-
-                    // Notificação de que o IFrame de checkout foi fechado a aprovação.
-                    case 'close':
-                        console.log('Checkout fechado.');
-                        break;
-
-                    // Notificação que um boleto foi registrado com sucesso
-                    case 'pending':
-                        console.log('Boleto registrado e pendente de pagamento');
-                        console.log(data.detail);
-                        break;
-
-                    // Notificação que houve um erro na tentativa de pagamento
-                    case 'error':
-                        console.warn(data.detail.message);
-                        break;
-
-                    // Ignora qualquer outra mensagem
-                    default:
-                        break;
-                }
-            }, false);
     </script>
-
 </div>

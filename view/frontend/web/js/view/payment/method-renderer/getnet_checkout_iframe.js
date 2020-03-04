@@ -123,8 +123,13 @@ define(
             },
 
             placeCheckoutIframe: function () {
-                jQuery('#container-checkout-iframe .action.primary.checkout.pay-button-getnet').trigger('click');
-                //this.placeOrder();
+                let getnetCheckoutIfrm = jQuery('#getnet-checkout');
+
+                if (getnetCheckoutIfrm.length) {
+                    getnetCheckoutIfrm.show();
+                } else {
+                    jQuery('#container-checkout-iframe .action.primary.checkout.pay-button-getnet').trigger('click');
+                }
             }
         });
     }

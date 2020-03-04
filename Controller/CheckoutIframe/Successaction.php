@@ -20,6 +20,8 @@ use Magento\Framework\App\Action\Context;
 use Magento\Quote\Model\QuoteManagement;
 use Magento\Checkout\Model\Session;
 use Magento\Quote\Api\CartRepositoryInterface;
+use Magento\Framework\View\Result\PageFactory;
+use mysql_xdevapi\Exception;
 
 class Successaction extends Action
 {
@@ -33,7 +35,15 @@ class Successaction extends Action
      */
     private $checkoutSession;
 
+    /**
+     * @var CartRepositoryInterface
+     */
     private $quoteRepository;
+
+    /**
+     * @var PageFactory
+     */
+    private $pageFactory;
 
     /**
      * Successaction constructor.
@@ -41,16 +51,19 @@ class Successaction extends Action
      * @param QuoteManagement $quoteManagement
      * @param Session $checkoutSession
      * @param CartRepositoryInterface $quoteRepository
+     * @param PageFactory $pageFactory
      */
     public function __construct(
         Context $context,
         QuoteManagement $quoteManagement,
         Session $checkoutSession,
-        CartRepositoryInterface $quoteRepository
+        CartRepositoryInterface $quoteRepository,
+        PageFactory $pageFactory
     ) {
         $this->quoteManagement = $quoteManagement;
         $this->checkoutSession = $checkoutSession;
         $this->quoteRepository = $quoteRepository;
+        $this->pageFactory = $pageFactory;
 
         parent::__construct($context);
     }
@@ -59,20 +72,35 @@ class Successaction extends Action
     public function execute()
     {
         $quote = $this->checkoutSession->getQuote();
-        $quote->getPayment()->importData(['method' => 'getnet_checkout_iframe']);
-        $quote->collectTotals();
-        $this->quoteRepository->save($quote);
-        $order = $this->quoteManagement->submit($quote);
+        $result = false;
 
-        $order->setEmailSent(0);
-        $incrementId = $order->getRealOrderId();
-
-        if ($order->getEntityId()) {
-            $result['order_id'] = $order->getRealOrderId();
-        } else {
-            $result = ['error' => 1, 'msg' => 'Your custom message'];
+        if (!$quote->getId()) {
+            return $this->_redirect('checkout/cart');
         }
 
-        $this->_redirect('checkout/onepage/success');
+        try {
+            $quote->getPayment()->importData(['method' => 'getnet_checkout_iframe']);
+            $quote->collectTotals();
+            $this->quoteRepository->save($quote);
+            $order = $this->quoteManagement->submit($quote);
+            $order->setEmailSent(1);
+
+            if ($order->getEntityId()) {
+                $this->_eventManager->dispatch(
+                    'checkout_onepage_controller_success_action',
+                    [
+                        'order_ids' => [$quote->getLastOrderId()],
+                        'order' => $quote->getLastRealOrder()
+                    ]
+                );
+            } else {
+                throw new Exception('Error in create order!');
+            }
+        } catch (\Exception $e) {
+            $this->messageManager->addErrorMessage($e->getMessage());
+            return $this->_redirect('checkout/cart');
+        }
+
+        return $this->pageFactory->create();
     }
 }

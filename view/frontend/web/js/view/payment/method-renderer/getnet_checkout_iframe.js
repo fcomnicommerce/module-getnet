@@ -123,7 +123,6 @@ define(
             },
 
             placeCheckoutIframe: function () {
-                alert(true);
                 jQuery('#container-checkout-iframe .action.primary.checkout.pay-button-getnet').trigger('click');
                 //this.placeOrder();
             }

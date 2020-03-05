@@ -94,7 +94,6 @@ class Successaction extends Action
     {
         $session = $this->checkoutSession;
         $quote = $session->getQuote();
-        $result = false;
 
         if (!$quote->getId()) {
             return $this->_redirect('checkout/cart');
@@ -117,19 +116,8 @@ class Successaction extends Action
                     ['order' => $order, 'quote' => $quote]
                 );
 
-                /**
-                 * a flag to set that there will be redirect to third party after confirmation
-                 */
                 $redirectUrl = $quote->getPayment()->getOrderPlaceRedirectUrl();
 
-                /**
-                 * we only want to send to customer about new order when there is no redirect to third party
-                 */
-                if (!$redirectUrl && $order->getCanSendNewEmailFlag()) {
-                    //$this->orderSender->send($order);
-                }
-
-                // add order information to the session
                 $session
                     ->setLastOrderId($order->getId())
                     ->setRedirectUrl($redirectUrl)

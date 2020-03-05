@@ -20,6 +20,7 @@ use Magento\Checkout\Model\Session;
 use FCamara\Getnet\Model\Config\CreditCardConfig;
 use FCamara\Getnet\Model\Client;
 use Magento\Customer\Model\Session as CustomerSession;
+use Magento\Catalog\Model\ProductFactory;
 
 class CheckoutIframe extends Template
 {
@@ -44,24 +45,32 @@ class CheckoutIframe extends Template
     private $customerSession;
 
     /**
+     * @var ProductFactory
+     */
+    private $product;
+
+    /**
      * CheckoutIframe constructor.
      * @param Template\Context $context
      * @param Session $checkoutSession
      * @param CreditCardConfig $creditCardConfig
      * @param Client $client
      * @param CustomerSession $customerSession
+     * @param ProductFactory $productFactory
      */
     public function __construct(
         Template\Context $context,
         Session $checkoutSession,
         CreditCardConfig $creditCardConfig,
         Client $client,
-        CustomerSession $customerSession
+        CustomerSession $customerSession,
+        ProductFactory $productFactory
     ) {
         $this->checkoutSession = $checkoutSession;
         $this->creditCardConfig = $creditCardConfig;
         $this->client = $client;
         $this->customerSession = $customerSession;
+        $this->product = $productFactory;
 
         parent::__construct($context);
     }
@@ -83,6 +92,7 @@ class CheckoutIframe extends Template
         $shippingAddressLines = $this->getAddressLines($shippingAddress);
         $postcode = $this->cleanZipcode($billingAddress->getPostcode());
         $postcodeShippingAddress = $this->cleanZipcode($shippingAddress->getPostcode());
+        $recurrence = $this->recurrence();
 
         $data = [
             'url' => $this->creditCardConfig->urlCheckoutIframe(),
@@ -140,6 +150,15 @@ class CheckoutIframe extends Template
         }
 
         $data['items'] = json_encode($data['items']);
+
+        if ($recurrence['is_recurrence']) {
+            $data['is_recurrence'] = true;
+            $data['plan_id'] = $recurrence['plan_id'];
+        }
+
+        if (!$recurrence['is_recurrence']) {
+            $data['is_recurrence'] = false;
+        }
 
         return $data;
     }
@@ -215,5 +234,28 @@ class CheckoutIframe extends Template
     {
         $postcode = explode("-", $postcode);
         return count($postcode) > 1 ? $postcode[0] . $postcode[1] : $postcode;
+    }
+
+    /**
+     * @return array
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    protected function recurrence()
+    {
+        $isRecurrence = ['is_recurrence' => false, 'plan_id' => false];
+        $quoteItems = $this->checkoutSession->getQuote()->getAllVisibleItems();
+
+        foreach ($quoteItems as $item) {
+            $product = $this->product->create()->load($item->getProduct()->getId());
+            if ($product->getData('is_recurrence') && $product->getData('recurrence_plan_id')) {
+                $isRecurrence = [
+                    'is_recurrence' => true,
+                    'plan_id' => $product->getData('recurrence_plan_id')
+                ];
+            }
+        }
+
+        return $isRecurrence;
     }
 }

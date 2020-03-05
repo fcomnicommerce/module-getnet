@@ -19,31 +19,51 @@
     <button class="action primary checkout pay-button-getnet" type="button">
         <span>Place Order</span>
     </button>
+    <?php if (!$data['is_recurrence']): ?>
+        <script async src="<?= $data['url'] ?>"
+                data-getnet-sellerid="<?= $data['seller_id'] ?>"
+                data-getnet-token="<?= $data['token'] ?>"
+                data-getnet-amount="<?= $data['amount'] ?>"
+                data-getnet-customerid="<?= $data['customerid'] ?>"
+                data-getnet-orderid="<?= $data['orderid'] ?>"
+                data-getnet-button-class="pay-button-getnet"
+                data-getnet-installments="<?= $data['installments'] ?>"
+                data-getnet-customer-first-name="<?= $data['customer']['first_name'] ?>"
+                data-getnet-customer-last-name="<?= $data['customer']['last_name'] ?>"
+                data-getnet-customer-document-type="<?= $data['customer']['document_type'] ?>"
+                data-getnet-customer-document-number="<?= $data['customer']['document_number'] ?>"
+                data-getnet-customer-email="<?= $data['customer']['email'] ?>"
+                data-getnet-customer-phone-number="<?= $data['customer']['phone_number'] ?>"
+                data-getnet-customer-address-street="<?= $data['customer']['billing_address']['street'] ?>"
+                data-getnet-customer-address-street-number="<?= $data['customer']['billing_address']['number'] ?>"
+                data-getnet-customer-address-complementary=""
+                data-getnet-customer-address-neighborhood="<?= $data['customer']['billing_address']['neighborhood'] ?>"
+                data-getnet-customer-address-city="<?= $data['customer']['billing_address']['city'] ?>"
+                data-getnet-customer-address-state="<?= $data['customer']['billing_address']['state'] ?>"
+                data-getnet-customer-address-zipcode="<?= $data['customer']['billing_address']['postal_code'] ?>"
+                data-getnet-customer-country="<?= $data['customer']['billing_address']['country'] ?>"
+                data-getnet-items='<?= $data['items'] ?>'
+                data-getnet-url-callback="<?= $block->getUrl('getnet/checkoutIframe/successaction') ?>"
+                data-getnet-pre-authorization-credit="">
+        </script>
+    <?php endif; ?>
 
-    <script async src="<?= $data['url'] ?>"
-            data-getnet-sellerid="<?= $data['seller_id'] ?>"
-            data-getnet-token="<?= $data['token'] ?>"
-            data-getnet-amount="<?= $data['amount'] ?>"
-            data-getnet-customerid="<?= $data['customerid'] ?>"
-            data-getnet-orderid="<?= $data['orderid'] ?>"
-            data-getnet-button-class="pay-button-getnet"
-            data-getnet-installments="<?= $data['installments'] ?>"
-            data-getnet-customer-first-name="<?= $data['customer']['first_name'] ?>"
-            data-getnet-customer-last-name="<?= $data['customer']['last_name'] ?>"
-            data-getnet-customer-document-type="<?= $data['customer']['document_type'] ?>"
-            data-getnet-customer-document-number="<?= $data['customer']['document_number'] ?>"
-            data-getnet-customer-email="<?= $data['customer']['email'] ?>"
-            data-getnet-customer-phone-number="<?= $data['customer']['phone_number'] ?>"
-            data-getnet-customer-address-street="<?= $data['customer']['billing_address']['street'] ?>"
-            data-getnet-customer-address-street-number="<?= $data['customer']['billing_address']['number'] ?>"
-            data-getnet-customer-address-complementary=""
-            data-getnet-customer-address-neighborhood="<?= $data['customer']['billing_address']['neighborhood'] ?>"
-            data-getnet-customer-address-city="<?= $data['customer']['billing_address']['city'] ?>"
-            data-getnet-customer-address-state="<?= $data['customer']['billing_address']['state'] ?>"
-            data-getnet-customer-address-zipcode="<?= $data['customer']['billing_address']['postal_code'] ?>"
-            data-getnet-customer-country="<?= $data['customer']['billing_address']['country'] ?>"
-            data-getnet-items='<?= $data['items'] ?>'
-            data-getnet-url-callback="<?= $block->getUrl('getnet/checkoutIframe/successaction') ?>"
-            data-getnet-pre-authorization-credit="">
-    </script>
+    <?php if ($data['is_recurrence']): ?>
+        <script async src="<?= $data['url'] ?>"
+                data-getnet-sellerid="<?= $data['seller_id'] ?>"
+                data-getnet-token="<?= $data['token'] ?>"
+                data-getnet-customerid="<?= $data['customerid'] ?>"
+                data-getnet-orderid="<?= $data['orderid'] ?>"
+                data-getnet-button-class="pay-button-getnet"
+                data-getnet-customer-first-name="<?= $data['customer']['first_name'] ?>"
+                data-getnet-customer-last-name="<?= $data['customer']['last_name'] ?>"
+                data-getnet-customer-document-type="<?= $data['customer']['document_type'] ?>"
+                data-getnet-customer-document-number="<?= $data['customer']['document_number'] ?>"
+                data-getnet-shipping-address='<?php json_encode($data['customer']['shipping_address']) ?>'
+                data-getnet-items='<?= $data['items'] ?>'
+                data-getnet-url-callback="<?= $block->getUrl('getnet/checkoutIframe/successaction') ?>"
+                data-getnet-recurrency="true"
+                data-getnet-recurrency-planid="<?= $data['plan_id'] ?>">
+        </script>
+    <?php endif; ?>
 </div>

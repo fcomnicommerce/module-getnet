@@ -59,7 +59,7 @@
                 data-getnet-customer-last-name="<?= $data['customer']['last_name'] ?>"
                 data-getnet-customer-document-type="<?= $data['customer']['document_type'] ?>"
                 data-getnet-customer-document-number="<?= $data['customer']['document_number'] ?>"
-                data-getnet-shipping-address='<?php json_encode($data['customer']['shipping_address']) ?>'
+                data-getnet-shipping-address='[<?= json_encode($data['customer']['shipping_address']) ?>]'
                 data-getnet-items='<?= $data['items'] ?>'
                 data-getnet-url-callback="<?= $block->getUrl('getnet/checkoutIframe/successaction') ?>"
                 data-getnet-recurrency="true"

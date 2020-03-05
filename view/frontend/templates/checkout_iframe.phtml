@@ -55,11 +55,6 @@
                 data-getnet-customerid="<?= $data['customerid'] ?>"
                 data-getnet-orderid="<?= $data['orderid'] ?>"
                 data-getnet-button-class="pay-button-getnet"
-                data-getnet-customer-first-name="<?= $data['customer']['first_name'] ?>"
-                data-getnet-customer-last-name="<?= $data['customer']['last_name'] ?>"
-                data-getnet-customer-document-type="<?= $data['customer']['document_type'] ?>"
-                data-getnet-customer-document-number="<?= $data['customer']['document_number'] ?>"
-                data-getnet-shipping-address='[<?= json_encode($data['customer']['shipping_address']) ?>]'
                 data-getnet-items='<?= $data['items'] ?>'
                 data-getnet-url-callback="<?= $block->getUrl('getnet/checkoutIframe/successaction') ?>"
                 data-getnet-recurrency="true"

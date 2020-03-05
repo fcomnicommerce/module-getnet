@@ -403,4 +403,5 @@
 
     <!-- API -->
     <preference for="FCamara\Getnet\Api\CardsInterface" type="FCamara\Getnet\Model\Cards" />
+    <preference for="FCamara\Getnet\Api\AmountInterface" type="FCamara\Getnet\Model\CheckoutIframeAmount" />
 </config>

@@ -123,13 +123,26 @@ define(
             },
 
             placeCheckoutIframe: function () {
+                var quoteId = window.checkoutConfig.quoteData.entity_id;
                 let getnetCheckoutIfrm = jQuery('#getnet-checkout');
+                let scriptTag = jQuery('#container-checkout-iframe script');
 
-                if (getnetCheckoutIfrm.length) {
-                    getnetCheckoutIfrm.show();
-                } else {
-                    jQuery('#container-checkout-iframe .action.primary.checkout.pay-button-getnet').trigger('click');
-                }
+                jQuery.ajax({
+                    showLoader: true,
+                    url: window.checkout.baseUrl + 'rest/V1/getnet/checkoutiframe/amount/' + quoteId,
+                    type: "GET",
+                }).fail(function(data) {
+                    console.error(data);
+                    window.location.reload();
+                }).done(function (data) {
+                    scriptTag.attr('data-getnet-amount', data);
+
+                    if (getnetCheckoutIfrm.length) {
+                        getnetCheckoutIfrm.show();
+                    } else {
+                        jQuery('#container-checkout-iframe .action.primary.checkout.pay-button-getnet').trigger('click');
+                    }
+                }.bind(this));
             }
         });
     }

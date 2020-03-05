@@ -21,7 +21,8 @@ use Magento\Quote\Model\QuoteManagement;
 use Magento\Checkout\Model\Session;
 use Magento\Quote\Api\CartRepositoryInterface;
 use Magento\Framework\View\Result\PageFactory;
-use mysql_xdevapi\Exception;
+use Magento\Store\Model\StoreManagerInterface;
+use Magento\Sales\Model\Order\Email\Sender\OrderSender;
 
 class Successaction extends Action
 {
@@ -46,32 +47,53 @@ class Successaction extends Action
     private $pageFactory;
 
     /**
+     * @var StoreManagerInterface
+     */
+    private $storeManager;
+
+    /**
+     * @var OrderSender
+     */
+    private $orderSender;
+
+    /**
      * Successaction constructor.
      * @param Context $context
      * @param QuoteManagement $quoteManagement
      * @param Session $checkoutSession
      * @param CartRepositoryInterface $quoteRepository
      * @param PageFactory $pageFactory
+     * @param StoreManagerInterface $storeManager
+     * @param OrderSender $orderSender
      */
     public function __construct(
         Context $context,
         QuoteManagement $quoteManagement,
         Session $checkoutSession,
         CartRepositoryInterface $quoteRepository,
-        PageFactory $pageFactory
+        PageFactory $pageFactory,
+        StoreManagerInterface $storeManager,
+        OrderSender $orderSender
     ) {
         $this->quoteManagement = $quoteManagement;
         $this->checkoutSession = $checkoutSession;
         $this->quoteRepository = $quoteRepository;
         $this->pageFactory = $pageFactory;
+        $this->storeManager = $storeManager;
+        $this->orderSender = $orderSender;
 
         parent::__construct($context);
     }
 
-
+    /**
+     * @return \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\ResultInterface|\Magento\Framework\View\Result\Page
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
     public function execute()
     {
-        $quote = $this->checkoutSession->getQuote();
+        $session = $this->checkoutSession;
+        $quote = $session->getQuote();
         $result = false;
 
         if (!$quote->getId()) {
@@ -83,18 +105,46 @@ class Successaction extends Action
             $quote->collectTotals();
             $this->quoteRepository->save($quote);
             $order = $this->quoteManagement->submit($quote);
-            $order->setEmailSent(1);
+
+            $session
+                ->setLastQuoteId($quote->getId())
+                ->setLastSuccessQuoteId($quote->getId())
+                ->clearHelperData();
 
             if ($order->getEntityId()) {
                 $this->_eventManager->dispatch(
-                    'checkout_onepage_controller_success_action',
+                    'checkout_type_onepage_save_order_after',
+                    ['order' => $order, 'quote' => $quote]
+                );
+
+                /**
+                 * a flag to set that there will be redirect to third party after confirmation
+                 */
+                $redirectUrl = $quote->getPayment()->getOrderPlaceRedirectUrl();
+
+                /**
+                 * we only want to send to customer about new order when there is no redirect to third party
+                 */
+                if (!$redirectUrl && $order->getCanSendNewEmailFlag()) {
+                    //$this->orderSender->send($order);
+                }
+
+                // add order information to the session
+                $session
+                    ->setLastOrderId($order->getId())
+                    ->setRedirectUrl($redirectUrl)
+                    ->setLastRealOrderId($order->getIncrementId())
+                    ->setLastOrderStatus($order->getStatus());
+
+                $this->_eventManager->dispatch(
+                    'checkout_submit_all_after',
                     [
-                        'order_ids' => [$quote->getLastOrderId()],
-                        'order' => $quote->getLastRealOrder()
+                        'order' => $order,
+                        'quote' => $quote
                     ]
                 );
             } else {
-                throw new Exception('Error in create order!');
+                throw new \Exception('Error in create order!');
             }
         } catch (\Exception $e) {
             $this->messageManager->addErrorMessage($e->getMessage());

@@ -79,14 +79,11 @@ class Listaction extends Template
 
         if (isset($subscriptionsList['subscriptions'])) {
             foreach ($subscriptionsList['subscriptions'] as $item) {
-                if ($item['status'] == 'canceled') {
-                    continue;
-                }
-                
                 $subscriptions[] = [
                     'subscription_id' => $item['subscription']['subscription_id'],
                     'name' => $item['plan']['name'],
-                    'amount' => $item['plan']['amount']
+                    'amount' => $item['plan']['amount'],
+                    'status' => isset($item['status']) ? $item['status'] : ''
                 ];
             }
         }

@@ -510,6 +510,30 @@ class Client implements ClientInterface
     }
 
     /**
+     * @param $customerId
+     * @return bool|mixed
+     */
+    public function getSubscriptionsList($customerId)
+    {
+        $token = $this->authentication();
+        $responseBody = false;
+        $client = $this->httpClientFactory->create();
+        $client->setUri($this->creditCardConfig->getSubscriptionsListEndpoint($customerId));
+        $client->setConfig(self::CONFIG_HTTP_CLIENT);
+        $client->setHeaders('Authorization', 'Bearer ' . $token);
+        $client->setHeaders(['seller_id' => $this->creditCardConfig->sellerId()]);
+        $client->setMethod(\Zend_Http_Client::GET);
+
+        try {
+            $responseBody = json_decode($client->request()->getBody(), true);
+        } catch (\Exception $e) {
+            $e->getMessage();
+        }
+
+        return $responseBody;
+    }
+
+    /**
      * @param $subscriptionId
      * @return bool
      */

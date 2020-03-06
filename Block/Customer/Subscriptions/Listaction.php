@@ -75,27 +75,14 @@ class Listaction extends Template
     {
         $subscriptions = [];
         $customerId = $this->customerSession->getCustomerId();
-        $orders = $this->orderCollection->create($customerId)->addFieldToSelect(
-            '*'
-        )->addFieldToFilter(
-            'status',
-            ['in' => $this->orderConfig->getVisibleOnFrontStatuses()]
-        )->addFieldToFilter(
-            'subscription_id',
-            ['neq' => '']
-        )->setOrder(
-            'created_at',
-            'desc'
-        );
+        $subscriptionsList = $this->client->getSubscriptionsList($customerId);
 
-        foreach ($orders as $order) {
-            $subscription = $this->client->getSubscription($order['subscription_id']);
-
-            if (isset($subscription['status']) && $subscription['status'] != 'canceled') {
+        if (isset($subscriptionsList['subscriptions'])) {
+            foreach ($subscriptionsList['subscriptions'] as $item) {
                 $subscriptions[] = [
-                    'subscription_id' => $subscription['subscription']['subscription_id'],
-                    'name' => $subscription['plan']['name'],
-                    'amount' => $subscription['plan']['amount']
+                    'subscription_id' => $item['subscription']['subscription_id'],
+                    'name' => $item['plan']['name'],
+                    'amount' => $item['plan']['amount']
                 ];
             }
         }

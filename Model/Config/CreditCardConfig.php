@@ -200,6 +200,20 @@ class CreditCardConfig extends Config implements CreditCardConfigInterface
     }
 
     /**
+     * @param $customerId
+     * @param int $page
+     * @param int $limit
+     * @return string
+     */
+    public function getSubscriptionsListEndpoint($customerId, $page = 1, $limit = 100)
+    {
+        return $this->endpoint()
+            . '/v1/subscriptions/?page=' . $page
+            . '&limit=' . $limit
+            . '&customer_id=' . $customerId;
+    }
+
+    /**
      * @param $subscriptionId
      * @return string
      */

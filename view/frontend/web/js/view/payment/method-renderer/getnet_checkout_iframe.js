@@ -137,10 +137,53 @@ define(
                 }).done(function (data) {
                     scriptTag.attr('data-getnet-amount', data);
 
-                    if (getnetCheckoutIfrm.length) {
-                        getnetCheckoutIfrm.show();
-                    } else {
-                        jQuery('#container-checkout-iframe .action.primary.checkout.pay-button-getnet').trigger('click');
+                    if (window.checkoutConfig.payment.is_recurrence) {
+                        let endpoint = window.checkoutConfig.payment.getnet_credit_card.endpoint;
+                        let authorization = window.checkoutConfig.payment.getnet_credit_card.authorizationBasic;
+
+                        jQuery.ajax({
+                            showLoader: true,
+                            url: endpoint + 'auth/oauth/v2/token',
+                            beforeSend: function (request) {
+                                request.setRequestHeader("Authorization", authorization);
+                                request.setRequestHeader("content-type", 'application/x-www-form-urlencoded');
+                                request.setRequestHeader("Accept", 'application/json');
+                            },
+                            data: 'scope=oob&grant_type=client_credentials',
+                            type: "POST",
+                            dataType: 'json'
+                        }).fail(function(data) {
+                            console.error(data);
+                        }).done(function (data) {
+                            if(data.access_token) {
+                                jQuery.ajax({
+                                    showLoader: true,
+                                    url: endpoint + 'customers',
+                                    beforeSend: function (request) {
+                                        request.setRequestHeader("Content-type", 'application/json; charset=utf-8');
+                                        request.setRequestHeader("Authorization", 'Bearer ' + data.access_token);
+                                        request.setRequestHeader("seller_id", window.checkoutConfig.payment.getnet_checkout_iframe.seller_id);
+                                    },
+                                    data: window.checkoutConfig.payment.getnet_checkout_iframe.customer,
+                                    type: "POST",
+                                    dataType: 'json'
+                                }).fail(function(data) {
+                                    console.error(data);
+
+                                    if (getnetCheckoutIfrm.length) {
+                                        getnetCheckoutIfrm.show();
+                                    } else {
+                                        jQuery('#container-checkout-iframe .action.primary.checkout.pay-button-getnet').trigger('click');
+                                    }
+                                }).done(function (data) {
+                                    if (getnetCheckoutIfrm.length) {
+                                        getnetCheckoutIfrm.show();
+                                    } else {
+                                        jQuery('#container-checkout-iframe .action.primary.checkout.pay-button-getnet').trigger('click');
+                                    }
+                                }.bind(this));
+                            }
+                        }.bind(this));
                     }
                 }.bind(this));
             }

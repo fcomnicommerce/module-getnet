@@ -90,6 +90,7 @@ class CheckoutIframeConfigProvider implements ConfigProviderInterface
             'installments' => $this->creditCardConfig->qtyInstallments(),
             'orderid' => $quote->getId(),
             'customer' => [
+                'seller_id' => $this->creditCardConfig->sellerId(),
                 'first_name' => $customer->getData('firstname'),
                 'last_name' => $customer->getData('lastname'),
                 'document_type' => $customerDocument['document_type'],
@@ -105,6 +106,16 @@ class CheckoutIframeConfigProvider implements ConfigProviderInterface
                     'state' => $billingAddress->getRegionCode(),
                     'country' => $billingAddress->getCountryId(),
                     'postal_code' => $postcode,
+                ],
+                'address' => [
+                    'street' => $shippingAddressLines[0],
+                    'number' => $shippingAddressLines[1],
+                    'complement' => $shippingAddressLines[2],
+                    'district' => $shippingAddressLines[3],
+                    'city' => $shippingAddress->getCity(),
+                    'state' => $shippingAddress->getRegionCode(),
+                    'country' => $shippingAddress->getCountryId(),
+                    'postal_code' => $postcodeShippingAddress,
                 ],
                 'shipping_address' => [
                     'first_name' => $customer->getData('firstname'),

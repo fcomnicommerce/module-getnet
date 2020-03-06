@@ -63,7 +63,7 @@ class CatalogProductSaveAfter implements ObserverInterface
                 $requestParams = [
                     'name' => $product->getData('recurrence_name'),
                     'description' => $product->getData('recurrence_description'),
-                    'amount' => (int) $product->getData('recurrence_amount'),
+                    'amount' => $product->getData('recurrence_amount'),
                     'currency' => 'BRL',
                     'payment_types' => [
                         'credit_card'

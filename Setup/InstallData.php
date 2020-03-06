@@ -131,7 +131,7 @@ class InstallData implements InstallDataInterface
             'recurrence_amount',
             [
                 'attribute_set_id' => 4,
-                'type' => 'decimal',
+                'type' => 'int',
                 'label' => 'Amount',
                 'input' => 'text',
                 'required' => false,

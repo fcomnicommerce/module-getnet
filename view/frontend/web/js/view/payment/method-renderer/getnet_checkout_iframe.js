@@ -184,6 +184,12 @@ define(
                                 }.bind(this));
                             }
                         }.bind(this));
+                    } else {
+                        if (getnetCheckoutIfrm.length) {
+                            getnetCheckoutIfrm.show();
+                        } else {
+                            jQuery('#container-checkout-iframe .action.primary.checkout.pay-button-getnet').trigger('click');
+                        }
                     }
                 }.bind(this));
             }

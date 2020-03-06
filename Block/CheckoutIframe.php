@@ -174,7 +174,7 @@ class CheckoutIframe extends Template
         $documentNumber = 'NÃO INFORMADO';
         $customerData = $customer->getData();
 
-        if ($this->creditCardConfig->cpfSameAsCnpj()) {
+        if ($this->creditCardConfig->cpfSameAsCnpj() && isset($customerData[$documentAttribute])) {
             $documentNumber = preg_replace('/[^0-9]/', '', $customerData[$documentAttribute]);
             if (strlen($documentNumber) == 14) {
                 $documentType = 'CNPJ';
@@ -184,8 +184,18 @@ class CheckoutIframe extends Template
 
         $cpfAttribute = $this->creditCardConfig->cpfAttribute();
         $cnpjAttribute = $this->creditCardConfig->cnpjAttribute();
-        $cpfNumber = preg_replace('/[^0-9]/', '', $customerData[$cpfAttribute]);
-        $cnpjNumber = preg_replace('/[^0-9]/', '', $customerData[$cnpjAttribute]);
+
+        if (isset($customerData[$cpfAttribute])) {
+            $cpfNumber = preg_replace('/[^0-9]/', '', $customerData[$cpfAttribute]);
+        } else {
+            $cpfNumber = 0;
+        }
+
+        if (isset($customerData[$cnpjAttribute])) {
+            $cnpjNumber = preg_replace('/[^0-9]/', '', $customerData[$cnpjAttribute]);
+        } else {
+            $cnpjNumber = 0;
+        }
 
         if (strlen($cpfNumber) == 11) {
             $documentType = 'CPF';

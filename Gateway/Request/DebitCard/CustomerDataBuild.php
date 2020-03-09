@@ -93,6 +93,9 @@ class CustomerDataBuild implements BuilderInterface
                         'country' => $order->getBillingAddress()->getCountryId(),
                         'postal_code' => $postcode,
                     ],
+                ],
+                'debit' => [
+                    'cardholder_mobile' => $billingAddress->getTelephone()
                 ]
         ];
 

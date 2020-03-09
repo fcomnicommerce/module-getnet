@@ -214,10 +214,14 @@ define(
                     }
                 ];
             },
+
             beforePlaceOrder: function () {
                 var endpoint = this.getEndpoint();
                 var authorization = this.getAuthorizationBasic();
                 var creditCardNumber = this.creditCardNumber();
+                creditCardNumber = creditCardNumber.replace(/\s/g, '');
+
+                alert(creditCardNumber);
 
                 $.ajax({
                     showLoader: true,
@@ -242,9 +246,7 @@ define(
                                 request.setRequestHeader("Content-type", 'application/json; charset=utf-8');
                                 request.setRequestHeader("Authorization", 'Bearer ' + data.access_token);
                             },
-                            data: {
-                                "card_number": creditCardNumber
-                            },
+                            data: JSON.stringify({card_number: creditCardNumber}),
                             type: "POST",
                             dataType: 'json'
                         }).fail(function(data) {

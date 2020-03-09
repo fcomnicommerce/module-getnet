@@ -16,6 +16,7 @@
 namespace FCamara\Getnet\Model;
 
 use Magento\Checkout\Model\Session;
+use Psr\Log\LoggerInterface;
 
 class Client implements ClientInterface
 {
@@ -56,21 +57,29 @@ class Client implements ClientInterface
     private $quote;
 
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
      * Client constructor.
      * @param \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory
      * @param Config\CreditCardConfig $creditCardConfig
      * @param Session $session
+     * @param LoggerInterface $logger
      * @throws \Magento\Framework\Exception\LocalizedException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function __construct(
         \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory,
         Config\CreditCardConfig $creditCardConfig,
-        Session $session
+        Session $session,
+        LoggerInterface $logger
     ) {
         $this->creditCardConfig = $creditCardConfig;
         $this->httpClientFactory = $httpClientFactory;
         $this->quote = $session->getQuote();
+        $this->logger = $logger;
     }
 
     /**
@@ -114,12 +123,13 @@ class Client implements ClientInterface
 
         try {
             $responseBody = json_decode($client->request()->getBody(), true);
+
             if (!isset($responseBody['access_token'])) {
                 throw new \ErrorException('Can\'t get token');
             }
             $responseBody = $responseBody['access_token'];
         } catch (\Exception $e) {
-            $e->getMessage();
+            $this->logger->critical('Error message', ['exception' => $e]);
         }
 
         return $responseBody;
@@ -142,7 +152,7 @@ class Client implements ClientInterface
         try {
             $responseBody = json_decode($client->request()->getBody(), true);
         } catch (\Exception $e) {
-            $e->getMessage();
+            $this->logger->critical('Error message', ['exception' => $e]);
         }
 
         return $responseBody['number_token'];
@@ -174,11 +184,18 @@ class Client implements ClientInterface
         $isRecurrence = false;
         $requestParameters['seller_id'] = $this->creditCardConfig->sellerId();
         $client = $this->httpClientFactory->create();
+        $ccNumber = $requestParameters['cc_number'];
+        unset($requestParameters['cc_number']);
+
         $client->setUri($this->creditCardConfig->authorizeEndpoint());
         $client->setHeaders(['content-type: application/json; charset=utf-8']);
         $client->setHeaders('Authorization', 'Bearer ' . $token);
         $client->setMethod(\Zend_Http_Client::POST);
         $client->setRawData(json_encode($requestParameters));
+
+        $this->logger->info('Getnet - ' . $this->creditCardConfig->authorizeEndpoint());
+        $this->logger->info('RequestBody:');
+        $this->logger->info(json_encode($requestParameters));
 
         try {
             $quoteItems = $this->quote->getAllVisibleItems();
@@ -201,12 +218,17 @@ class Client implements ClientInterface
 
             if (!$isRecurrence) {
                 $responseBody = json_decode($client->request()->getBody(), true);
+
+                $this->logger->info('Getnet - ' . $this->creditCardConfig->authorizeEndpoint());
+                $this->logger->info('ResponseBody:');
+                $this->logger->info(json_encode($responseBody));
+
                 if (isset($responseBody['status']) && $responseBody['status'] == 'AUTHORIZED' || $responseBody['status'] == 'APPROVED') {
-                    $this->saveCardData($requestParameters);
+                    $this->saveCardData($requestParameters, $ccNumber);
                 }
             }
         } catch (\Exception $e) {
-            $e->getMessage();
+            $this->logger->critical('Error message', ['exception' => $e]);
         }
 
         return $responseBody;
@@ -222,11 +244,24 @@ class Client implements ClientInterface
         $isRecurrence = false;
         $requestParameters['seller_id'] = $this->creditCardConfig->sellerId();
         $client = $this->httpClientFactory->create();
+        $ccNumber = $requestParameters['cc_number'];
+        unset($requestParameters['cc_number']);
+
         $client->setUri(str_replace('{payment_id}', $requestParameters['payment_id'], $this->creditCardConfig->captureEndpoint()));
         $client->setHeaders(['content-type: application/json; charset=utf-8']);
         $client->setHeaders('Authorization', 'Bearer ' . $token);
         $client->setMethod(\Zend_Http_Client::POST);
         $client->setRawData(json_encode($requestParameters));
+
+        $this->logger->info(
+            'Getnet - ' . str_replace(
+                '{payment_id}',
+                $requestParameters['payment_id'],
+                $this->creditCardConfig->captureEndpoint()
+            )
+        );
+        $this->logger->info('RequestBody:');
+        $this->logger->info(json_encode($requestParameters));
 
         try {
             $quoteItems = $this->quote->getAllVisibleItems();
@@ -249,12 +284,23 @@ class Client implements ClientInterface
 
             if (!$isRecurrence) {
                 $responseBody = json_decode($client->request()->getBody(), true);
+
+                $this->logger->info(
+                    'Getnet - ' . str_replace(
+                        '{payment_id}',
+                        $requestParameters['payment_id'],
+                        $this->creditCardConfig->captureEndpoint()
+                    )
+                );
+                $this->logger->info('ResponseBody:');
+                $this->logger->info(json_encode($responseBody));
+
                 if (isset($responseBody['status']) && $responseBody['status'] == 'APPROVED') {
-                    $this->saveCardData($requestParameters);
+                    $this->saveCardData($requestParameters, $ccNumber);
                 }
             }
         } catch (\Exception $e) {
-            $e->getMessage();
+            $this->logger->critical('Error message', ['exception' => $e]);
         }
 
         return $responseBody;
@@ -270,9 +316,10 @@ class Client implements ClientInterface
 
     /**
      * @param $requestParameters
-     * @return bool|mixed
+     * @param $ccNumber
+     * @return bool|mixed|void
      */
-    protected function saveCardData($requestParameters)
+    protected function saveCardData($requestParameters, $ccNumber)
     {
         $token = $this->authentication();
         $responseBody = false;
@@ -285,7 +332,7 @@ class Client implements ClientInterface
         $cardData = $requestParameters['credit']['card'];
         $requestCardParams = [
             'number_token' => $this->tokenCard([
-                'card_number' => $requestParameters['cc_number'],
+                'card_number' => $ccNumber,
                 'customer_id' => $requestParameters['customer']['customer_id']
             ]),
             'brand' =>  $cardData['brand'],
@@ -308,7 +355,7 @@ class Client implements ClientInterface
         try {
             $responseBody = json_decode($client->request()->getBody(), true);
         } catch (\Exception $e) {
-            $e->getMessage();
+            $this->logger->critical('Error message', ['exception' => $e]);
         }
 
         return $responseBody;
@@ -332,7 +379,7 @@ class Client implements ClientInterface
         try {
             $responseBody = json_decode($client->request()->getBody(), true);
         } catch (\Exception $e) {
-            $e->getMessage();
+            $this->logger->critical('Error message', ['exception' => $e]);
         }
 
         return $responseBody;
@@ -354,7 +401,7 @@ class Client implements ClientInterface
         try {
             $responseBody = json_decode($client->request()->getBody(), true);
         } catch (\Exception $e) {
-            $e->getMessage();
+            $this->logger->critical('Error message', ['exception' => $e]);
         }
 
         return $responseBody;
@@ -382,7 +429,7 @@ class Client implements ClientInterface
         try {
             $responseBody = json_decode($client->request()->getBody(), true);
         } catch (\Exception $e) {
-            $e->getMessage();
+            $this->logger->critical('Error message', ['exception' => $e]);
         }
 
         return $responseBody;
@@ -420,7 +467,7 @@ class Client implements ClientInterface
         try {
             $responseBody = json_decode($client->request()->getBody(), true);
         } catch (\Exception $e) {
-            $e->getMessage();
+            $this->logger->critical('Error message', ['exception' => $e]);
         }
 
         return isset($responseBody['status']) && $responseBody['status'] == 'success';
@@ -465,15 +512,23 @@ class Client implements ClientInterface
         $client->setMethod(\Zend_Http_Client::POST);
         $client->setRawData(json_encode($requestParams));
 
+        $this->logger->info('Getnet - ' . $this->creditCardConfig->subscriptionsEndpoint());
+        $this->logger->info('RequestBody:');
+        $this->logger->info(json_encode($requestParams));
+
         try {
             $responseBody = json_decode($client->request()->getBody(), true);
+
+            $this->logger->info('Getnet - ' . $this->creditCardConfig->subscriptionsEndpoint());
+            $this->logger->info('ResponseBody');
+            $this->logger->info(json_encode($responseBody));
 
             if (isset($responseBody['subscription']['subscription_id'])) {
                 $this->quote->addData(['subscription_id' => $responseBody['subscription']['subscription_id']]);
                 $this->quote->save();
             }
         } catch (\Exception $e) {
-            $e->getMessage();
+            $this->logger->critical('Error message', ['exception' => $e]);
         }
 
         return isset($responseBody['status']) && $responseBody['status'] == 'success';
@@ -503,7 +558,7 @@ class Client implements ClientInterface
                 throw new \Exception('Subscription Not Found!');
             }
         } catch (\Exception $e) {
-            $e->getMessage();
+            $this->logger->critical('Error message', ['exception' => $e]);
         }
 
         return $responseBody;
@@ -527,7 +582,7 @@ class Client implements ClientInterface
         try {
             $responseBody = json_decode($client->request()->getBody(), true);
         } catch (\Exception $e) {
-            $e->getMessage();
+            $this->logger->critical('Error message', ['exception' => $e]);
         }
 
         return $responseBody;
@@ -558,7 +613,7 @@ class Client implements ClientInterface
         try {
             $responseBody = json_decode($client->request()->getBody(), true);
         } catch (\Exception $e) {
-            $e->getMessage();
+            $this->logger->critical('Error message', ['exception' => $e]);
         }
 
         return $responseBody;

@@ -279,11 +279,41 @@
 
     <!-- DEBITCARD PAYMENT CONFIGURATION -->
 
-    <type name="FCamara\Getnet\Block\Billet\Info">
+    <!-- DebitCard Authorize command -->
+    <virtualType name="GetnetGatewayDebitCardAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
         <arguments>
-            <argument name="config" xsi:type="object">GetnetGatewayDebitCardConfig</argument>
+            <argument name="requestBuilder" xsi:type="object">GetnetGatewayDebitCardAuthorizationRequest</argument>
+            <argument name="handler" xsi:type="object">GetnetGatewayDebitCardResponseHandlerComposite</argument>
+            <argument name="transferFactory" xsi:type="object">FCamara\Getnet\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">FCamara\Getnet\Gateway\Http\Client\DebitCard\AuthorizeClient</argument>
+            <argument name="validator" xsi:type="object">FCamara\Getnet\Gateway\Validator\GeneralResponseValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">FCamara\Getnet\Gateway\ErrorMapper\VirtualErrorMessageMapper</argument>
         </arguments>
-    </type>
+    </virtualType>
+
+    <!-- DebitCard Authorization Request -->
+    <virtualType name="GetnetGatewayDebitCardAuthorizationRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="general" xsi:type="string">FCamara\Getnet\Gateway\Request\DebitCard\GeneralDataBuild</item>
+                <item name="order" xsi:type="string">FCamara\Getnet\Gateway\Request\DebitCard\OrderDataBuild</item>
+                <item name="customer" xsi:type="string">FCamara\Getnet\Gateway\Request\DebitCard\CustomerDataBuild</item>
+                <item name="device" xsi:type="string">FCamara\Getnet\Gateway\Request\DebitCard\DeviceDataBuild</item>
+                <item name="shipping" xsi:type="string">FCamara\Getnet\Gateway\Request\DebitCard\ShippingDataBuild</item>
+                <item name="debit" xsi:type="string">FCamara\Getnet\Gateway\Request\DebitCard\DebitDataAuthorizationBuild</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- DebitCard Response handlers -->
+    <virtualType name="GetnetGatewayDebitCardResponseHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="txnid" xsi:type="string">FCamara\Getnet\Gateway\Response\DebitCard\TxnIdHandler</item>
+                <item name="fraud" xsi:type="string">FCamara\Getnet\Gateway\Response\DebitCard\FraudHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
 
     <!-- DebitCard Payment Method Facade configuration -->
     <virtualType name="GetnetGatewayDebitCardFacade" type="Magento\Payment\Model\Method\Adapter">
@@ -296,6 +326,15 @@
         </arguments>
     </virtualType>
 
+    <!-- DebitCard Commands infrastructure -->
+    <virtualType name="GetnetGatewayDebitCardCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="authorize" xsi:type="string">GetnetGatewayDebitCardAuthorizeCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
     <!-- DebitCard Value handlers infrastructure -->
     <virtualType name="GetnetGatewayDebitCardValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
@@ -304,6 +343,12 @@
             </argument>
         </arguments>
     </virtualType>
+
+    <type name="FCamara\Getnet\Block\Billet\Info">
+        <arguments>
+            <argument name="config" xsi:type="object">GetnetGatewayDebitCardConfig</argument>
+        </arguments>
+    </type>
 
     <virtualType name="GetnetGatewayDebitCardConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>
@@ -315,27 +360,6 @@
     <virtualType name="GetnetGatewayDebitCardConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
             <argument name="methodCode" xsi:type="const">\FCamara\Getnet\Model\Ui\DebitCard\ConfigProvider::CODE</argument>
-        </arguments>
-    </virtualType>
-
-    <!-- DebitCard Commands infrastructure -->
-    <virtualType name="GetnetGatewayDebitCardCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
-        <arguments>
-            <argument name="commands" xsi:type="array">
-                <item name="authorize" xsi:type="string">GetnetGatewayDebitCardAuthorizeCommand</item>
-            </argument>
-        </arguments>
-    </virtualType>
-
-    <!-- DebitCard Authorize command -->
-    <virtualType name="GetnetGatewayDebitCardAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
-        <arguments>
-            <argument name="requestBuilder" xsi:type="object">GetnetGatewayDebitCardAuthorizationRequest</argument>
-            <argument name="handler" xsi:type="object">GetnetGatewayDebitCardResponseHandlerComposite</argument>
-            <argument name="transferFactory" xsi:type="object">FCamara\Getnet\Gateway\Http\TransferFactory</argument>
-            <argument name="client" xsi:type="object">FCamara\Getnet\Gateway\Http\Client\DebitCard\AuthorizeClient</argument>
-            <argument name="validator" xsi:type="object">FCamara\Getnet\Gateway\Validator\GeneralResponseValidator</argument>
-            <argument name="errorMessageMapper" xsi:type="object">FCamara\Getnet\Gateway\ErrorMapper\VirtualErrorMessageMapper</argument>
         </arguments>
     </virtualType>
 
@@ -353,31 +377,11 @@
         </arguments>
     </virtualType>
 
-    <!-- DebitCard Authorization Request -->
-    <virtualType name="GetnetGatewayDebitCardAuthorizationRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
-        <arguments>
-            <argument name="builders" xsi:type="array">
-                <item name="data" xsi:type="string">FCamara\Getnet\Gateway\Request\DebitCard\DataRequest</item>
-                <item name="transaction" xsi:type="string">FCamara\Getnet\Gateway\Request\DebitCard\AuthorizationRequest</item>
-            </argument>
-        </arguments>
-    </virtualType>
-
     <type name="FCamara\Getnet\Gateway\Request\AuthorizationRequest">
         <arguments>
             <argument name="config" xsi:type="object">GetnetGatewayDebitCardConfig</argument>
         </arguments>
     </type>
-
-    <!-- DebitCard Response handlers -->
-    <virtualType name="GetnetGatewayDebitCardResponseHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
-        <arguments>
-            <argument name="handlers" xsi:type="array">
-                <item name="txnid" xsi:type="string">FCamara\Getnet\Gateway\Response\DebitCard\TxnIdHandler</item>
-                <item name="fraud" xsi:type="string">FCamara\Getnet\Gateway\Response\DebitCard\FraudHandler</item>
-            </argument>
-        </arguments>
-    </virtualType>
 
     <!-- DEBITCARD PAYMENT CONFIGURATION -->
 

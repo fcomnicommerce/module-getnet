@@ -44,4 +44,13 @@ class GetnetAdapter
         $response = $client->capture($requestParameters);
         return $response;
     }
+
+    public function debitAuthorize($requestParameters)
+    {
+        $client = $this->clientFactory->create();
+
+        $response = $client->debitAuthorize($requestParameters);
+
+        return $response;
+    }
 }

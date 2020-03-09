@@ -175,7 +175,8 @@ class Client implements ClientInterface
     }
 
     /**
-     * {@inheritDoc}
+     * @param array $requestParameters
+     * @return array|bool|false|mixed
      */
     public function authorize($requestParameters = [])
     {
@@ -227,6 +228,35 @@ class Client implements ClientInterface
                     $this->saveCardData($requestParameters, $ccNumber);
                 }
             }
+        } catch (\Exception $e) {
+            $this->logger->critical('Error message', ['exception' => $e]);
+        }
+
+        return $responseBody;
+    }
+
+    /**
+     * @param array $requestParameters
+     * @return bool|mixed
+     */
+    public function debitAuthorize($requestParameters = [])
+    {
+        $token = $this->authentication();
+        $responseBody = false;
+        $requestParameters['seller_id'] = $this->creditCardConfig->sellerId();
+        $client = $this->httpClientFactory->create();
+        $client->setUri($this->creditCardConfig->debitAuthorizeEndpoint());
+        $client->setHeaders(['Content-type: application/json; charset=utf-8']);
+        $client->setHeaders('Authorization', 'Bearer ' . $token);
+        $client->setMethod(\Zend_Http_Client::POST);
+        $client->setRawData(json_encode($requestParameters));
+
+        $this->logger->info('Getnet - ' . $this->creditCardConfig->authorizeEndpoint());
+        $this->logger->info('RequestBody:');
+        $this->logger->info(json_encode($requestParameters));
+
+        try {
+            $responseBody = json_decode($client->request()->getBody(), true);
         } catch (\Exception $e) {
             $this->logger->critical('Error message', ['exception' => $e]);
         }

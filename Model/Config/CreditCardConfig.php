@@ -134,6 +134,11 @@ class CreditCardConfig extends Config implements CreditCardConfigInterface
         return $this->endpoint() . '/v1/payments/credit';
     }
 
+    public function debitAuthorizeEndpoint()
+    {
+        return $this->endpoint() . '/v1/payments/debit';
+    }
+
     /**
      * {@inheritDoc}
      */

@@ -27,6 +27,6 @@ class AuthorizeClient extends AbstractClient
     {
         $adapter = $this->adapterFactory->create();
 
-        return $adapter->authorize($data, false);
+        return $adapter->debitAuthorize($data, false);
     }
 }

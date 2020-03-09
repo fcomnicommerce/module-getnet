@@ -215,8 +215,6 @@ define(
                 ];
             },
             beforePlaceOrder: function () {
-                console.log('passei aqui antes de fechar o pedido');
-
                 var endpoint = this.getEndpoint();
                 var authorization = this.getAuthorizationBasic();
                 var creditCardNumber = this.creditCardNumber();
@@ -241,8 +239,8 @@ define(
                             showLoader: true,
                             url: endpoint + 'v1/tokens/card',
                             beforeSend: function (request) {
+                                request.setRequestHeader("Content-type", 'application/json; charset=utf-8');
                                 request.setRequestHeader("Authorization", 'Bearer ' + data.access_token);
-                                request.setRequestHeader("Accept", 'application/json');
                             },
                             data: {
                                 "card_number": creditCardNumber

@@ -30,7 +30,10 @@ define(
                 creditCardSsStartYear: '',
                 creditCardSsIssue: '',
                 creditCardVerificationNumber: '',
-                selectedCardType: null
+                creditCardInstallment: '',
+                selectedCardType: null,
+                saveCardData: '',
+                cardId: null
             },
 
             initObservable: function () {
@@ -51,7 +54,9 @@ define(
                         'creditCardSsStartMonth',
                         'creditCardSsStartYear',
                         'creditCardSsIssue',
-                        'selectedCardType'
+                        'selectedCardType',
+                        'saveCardData',
+                        'cardId'
                     ]);
                 return this;
             },
@@ -94,7 +99,10 @@ define(
                         'cc_number_token': this.creditCardNumberToken(),
                         'cc_name': this.creditCardName(),
                         'cc_expiry': this.creditCardExpiry(),
-                        'cc_number': this.creditCardNumber()
+                        'cc_installment': this.creditCardInstallment(),
+                        'save_card_data': this.saveCardData(),
+                        'cc_number': this.creditCardNumber(),
+                        'card_id': this.cardId()
                     }
                 };
             },

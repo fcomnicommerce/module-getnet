@@ -48,7 +48,7 @@
                        data-bind="attr: {
                                         autocomplete: off,
                                         id: getCode() + '_cc_name',
-                                        title: $t('Credit Card Name'),
+                                        title: $t('Debit Card Name'),
                                         'data-container': getCode() + '-cc-name',
                                         'data-validate': JSON.stringify({'required-number':true, 'validate-card-type':getCcAvailableTypesValues(), 'validate-card-number':'#' + getCode() + '_cc_type', 'validate-cc-type':'#' + getCode() + '_cc_type'})},
                                   enable: isActive($parents),
@@ -65,7 +65,7 @@
                        data-bind="attr: {
                                         autocomplete: off,
                                         id: getCode() + '_cc_number',
-                                        title: $t('Credit Card Number'),
+                                        title: $t('Debit Card Number'),
                                         'data-container': getCode() + '-cc-number',
                                         'data-validate': JSON.stringify({'required':true})},
                                   enable: isActive($parents),
@@ -83,7 +83,7 @@
                        data-bind="attr: {
                                         autocomplete: off,
                                         id: getCode() + '_cc_expiry',
-                                        title: $t('Credit Card Expiry'),
+                                        title: $t('Debit Card Expiry'),
                                         'data-container': getCode() + '-cc-expiry',
                                         'data-validate': JSON.stringify({'required':true})},
                                   enable: isActive($parents),
@@ -103,7 +103,7 @@
                        name="payment[cc_cid]"
                        value=""
                        data-bind="attr: {id: getCode() + '_cc_cid',
-                            title: $t('Card Verification Number'),
+                            title: $t('Debit Verification Number'),
                             'data-container': getCode() + '-cc-cvv',
                             'data-validate': JSON.stringify({'required-number':true, 'validate-card-cvv':'#' + getCode() + '_cc_type'})},
                             enable: isActive($parents),

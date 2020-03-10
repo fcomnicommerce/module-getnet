@@ -344,12 +344,6 @@
         </arguments>
     </virtualType>
 
-    <type name="FCamara\Getnet\Block\Billet\Info">
-        <arguments>
-            <argument name="config" xsi:type="object">GetnetGatewayDebitCardConfig</argument>
-        </arguments>
-    </type>
-
     <virtualType name="GetnetGatewayDebitCardConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>
             <argument name="configInterface" xsi:type="object">GetnetGatewayDebitCardConfig</argument>
@@ -364,11 +358,11 @@
     </virtualType>
 
     <!-- DebitCard AuthorizeClient Initialization -->
-    <type name="FCamara\Getnet\Gateway\Http\Client\DebitCard\AuthorizeClient">
+<!--    <type name="FCamara\Getnet\Gateway\Http\Client\DebitCard\AuthorizeClient">
         <arguments>
             <argument name="logger" xsi:type="object">GetnetGatewayDebitCardLogger</argument>
         </arguments>
-    </type>
+    </type>-->
 
     <!-- Logger, initialized with GetnetGatewayDebitCardConfig -->
     <virtualType name="GetnetGatewayDebitCardLogger" type="Magento\Payment\Model\Method\Logger">
@@ -384,6 +378,14 @@
     </type>
 
     <!-- DEBITCARD PAYMENT CONFIGURATION -->
+
+    <!-- BILLET PAYMENT CONFIGURATION -->
+    <type name="FCamara\Getnet\Block\Billet\Info">
+        <arguments>
+            <argument name="config" xsi:type="object">GetnetGatewayDebitCardConfig</argument>
+        </arguments>
+    </type>
+    <!-- BILLET PAYMENT CONFIGURATION -->
 
     <!-- Getnet error code mapper -->
     <virtualType name="FCamara\Getnet\Gateway\ErrorMapper\VirtualConfigReader" type="Magento\Payment\Gateway\ErrorMapper\VirtualConfigReader">

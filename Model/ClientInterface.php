@@ -174,6 +174,12 @@ interface ClientInterface
     public function authorize($requestParameters = []);
 
     /**
+     * @param array $requestParameters
+     * @return mixed
+     */
+    public function debitAuthorize($requestParameters = []);
+
+    /**
      * Endpoint for capture payments pre authorized.
      * When a credit transaction is made with the delayed = true or pre_authorization = true,
      * late confirmation or pre authorization option, respectively, it can be later confirmed,

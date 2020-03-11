@@ -73,8 +73,8 @@ define(
                 $(this.formElement).validation();
 
                 new Card({
-                    form: document.querySelector('.getnet-card'),
-                    container: '.card-wrapper'
+                    form: document.querySelector('.getnet-debit-card'),
+                    container: '.debit-card-wrapper'
                 });
             },
 
@@ -141,8 +141,6 @@ define(
                 var authorization = this.getAuthorizationBasic();
                 var creditCardNumber = this.creditCardNumber();
                 creditCardNumber = creditCardNumber.replace(/\s/g, '');
-
-                alert(creditCardNumber);
 
                 $.ajax({
                     showLoader: true,

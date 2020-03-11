@@ -75,7 +75,7 @@ define(
 
                 new Card({
                     form: document.querySelector('.getnet-card'),
-                    container: '.card-wrapper'
+                    container: '.credit-card-wrapper'
                 });
             },
 

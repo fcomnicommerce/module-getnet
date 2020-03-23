@@ -13,7 +13,7 @@
  * @author    Jonatan Santos <jonatan.santos@fcamara.com.br>
  */
 
-namespace FCamara\Getnet\Gateway\Http\Client;
+namespace FCamara\Getnet\Gateway\Http\Client\Billet;
 
 use FCamara\Getnet\Model\Adapter\GetnetAdapterFactory;
 use Magento\Payment\Gateway\Http\ClientException;

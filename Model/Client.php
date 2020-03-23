@@ -272,7 +272,6 @@ class Client implements ClientInterface
     {
         $token = $this->authentication();
         $responseBody = false;
-        $requestParameters['seller_id'] = $this->creditCardConfig->sellerId();
         $client = $this->httpClientFactory->create();
         $client->setUri($this->creditCardConfig->billetAuthorizeEndpoint());
         $client->setHeaders(['Content-type: application/json; charset=utf-8']);

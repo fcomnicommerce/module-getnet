@@ -112,37 +112,35 @@ class DataRequest implements BuilderInterface
         $postcode = str_replace('-', '', $address->getPostcode());
 
         $response = [
-            'body' => [
-                'seller_id' => $this->config->sellerId(),
-                'amount' => (float)$order->getGrandTotalAmount(),
-                'currency' => 'BRL',
-                'order' => [
-                    'order_id' => $order->getOrderIncrementId(),
-                    'sales_tax' => 0,
-                    'product_type' => 'service',
+            'seller_id' => $this->config->sellerId(),
+            'amount' => (float)$order->getGrandTotalAmount(),
+            'currency' => 'BRL',
+            'order' => [
+                'order_id' => $order->getOrderIncrementId(),
+                'sales_tax' => 0,
+                'product_type' => 'service',
+            ],
+            'boleto' => [
+                'our_number' => $this->config->ourNumber(),
+                'expiration_date' => $expirationDate,
+                'instructions' => $this->config->instructions(),
+                'provider' => $this->config->billetProvider(),
+            ],
+            'customer' => [
+                'first_name' => $customer->getFirstname(),
+                'name' => $customer->getFirstname() . ' ' . $customer->getLastname(),
+                'document_type' => 'CPF',
+                'document_number' => $customer->getTaxvat(),
+                'billing_address' => [
+                    'street' => $street,
+                    'number' => $number,
+                    'complement' => $complement,
+                    'district' => $district,
+                    'city' => $address->getCity(),
+                    'state' => $address->getRegionCode(),
+                    'postal_code' => $postcode,
                 ],
-                'boleto' => [
-                    'our_number' => $this->config->ourNumber(),
-                    'expiration_date' => $expirationDate,
-                    'instructions' => $this->config->instructions(),
-                    'provider' => $this->config->billetProvider(),
-                ],
-                'customer' => [
-                    'first_name' => $customer->getFirstname(),
-                    'name' => $customer->getFirstname() . ' ' . $customer->getLastname(),
-                    'document_type' => 'CPF',
-                    'document_number' => $customer->getTaxvat(),
-                    'billing_address' => [
-                        'street' => $street,
-                        'number' => $number,
-                        'complement' => $complement,
-                        'district' => $district,
-                        'city' => $address->getCity(),
-                        'state' => $address->getRegionCode(),
-                        'postal_code' => $postcode,
-                    ],
-                ],
-            ]
+            ],
         ];
 
         return $response;

@@ -84,8 +84,8 @@ class Success extends \Magento\Checkout\Block\Success
         $order = $this->getRealOrderId();
         $response = json_decode($order->getPayment()->getAdditionalInformation('boleto'), true);
 
-        if (isset($response['boleto']['_links'][1]['href'])) {
-            return 'https://api-sandbox.getnet.com.br' . $response['boleto']['_links'][1]['href'];
+        if (isset($response['_links'][1]['href'])) {
+            return 'https://api-sandbox.getnet.com.br' . $response['_links'][1]['href'];
         }
 
         return '';
@@ -99,8 +99,8 @@ class Success extends \Magento\Checkout\Block\Success
         $order = $this->getRealOrderId();
         $response = json_decode($order->getPayment()->getAdditionalInformation('boleto'), true);
 
-        if (isset($response['boleto']['_links'][0]['href'])) {
-            return 'https://api-sandbox.getnet.com.br' . $response['boleto']['_links'][0]['href'];
+        if (isset($response['_links'][0]['href'])) {
+            return 'https://api-sandbox.getnet.com.br' . $response['_links'][0]['href'];
         }
 
         return '';

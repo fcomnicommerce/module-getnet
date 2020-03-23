@@ -36,7 +36,7 @@
     <virtualType name="GetnetGatewayBilletResponseHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
         <arguments>
             <argument name="handlers" xsi:type="array">
-                <item name="payment_id" xsi:type="string">FCamara\Getnet\Gateway\Response\PaymentIdHandler</item>
+                <item name="payment_id" xsi:type="string">FCamara\Getnet\Gateway\Response\Billet\PaymentIdHandler</item>
             </argument>
         </arguments>
     </virtualType>

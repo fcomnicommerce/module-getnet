@@ -52,6 +52,24 @@
         </arguments>
     </virtualType>
 
+    <!-- Value handlers infrastructure -->
+    <virtualType name="GetnetGatewayBilletValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">GetnetGatewayBilletConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Billet Commands infrastructure -->
+    <virtualType name="GetnetGatewayBilletCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="authorize" xsi:type="string">GetnetGatewayBilletAuthorizeCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
     <!-- Billet Configuration reader -->
     <virtualType name="GetnetGatewayBilletConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
@@ -66,7 +84,6 @@
         </arguments>
     </virtualType>
 
-
     <!-- Billet Client Initialization -->
     <type name="FCamara\Getnet\Gateway\Http\Client\ClientMock">
         <arguments>
@@ -74,29 +91,11 @@
         </arguments>
     </type>
 
-    <!-- Billet Commands infrastructure -->
-    <virtualType name="GetnetGatewayBilletCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
-        <arguments>
-            <argument name="commands" xsi:type="array">
-                <item name="authorize" xsi:type="string">GetnetGatewayBilletAuthorizeCommand</item>
-            </argument>
-        </arguments>
-    </virtualType>
-
     <type name="FCamara\Getnet\Gateway\Request\AuthorizationRequest">
         <arguments>
             <argument name="config" xsi:type="object">GetnetGatewayBilletConfig</argument>
         </arguments>
     </type>
-
-    <!-- Value handlers infrastructure -->
-    <virtualType name="GetnetGatewayBilletValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
-        <arguments>
-            <argument name="handlers" xsi:type="array">
-                <item name="default" xsi:type="string">GetnetGatewayBilletConfigValueHandler</item>
-            </argument>
-        </arguments>
-    </virtualType>
 
     <virtualType name="GetnetGatewayBilletConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>

@@ -47,7 +47,9 @@ class ConfigProvider implements ConfigProviderInterface, ConfigInterface
         return [
             'payment' => [
                 self::CODE => [
-                    'info' => 'no info to return'
+                    'info' => 'no info to return',
+                    'authorizationBasic' => $this->authorizationBasic(),
+                    'endpoint' => $this->endpoint()
                 ]
             ]
         ];
@@ -241,5 +243,13 @@ class ConfigProvider implements ConfigProviderInterface, ConfigInterface
             ConfigInterface::XML_PATH_BILLET_INSTRUCTIONS,
             ScopeInterface::SCOPE_STORE
         );
+    }
+
+    /**
+     * @return string
+     */
+    public function authorizationBasic()
+    {
+        return 'Basic ' . base64_encode($this->clientId() . ':' . $this->clientSecret());
     }
 }

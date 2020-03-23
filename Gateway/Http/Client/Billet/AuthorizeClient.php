@@ -91,6 +91,6 @@ class AuthorizeClient implements ClientInterface
     {
         $adapter = $this->adapterFactory->create();
 
-        return $adapter->debitAuthorize($data, true);
+        return $adapter->billetAuthorize($data, true);
     }
 }

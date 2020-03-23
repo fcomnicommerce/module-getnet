@@ -73,7 +73,7 @@ class Success extends \Magento\Checkout\Block\Success
     {
         $order = $this->getRealOrderId();
 
-        return json_decode($order->getPayment()->getAdditionalInformation('boleto'), true);
+        return $order->getPayment()->getAdditionalInformation('billet_data');
     }
 
     /**
@@ -82,7 +82,7 @@ class Success extends \Magento\Checkout\Block\Success
     public function getBilletHtmlUrl()
     {
         $order = $this->getRealOrderId();
-        $response = json_decode($order->getPayment()->getAdditionalInformation('boleto'), true);
+        $response = $order->getPayment()->getAdditionalInformation('billet_data');
 
         if (isset($response['_links'][1]['href'])) {
             return 'https://api-sandbox.getnet.com.br' . $response['_links'][1]['href'];
@@ -97,7 +97,7 @@ class Success extends \Magento\Checkout\Block\Success
     public function getBilletPdfUrl()
     {
         $order = $this->getRealOrderId();
-        $response = json_decode($order->getPayment()->getAdditionalInformation('boleto'), true);
+        $response = $order->getPayment()->getAdditionalInformation('billet_data');
 
         if (isset($response['_links'][0]['href'])) {
             return 'https://api-sandbox.getnet.com.br' . $response['_links'][0]['href'];

@@ -66,7 +66,8 @@ class DataRequest implements BuilderInterface
      */
     public function build(array $buildSubject)
     {
-        if (!isset($buildSubject['payment'])
+        if (
+            !isset($buildSubject['payment'])
             || !$buildSubject['payment'] instanceof PaymentDataObjectInterface
         ) {
             throw new \InvalidArgumentException('Payment data object should be provided');
@@ -74,10 +75,8 @@ class DataRequest implements BuilderInterface
 
         /** @var PaymentDataObjectInterface $paymentDO */
         $paymentDO = $buildSubject['payment'];
-        $payment = $paymentDO->getPayment();
         $order = $paymentDO->getOrder();
 
-        $transactionResult = $payment->getAdditionalInformation('transaction_result');
         $address = $this->checkoutSession->getQuote()->getBillingAddress();
         $customer = $this->checkoutSession->getQuote()->getCustomer();
         $streetData = $address->getStreet();
@@ -86,12 +85,15 @@ class DataRequest implements BuilderInterface
         if (isset($streetData[0])) {
             $street = $streetData[0];
         }
+
         if (isset($streetData[1])) {
             $number = $streetData[1];
         }
+
         if (isset($streetData[2])) {
             $complement = $streetData[2];
         }
+
         if (isset($streetData[3])) {
             $district = $streetData[3];
         }
@@ -119,7 +121,7 @@ class DataRequest implements BuilderInterface
                     'sales_tax' => 0,
                     'product_type' => 'service',
                 ],
-                'boleto' =>[
+                'boleto' => [
                     'our_number' => $this->config->ourNumber(),
                     'expiration_date' => $expirationDate,
                     'instructions' => $this->config->instructions(),

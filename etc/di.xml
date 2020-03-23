@@ -11,6 +11,36 @@
 
     <!-- BILLET PAYMENT CONFIGURATION -->
 
+    <!-- Billet Authorize command -->
+    <virtualType name="GetnetGatewayBilletAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">GetnetGatewayBilletAuthorizationRequest</argument>
+            <argument name="handler" xsi:type="object">GetnetGatewayBilletResponseHandlerComposite</argument>
+            <argument name="transferFactory" xsi:type="object">FCamara\Getnet\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">FCamara\Getnet\Gateway\Http\Client\Billet\AuthorizeClient</argument>
+            <argument name="validator" xsi:type="object">FCamara\Getnet\Gateway\Validator\GeneralResponseValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">FCamara\Getnet\Gateway\ErrorMapper\VirtualErrorMessageMapper</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Billet Authorization Request -->
+    <virtualType name="GetnetGatewayBilletAuthorizationRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="data" xsi:type="string">FCamara\Getnet\Gateway\Request\Billet\DataRequest</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Billet Response handlers -->
+    <virtualType name="GetnetGatewayBilletResponseHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="payment_id" xsi:type="string">FCamara\Getnet\Gateway\Response\PaymentIdHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
     <!-- Billet Payment Method Facade configuration -->
     <virtualType name="GetnetGatewayBilletFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
@@ -53,43 +83,11 @@
         </arguments>
     </virtualType>
 
-    <!-- Billet Authorize command -->
-    <virtualType name="GetnetGatewayBilletAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
-        <arguments>
-            <argument name="requestBuilder" xsi:type="object">GetnetGatewayBilletAuthorizationRequest</argument>
-            <argument name="handler" xsi:type="object">GetnetGatewayBilletResponseHandlerComposite</argument>
-            <argument name="transferFactory" xsi:type="object">FCamara\Getnet\Gateway\Http\TransferFactory</argument>
-            <argument name="client" xsi:type="object">FCamara\Getnet\Gateway\Http\Client\ClientMock</argument>
-            <argument name="validator" xsi:type="object">FCamara\Getnet\Gateway\Validator\GeneralResponseValidator</argument>
-            <argument name="errorMessageMapper" xsi:type="object">FCamara\Getnet\Gateway\ErrorMapper\VirtualErrorMessageMapper</argument>
-        </arguments>
-    </virtualType>
-
-    <!-- Billet Authorization Request -->
-    <virtualType name="GetnetGatewayBilletAuthorizationRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
-        <arguments>
-            <argument name="builders" xsi:type="array">
-                <item name="transaction" xsi:type="string">FCamara\Getnet\Gateway\Request\AuthorizationRequest</item>
-                <item name="data" xsi:type="string">FCamara\Getnet\Gateway\Request\Billet\DataRequest</item>
-            </argument>
-        </arguments>
-    </virtualType>
-
     <type name="FCamara\Getnet\Gateway\Request\AuthorizationRequest">
         <arguments>
             <argument name="config" xsi:type="object">GetnetGatewayBilletConfig</argument>
         </arguments>
     </type>
-
-    <!-- Billet Response handlers -->
-    <virtualType name="GetnetGatewayBilletResponseHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
-        <arguments>
-            <argument name="handlers" xsi:type="array">
-                <item name="txnid" xsi:type="string">FCamara\Getnet\Gateway\Response\TxnIdHandler</item>
-                <item name="fraud" xsi:type="string">FCamara\Getnet\Gateway\Response\FraudHandler</item>
-            </argument>
-        </arguments>
-    </virtualType>
 
     <!-- Value handlers infrastructure -->
     <virtualType name="GetnetGatewayBilletValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
@@ -113,13 +111,9 @@
     </type>
     <!-- BILLET PAYMENT CONFIGURATION -->
 
-    <!-- CREDITCARD PAYMENT CONFIGURATION -->
 
-    <type name="FCamara\Getnet\Block\Billet\Info">
-        <arguments>
-            <argument name="config" xsi:type="object">GetnetGatewayCreditCardConfig</argument>
-        </arguments>
-    </type>
+
+    <!-- CREDITCARD PAYMENT CONFIGURATION -->
 
     <!-- CreditCard Payment Method Facade configuration -->
     <virtualType name="GetnetGatewayCreditCardFacade" type="Magento\Payment\Model\Method\Adapter">
@@ -276,6 +270,8 @@
         </arguments>
     </type>
     <!-- CREDITCARD PAYMENT CONFIGURATION -->
+
+
 
     <!-- DEBITCARD PAYMENT CONFIGURATION -->
 

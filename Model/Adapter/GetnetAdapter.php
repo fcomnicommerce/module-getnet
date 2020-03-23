@@ -24,11 +24,20 @@ class GetnetAdapter
      */
     private $clientFactory;
 
+    /**
+     * GetnetAdapter constructor.
+     * @param ClientFactory $clientFactory
+     */
     public function __construct(ClientFactory $clientFactory)
     {
         $this->clientFactory = $clientFactory;
     }
 
+    /**
+     * @param $requestParameters
+     * @param bool $captureNow
+     * @return mixed
+     */
     public function authorize($requestParameters, $captureNow = false)
     {
         $client = $this->clientFactory->create();
@@ -38,6 +47,10 @@ class GetnetAdapter
         return $response;
     }
 
+    /**
+     * @param $requestParameters
+     * @return mixed
+     */
     public function capture($requestParameters)
     {
         $client = $this->clientFactory->create();
@@ -45,11 +58,28 @@ class GetnetAdapter
         return $response;
     }
 
+    /**
+     * @param $requestParameters
+     * @return mixed
+     */
     public function debitAuthorize($requestParameters)
     {
         $client = $this->clientFactory->create();
 
         $response = $client->debitAuthorize($requestParameters);
+
+        return $response;
+    }
+
+    /**
+     * @param $requestParameters
+     * @return mixed
+     */
+    public function billetAuthorize($requestParameters)
+    {
+        $client = $this->clientFactory->create();
+
+        $response = $client->billetAuthorize($requestParameters);
 
         return $response;
     }

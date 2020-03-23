@@ -2,11 +2,15 @@
     <div class="download-billet">
         <div class="iframe-section">
             <div class="primary">
-                <a class="btn-download" target="_blank" href="<?php echo $block->getBilletPdfUrl(); ?>">
-                    <span>Download PDF</span>
-                </a>
+                <?php if ($block->getBilletPdfUrl()): ?>
+                    <a class="btn-download" target="_blank" href="<?php echo $block->getBilletPdfUrl(); ?>">
+                        <span>Download PDF</span>
+                    </a>
+                <?php endif; ?>
             </div>
-            <iframe src="<?php echo $block->getBilletHtmlUrl(); ?>" width="668" height="900">
+            <?php if ($block->getBilletHtmlUrl()): ?>
+                <iframe src="<?php echo $block->getBilletHtmlUrl(); ?>" width="668" height="900">
+            <?php endif; ?>
         </div>
     </div>
 <?php endif;?>

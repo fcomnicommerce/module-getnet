@@ -24,20 +24,29 @@ class Success extends \Magento\Checkout\Block\Success
     protected $_orderFactory;
 
     /**
+     * @var \FCamara\Getnet\Model\ConfigInterface
+     */
+    private $config;
+
+    /**
      * Success constructor.
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \FCamara\Getnet\Model\ConfigInterface $config
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Sales\Model\OrderFactory $orderFactory,
+        \FCamara\Getnet\Model\ConfigInterface $config,
         array $data = []
     ) {
         $this->_orderFactory = $orderFactory;
         $this->checkoutSession = $checkoutSession;
+        $this->config = $config;
+
         parent::__construct($context, $orderFactory, $data);
     }
 
@@ -85,7 +94,7 @@ class Success extends \Magento\Checkout\Block\Success
         $response = $order->getPayment()->getAdditionalInformation('billet_data');
 
         if (isset($response['_links'][1]['href'])) {
-            return 'https://api-sandbox.getnet.com.br' . $response['_links'][1]['href'];
+            return $this->config->endpoint() . $response['_links'][1]['href'];
         }
 
         return '';
@@ -100,7 +109,7 @@ class Success extends \Magento\Checkout\Block\Success
         $response = $order->getPayment()->getAdditionalInformation('billet_data');
 
         if (isset($response['_links'][0]['href'])) {
-            return 'https://api-sandbox.getnet.com.br' . $response['_links'][0]['href'];
+            return $this->config->endpoint() . $response['_links'][0]['href'];
         }
 
         return '';

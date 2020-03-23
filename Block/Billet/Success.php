@@ -1,8 +1,19 @@
 <?php
+
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to https://www.fcamara.com.br/ for more information.
+ *
+ * @category  FCamara
+ * @package   FCamara_Getnet
+ * @copyright Copyright (c) 2020 Getnet
+ * @Agency    FCamara Formação e Consultoria, Inc. (http://www.fcamara.com.br)
+ * @author    Danilo Cavalcanti de Moura <danilo.moura@fcamara.com.br>
  */
+
 namespace FCamara\Getnet\Block\Billet;
 
 class Success extends \Magento\Checkout\Block\Success
@@ -13,10 +24,11 @@ class Success extends \Magento\Checkout\Block\Success
     protected $_orderFactory;
 
     /**
+     * Success constructor.
      * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param array $data
-     * @codeCoverageIgnore
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
@@ -40,41 +52,57 @@ class Success extends \Magento\Checkout\Block\Success
         return $order;
     }
 
+    /**
+     * @return bool
+     */
     public function isBillet()
     {
         $order = $this->getRealOrderId();
-        if ($order->getPayment()->getMethodInstance()->getCode() ==  \FCamara\Getnet\Model\Ui\Billet\ConfigProvider::CODE) {
+        $code = $order->getPayment()->getMethodInstance()->getCode();
+        if ($code ==  \FCamara\Getnet\Model\Ui\Billet\ConfigProvider::CODE) {
             return true;
         }
+
         return false;
     }
 
+    /**
+     * @return mixed
+     */
     public function getPaymentInfo()
     {
         $order = $this->getRealOrderId();
 
-        return $order->getPayment()->getAdditionalInformation('response');
+        return json_decode($order->getPayment()->getAdditionalInformation('boleto'), true);
     }
 
+    /**
+     * @return string
+     */
     public function getBilletHtmlUrl()
     {
         $order = $this->getRealOrderId();
-        $response = json_decode($order->getPayment()->getAdditionalInformation('response'), true);
+        $response = json_decode($order->getPayment()->getAdditionalInformation('boleto'), true);
 
-        if(isset($response['boleto']['_links'][1]['href'])) {
+        if (isset($response['boleto']['_links'][1]['href'])) {
             return 'https://api-sandbox.getnet.com.br' . $response['boleto']['_links'][1]['href'];
         }
+
         return '';
     }
 
+    /**
+     * @return string
+     */
     public function getBilletPdfUrl()
     {
         $order = $this->getRealOrderId();
-        $response = json_decode($order->getPayment()->getAdditionalInformation('response'), true);
+        $response = json_decode($order->getPayment()->getAdditionalInformation('boleto'), true);
 
-        if(isset($response['boleto']['_links'][0]['href'])) {
+        if (isset($response['boleto']['_links'][0]['href'])) {
             return 'https://api-sandbox.getnet.com.br' . $response['boleto']['_links'][0]['href'];
         }
+
         return '';
     }
 }

@@ -48,7 +48,7 @@
 
     <fieldset name="main_fieldset">
         <settings>
-            <label translate="true">Other Settings</label>
+            <label translate="true">Settings</label>
         </settings>
         <fieldset name="seller_information">
             <argument name="data" xsi:type="array">

@@ -48,12 +48,12 @@
 
     <fieldset name="main_fieldset">
         <settings>
-            <label translate="true">Settings</label>
+            <label translate="true">Seller Settings</label>
         </settings>
         <fieldset name="seller_information">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="label" xsi:type="string" translate="true">Seller Information</item>
+                    <item name="label" xsi:type="string" translate="true">Information</item>
                     <item name="collapsible" xsi:type="boolean">true</item>
                     <item name="opened" xsi:type="boolean">true</item>
                 </item>
@@ -242,7 +242,7 @@
         <fieldset name="seller_address">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="label" xsi:type="string" translate="true">Seller Address</item>
+                    <item name="label" xsi:type="string" translate="true">Address</item>
                     <item name="collapsible" xsi:type="boolean">true</item>
                     <item name="opened" xsi:type="boolean">false</item>
                 </item>
@@ -324,7 +324,7 @@
         <fieldset name="seller_working_hours">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="label" xsi:type="string" translate="true">Seller Working Hours</item>
+                    <item name="label" xsi:type="string" translate="true">Working Hours</item>
                     <item name="collapsible" xsi:type="boolean">true</item>
                     <item name="opened" xsi:type="boolean">false</item>
                 </item>
@@ -382,7 +382,7 @@
         <fieldset name="seller_bank_account">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="label" xsi:type="string" translate="true">Seller Bank Account</item>
+                    <item name="label" xsi:type="string" translate="true">Bank Account</item>
                     <item name="collapsible" xsi:type="boolean">true</item>
                     <item name="opened" xsi:type="boolean">false</item>
                 </item>

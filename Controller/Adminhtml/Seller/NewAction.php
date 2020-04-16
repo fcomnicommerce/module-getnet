@@ -44,11 +44,18 @@ class NewAction extends \Magento\Backend\App\Action
         $this->_view->loadLayout();
         $this->_view->renderLayout();
 
-        $data = $this->getRequest()->getParam('seller');
+        $data = $this->getRequest()->getParam('main_fieldset');
 
         if (is_array($data)) {
             $seller = $this->seller->create();
-            $seller->setData($data)->save();
+            $seller->addData(['merchant_id' => '1']);
+            $seller->addData($data['seller_information']);
+            $seller->addData(['business_address' => json_encode($data['seller_address'])]);
+            $seller->addData(['mailing_address' => json_encode($data['seller_address'])]);
+            $seller->addData(['working_hours' => json_encode($data['seller_working_hours'])]);
+            $seller->addData($data['seller_bank_account']);
+
+            $seller->save();
             $resultRedirect = $this->resultRedirectFactory->create();
             return $resultRedirect->setPath('*/*/index');
         }

@@ -46,7 +46,7 @@ class DeleteAction extends Action
     {
         $id = $this->getRequest()->getParam('id');
 
-        if (!($seller = $this->seller->create()->load($id))) {
+        if (!($seller = $this->seller->load($id))) {
             $this->messageManager->addErrorMessage(__('Unable to proceed. Please, try again.'));
             $resultRedirect = $this->resultRedirectFactory->create();
             return $resultRedirect->setPath('*/*/index', array('_current' => true));

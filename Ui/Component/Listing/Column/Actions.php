@@ -64,14 +64,14 @@ class Actions extends Column
                     'edit' => [
                         'href' => $this->urlBuilder->getUrl(
                             'fcamara_getnet/seller/edit',
-                            ['entity_id' => $item['entity_id']]
+                            ['id' => $item['entity_id']]
                         ),
                         'label' => __('Edit')
                     ],
                     'remove' => [
                         'href' => $this->urlBuilder->getUrl(
                             'fcamara_getnet/seller/deleteaction',
-                            ['entity_id' => $item['entity_id']]
+                            ['id' => $item['entity_id']]
                         ),
                         'label' => __('Remove')
                     ]

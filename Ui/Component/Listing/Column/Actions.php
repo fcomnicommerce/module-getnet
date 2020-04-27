@@ -63,7 +63,7 @@ class Actions extends Column
                 $item[$this->getData('name')] = [
                     'edit' => [
                         'href' => $this->urlBuilder->getUrl(
-                            'fcamara_getnet/seller/editaction',
+                            'fcamara_getnet/seller/edit',
                             ['id' => $item['entity_id']]
                         ),
                         'label' => __('Edit')

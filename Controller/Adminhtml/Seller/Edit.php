@@ -20,7 +20,7 @@ use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\View\Result\PageFactory;
 
-class Editaction extends Action
+class Edit extends Action
 {
     const ADMIN_RESOURCE = 'Index';
 
@@ -30,7 +30,7 @@ class Editaction extends Action
     protected $resultPageFactory;
 
     /**
-     * Editaction constructor.
+     * Edit constructor.
      * @param Context $context
      * @param PageFactory $resultPageFactory
      */

@@ -52,7 +52,7 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
         $this->loadedData = array();
 
         foreach ($items as $seller) {
-            $this->loadedData[$seller->getId()]['seller'] = $seller->getData();
+            $this->loadedData[$seller->getId()]['main_fieldset']['seller_information'] = $seller->getData();
         }
 
 

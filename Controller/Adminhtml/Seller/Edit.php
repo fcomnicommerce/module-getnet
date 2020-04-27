@@ -19,10 +19,14 @@ namespace FCamara\Getnet\Controller\Adminhtml\Seller;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\View\Result\PageFactory;
+use FCamara\Getnet\Model\SellerFactory;
 
 class Edit extends Action
 {
-    const ADMIN_RESOURCE = 'Index';
+    /**
+     * @var SellerFactory
+     */
+    protected $seller;
 
     /**
      * @var PageFactory
@@ -33,12 +37,15 @@ class Edit extends Action
      * Edit constructor.
      * @param Context $context
      * @param PageFactory $resultPageFactory
+     * @param SellerFactory $seller
      */
     public function __construct(
         Context $context,
-        PageFactory $resultPageFactory
+        PageFactory $resultPageFactory,
+        SellerFactory $seller
     ) {
         $this->resultPageFactory = $resultPageFactory;
+        $this->seller = $seller;
         parent::__construct($context);
     }
 
@@ -47,6 +54,25 @@ class Edit extends Action
      */
     public function execute()
     {
+        $data = $this->getRequest()->getParam('main_fieldset');
+        $id = $this->getRequest()->getParam('id');
+
+        if ($id && is_array($data)) {
+            $seller = $this->seller->create()->load($id);
+            $seller->addData(['merchant_id' => '1']);
+            $seller->addData($data['seller_information']);
+            $seller->addData(['business_address' => json_encode($data['seller_address'])]);
+            $seller->addData(['mailing_address' => json_encode($data['seller_address'])]);
+            $seller->addData(['working_hours' => json_encode($data['seller_working_hours'])]);
+            $seller->addData($data['seller_bank_account']);
+
+            try {
+                $seller->save();
+            } catch (Exception $e) {
+
+            }
+        }
+
         return $this->resultPageFactory->create();
     }
 }

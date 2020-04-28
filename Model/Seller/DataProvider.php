@@ -55,7 +55,6 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
             $this->loadedData[$seller->getId()]['main_fieldset']['seller_information'] = $seller->getData();
         }
 
-
         return $this->loadedData;
     }
 }

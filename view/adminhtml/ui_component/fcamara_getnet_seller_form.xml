@@ -70,7 +70,7 @@
                 </argument>
             </field>
 
-            <field name="name">
+            <field name="type">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
                         <item name="label" xsi:type="string">Type</item>

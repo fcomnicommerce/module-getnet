@@ -353,16 +353,129 @@
                 </argument>
             </field>
 
-            <field name="state">
-                <argument name="data" xsi:type="array">
-                    <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string">State</item>
-                        <item name="visible" xsi:type="boolean">true</item>
-                        <item name="dataType" xsi:type="string">text</item>
-                        <item name="formElement" xsi:type="string">input</item>
-                        <item name="source" xsi:type="string">seller</item>
-                    </item>
-                </argument>
+            <field name="state" formElement="select">
+                <settings>
+                    <dataType>text</dataType>
+                    <label translate="true">State</label>
+                    <dataScope>state</dataScope>
+                </settings>
+                <formElements>
+                    <select>
+                        <settings>
+                            <options>
+                                <option name="1" xsi:type="array">
+                                    <item name="value" xsi:type="string">AC</item>
+                                    <item name="label" xsi:type="string">Acre</item>
+                                </option>
+                                <option name="2" xsi:type="array">
+                                    <item name="value" xsi:type="string">AL</item>
+                                    <item name="label" xsi:type="string">Alagoas</item>
+                                </option>
+                                <option name="3" xsi:type="array">
+                                    <item name="value" xsi:type="string">AP</item>
+                                    <item name="label" xsi:type="string">Amapá</item>
+                                </option>
+                                <option name="4" xsi:type="array">
+                                    <item name="value" xsi:type="string">AM</item>
+                                    <item name="label" xsi:type="string">Amazonas</item>
+                                </option>
+                                <option name="5" xsi:type="array">
+                                    <item name="value" xsi:type="string">BA</item>
+                                    <item name="label" xsi:type="string">Bahia</item>
+                                </option>
+                                <option name="6" xsi:type="array">
+                                    <item name="value" xsi:type="string">CE</item>
+                                    <item name="label" xsi:type="string">Ceará</item>
+                                </option>
+                                <option name="7" xsi:type="array">
+                                    <item name="value" xsi:type="string">DF</item>
+                                    <item name="label" xsi:type="string">Distrito Federal</item>
+                                </option>
+                                <option name="8" xsi:type="array">
+                                    <item name="value" xsi:type="string">ES</item>
+                                    <item name="label" xsi:type="string">Espírito Santo</item>
+                                </option>
+                                <option name="9" xsi:type="array">
+                                    <item name="value" xsi:type="string">GO</item>
+                                    <item name="label" xsi:type="string">Goiás</item>
+                                </option>
+                                <option name="10" xsi:type="array">
+                                    <item name="value" xsi:type="string">MA</item>
+                                    <item name="label" xsi:type="string">Maranhão</item>
+                                </option>
+                                <option name="11" xsi:type="array">
+                                    <item name="value" xsi:type="string">MT</item>
+                                    <item name="label" xsi:type="string">Mato Grosso</item>
+                                </option>
+                                <option name="12" xsi:type="array">
+                                    <item name="value" xsi:type="string">MS</item>
+                                    <item name="label" xsi:type="string">Mato Grosso do Sul</item>
+                                </option>
+                                <option name="13" xsi:type="array">
+                                    <item name="value" xsi:type="string">MG</item>
+                                    <item name="label" xsi:type="string">Minas Gerais</item>
+                                </option>
+                                <option name="14" xsi:type="array">
+                                    <item name="value" xsi:type="string">PA</item>
+                                    <item name="label" xsi:type="string">Pará</item>
+                                </option>
+                                <option name="15" xsi:type="array">
+                                    <item name="value" xsi:type="string">PB</item>
+                                    <item name="label" xsi:type="string">Paraíba</item>
+                                </option>
+                                <option name="16" xsi:type="array">
+                                    <item name="value" xsi:type="string">PR</item>
+                                    <item name="label" xsi:type="string">Paraná</item>
+                                </option>
+                                <option name="17" xsi:type="array">
+                                    <item name="value" xsi:type="string">PE</item>
+                                    <item name="label" xsi:type="string">Pernambuco</item>
+                                </option>
+                                <option name="18" xsi:type="array">
+                                    <item name="value" xsi:type="string">PI</item>
+                                    <item name="label" xsi:type="string">Piauí</item>
+                                </option>
+                                <option name="19" xsi:type="array">
+                                    <item name="value" xsi:type="string">RJ</item>
+                                    <item name="label" xsi:type="string">Rio de Janeiro</item>
+                                </option>
+                                <option name="20" xsi:type="array">
+                                    <item name="value" xsi:type="string">RN</item>
+                                    <item name="label" xsi:type="string">Rio Grande do Norte</item>
+                                </option>
+                                <option name="21" xsi:type="array">
+                                    <item name="value" xsi:type="string">RS</item>
+                                    <item name="label" xsi:type="string">Rio Grande do Sul</item>
+                                </option>
+                                <option name="22" xsi:type="array">
+                                    <item name="value" xsi:type="string">RO</item>
+                                    <item name="label" xsi:type="string">Rondônia</item>
+                                </option>
+                                <option name="23" xsi:type="array">
+                                    <item name="value" xsi:type="string">RR</item>
+                                    <item name="label" xsi:type="string">Roraima</item>
+                                </option>
+                                <option name="24" xsi:type="array">
+                                    <item name="value" xsi:type="string">SC</item>
+                                    <item name="label" xsi:type="string">Santa Catarina</item>
+                                </option>
+                                <option name="25" xsi:type="array">
+                                    <item name="value" xsi:type="string">SP</item>
+                                    <item name="label" xsi:type="string">São Paulo</item>
+                                </option>
+                                <option name="26" xsi:type="array">
+                                    <item name="value" xsi:type="string">SE</item>
+                                    <item name="label" xsi:type="string">Sergipe</item>
+                                </option>
+                                <option name="27" xsi:type="array">
+                                    <item name="value" xsi:type="string">TO</item>
+                                    <item name="label" xsi:type="string">Tocantins</item>
+                                </option>
+                            </options>
+                            <caption translate="true">-- Please Select --</caption>
+                        </settings>
+                    </select>
+                </formElements>
             </field>
 
             <field name="postal_code">
@@ -387,28 +500,78 @@
                 </item>
             </argument>
 
-            <field name="start_day">
-                <argument name="data" xsi:type="array">
-                    <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string">Start Day</item>
-                        <item name="visible" xsi:type="boolean">true</item>
-                        <item name="dataType" xsi:type="string">text</item>
-                        <item name="formElement" xsi:type="string">input</item>
-                        <item name="source" xsi:type="string">seller</item>
-                    </item>
-                </argument>
+            <field name="start_day" formElement="select">
+                <settings>
+                    <dataType>text</dataType>
+                    <label translate="true">Start Day</label>
+                    <dataScope>start_day</dataScope>
+                </settings>
+                <formElements>
+                    <select>
+                        <settings>
+                            <options>
+                                <option name="1" xsi:type="array">
+                                    <item name="value" xsi:type="string">mon</item>
+                                    <item name="label" xsi:type="string">Segunda</item>
+                                </option>
+                                <option name="2" xsi:type="array">
+                                    <item name="value" xsi:type="string">tue</item>
+                                    <item name="label" xsi:type="string">Terça</item>
+                                </option>
+                                <option name="3" xsi:type="array">
+                                    <item name="value" xsi:type="string">wed</item>
+                                    <item name="label" xsi:type="string">Quarta</item>
+                                </option>
+                                <option name="4" xsi:type="array">
+                                    <item name="value" xsi:type="string">thu</item>
+                                    <item name="label" xsi:type="string">Quinta</item>
+                                </option>
+                                <option name="5" xsi:type="array">
+                                    <item name="value" xsi:type="string">fri</item>
+                                    <item name="label" xsi:type="string">Sexta</item>
+                                </option>
+                            </options>
+                            <caption translate="true">-- Please Select --</caption>
+                        </settings>
+                    </select>
+                </formElements>
             </field>
 
-            <field name="end_day">
-                <argument name="data" xsi:type="array">
-                    <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string">End Day</item>
-                        <item name="visible" xsi:type="boolean">true</item>
-                        <item name="dataType" xsi:type="string">text</item>
-                        <item name="formElement" xsi:type="string">input</item>
-                        <item name="source" xsi:type="string">seller</item>
-                    </item>
-                </argument>
+            <field name="end_day" formElement="select">
+                <settings>
+                    <dataType>text</dataType>
+                    <label translate="true">End Day</label>
+                    <dataScope>end_day</dataScope>
+                </settings>
+                <formElements>
+                    <select>
+                        <settings>
+                            <options>
+                                <option name="1" xsi:type="array">
+                                    <item name="value" xsi:type="string">mon</item>
+                                    <item name="label" xsi:type="string">Segunda</item>
+                                </option>
+                                <option name="2" xsi:type="array">
+                                    <item name="value" xsi:type="string">tue</item>
+                                    <item name="label" xsi:type="string">Terça</item>
+                                </option>
+                                <option name="3" xsi:type="array">
+                                    <item name="value" xsi:type="string">wed</item>
+                                    <item name="label" xsi:type="string">Quarta</item>
+                                </option>
+                                <option name="4" xsi:type="array">
+                                    <item name="value" xsi:type="string">thu</item>
+                                    <item name="label" xsi:type="string">Quinta</item>
+                                </option>
+                                <option name="5" xsi:type="array">
+                                    <item name="value" xsi:type="string">fri</item>
+                                    <item name="label" xsi:type="string">Sexta</item>
+                                </option>
+                            </options>
+                            <caption translate="true">-- Please Select --</caption>
+                        </settings>
+                    </select>
+                </formElements>
             </field>
 
             <field name="start_time">
@@ -481,16 +644,29 @@
                 </argument>
             </field>
 
-            <field name="account_type">
-                <argument name="data" xsi:type="array">
-                    <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string">Account Type</item>
-                        <item name="visible" xsi:type="boolean">true</item>
-                        <item name="dataType" xsi:type="string">text</item>
-                        <item name="formElement" xsi:type="string">input</item>
-                        <item name="source" xsi:type="string">seller</item>
-                    </item>
-                </argument>
+            <field name="account_type" formElement="select">
+                <settings>
+                    <dataType>text</dataType>
+                    <label translate="true">Account Type</label>
+                    <dataScope>account_type</dataScope>
+                </settings>
+                <formElements>
+                    <select>
+                        <settings>
+                            <options>
+                                <option name="1" xsi:type="array">
+                                    <item name="value" xsi:type="string">C</item>
+                                    <item name="label" xsi:type="string">Conta Corrente</item>
+                                </option>
+                                <option name="2" xsi:type="array">
+                                    <item name="value" xsi:type="string">P</item>
+                                    <item name="label" xsi:type="string">Conta Poupança</item>
+                                </option>
+                            </options>
+                            <caption translate="true">-- Please Select --</caption>
+                        </settings>
+                    </select>
+                </formElements>
             </field>
 
             <field name="account_digit">

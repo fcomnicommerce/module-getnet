@@ -53,7 +53,13 @@ class NewAction extends \Magento\Backend\App\Action
             $seller->addData(['business_address' => json_encode($data['seller_address'])]);
             $seller->addData(['mailing_address' => json_encode($data['seller_address'])]);
             $seller->addData(['working_hours' => json_encode($data['seller_working_hours'])]);
-            $seller->addData($data['seller_bank_account']);
+            $seller->addData([
+                'bank' => $data['seller_bank_account']['bank'],
+                'agency' => $data['seller_bank_account']['agency'],
+                'account' => $data['seller_bank_account']['account'],
+                'account_type' => $data['seller_bank_account']['account_type'],
+                'account_digit' => $data['seller_bank_account']['account_digit']
+            ]);
 
             $seller->save();
             $resultRedirect = $this->resultRedirectFactory->create();

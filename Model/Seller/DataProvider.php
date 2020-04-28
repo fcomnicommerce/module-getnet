@@ -52,7 +52,12 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
         $this->loadedData = array();
 
         foreach ($items as $seller) {
-            $this->loadedData[$seller->getId()]['main_fieldset']['seller_information'] = $seller->getData();
+            $this->loadedData[$seller->getId()]['main_fieldset'] = [
+                'seller_information' => $seller->getData(),
+                'seller_address' => json_decode($seller->getData('business_address'), true),
+                'seller_working_hours' => json_decode($seller->getData('working_hours'), true),
+                'seller_bank_account' => $seller->getData()
+            ];
         }
 
         return $this->loadedData;

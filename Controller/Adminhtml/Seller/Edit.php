@@ -74,8 +74,9 @@ class Edit extends Action
 
             try {
                 $seller->save();
-            } catch (Exception $e) {
-
+                $this->messageManager->addSuccessMessage('Seller Successfully Saved!');
+            } catch (\Exception $e) {
+                $this->messageManager->addErrorMessage(__('Error saving the Seller, please try again!'));
             }
         }
 

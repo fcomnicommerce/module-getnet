@@ -61,7 +61,13 @@ class NewAction extends \Magento\Backend\App\Action
                 'account_digit' => $data['seller_bank_account']['account_digit']
             ]);
 
-            $seller->save();
+            try {
+                $seller->save();
+                $this->messageManager->addSuccessMessage('Seller Successfully Saved!');
+            } catch (\Exception $e) {
+                $this->messageManager->addErrorMessage(__('Error saving the Seller, please try again!'));
+            }
+
             $resultRedirect = $this->resultRedirectFactory->create();
             return $resultRedirect->setPath('*/*/index');
         }

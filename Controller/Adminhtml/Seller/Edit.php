@@ -75,6 +75,9 @@ class Edit extends Action
             try {
                 $seller->save();
                 $this->messageManager->addSuccessMessage('Seller Successfully Saved!');
+                $resultRedirect = $this->resultRedirectFactory->create();
+                
+                return $resultRedirect->setPath('*/*/index');
             } catch (\Exception $e) {
                 $this->messageManager->addErrorMessage(__('Error saving the Seller, please try again!'));
             }

@@ -119,16 +119,21 @@
                 </argument>
             </field>
 
-            <field name="birth_date">
+            <field name="birth_date" formElement="date">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string">Birth Date</item>
-                        <item name="visible" xsi:type="boolean">true</item>
-                        <item name="dataType" xsi:type="string">text</item>
-                        <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
                     </item>
                 </argument>
+                <settings>
+                    <validation>
+                        <rule name="validate-date" xsi:type="boolean">true</rule>
+                    </validation>
+                    <dataType>text</dataType>
+                    <label translate="true">Birth Date</label>
+                    <visible>true</visible>
+                    <dataScope>birth_date</dataScope>
+                </settings>
             </field>
 
             <field name="mothers_name">
@@ -203,40 +208,79 @@
                 </argument>
             </field>
 
-            <field name="accepted_contract">
-                <argument name="data" xsi:type="array">
-                    <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string">Accepted Contract</item>
-                        <item name="visible" xsi:type="boolean">true</item>
-                        <item name="dataType" xsi:type="string">text</item>
-                        <item name="formElement" xsi:type="string">input</item>
-                        <item name="source" xsi:type="string">seller</item>
-                    </item>
-                </argument>
+            <field name="accepted_contract" formElement="select">
+                <settings>
+                    <dataType>text</dataType>
+                    <label translate="true">Accepted Contract</label>
+                    <dataScope>accepted_contract</dataScope>
+                </settings>
+                <formElements>
+                    <select>
+                        <settings>
+                            <options>
+                                <option name="1" xsi:type="array">
+                                    <item name="value" xsi:type="string">S</item>
+                                    <item name="label" xsi:type="string">Yes</item>
+                                </option>
+                                <option name="2" xsi:type="array">
+                                    <item name="value" xsi:type="string">N</item>
+                                    <item name="label" xsi:type="string">No</item>
+                                </option>
+                            </options>
+                            <caption translate="true">-- Please Select --</caption>
+                        </settings>
+                    </select>
+                </formElements>
             </field>
 
-            <field name="liability_chargeback">
-                <argument name="data" xsi:type="array">
-                    <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string">Liability Chargeback</item>
-                        <item name="visible" xsi:type="boolean">true</item>
-                        <item name="dataType" xsi:type="string">text</item>
-                        <item name="formElement" xsi:type="string">input</item>
-                        <item name="source" xsi:type="string">seller</item>
-                    </item>
-                </argument>
+            <field name="liability_chargeback" formElement="select">
+                <settings>
+                    <dataType>text</dataType>
+                    <label translate="true">Liability Chargeback</label>
+                    <dataScope>liability_chargeback</dataScope>
+                </settings>
+                <formElements>
+                    <select>
+                        <settings>
+                            <options>
+                                <option name="1" xsi:type="array">
+                                    <item name="value" xsi:type="string">S</item>
+                                    <item name="label" xsi:type="string">Yes</item>
+                                </option>
+                                <option name="2" xsi:type="array">
+                                    <item name="value" xsi:type="string">N</item>
+                                    <item name="label" xsi:type="string">No</item>
+                                </option>
+                            </options>
+                            <caption translate="true">-- Please Select --</caption>
+                        </settings>
+                    </select>
+                </formElements>
             </field>
 
-            <field name="marketplace_store">
-                <argument name="data" xsi:type="array">
-                    <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string">Marketplace Store</item>
-                        <item name="visible" xsi:type="boolean">true</item>
-                        <item name="dataType" xsi:type="string">text</item>
-                        <item name="formElement" xsi:type="string">input</item>
-                        <item name="source" xsi:type="string">seller</item>
-                    </item>
-                </argument>
+            <field name="marketplace_store" formElement="select">
+                <settings>
+                    <dataType>text</dataType>
+                    <label translate="true">Marketplace Store</label>
+                    <dataScope>marketplace_store</dataScope>
+                </settings>
+                <formElements>
+                    <select>
+                        <settings>
+                            <options>
+                                <option name="1" xsi:type="array">
+                                    <item name="value" xsi:type="string">S</item>
+                                    <item name="label" xsi:type="string">Yes</item>
+                                </option>
+                                <option name="2" xsi:type="array">
+                                    <item name="value" xsi:type="string">N</item>
+                                    <item name="label" xsi:type="string">No</item>
+                                </option>
+                            </options>
+                            <caption translate="true">-- Please Select --</caption>
+                        </settings>
+                    </select>
+                </formElements>
             </field>
 
             <field name="payment_plan">

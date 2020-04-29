@@ -71,6 +71,11 @@
             </field>
 
             <field name="type" formElement="select">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="notice" xsi:type="string" translate="true">Person Type</item>
+                    </item>
+                </argument>
                 <settings>
                     <dataType>text</dataType>
                     <label translate="true">Type</label>
@@ -103,6 +108,7 @@
                         <item name="dataType" xsi:type="string">number</item>
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
+                        <item name="notice" xsi:type="string" translate="true">CPF/CNPJ Number</item>
                     </item>
                 </argument>
             </field>
@@ -168,6 +174,7 @@
                         <item name="dataType" xsi:type="string">text</item>
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
+                        <item name="notice" xsi:type="string" translate="true">Example: (11)9999-9999</item>
                     </item>
                 </argument>
             </field>
@@ -180,6 +187,7 @@
                         <item name="dataType" xsi:type="string">text</item>
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
+                        <item name="notice" xsi:type="string" translate="true">Example: (11)99999-9999</item>
                     </item>
                 </argument>
             </field>
@@ -349,6 +357,7 @@
                         <item name="dataType" xsi:type="string">text</item>
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
+                        <item name="notice" xsi:type="string" translate="true">Example: SAO PAULO</item>
                     </item>
                 </argument>
             </field>
@@ -486,6 +495,7 @@
                         <item name="dataType" xsi:type="string">text</item>
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
+                        <item name="notice" xsi:type="string" translate="true">Example: 09000000</item>
                     </item>
                 </argument>
             </field>
@@ -582,6 +592,7 @@
                         <item name="dataType" xsi:type="string">text</item>
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
+                        <item name="notice" xsi:type="string" translate="true">Example: 12:00:00</item>
                     </item>
                 </argument>
             </field>
@@ -594,6 +605,7 @@
                         <item name="dataType" xsi:type="string">text</item>
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
+                        <item name="notice" xsi:type="string" translate="true">Example: 24:00:00</item>
                     </item>
                 </argument>
             </field>

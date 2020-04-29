@@ -114,6 +114,8 @@
                         <item name="notice" xsi:type="string" translate="true">CPF/CNPJ Number</item>
                         <item name="validation" xsi:type="array">
                             <item name="required-entry" xsi:type="boolean">true</item>
+                            <item name="required-number" xsi:type="boolean">true</item>
+                            <item name="validate-number" xsi:type="boolean">true</item>
                         </item>
                     </item>
                 </argument>
@@ -192,7 +194,7 @@
                         <item name="dataType" xsi:type="string">text</item>
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
-                        <item name="notice" xsi:type="string" translate="true">Example: (11)9999-9999</item>
+                        <item name="notice" xsi:type="string" translate="true">Example: (11) 9999-9999</item>
                         <item name="validation" xsi:type="array">
                             <item name="required-entry" xsi:type="boolean">true</item>
                         </item>
@@ -208,7 +210,7 @@
                         <item name="dataType" xsi:type="string">text</item>
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
-                        <item name="notice" xsi:type="string" translate="true">Example: (11)99999-9999</item>
+                        <item name="notice" xsi:type="string" translate="true">Example: (11) 99999-9999</item>
                         <item name="validation" xsi:type="array">
                             <item name="required-entry" xsi:type="boolean">true</item>
                         </item>
@@ -226,6 +228,7 @@
                         <item name="source" xsi:type="string">seller</item>
                         <item name="validation" xsi:type="array">
                             <item name="required-entry" xsi:type="boolean">true</item>
+                            <item name="validate-email" xsi:type="boolean">true</item>
                         </item>
                     </item>
                 </argument>
@@ -392,6 +395,8 @@
                         <item name="source" xsi:type="string">seller</item>
                         <item name="validation" xsi:type="array">
                             <item name="required-entry" xsi:type="boolean">true</item>
+                            <item name="required-number" xsi:type="boolean">true</item>
+                            <item name="validate-number" xsi:type="boolean">true</item>
                         </item>
                     </item>
                 </argument>
@@ -571,6 +576,8 @@
                         <item name="notice" xsi:type="string" translate="true">Example: 09000000</item>
                         <item name="validation" xsi:type="array">
                             <item name="required-entry" xsi:type="boolean">true</item>
+                            <item name="validate-number" xsi:type="boolean">true</item>
+                            <item name="required-number" xsi:type="boolean">true</item>
                         </item>
                     </item>
                 </argument>
@@ -726,6 +733,8 @@
                         <item name="source" xsi:type="string">seller</item>
                         <item name="validation" xsi:type="array">
                             <item name="required-entry" xsi:type="boolean">true</item>
+                            <item name="validate-number" xsi:type="boolean">true</item>
+                            <item name="required-number" xsi:type="boolean">true</item>
                         </item>
                     </item>
                 </argument>
@@ -741,6 +750,8 @@
                         <item name="source" xsi:type="string">seller</item>
                         <item name="validation" xsi:type="array">
                             <item name="required-entry" xsi:type="boolean">true</item>
+                            <item name="validate-number" xsi:type="boolean">true</item>
+                            <item name="required-number" xsi:type="boolean">true</item>
                         </item>
                     </item>
                 </argument>
@@ -756,6 +767,8 @@
                         <item name="source" xsi:type="string">seller</item>
                         <item name="validation" xsi:type="array">
                             <item name="required-entry" xsi:type="boolean">true</item>
+                            <item name="validate-number" xsi:type="boolean">true</item>
+                            <item name="required-number" xsi:type="boolean">true</item>
                         </item>
                     </item>
                 </argument>

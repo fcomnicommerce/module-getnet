@@ -74,6 +74,9 @@
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
                         <item name="notice" xsi:type="string" translate="true">Person Type</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
                     </item>
                 </argument>
                 <settings>
@@ -109,6 +112,9 @@
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
                         <item name="notice" xsi:type="string" translate="true">CPF/CNPJ Number</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
                     </item>
                 </argument>
             </field>
@@ -121,6 +127,9 @@
                         <item name="dataType" xsi:type="string">text</item>
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
                     </item>
                 </argument>
             </field>
@@ -129,6 +138,9 @@
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
                         <item name="source" xsi:type="string">seller</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
                     </item>
                 </argument>
                 <settings>
@@ -150,6 +162,9 @@
                         <item name="dataType" xsi:type="string">text</item>
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
                     </item>
                 </argument>
             </field>
@@ -162,6 +177,9 @@
                         <item name="dataType" xsi:type="string">text</item>
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
                     </item>
                 </argument>
             </field>
@@ -175,6 +193,9 @@
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
                         <item name="notice" xsi:type="string" translate="true">Example: (11)9999-9999</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
                     </item>
                 </argument>
             </field>
@@ -188,6 +209,9 @@
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
                         <item name="notice" xsi:type="string" translate="true">Example: (11)99999-9999</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
                     </item>
                 </argument>
             </field>
@@ -200,6 +224,9 @@
                         <item name="dataType" xsi:type="string">text</item>
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
                     </item>
                 </argument>
             </field>
@@ -212,11 +239,21 @@
                         <item name="dataType" xsi:type="string">text</item>
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
                     </item>
                 </argument>
             </field>
 
             <field name="accepted_contract" formElement="select">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                </argument>
                 <settings>
                     <dataType>text</dataType>
                     <label translate="true">Accepted Contract</label>
@@ -242,6 +279,13 @@
             </field>
 
             <field name="liability_chargeback" formElement="select">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                </argument>
                 <settings>
                     <dataType>text</dataType>
                     <label translate="true">Liability Chargeback</label>
@@ -267,6 +311,13 @@
             </field>
 
             <field name="marketplace_store" formElement="select">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                </argument>
                 <settings>
                     <dataType>text</dataType>
                     <label translate="true">Marketplace Store</label>
@@ -299,6 +350,9 @@
                         <item name="dataType" xsi:type="string">text</item>
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
                     </item>
                 </argument>
             </field>
@@ -321,6 +375,9 @@
                         <item name="dataType" xsi:type="string">text</item>
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
                     </item>
                 </argument>
             </field>
@@ -333,6 +390,9 @@
                         <item name="dataType" xsi:type="string">text</item>
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
                     </item>
                 </argument>
             </field>
@@ -345,6 +405,9 @@
                         <item name="dataType" xsi:type="string">text</item>
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
                     </item>
                 </argument>
             </field>
@@ -358,11 +421,21 @@
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
                         <item name="notice" xsi:type="string" translate="true">Example: SAO PAULO</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
                     </item>
                 </argument>
             </field>
 
             <field name="state" formElement="select">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                </argument>
                 <settings>
                     <dataType>text</dataType>
                     <label translate="true">State</label>
@@ -496,6 +569,9 @@
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
                         <item name="notice" xsi:type="string" translate="true">Example: 09000000</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
                     </item>
                 </argument>
             </field>
@@ -511,6 +587,13 @@
             </argument>
 
             <field name="start_day" formElement="select">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                </argument>
                 <settings>
                     <dataType>text</dataType>
                     <label translate="true">Start Day</label>
@@ -548,6 +631,13 @@
             </field>
 
             <field name="end_day" formElement="select">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                </argument>
                 <settings>
                     <dataType>text</dataType>
                     <label translate="true">End Day</label>
@@ -593,6 +683,9 @@
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
                         <item name="notice" xsi:type="string" translate="true">Example: 12:00:00</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
                     </item>
                 </argument>
             </field>
@@ -606,6 +699,9 @@
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
                         <item name="notice" xsi:type="string" translate="true">Example: 24:00:00</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
                     </item>
                 </argument>
             </field>
@@ -628,6 +724,9 @@
                         <item name="dataType" xsi:type="string">text</item>
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
                     </item>
                 </argument>
             </field>
@@ -640,6 +739,9 @@
                         <item name="dataType" xsi:type="string">text</item>
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
                     </item>
                 </argument>
             </field>
@@ -652,11 +754,21 @@
                         <item name="dataType" xsi:type="string">text</item>
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
                     </item>
                 </argument>
             </field>
 
             <field name="account_type" formElement="select">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                </argument>
                 <settings>
                     <dataType>text</dataType>
                     <label translate="true">Account Type</label>
@@ -689,6 +801,9 @@
                         <item name="dataType" xsi:type="string">text</item>
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
                     </item>
                 </argument>
             </field>

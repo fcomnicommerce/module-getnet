@@ -133,17 +133,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
                         255
                     )
                     ->addColumn(
-                        'phone_area_code',
-                        \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-                        null
-                    )
-                    ->addColumn(
                         'phone_number',
-                        \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-                        null
-                    )
-                    ->addColumn(
-                        'cellphone_area_code',
                         \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
                         null
                     )
@@ -163,27 +153,12 @@ class UpgradeSchema implements UpgradeSchemaInterface
                         null
                     )
                     ->addColumn(
-                        'bank',
-                        \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-                        null
-                    )
-                    ->addColumn(
-                        'agency',
-                        \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-                        null
-                    )
-                    ->addColumn(
-                        'account',
-                        \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-                        null
-                    )
-                    ->addColumn(
-                        'account_type',
+                        'bank_accounts',
                         \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
                         255
                     )
                     ->addColumn(
-                        'account_digit',
+                        'list_commissions',
                         \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
                         255
                     )

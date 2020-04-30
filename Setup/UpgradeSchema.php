@@ -133,14 +133,14 @@ class UpgradeSchema implements UpgradeSchemaInterface
                         255
                     )
                     ->addColumn(
-                        'phone_number',
-                        \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-                        null
+                        'phone',
+                        \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        255
                     )
                     ->addColumn(
-                        'cellphone_number',
-                        \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-                        null
+                        'cellphone',
+                        \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        255
                     )
                     ->addColumn(
                         'email',

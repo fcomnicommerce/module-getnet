@@ -56,7 +56,7 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
                 'seller_information' => $seller->getData(),
                 'seller_address' => json_decode($seller->getData('business_address'), true),
                 'seller_working_hours' => json_decode($seller->getData('working_hours'), true),
-                'seller_bank_account' => $seller->getData()
+                'seller_bank_account' => json_decode($seller->getData('bank_accounts'), true),
             ];
         }
 

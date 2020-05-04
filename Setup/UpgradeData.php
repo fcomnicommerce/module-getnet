@@ -49,7 +49,7 @@ class UpgradeData implements UpgradeDataInterface
                 [
                     'attribute_set_id' => 4,
                     'type' => 'int',
-                    'label' => 'Seller',
+                    'label' => 'Seller ID',
                     'input' => 'select',
                     'required' => false,
                     'global' => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_STORE,

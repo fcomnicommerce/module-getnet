@@ -676,4 +676,29 @@ class Client implements ClientInterface
 
         return $responseBody;
     }
+
+    /**
+     * @param array $sellerData
+     * @return bool|mixed
+     */
+    public function createSellerPf($sellerData = [])
+    {
+        $token = $this->authentication();
+        $responseBody = false;
+
+        $client = $this->httpClientFactory->create();
+        $client->setUri($this->creditCardConfig->createSellerPfEndpoint($subscriptionId));
+        $client->setConfig(self::CONFIG_HTTP_CLIENT);
+        $client->setHeaders('Authorization', 'Bearer ' . $token);
+        $client->setMethod(\Zend_Http_Client::POST);
+        $client->setRawData(json_encode($sellerData));
+
+        try {
+            $responseBody = json_decode($client->request()->getBody(), true);
+        } catch (\Exception $e) {
+            $this->logger->critical('Error message', ['exception' => $e]);
+        }
+
+        return $responseBody;
+    }
 }

@@ -16,23 +16,35 @@
 
 namespace FCamara\Getnet\Controller\Adminhtml\Seller;
 
+use FCamara\Getnet\Model\Client;
+use Magento\Backend\App\Action\Context;
+use FCamara\Getnet\Model\SellerFactory;
+
 class NewAction extends \Magento\Backend\App\Action
 {
     /**
-     * @var \FCamara\Getnet\Model\SellerFactory
+     * @var SellerFactory
      */
     protected $seller;
 
     /**
+     * @var Client
+     */
+    protected $client;
+
+    /**
      * NewAction constructor.
-     * @param \Magento\Backend\App\Action\Context $context
-     * @param \FCamara\Getnet\Model\SellerFactory $seller
+     * @param Context $context
+     * @param SellerFactory $seller
+     * @param Client $client
      */
     public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \FCamara\Getnet\Model\SellerFactory $seller
+        Context $context,
+        SellerFactory $seller,
+        Client $client
     ) {
         $this->seller = $seller;
+        $this->client = $client;
         parent::__construct($context);
     }
 
@@ -48,7 +60,7 @@ class NewAction extends \Magento\Backend\App\Action
 
         if (is_array($data)) {
             $seller = $this->seller->create();
-            $seller->addData(['merchant_id' => '1']);
+            $seller->addData(['merchant_id' => $data['seller_information']['legal_document_number']]);
             $seller->addData($data['seller_information']);
             $seller->addData(['business_address' => json_encode($data['seller_address'])]);
             $seller->addData(['mailing_address' => json_encode($data['seller_address'])]);
@@ -57,6 +69,10 @@ class NewAction extends \Magento\Backend\App\Action
 
             try {
                 $seller->save();
+
+                //Integrate Getnet
+                $this->client->createSellerPf($data);
+
                 $this->messageManager->addSuccessMessage('Seller Successfully Saved!');
             } catch (\Exception $e) {
                 $this->messageManager->addErrorMessage(__('Error saving the Seller, please try again!'));

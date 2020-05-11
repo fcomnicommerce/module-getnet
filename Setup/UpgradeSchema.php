@@ -31,6 +31,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
      */
     public function upgrade(SchemaSetupInterface $setup, ModuleContextInterface $context)
     {
+        $installer = $setup;
         $setup->startSetup();
 
         if (version_compare($context->getVersion(), '0.3.0', '<')) {
@@ -59,6 +60,90 @@ class UpgradeSchema implements UpgradeSchemaInterface
                     'comment' => 'Recurrence Subscription Id'
                 ]
             );
+        }
+
+        if (version_compare($context->getVersion(), '0.5.0', '<')) {
+            if (!$installer->tableExists('getnet_reports')) {
+                $table = $installer->getConnection()->newTable($installer->getTable('getnet_reports'))
+                    ->addColumn(
+                        'entity_id',
+                        \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                        null,
+                        [
+                            'identity' => true,
+                            'nullable' => false,
+                            'primary'  => true,
+                            'unsigned' => true,
+                        ],
+                        'Entity ID'
+                    )
+                    ->addColumn(
+                        'customer_name',
+                        \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        255,
+                        [],
+                        'Customer Name'
+                    )
+                    ->addColumn(
+                        'customer_email',
+                        \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        255,
+                        [],
+                        'Customer Email'
+                    )
+                    ->addColumn(
+                        'status',
+                        \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        255,
+                        [],
+                        'Status'
+                    )
+                    ->addColumn(
+                        'status_message',
+                        \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        255,
+                        [],
+                        'Status Message'
+                    )
+                    ->addColumn(
+                        'payment_type',
+                        \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        255,
+                        [],
+                        'Payment Type'
+                    )
+                    ->addColumn(
+                        'payment_type',
+                        \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        255,
+                        [],
+                        'Payment Type'
+                    )
+                    ->addColumn(
+                        'request_body',
+                        \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        255,
+                        [],
+                        'Request Body'
+                    )
+                    ->addColumn(
+                        'response_body',
+                        \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        255,
+                        [],
+                        'Response Body'
+                    )
+                    ->addColumn(
+                        'created_at',
+                        \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+                        null,
+                        ['nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT],
+                        'Created At'
+                    )
+                    ->setComment('Getnet Reports Table');
+
+                $installer->getConnection()->createTable($table);
+            }
         }
 
         $setup->endSetup();

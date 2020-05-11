@@ -404,4 +404,21 @@
     <!-- API -->
     <preference for="FCamara\Getnet\Api\CardsInterface" type="FCamara\Getnet\Model\Cards" />
     <preference for="FCamara\Getnet\Api\AmountInterface" type="FCamara\Getnet\Model\CheckoutIframeAmount" />
+    <!-- API -->
+
+    <!-- ADMIN REPORT GRID -->
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="fcamara_getnet_report_listing_data_source" xsi:type="string">FCamara\Getnet\Model\ResourceModel\Report\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="FCamara\Getnet\Model\ResourceModel\Report\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">getnet_reports</argument>
+            <argument name="resourceModel" xsi:type="string">FCamara\Getnet\Model\ResourceModel\Report</argument>
+        </arguments>
+    </virtualType>
+    <!-- ADMIN REPORT GRID -->
 </config>

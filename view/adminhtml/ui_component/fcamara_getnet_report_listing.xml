@@ -100,19 +100,35 @@
                 </item>
             </argument>
         </column>
-        <column name="status">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="filter" xsi:type="string">text</item>
-                    <item name="editor" xsi:type="array">
-                        <item name="editorType" xsi:type="string">text</item>
-                        <item name="validation" xsi:type="array">
-                            <item name="required-entry" xsi:type="boolean">true</item>
-                        </item>
-                    </item>
-                    <item name="label" xsi:type="string" translate="true">Status</item>
-                </item>
-            </argument>
+        <column name="status" component="Magento_Ui/js/grid/columns/select">
+            <settings>
+                <filter>select</filter>
+                <dataType>select</dataType>
+                <label translate="true">Status</label>
+                <visible>true</visible>
+                <options>
+                    <option name="0" xsi:type="array">
+                        <item name="value" xsi:type="string">CANCELED</item>
+                        <item name="label" xsi:type="string" translate="true">Canceled</item>
+                    </option>
+                    <option name="1" xsi:type="array">
+                        <item name="value" xsi:type="string">APPROVED</item>
+                        <item name="label" xsi:type="string" translate="true">Approved</item>
+                    </option>
+                    <option name="2" xsi:type="array">
+                        <item name="value" xsi:type="string">DENIED</item>
+                        <item name="label" xsi:type="string" translate="true">Denied</item>
+                    </option>
+                    <option name="3" xsi:type="array">
+                        <item name="value" xsi:type="string">AUTHORIZED</item>
+                        <item name="label" xsi:type="string" translate="true">Authorized</item>
+                    </option>
+                    <option name="4" xsi:type="array">
+                        <item name="value" xsi:type="string">CONFIRMED</item>
+                        <item name="label" xsi:type="string" translate="true">Confirmed</item>
+                    </option>
+                </options>
+            </settings>
         </column>
         <column name="status_message">
             <argument name="data" xsi:type="array">

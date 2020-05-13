@@ -158,6 +158,28 @@
                 </item>
             </argument>
         </column>
+        <column name="status" component="Magento_Ui/js/grid/columns/select">
+            <settings>
+                <filter>select</filter>
+                <dataType>select</dataType>
+                <label translate="true">Payment Type</label>
+                <visible>true</visible>
+                <options>
+                    <option name="0" xsi:type="array">
+                        <item name="value" xsi:type="string">getnet_billet</item>
+                        <item name="label" xsi:type="string" translate="true">Billet</item>
+                    </option>
+                    <option name="1" xsi:type="array">
+                        <item name="value" xsi:type="string">getnet_credit_card</item>
+                        <item name="label" xsi:type="string" translate="true">Credit Cart</item>
+                    </option>
+                    <option name="2" xsi:type="array">
+                        <item name="value" xsi:type="string">getnet_debit_card</item>
+                        <item name="label" xsi:type="string" translate="true">Debit Card</item>
+                    </option>
+                </options>
+            </settings>
+        </column>
         <column name="created_at" class="Magento\Ui\Component\Listing\Columns\Date">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">

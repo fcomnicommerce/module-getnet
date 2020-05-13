@@ -17,6 +17,7 @@ namespace FCamara\Getnet\Model;
 
 use Magento\Checkout\Model\Session;
 use Psr\Log\LoggerInterface;
+use FCamara\Getnet\Model\ReportFactory;
 
 class Client implements ClientInterface
 {
@@ -62,11 +63,17 @@ class Client implements ClientInterface
     private $logger;
 
     /**
+     * @var ReportFactory
+     */
+    protected $report;
+
+    /**
      * Client constructor.
      * @param \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory
      * @param Config\CreditCardConfig $creditCardConfig
      * @param Session $session
      * @param LoggerInterface $logger
+     * @param \FCamara\Getnet\Model\ReportFactory $report
      * @throws \Magento\Framework\Exception\LocalizedException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
@@ -74,12 +81,14 @@ class Client implements ClientInterface
         \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory,
         Config\CreditCardConfig $creditCardConfig,
         Session $session,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        ReportFactory $report
     ) {
         $this->creditCardConfig = $creditCardConfig;
         $this->httpClientFactory = $httpClientFactory;
         $this->quote = $session->getQuote();
         $this->logger = $logger;
+        $this->report = $report;
     }
 
     /**
@@ -223,6 +232,20 @@ class Client implements ClientInterface
                 $this->logger->info('Getnet - ' . $this->creditCardConfig->authorizeEndpoint());
                 $this->logger->info('ResponseBody:');
                 $this->logger->info(json_encode($responseBody));
+
+                if (!array_key_exists($responseBody['status_code'], self::SUCCESS_CODES)) {
+                    $report = $this->report->create();
+
+                    $report->addData(['customer_name' => $requestParameters['customer']['name']]);
+                    $report->addData(['customer_email' => $requestParameters['customer']['email']]);
+                    $report->addData(['status' => 'DENIED']);
+                    $report->addData(['status_message' => $responseBody['name'] . ' ' . $responseBody['message']]);
+                    $report->addData(['payment_type' => $this->quote->getPayment()->getMethod()]);
+                    $report->addData(['request_body' => json_encode($requestParameters)]);
+                    $report->addData(['response_body' => json_encode($responseBody)]);
+
+                    $report->save();
+                }
 
                 if (isset($responseBody['status']) && $responseBody['status'] == 'AUTHORIZED' || $responseBody['status'] == 'APPROVED') {
                     $this->saveCardData($requestParameters, $ccNumber);

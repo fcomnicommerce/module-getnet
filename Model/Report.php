@@ -24,17 +24,17 @@ class Report extends AbstractModel implements IdentityInterface
     /**
      * @const string
      */
-    const CACHE_TAG = 'fcamara_getnet_report';
+    const CACHE_TAG = 'getnet_reports';
 
     /**
      * @var string
      */
-    protected $_cacheTag = 'fcamara_getnet_report';
+    protected $_cacheTag = 'getnet_reports';
 
     /**
      * @var string
      */
-    protected $_eventPrefix = 'fcamara_getnet_report';
+    protected $_eventPrefix = 'getnet_reports';
 
     /**
      * Report Model Construct

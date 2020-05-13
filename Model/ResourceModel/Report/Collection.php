@@ -28,7 +28,7 @@ class Collection extends AbstractCollection
     /**
      * @var string
      */
-    protected $_eventPrefix = 'fcamara_getnet_report_collection';
+    protected $_eventPrefix = 'getnet_reports_collection';
 
     /**
      * @var string

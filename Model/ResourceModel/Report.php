@@ -32,6 +32,6 @@ class Report extends AbstractDb
 
     protected function _construct()
     {
-        $this->_init('fcamara_getnet_report', 'entity_id');
+        $this->_init('getnet_reports', 'entity_id');
     }
 }

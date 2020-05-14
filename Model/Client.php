@@ -495,8 +495,8 @@ class Client implements ClientInterface
 
                 if (
                     isset($responseBody['status'])
-                    && $responseBody['status'] == 'APPROVED'
-                    || $responseBody['status'] == 'CONFIRMED'
+                    && ($responseBody['status'] == 'APPROVED'
+                    || $responseBody['status'] == 'CONFIRMED')
                 ) {
                     $report = $this->report->create();
 
@@ -513,7 +513,7 @@ class Client implements ClientInterface
                     $report->addData(['status' => $responseBody['status']]);
                     $report->addData(['status_message' => $responseBody['status']
                         . ': Transação realizada com sucesso!']);
-                    $report->addData(['payment_type' => $this->quote->getPayment()->getMethod()]);
+                    $report->addData(['payment_type' => 'getnet_credit_card']);
                     $report->addData(['request_body' => json_encode($requestParameters)]);
                     $report->addData(['response_body' => json_encode($responseBody)]);
 

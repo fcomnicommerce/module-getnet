@@ -261,8 +261,8 @@ class Client implements ClientInterface
 
                 if (
                     isset($responseBody['status'])
-                    && $responseBody['status'] == 'AUTHORIZED'
-                    || $responseBody['status'] == 'APPROVED'
+                    && ($responseBody['status'] == 'AUTHORIZED'
+                    || $responseBody['status'] == 'APPROVED')
                 ) {
                     $report = $this->report->create();
 
@@ -418,7 +418,7 @@ class Client implements ClientInterface
         $isRecurrence = false;
         $requestParameters['seller_id'] = $this->creditCardConfig->sellerId();
         $client = $this->httpClientFactory->create();
-        $ccNumber = $requestParameters['cc_number'];
+        $ccNumber = isset($requestParameters['cc_number']) ? $requestParameters['cc_number'] : false;
         unset($requestParameters['cc_number']);
 
         $client->setUri(str_replace('{payment_id}', $requestParameters['payment_id'], $this->creditCardConfig->captureEndpoint()));
@@ -458,6 +458,68 @@ class Client implements ClientInterface
 
             if (!$isRecurrence) {
                 $responseBody = json_decode($client->request()->getBody(), true);
+
+                if (
+                    isset($responseBody['status_code'])
+                    && !array_key_exists($responseBody['status_code'], self::SUCCESS_CODES)
+                ) {
+                    $error = [];
+                    $report = $this->report->create();
+
+                    if (isset($responseBody['details'])) {
+                        $error = $responseBody['details'][0];
+                    }
+
+                    if (isset($requestParameters['customer'])) {
+                        if (isset($requestParameters['customer']['name'])) {
+                            $report->addData(['customer_name' => $requestParameters['customer']['name']]);
+                        }
+
+                        if (isset($requestParameters['customer']['email'])) {
+                            $report->addData(['customer_email' => $requestParameters['customer']['email']]);
+                        }
+                    }
+
+                    $report->addData(['status' => 'DENIED']);
+
+                    if (count($error)) {
+                        $report->addData(['status_message' => $error['error_code'] . ': ' . $error['description']]);
+                    }
+
+                    $report->addData(['payment_type' => $this->quote->getPayment()->getMethod()]);
+                    $report->addData(['request_body' => json_encode($requestParameters)]);
+                    $report->addData(['response_body' => json_encode($responseBody)]);
+
+                    $report->save();
+                }
+
+                if (
+                    isset($responseBody['status'])
+                    && $responseBody['status'] == 'APPROVED'
+                    || $responseBody['status'] == 'CONFIRMED'
+                ) {
+                    $report = $this->report->create();
+
+                    if (isset($requestParameters['customer'])) {
+                        if (isset($requestParameters['customer']['name'])) {
+                            $report->addData(['customer_name' => $requestParameters['customer']['name']]);
+                        }
+
+                        if (isset($requestParameters['customer']['email'])) {
+                            $report->addData(['customer_email' => $requestParameters['customer']['email']]);
+                        }
+                    }
+
+                    $report->addData(['status' => $responseBody['status']]);
+                    $report->addData(['status_message' => $responseBody['status']
+                        . ': Transação realizada com sucesso!']);
+                    $report->addData(['payment_type' => $this->quote->getPayment()->getMethod()]);
+                    $report->addData(['request_body' => json_encode($requestParameters)]);
+                    $report->addData(['response_body' => json_encode($responseBody)]);
+
+                    $report->save();
+                    $this->saveCardData($requestParameters, $ccNumber);
+                }
 
                 $this->logger->info(
                     'Getnet - ' . str_replace(

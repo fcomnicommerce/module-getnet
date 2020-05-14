@@ -233,13 +233,25 @@ class Client implements ClientInterface
                 $this->logger->info('ResponseBody:');
                 $this->logger->info(json_encode($responseBody));
 
-                if (!array_key_exists($responseBody['status_code'], self::SUCCESS_CODES)) {
+                if (
+                    isset($responseBody['status_code'])
+                    && !array_key_exists($responseBody['status_code'], self::SUCCESS_CODES)
+                ) {
+                    $error = [];
                     $report = $this->report->create();
+
+                    if (isset($responseBody['details'])) {
+                        $error = $responseBody['details'][0];
+                    }
 
                     $report->addData(['customer_name' => $requestParameters['customer']['name']]);
                     $report->addData(['customer_email' => $requestParameters['customer']['email']]);
                     $report->addData(['status' => 'DENIED']);
-                    $report->addData(['status_message' => $responseBody['name'] . ' ' . $responseBody['message']]);
+
+                    if (count($error)) {
+                        $report->addData(['status_message' => $error['error_code'] . ': ' . $error['description']]);
+                    }
+
                     $report->addData(['payment_type' => $this->quote->getPayment()->getMethod()]);
                     $report->addData(['request_body' => json_encode($requestParameters)]);
                     $report->addData(['response_body' => json_encode($responseBody)]);
@@ -247,7 +259,23 @@ class Client implements ClientInterface
                     $report->save();
                 }
 
-                if (isset($responseBody['status']) && $responseBody['status'] == 'AUTHORIZED' || $responseBody['status'] == 'APPROVED') {
+                if (
+                    isset($responseBody['status'])
+                    && $responseBody['status'] == 'AUTHORIZED'
+                    || $responseBody['status'] == 'APPROVED'
+                ) {
+                    $report = $this->report->create();
+
+                    $report->addData(['customer_name' => $requestParameters['customer']['name']]);
+                    $report->addData(['customer_email' => $requestParameters['customer']['email']]);
+                    $report->addData(['status' => $responseBody['status']]);
+                    $report->addData(['status_message' => $responseBody['status']
+                        . ': Transação realizada com sucesso!']);
+                    $report->addData(['payment_type' => $this->quote->getPayment()->getMethod()]);
+                    $report->addData(['request_body' => json_encode($requestParameters)]);
+                    $report->addData(['response_body' => json_encode($responseBody)]);
+
+                    $report->save();
                     $this->saveCardData($requestParameters, $ccNumber);
                 }
             }
@@ -280,6 +308,43 @@ class Client implements ClientInterface
 
         try {
             $responseBody = json_decode($client->request()->getBody(), true);
+
+            if (!isset($responseBody['payment_id'])) {
+                $error = [];
+                $report = $this->report->create();
+
+                if (isset($responseBody['details'])) {
+                    $error = $responseBody['details'][0];
+                }
+
+                $report->addData(['customer_name' => $requestParameters['customer']['name']]);
+                $report->addData(['customer_email' => $requestParameters['customer']['email']]);
+                $report->addData(['status' => 'DENIED']);
+
+                if (count($error)) {
+                    $report->addData(['status_message' => $error['error_code'] . ': ' . $error['description']]);
+                }
+
+                $report->addData(['payment_type' => $this->quote->getPayment()->getMethod()]);
+                $report->addData(['request_body' => json_encode($requestParameters)]);
+                $report->addData(['response_body' => json_encode($responseBody)]);
+
+                $report->save();
+            }
+
+            if (isset($responseBody['payment_id'])) {
+                $report = $this->report->create();
+
+                $report->addData(['customer_name' => $requestParameters['customer']['name']]);
+                $report->addData(['customer_email' => $requestParameters['customer']['email']]);
+                $report->addData(['status' => 'AUTHORIZED']);
+                $report->addData(['status_message' => 'AUTHORIZED: Transação realizada com sucesso!']);
+                $report->addData(['payment_type' => $this->quote->getPayment()->getMethod()]);
+                $report->addData(['request_body' => json_encode($requestParameters)]);
+                $report->addData(['response_body' => json_encode($responseBody)]);
+
+                $report->save();
+            }
         } catch (\Exception $e) {
             $this->logger->critical('Error message', ['exception' => $e]);
         }
@@ -308,6 +373,34 @@ class Client implements ClientInterface
 
         try {
             $responseBody = json_decode($client->request()->getBody(), true);
+
+            if (!isset($responseBody['payment_id'])) {
+                $report = $this->report->create();
+
+                $report->addData(['customer_name' => $requestParameters['customer']['name']]);
+                $report->addData(['customer_email' => $this->quote->getCustomerEmail()]);
+                $report->addData(['status' => 'DENIED']);
+                $report->addData(['status_message' => 'DENIED: Erro ao tentar gerar o boleto!']);
+                $report->addData(['payment_type' => $this->quote->getPayment()->getMethod()]);
+                $report->addData(['request_body' => json_encode($requestParameters)]);
+                $report->addData(['response_body' => json_encode($responseBody)]);
+
+                $report->save();
+            }
+
+            if (isset($responseBody['payment_id'])) {
+                $report = $this->report->create();
+
+                $report->addData(['customer_name' => $requestParameters['customer']['name']]);
+                $report->addData(['customer_email' => $this->quote->getCustomerEmail()]);
+                $report->addData(['status' => 'AUTHORIZED']);
+                $report->addData(['status_message' => 'AUTHORIZED: Transação realizada com sucesso!']);
+                $report->addData(['payment_type' => $this->quote->getPayment()->getMethod()]);
+                $report->addData(['request_body' => json_encode($requestParameters)]);
+                $report->addData(['response_body' => json_encode($responseBody)]);
+
+                $report->save();
+            }
         } catch (\Exception $e) {
             $this->logger->critical('Error message', ['exception' => $e]);
         }

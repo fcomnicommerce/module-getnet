@@ -489,8 +489,9 @@ class Client implements ClientInterface
                 }
 
                 $report->addData(['status' => $responseBody['status']]);
-                $report->addData(['status_message' => $responseBody['status']
-                    . ': Transação realizada com sucesso!']);
+                $report->addData(
+                    ['status_message' => $responseBody['status'] . ': ' . $responseBody['credit_confirm']['message']]
+                );
                 $report->addData(['payment_type' => 'getnet_credit_card']);
                 $report->addData(['request_body' => json_encode($requestParameters)]);
                 $report->addData(['response_body' => json_encode($responseBody)]);

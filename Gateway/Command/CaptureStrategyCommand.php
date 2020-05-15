@@ -28,8 +28,8 @@ use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 
 class CaptureStrategyCommand implements CommandInterface
 {
-    private const SALE = 'sale';
-    private const CAPTURE = 'settle';
+    private const CAPTURE = 'sale';
+    private const SETTLE = 'settle';
 
     /**
      * @var CommandPoolInterface
@@ -101,8 +101,8 @@ class CaptureStrategyCommand implements CommandInterface
         $payment = $paymentDO->getPayment();
         ContextHelper::assertOrderPayment($payment);
 
-        if (!$payment->getAdditionalInformation('payment_id')) {
-            return self::SALE;
+        if ($payment->getAdditionalInformation('payment_id')) {
+            return self::SETTLE;
         }
 
         return self::CAPTURE;

@@ -74,7 +74,7 @@ class CreditDataAuthorizeAndCaptureBuild implements BuilderInterface
             'credit' => [
                 'delayed' => false,
                 'authenticated' => false,
-                'pre_authorization' => false,
+                'pre_authorization' => true,
                 'save_card_data' => $saveCardData,
                 'transaction_type' => $transactionType,
                 'number_installments' => $installments,

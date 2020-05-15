@@ -26,6 +26,6 @@ class CaptureClient extends AbstractClient
     {
         $adapter = $this->adapterFactory->create();
 
-        return $adapter->authorize($data, true);
+        return $adapter->capture($data, true);
     }
 }

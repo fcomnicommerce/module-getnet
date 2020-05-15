@@ -203,10 +203,6 @@ class Client implements ClientInterface
         $client->setMethod(\Zend_Http_Client::POST);
         $client->setRawData(json_encode($requestParameters));
 
-        $this->logger->info('Getnet - ' . $this->creditCardConfig->authorizeEndpoint());
-        $this->logger->info('RequestBody:');
-        $this->logger->info(json_encode($requestParameters));
-
         try {
             $quoteItems = $this->quote->getAllVisibleItems();
 
@@ -228,10 +224,6 @@ class Client implements ClientInterface
 
             if (!$isRecurrence) {
                 $responseBody = json_decode($client->request()->getBody(), true);
-
-                $this->logger->info('Getnet - ' . $this->creditCardConfig->authorizeEndpoint());
-                $this->logger->info('ResponseBody:');
-                $this->logger->info(json_encode($responseBody));
 
                 if (
                     isset($responseBody['status_code'])
@@ -302,10 +294,6 @@ class Client implements ClientInterface
         $client->setMethod(\Zend_Http_Client::POST);
         $client->setRawData(json_encode($requestParameters));
 
-        $this->logger->info('Getnet - ' . $this->creditCardConfig->authorizeEndpoint());
-        $this->logger->info('RequestBody:');
-        $this->logger->info(json_encode($requestParameters));
-
         try {
             $responseBody = json_decode($client->request()->getBody(), true);
 
@@ -367,10 +355,6 @@ class Client implements ClientInterface
         $client->setMethod(\Zend_Http_Client::POST);
         $client->setRawData(json_encode($requestParameters));
 
-        $this->logger->info('Getnet - ' . $this->creditCardConfig->billetAuthorizeEndpoint());
-        $this->logger->info('RequestBody:');
-        $this->logger->info(json_encode($requestParameters));
-
         try {
             $responseBody = json_decode($client->request()->getBody(), true);
 
@@ -409,131 +393,109 @@ class Client implements ClientInterface
     }
 
     /**
-     * {@inheritDoc}
+     * @param $requestParameters
+     * @return array|bool|mixed
      */
     public function capture($requestParameters)
     {
         $token = $this->authentication();
         $responseBody = false;
-        $isRecurrence = false;
         $requestParameters['seller_id'] = $this->creditCardConfig->sellerId();
         $client = $this->httpClientFactory->create();
-        $ccNumber = isset($requestParameters['cc_number']) ? $requestParameters['cc_number'] : false;
-        unset($requestParameters['cc_number']);
 
-        $client->setUri(str_replace('{payment_id}', $requestParameters['payment_id'], $this->creditCardConfig->captureEndpoint()));
-        $client->setHeaders(['content-type: application/json; charset=utf-8']);
-        $client->setHeaders('Authorization', 'Bearer ' . $token);
-        $client->setMethod(\Zend_Http_Client::POST);
-        $client->setRawData(json_encode($requestParameters));
+        if (!isset($requestParameters['payment_id'])) {
+            $responseAuthorizeBody = $this->authorize($requestParameters);
 
-        $this->logger->info(
-            'Getnet - ' . str_replace(
+            if (!isset($responseAuthorizeBody['payment_id'])) {
+                return $responseAuthorizeBody;
+            }
+
+            $requestParameters = [
+                'payment_id' => $responseAuthorizeBody['payment_id'],
+                'amount' => $responseAuthorizeBody['amount'],
+                'seller_id' => $responseAuthorizeBody['seller_id'],
+                'customer' => [
+                    'name' => $requestParameters['customer']['name'],
+                    'email' => $requestParameters['customer']['email']
+                ]
+            ];
+        }
+
+        $client->setUri(
+            str_replace(
                 '{payment_id}',
                 $requestParameters['payment_id'],
                 $this->creditCardConfig->captureEndpoint()
             )
         );
-        $this->logger->info('RequestBody:');
-        $this->logger->info(json_encode($requestParameters));
+        $client->setHeaders(['content-type: application/json; charset=utf-8']);
+        $client->setHeaders('Authorization', 'Bearer ' . $token);
+        $client->setMethod(\Zend_Http_Client::POST);
+        $client->setRawData(json_encode($requestParameters));
+
 
         try {
-            $quoteItems = $this->quote->getAllVisibleItems();
+            $responseBody = json_decode($client->request()->getBody(), true);
 
-            foreach ($quoteItems as $item) {
-                $product = $item->getProduct();
-                if ($product->getData('is_recurrence') && $product->getData('recurrence_plan_id')) {
-                    $isRecurrence = true;
-                    $this->customers($requestParameters['customer']);
-                    $requestParameters['plan_id'] = $product->getData('recurrence_plan_id');
-                    $subscription = $this->subscriptions($requestParameters);
+            if (
+                isset($responseBody['status_code'])
+                && !array_key_exists($responseBody['status_code'], self::SUCCESS_CODES)
+            ) {
+                $error = [];
+                $report = $this->report->create();
 
-                    if (!$subscription) {
-                        throw new \Exception('Error saving recurrence.');
+                if (isset($responseBody['details'])) {
+                    $error = $responseBody['details'][0];
+                }
+
+                if (isset($requestParameters['customer'])) {
+                    if (isset($requestParameters['customer']['name'])) {
+                        $report->addData(['customer_name' => $requestParameters['customer']['name']]);
                     }
 
-                    $responseBody = $subscription;
+                    if (isset($requestParameters['customer']['email'])) {
+                        $report->addData(['customer_email' => $requestParameters['customer']['email']]);
+                    }
                 }
+
+                $report->addData(['status' => 'DENIED']);
+
+                if (count($error)) {
+                    $report->addData(['status_message' => $error['error_code'] . ': ' . $error['description']]);
+                }
+
+                $report->addData(['payment_type' => $this->quote->getPayment()->getMethod()]);
+                $report->addData(['request_body' => json_encode($requestParameters)]);
+                $report->addData(['response_body' => json_encode($responseBody)]);
+
+                $report->save();
             }
 
-            if (!$isRecurrence) {
-                $responseBody = json_decode($client->request()->getBody(), true);
-
-                if (
-                    isset($responseBody['status_code'])
-                    && !array_key_exists($responseBody['status_code'], self::SUCCESS_CODES)
-                ) {
-                    $error = [];
-                    $report = $this->report->create();
-
-                    if (isset($responseBody['details'])) {
-                        $error = $responseBody['details'][0];
-                    }
-
-                    if (isset($requestParameters['customer'])) {
-                        if (isset($requestParameters['customer']['name'])) {
-                            $report->addData(['customer_name' => $requestParameters['customer']['name']]);
-                        }
-
-                        if (isset($requestParameters['customer']['email'])) {
-                            $report->addData(['customer_email' => $requestParameters['customer']['email']]);
-                        }
-                    }
-
-                    $report->addData(['status' => 'DENIED']);
-
-                    if (count($error)) {
-                        $report->addData(['status_message' => $error['error_code'] . ': ' . $error['description']]);
-                    }
-
-                    $report->addData(['payment_type' => $this->quote->getPayment()->getMethod()]);
-                    $report->addData(['request_body' => json_encode($requestParameters)]);
-                    $report->addData(['response_body' => json_encode($responseBody)]);
-
-                    $report->save();
-                }
-
-                if (
-                    isset($responseBody['status'])
-                    && ($responseBody['status'] == 'APPROVED'
+            if (
+                isset($responseBody['status'])
+                && ($responseBody['status'] == 'APPROVED'
                     || $responseBody['status'] == 'CONFIRMED')
-                ) {
-                    $report = $this->report->create();
+            ) {
+                $report = $this->report->create();
 
-                    if (isset($requestParameters['customer'])) {
-                        if (isset($requestParameters['customer']['name'])) {
-                            $report->addData(['customer_name' => $requestParameters['customer']['name']]);
-                        }
-
-                        if (isset($requestParameters['customer']['email'])) {
-                            $report->addData(['customer_email' => $requestParameters['customer']['email']]);
-                        }
+                if (isset($requestParameters['customer'])) {
+                    if (isset($requestParameters['customer']['name'])) {
+                        $report->addData(['customer_name' => $requestParameters['customer']['name']]);
                     }
 
-                    $report->addData(['status' => $responseBody['status']]);
-                    $report->addData(['status_message' => $responseBody['status']
-                        . ': Transação realizada com sucesso!']);
-                    $report->addData(['payment_type' => 'getnet_credit_card']);
-                    $report->addData(['request_body' => json_encode($requestParameters)]);
-                    $report->addData(['response_body' => json_encode($responseBody)]);
-
-                    $report->save();
-                    $this->saveCardData($requestParameters, $ccNumber);
+                    if (isset($requestParameters['customer']['email'])) {
+                        $report->addData(['customer_email' => $requestParameters['customer']['email']]);
+                    }
                 }
 
-                $this->logger->info(
-                    'Getnet - ' . str_replace(
-                        '{payment_id}',
-                        $requestParameters['payment_id'],
-                        $this->creditCardConfig->captureEndpoint()
-                    )
-                );
-                $this->logger->info('ResponseBody:');
-                $this->logger->info(json_encode($responseBody));
+                $report->addData(['status' => $responseBody['status']]);
+                $report->addData(['status_message' => $responseBody['status']
+                    . ': Transação realizada com sucesso!']);
+                $report->addData(['payment_type' => 'getnet_credit_card']);
+                $report->addData(['request_body' => json_encode($requestParameters)]);
+                $report->addData(['response_body' => json_encode($responseBody)]);
 
-                if (isset($responseBody['status']) && $responseBody['status'] == 'APPROVED') {
-                    $this->saveCardData($requestParameters, $ccNumber);
-                }
+                $report->save();
             }
         } catch (\Exception $e) {
             $this->logger->critical('Error message', ['exception' => $e]);
@@ -543,11 +505,34 @@ class Client implements ClientInterface
     }
 
     /**
-     * {@inheritDoc}
+     * @param array $requestParameters
+     * @return array|bool|mixed
      */
     public function void($requestParameters = [])
     {
-        // TODO: Implement void() method.
+        $token = $this->authentication();
+        $responseBody = false;
+        $requestParameters['seller_id'] = $this->creditCardConfig->sellerId();
+        $client = $this->httpClientFactory->create();
+        $client->setUri(
+            str_replace(
+                '{payment_id}',
+                $requestParameters['payment_id'],
+                $this->creditCardConfig->voidEndpoint()
+            )
+        );
+        $client->setHeaders(['content-type: application/json; charset=utf-8']);
+        $client->setHeaders('Authorization', 'Bearer ' . $token);
+        $client->setMethod(\Zend_Http_Client::POST);
+        $client->setRawData(json_encode($requestParameters));
+
+        try {
+            $responseBody = json_decode($client->request()->getBody(), true);
+        } catch (\Exception $e) {
+            $this->logger->critical('Error message', ['exception' => $e]);
+        }
+
+        return $responseBody;
     }
 
     /**

@@ -57,7 +57,7 @@
                 <sort_order>1</sort_order>
             </getnet_debit_card>
             <getnet_checkout_iframe>
-                <active>1</active>
+                <active>0</active>
                 <model>FCamara\Getnet\Model\CheckoutIframe</model>
                 <order_status>processing</order_status>
                 <title>Getnet Checkout Iframe</title>

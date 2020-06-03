@@ -17,7 +17,8 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
     <menu>
         <add id="FCamara_Getnet::getnet_report" title="Getnet" translate="title" module="FCamara_Getnet" sortOrder="10" parent="Magento_Reports::report" resource="Magento_Reports::report"/>
-        <add id="FCamara_Getnet::getnet_report_index" title="Transactions" translate="title" module="FCamara_Getnet" sortOrder="10" parent="FCamara_Getnet::getnet_report" action="fcamara_getnet/report/index" resource="Magento_Reports::report"
-        />
+        <add id="FCamara_Getnet::getnet_report_index" title="Transactions" translate="title" module="FCamara_Getnet" sortOrder="10" parent="FCamara_Getnet::getnet_report" action="fcamara_getnet/report/index" resource="Magento_Reports::report"/>
+        <add id="FCamara_Getnet::getnet" title="Getnet" translate="title" module="FCamara_Getnet" sortOrder="10" parent="Magento_Sales::sales" resource="Magento_Sales::sales"/>
+        <add id="FCamara_Getnet::getnet_seller" title="Seller" translate="title" module="FCamara_Getnet" sortOrder="10" parent="FCamara_Getnet::getnet" action="fcamara_getnet/seller/index" resource="Magento_Sales::sales"/>
     </menu>
 </config>

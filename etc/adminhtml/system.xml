@@ -139,10 +139,29 @@
                 </group>
                 <group id="split" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Split</label>
-                    <field id="enabled_split" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label" type="select">
+                    <field id="enabled" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label" type="select">
                         <label>Enabled</label>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                        <config_path>payment/getnet/enabled_split</config_path>
+                        <config_path>getnet/split/enabled</config_path>
+                    </field>
+                    <field id="environment" translate="label" type="select" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Environment</label>
+                        <source_model>FCamara\Getnet\Model\Adminhtml\Source\Environment</source_model>
+                        <config_path>getnet/split/environment</config_path>
+                    </field>
+                    <field id="sandbox_endpoint" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Sandbox Endpoint</label>
+                        <depends>
+                            <field id="environment">sandbox</field>
+                        </depends>
+                        <config_path>getnet/split/sandbox_endpoint</config_path>
+                    </field>
+                    <field id="production_endpoint" translate="label" type="text" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Production Endpoint</label>
+                        <depends>
+                            <field id="environment">production</field>
+                        </depends>
+                        <config_path>getnet/split/production_endpoint</config_path>
                     </field>
                 </group>
                 <group id="methods" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">

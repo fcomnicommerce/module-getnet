@@ -71,7 +71,9 @@ class NewAction extends \Magento\Backend\App\Action
                 $seller->save();
 
                 //Integrate Getnet
-                $integratedSeller = $this->client->createSellerPf($data);
+                if ($data['seller_information']['type'] == 'PF') {
+                    $integratedSeller = $this->client->createSellerPf($data);
+                }
 
                 if (!isset($integratedSeller['subseller_id'])) {
                     throw new \Exception(__('Error integrated Seller, please try again!'));

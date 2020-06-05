@@ -237,4 +237,12 @@ class CreditCardConfig extends Config implements CreditCardConfigInterface
     {
         return $this->endpoint() . '/v1/subscriptions/' . $subscriptionId . '/cancel';
     }
+
+    /**
+     * @return string
+     */
+    public function createSellerPfEndpoint()
+    {
+        return $this->endpoint() . '/v1/mgm/pf/create-presubseller';
+    }
 }

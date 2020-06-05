@@ -55,8 +55,8 @@ class NewAction extends \Magento\Backend\App\Action
     {
         $this->_view->loadLayout();
         $this->_view->renderLayout();
-
         $data = $this->getRequest()->getParam('main_fieldset');
+        $integratedSeller = false;
 
         if (is_array($data)) {
             $seller = $this->seller->create();
@@ -71,11 +71,15 @@ class NewAction extends \Magento\Backend\App\Action
                 $seller->save();
 
                 //Integrate Getnet
-                $this->client->createSellerPf($data);
+                $integratedSeller = $this->client->createSellerPf($data);
+
+                if (!isset($integratedSeller['subseller_id'])) {
+                    throw new \Exception(__('Error integrated Seller, please try again!'));
+                }
 
                 $this->messageManager->addSuccessMessage('Seller Successfully Saved!');
             } catch (\Exception $e) {
-                $this->messageManager->addErrorMessage(__('Error saving the Seller, please try again!'));
+                $this->messageManager->addErrorMessage($e);
             }
 
             $resultRedirect = $this->resultRedirectFactory->create();

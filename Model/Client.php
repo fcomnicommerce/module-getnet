@@ -851,7 +851,7 @@ class Client implements ClientInterface
         $responseBody = false;
 
         $client = $this->httpClientFactory->create();
-        $client->setUri($this->creditCardConfig->createSellerPfEndpoint($subscriptionId));
+        $client->setUri($this->creditCardConfig->createSellerPfEndpoint());
         $client->setConfig(self::CONFIG_HTTP_CLIENT);
         $client->setHeaders('Authorization', 'Bearer ' . $token);
         $client->setMethod(\Zend_Http_Client::POST);

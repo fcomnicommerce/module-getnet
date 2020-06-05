@@ -18,6 +18,7 @@ namespace FCamara\Getnet\Model;
 use Magento\Checkout\Model\Session;
 use Psr\Log\LoggerInterface;
 use Magento\Framework\HTTP\ZendClientFactory;
+use FCamara\Getnet\Model\Config\SellerConfig;
 
 class SellerClient
 {
@@ -43,9 +44,9 @@ class SellerClient
     ];
 
     /**
-     * @var Config\CreditCardConfig
+     * @var SellerConfig
      */
-    private $creditCardConfig;
+    private $sellerConfig;
 
     /**
      * @var \Magento\Framework\HTTP\ZendClientFactory
@@ -63,61 +64,36 @@ class SellerClient
     private $logger;
 
     /**
-     * Client constructor.
-     * @param \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory
-     * @param Config\CreditCardConfig $creditCardConfig
+     * SellerClient constructor.
+     * @param ZendClientFactory $httpClientFactory
+     * @param SellerConfig $sellerConfig
      * @param Session $session
      * @param LoggerInterface $logger
-     * @param \FCamara\Getnet\Model\ReportFactory $report
      * @throws \Magento\Framework\Exception\LocalizedException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function __construct(
         ZendClientFactory $httpClientFactory,
-        Config\CreditCardConfig $creditCardConfig,
+        SellerConfig $sellerConfig,
         Session $session,
         LoggerInterface $logger
     ) {
-        $this->creditCardConfig = $creditCardConfig;
+        $this->sellerConfig = $sellerConfig;
         $this->httpClientFactory = $httpClientFactory;
         $this->quote = $session->getQuote();
         $this->logger = $logger;
     }
 
     /**
-     * {@inheritDoc}
-     */
-    public function setClientId($clientId)
-    {
-        // TODO: Implement setClientId() method.
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setClientSecret($clientSecret)
-    {
-        // TODO: Implement setClientSecret() method.
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setEndpoint($endpoint)
-    {
-        // TODO: Implement setEndpoint() method.
-    }
-
-    /**
-     * {@inheritDoc}
+     * @return bool|mixed
      */
     public function authentication()
     {
         $responseBody = false;
-        $authorization = base64_encode($this->creditCardConfig->clientId()
-            . ':' . $this->creditCardConfig->clientSecret());
+        $authorization = base64_encode($this->sellerConfig->clientId()
+            . ':' . $this->sellerConfig->clientSecret());
         $client = $this->httpClientFactory->create();
-        $client->setUri($this->creditCardConfig->authenticationEndpoint());
+        $client->setUri($this->sellerConfig->authenticationEndpoint());
         $client->setHeaders(['content-type: application/x-www-form-urlencoded']);
         $client->setHeaders('authorization', 'Basic ' . $authorization);
         $client->setMethod(\Zend_Http_Client::POST);
@@ -130,6 +106,31 @@ class SellerClient
                 throw new \ErrorException('Can\'t get token');
             }
             $responseBody = $responseBody['access_token'];
+        } catch (\Exception $e) {
+            $this->logger->critical('Error message', ['exception' => $e]);
+        }
+
+        return $responseBody;
+    }
+
+    /**
+     * @param array $sellerData
+     * @return bool|mixed
+     */
+    public function createSellerPf($sellerData = [])
+    {
+        $token = $this->authentication();
+        $responseBody = false;
+
+        $client = $this->httpClientFactory->create();
+        $client->setUri($this->sellerConfig->createSellerPfEndpoint());
+        $client->setConfig(self::CONFIG_HTTP_CLIENT);
+        $client->setHeaders('Authorization', 'Bearer ' . $token);
+        $client->setMethod(\Zend_Http_Client::POST);
+        $client->setRawData(json_encode($sellerData));
+
+        try {
+            $responseBody = json_decode($client->request()->getBody(), true);
         } catch (\Exception $e) {
             $this->logger->critical('Error message', ['exception' => $e]);
         }

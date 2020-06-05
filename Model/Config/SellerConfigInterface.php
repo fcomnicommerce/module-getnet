@@ -19,6 +19,86 @@ namespace FCamara\Getnet\Model\Config;
 interface SellerConfigInterface
 {
     /**
+     * Enabled config path
+     */
+    public const XML_PATH_ENABLED = 'getnet/split/enabled';
+
+    /**
+     * Api environment config path
+     */
+    public const XML_PATH_ENVIRONMENT = 'getnet/split/environment';
+
+    /**
+     * Api sandbox endpoint
+     */
+    public const XML_PATH_SANDBOX_ENDPOINT = 'getnet/split/sandbox_endpoint';
+
+    /**
+     * Api production endpoint
+     */
+    public const XML_PATH_PRODUCTION_ENDPOINT = 'getnet/split/production_endpoint';
+
+    /**
+     * Api seller id config path
+     */
+    public const XML_PATH_SELLER_ID = 'payment/getnet/seller_id';
+
+    /**
+     * Api client id config path
+     */
+    public const XML_PATH_CLIENT_ID = 'payment/getnet/client_id';
+
+    /**
+     * Api client secret config path
+     */
+    public const XML_PATH_CLIENT_SECRET = 'payment/getnet/client_secret';
+
+    /**
+     * Return seller id
+     *
+     * @return string
+     * @since 102.0.3
+     */
+    public function sellerId();
+
+    /**
+     * Return client Id
+     *
+     * @return string
+     * @since 102.0.3
+     */
+    public function clientId();
+
+    /**
+     * Return client secret
+     *
+     * @return string
+     * @since 102.0.3
+     */
+    public function clientSecret();
+
+    /**
+     * @return mixed
+     */
+    public function authenticationEndpoint();
+
+    /**
+     * Return sandbox
+     *
+     * @return string
+     * @since 102.0.3
+     */
+    public function sandboxEndpoint();
+
+    /**
+     * Return production
+     *
+     * @return string
+     * @since 102.0.3
+     */
+    public function productionEndpoint();
+
+    /**
      * @param $merchantId
      * @param $cpf
      * @return mixed
@@ -119,4 +199,9 @@ interface SellerConfigInterface
      * @return mixed
      */
     public function paginatedStatementEndpoint();
+
+    /**
+     * @return mixed
+     */
+    public function endpoint();
 }

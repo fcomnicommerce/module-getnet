@@ -16,7 +16,7 @@
 
 namespace FCamara\Getnet\Controller\Adminhtml\Seller;
 
-use FCamara\Getnet\Model\Client;
+use FCamara\Getnet\Model\SellerClient;
 use Magento\Backend\App\Action\Context;
 use FCamara\Getnet\Model\SellerFactory;
 
@@ -36,12 +36,12 @@ class NewAction extends \Magento\Backend\App\Action
      * NewAction constructor.
      * @param Context $context
      * @param SellerFactory $seller
-     * @param Client $client
+     * @param SellerClient $client
      */
     public function __construct(
         Context $context,
         SellerFactory $seller,
-        Client $client
+        SellerClient $client
     ) {
         $this->seller = $seller;
         $this->client = $client;

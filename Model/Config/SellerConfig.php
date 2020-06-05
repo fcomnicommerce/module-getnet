@@ -18,8 +18,66 @@ namespace FCamara\Getnet\Model\Config;
 
 use Magento\Store\Model\ScopeInterface;
 
-class SellerConfig extends Config implements SellerConfigInterface
+class SellerConfig implements SellerConfigInterface
 {
+    /**
+     * @var ScopeInterface
+     */
+    protected $scopeConfig;
+
+    /**
+     * @param ScopeInterface $scopeConfig
+     */
+    public function __construct(ScopeInterface $scopeConfig)
+    {
+        $this->scopeConfig = $scopeConfig;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function environment()
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_ENVIRONMENT,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * @return string
+     */
+    public function sandboxEndpoint()
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_SANDBOX_ENDPOINT,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * @return string
+     */
+    public function productionEndpoint()
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_PRODUCTION_ENDPOINT,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * @return mixed|string
+     */
+    public function endpoint()
+    {
+        if ($this->environment() == \FCamara\Getnet\Model\Adminhtml\Source\Environment::SANDBOX_ENVIRONMENT) {
+            return $this->sandboxEndpoint();
+        }
+
+        return $this->productionEndpoint();
+    }
+
     /**
      * @param $merchantId
      * @param $cpf
@@ -73,6 +131,11 @@ class SellerConfig extends Config implements SellerConfigInterface
         return $this->endpoint() . '/v1/mgm/pf/update-subseller';
     }
 
+    /**
+     * @param $merchantId
+     * @param $cnpj
+     * @return mixed|string
+     */
     public function pjConsultEndpoint($merchantId, $cnpj)
     {
         return $this->endpoint() . '/v1/mgm/pj/consult/' . $merchantId . '/' . $cnpj;
@@ -169,5 +232,46 @@ class SellerConfig extends Config implements SellerConfigInterface
     public function paginatedStatementEndpoint()
     {
         return $this->endpoint() . '/v1/mgm/paginatedstatement';
+    }
+
+    /**
+     * @return mixed|string
+     */
+    public function authenticationEndpoint()
+    {
+        return $this->endpoint() . '/v1/mgm/auth/oauth/v2/token';
+    }
+
+    /**
+     * @return string
+     */
+    public function sellerId()
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_SELLER_ID,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * @return string
+     */
+    public function clientId()
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_CLIENT_ID,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * @return string
+     */
+    public function clientSecret()
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_CLIENT_SECRET,
+            ScopeInterface::SCOPE_STORE
+        );
     }
 }

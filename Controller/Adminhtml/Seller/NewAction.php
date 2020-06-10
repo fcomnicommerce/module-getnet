@@ -16,7 +16,7 @@
 
 namespace FCamara\Getnet\Controller\Adminhtml\Seller;
 
-use FCamara\Getnet\Model\SellerClient;
+use FCamara\Getnet\Model\Seller\SellerClient;
 use Magento\Backend\App\Action\Context;
 use FCamara\Getnet\Model\SellerFactory;
 

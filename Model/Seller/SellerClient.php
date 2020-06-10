@@ -13,7 +13,7 @@
  * @Agency    FCamara Formação e Consultoria, Inc. (http://www.fcamara.com.br)
  * @author    Danilo Cavalcanti de Moura <danilo.moura@fcamara.com.br>
  */
-namespace FCamara\Getnet\Model;
+namespace FCamara\Getnet\Model\Seller;
 
 use Magento\Checkout\Model\Session;
 use Psr\Log\LoggerInterface;
@@ -123,7 +123,7 @@ class SellerClient
         $responseBody = false;
 
         $client = $this->httpClientFactory->create();
-        $client->setUri($this->sellerConfig->createSellerPfEndpoint());
+        $client->setUri($this->sellerConfig->pfCreatePreSubSellerEndpoint());
         $client->setConfig(self::CONFIG_HTTP_CLIENT);
         $client->setHeaders('Authorization', 'Bearer ' . $token);
         $client->setMethod(\Zend_Http_Client::POST);

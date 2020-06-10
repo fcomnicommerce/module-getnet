@@ -13,30 +13,32 @@
  * @Agency    FCamara Formação e Consultoria, Inc. (http://www.fcamara.com.br)
  * @author    Danilo Cavalcanti de Moura <danilo.moura@fcamara.com.br>
  */
-
 namespace FCamara\Getnet\Model\Seller;
 
-class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
+use FCamara\Getnet\Model\ResourceModel\Seller\CollectionFactory;
+use Magento\Ui\DataProvider\AbstractDataProvider;
+
+class DataProvider extends AbstractDataProvider
 {
     /**
      * DataProvider constructor.
      * @param $name
      * @param $primaryFieldName
      * @param $requestFieldName
-     * @param \FCamara\Getnet\Model\ResourceModel\Seller\CollectionFactory $sellerCollectionFactory
      * @param array $meta
      * @param array $data
+     * @param CollectionFactory $sellerCollectionFactory
      */
     public function __construct(
         $name,
         $primaryFieldName,
         $requestFieldName,
-        \FCamara\Getnet\Model\ResourceModel\Seller\CollectionFactory $sellerCollectionFactory,
+        CollectionFactory $sellerCollectionFactory,
         array $meta = [],
         array $data = []
     ) {
         $this->collection = $sellerCollectionFactory->create();
-        parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data);
+        parent::__construct('getnet_seller', $primaryFieldName, $requestFieldName, $meta, $data);
     }
 
     /**

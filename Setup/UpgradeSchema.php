@@ -263,7 +263,27 @@ class UpgradeSchema implements UpgradeSchemaInterface
                         255
                     )
                     ->addColumn(
+                        'enabled',
+                        \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        255
+                    )
+                    ->addColumn(
+                        'status',
+                        \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        255
+                    )
+                    ->addColumn(
+                        'capture_payments_enabled',
+                        \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        255
+                    )
+                    ->addColumn(
                         'payment_plan',
+                        \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                        null
+                    )
+                    ->addColumn(
+                        'anticipation_enabled',
                         \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
                         null
                     )

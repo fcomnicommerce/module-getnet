@@ -70,6 +70,36 @@
                 </argument>
             </field>
 
+            <field name="enabled" formElement="input">
+                <settings>
+                    <elementTmpl>ui/form/element/text</elementTmpl>
+                    <label translate="true">Enabled</label>
+                    <imports>
+                        <link name="value">${ $.provider }:data.enabled</link>
+                    </imports>
+                </settings>
+            </field>
+
+            <field name="status" formElement="input">
+                <settings>
+                    <elementTmpl>ui/form/element/text</elementTmpl>
+                    <label translate="true">Status</label>
+                    <imports>
+                        <link name="value">${ $.provider }:data.status</link>
+                    </imports>
+                </settings>
+            </field>
+
+            <field name="capture_payments_enabled" formElement="input">
+                <settings>
+                    <elementTmpl>ui/form/element/text</elementTmpl>
+                    <label translate="true">Capture Payments Enabled</label>
+                    <imports>
+                        <link name="value">${ $.provider }:data.capture_payments_enabled</link>
+                    </imports>
+                </settings>
+            </field>
+
             <field name="type" formElement="select">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">

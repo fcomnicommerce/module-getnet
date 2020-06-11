@@ -38,7 +38,7 @@ class DataProvider extends AbstractDataProvider
         array $data = []
     ) {
         $this->collection = $sellerCollectionFactory->create();
-        parent::__construct('getnet_seller', $primaryFieldName, $requestFieldName, $meta, $data);
+        parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data);
     }
 
     /**

@@ -54,6 +54,14 @@ interface SellerConfigInterface
     public const XML_PATH_CLIENT_SECRET = 'payment/getnet/client_secret';
 
     /**
+     * Check if module is enabled
+     *
+     * @return bool
+     * @since 102.0.3
+     */
+    public function isEnabled();
+
+    /**
      * Return seller id
      *
      * @return string

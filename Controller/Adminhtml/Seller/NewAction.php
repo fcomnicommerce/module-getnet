@@ -85,7 +85,7 @@ class NewAction extends \Magento\Backend\App\Action
             }
 
             $resultRedirect = $this->resultRedirectFactory->create();
-            return $resultRedirect->setPath('fcamara_getnet/seller/index');
+            return $resultRedirect->setPath('*/*/index');
         }
     }
 }

@@ -26,17 +26,17 @@ interface SellerConfigInterface
     /**
      * Api environment config path
      */
-    public const XML_PATH_ENVIRONMENT = 'getnet/split/environment';
+    public const XML_PATH_ENVIRONMENT = 'payment/getnet/environment';
 
     /**
      * Api sandbox endpoint
      */
-    public const XML_PATH_SANDBOX_ENDPOINT = 'getnet/split/sandbox_endpoint';
+    public const XML_PATH_SANDBOX_ENDPOINT = 'payment/getnet/sandbox_endpoint';
 
     /**
      * Api production endpoint
      */
-    public const XML_PATH_PRODUCTION_ENDPOINT = 'getnet/split/production_endpoint';
+    public const XML_PATH_PRODUCTION_ENDPOINT = 'payment/getnet/production_endpoint';
 
     /**
      * Api seller id config path

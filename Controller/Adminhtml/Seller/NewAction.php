@@ -68,8 +68,6 @@ class NewAction extends \Magento\Backend\App\Action
             $seller->addData(['bank_accounts' => json_encode($data['seller_bank_account'])]);
 
             try {
-                $seller->save();
-
                 //Integrate Getnet
                 if ($data['seller_information']['type'] == 'PF') {
                     $integratedSeller = $this->client->createSellerPf($data);
@@ -79,13 +77,15 @@ class NewAction extends \Magento\Backend\App\Action
                     throw new \Exception(__('Error integrated Seller, please try again!'));
                 }
 
+                $seller->save();
+
                 $this->messageManager->addSuccessMessage('Seller Successfully Saved!');
             } catch (\Exception $e) {
-                $this->messageManager->addErrorMessage($e);
+                $this->messageManager->addErrorMessage($e->getMessage());
             }
 
             $resultRedirect = $this->resultRedirectFactory->create();
-            return $resultRedirect->setPath('*/*/index');
+            return $resultRedirect->setPath('fcamara_getnet/seller/index');
         }
     }
 }

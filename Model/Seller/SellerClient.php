@@ -90,21 +90,22 @@ class SellerClient
     public function authentication()
     {
         $responseBody = false;
-        $authorization = base64_encode($this->sellerConfig->clientId()
-            . ':' . $this->sellerConfig->clientSecret());
+        $authorization = base64_encode($this->sellerConfig->clientId() . ':' . $this->sellerConfig->clientSecret());
         $client = $this->httpClientFactory->create();
         $client->setUri($this->sellerConfig->authenticationEndpoint());
         $client->setHeaders(['content-type: application/x-www-form-urlencoded']);
         $client->setHeaders('authorization', 'Basic ' . $authorization);
         $client->setMethod(\Zend_Http_Client::POST);
-        $client->setRawData('scope=oob&grant_type=client_credentials');
+        $client->setRawData('scope=mgm&grant_type=client_credentials');
 
         try {
             $responseBody = json_decode($client->request()->getBody(), true);
 
             if (!isset($responseBody['access_token'])) {
-                throw new \ErrorException('Can\'t get token');
+                $responseBody = false;
+                throw new \Exception('Can\'t get token');
             }
+
             $responseBody = $responseBody['access_token'];
         } catch (\Exception $e) {
             $this->logger->critical('Error message', ['exception' => $e]);
@@ -121,6 +122,10 @@ class SellerClient
     {
         $token = $this->authentication();
         $responseBody = false;
+
+        if (!$token) {
+            return $responseBody;
+        }
 
         $client = $this->httpClientFactory->create();
         $client->setUri($this->sellerConfig->pfCreatePreSubSellerEndpoint());

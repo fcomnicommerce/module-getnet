@@ -142,4 +142,33 @@ class SellerClient
 
         return $responseBody;
     }
+
+    /**
+     * @param array $sellerData
+     * @return bool|mixed
+     */
+    public function pfUpdateSubSeller($sellerData = [])
+    {
+        $token = $this->authentication();
+        $responseBody = false;
+
+        if (!$token) {
+            return $responseBody;
+        }
+
+        $client = $this->httpClientFactory->create();
+        $client->setUri($this->sellerConfig->pfUpdateSubSellerEndpoint());
+        $client->setConfig(self::CONFIG_HTTP_CLIENT);
+        $client->setHeaders('Authorization', 'Bearer ' . $token);
+        $client->setMethod(\Zend_Http_Client::PUT);
+        $client->setRawData(json_encode($sellerData));
+
+        try {
+            $responseBody = json_decode($client->request()->getBody(), true);
+        } catch (\Exception $e) {
+            $this->logger->critical('Error message', ['exception' => $e]);
+        }
+
+        return $responseBody;
+    }
 }

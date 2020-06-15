@@ -74,7 +74,7 @@ class NewAction extends \Magento\Backend\App\Action
                 }
 
                 if (!isset($integratedSeller['subseller_id'])) {
-                    throw new \Exception(__('Error integrated Seller, please try again!'));
+                    throw new \Exception(__('Error Create Seller, Please try again!'));
                 }
 
                 $seller->save();

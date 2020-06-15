@@ -20,6 +20,7 @@ use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\View\Result\PageFactory;
 use FCamara\Getnet\Model\SellerFactory;
+use FCamara\Getnet\Model\Seller\SellerClient;
 
 class Edit extends Action
 {
@@ -34,18 +35,27 @@ class Edit extends Action
     protected $resultPageFactory;
 
     /**
+     * @var SellerClient
+     */
+    protected $client;
+
+    /**
      * Edit constructor.
      * @param Context $context
      * @param PageFactory $resultPageFactory
      * @param SellerFactory $seller
+     * @param SellerClient $client
      */
     public function __construct(
         Context $context,
         PageFactory $resultPageFactory,
-        SellerFactory $seller
+        SellerFactory $seller,
+        SellerClient $client
     ) {
         $this->resultPageFactory = $resultPageFactory;
         $this->seller = $seller;
+        $this->client = $client;
+
         parent::__construct($context);
     }
 
@@ -67,6 +77,14 @@ class Edit extends Action
             $seller->addData(['bank_accounts' => json_encode($data['seller_bank_account'])]);
 
             try {
+                if ($data['seller_information']['type'] == 'PF') {
+                    $integratedSeller = $this->client->pfUpdateSubSeller($data);
+                }
+
+                if (!isset($integratedSeller['success'])) {
+                    throw new \Exception(__('Error Update Seller, Please try again!'));
+                }
+
                 $seller->save();
                 $this->messageManager->addSuccessMessage('Seller Successfully Saved!');
                 $resultRedirect = $this->resultRedirectFactory->create();

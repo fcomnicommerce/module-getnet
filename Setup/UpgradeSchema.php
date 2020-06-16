@@ -288,6 +288,16 @@ class UpgradeSchema implements UpgradeSchemaInterface
                         null
                     )
                     ->addColumn(
+                        'trade_name',
+                        \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        255
+                    )
+                    ->addColumn(
+                        'state_fiscal_document_number',
+                        \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        255
+                    )
+                    ->addColumn(
                         'created_at',
                         \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
                         null,

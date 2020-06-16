@@ -128,7 +128,7 @@ class SellerConfig implements SellerConfigInterface
      */
     public function authenticationEndpoint()
     {
-        return $this->endpoint() . '/v1/mgm/auth/oauth/v2/token';
+        return $this->endpoint() . '/credenciamento/auth/oauth/v2/token';
     }
 
 

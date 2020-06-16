@@ -294,99 +294,75 @@
                 </argument>
             </field>
 
-            <field name="accepted_contract" formElement="select">
+            <field name="accepted_contract" formElement="checkbox">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
-                        <item name="validation" xsi:type="array">
-                            <item name="required-entry" xsi:type="boolean">true</item>
-                        </item>
+                        <item name="source" xsi:type="string">seller</item>
+                        <item name="default" xsi:type="string">N</item>
                     </item>
                 </argument>
                 <settings>
                     <dataType>text</dataType>
                     <label translate="true">Accepted Contract</label>
-                    <dataScope>accepted_contract</dataScope>
                 </settings>
                 <formElements>
-                    <select>
+                    <checkbox>
                         <settings>
-                            <options>
-                                <option name="1" xsi:type="array">
-                                    <item name="value" xsi:type="string">S</item>
-                                    <item name="label" xsi:type="string">Yes</item>
-                                </option>
-                                <option name="2" xsi:type="array">
-                                    <item name="value" xsi:type="string">N</item>
-                                    <item name="label" xsi:type="string">No</item>
-                                </option>
-                            </options>
-                            <caption translate="true">-- Please Select --</caption>
+                            <valueMap>
+                                <map name="false" xsi:type="string">N</map>
+                                <map name="true" xsi:type="string">S</map>
+                            </valueMap>
+                            <prefer>toggle</prefer>
                         </settings>
-                    </select>
+                    </checkbox>
                 </formElements>
             </field>
 
-            <field name="liability_chargeback" formElement="select">
+            <field name="liability_chargeback" formElement="checkbox">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
-                        <item name="validation" xsi:type="array">
-                            <item name="required-entry" xsi:type="boolean">true</item>
-                        </item>
+                        <item name="source" xsi:type="string">seller</item>
+                        <item name="default" xsi:type="string">N</item>
                     </item>
                 </argument>
                 <settings>
                     <dataType>text</dataType>
                     <label translate="true">Liability Chargeback</label>
-                    <dataScope>liability_chargeback</dataScope>
                 </settings>
                 <formElements>
-                    <select>
+                    <checkbox>
                         <settings>
-                            <options>
-                                <option name="1" xsi:type="array">
-                                    <item name="value" xsi:type="string">S</item>
-                                    <item name="label" xsi:type="string">Yes</item>
-                                </option>
-                                <option name="2" xsi:type="array">
-                                    <item name="value" xsi:type="string">N</item>
-                                    <item name="label" xsi:type="string">No</item>
-                                </option>
-                            </options>
-                            <caption translate="true">-- Please Select --</caption>
+                            <valueMap>
+                                <map name="false" xsi:type="string">N</map>
+                                <map name="true" xsi:type="string">S</map>
+                            </valueMap>
+                            <prefer>toggle</prefer>
                         </settings>
-                    </select>
+                    </checkbox>
                 </formElements>
             </field>
 
-            <field name="marketplace_store" formElement="select">
+            <field name="marketplace_store" formElement="checkbox">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
-                        <item name="validation" xsi:type="array">
-                            <item name="required-entry" xsi:type="boolean">true</item>
-                        </item>
+                        <item name="source" xsi:type="string">seller</item>
+                        <item name="default" xsi:type="string">N</item>
                     </item>
                 </argument>
                 <settings>
                     <dataType>text</dataType>
                     <label translate="true">Marketplace Store</label>
-                    <dataScope>marketplace_store</dataScope>
                 </settings>
                 <formElements>
-                    <select>
+                    <checkbox>
                         <settings>
-                            <options>
-                                <option name="1" xsi:type="array">
-                                    <item name="value" xsi:type="string">S</item>
-                                    <item name="label" xsi:type="string">Yes</item>
-                                </option>
-                                <option name="2" xsi:type="array">
-                                    <item name="value" xsi:type="string">N</item>
-                                    <item name="label" xsi:type="string">No</item>
-                                </option>
-                            </options>
-                            <caption translate="true">-- Please Select --</caption>
+                            <valueMap>
+                                <map name="false" xsi:type="string">N</map>
+                                <map name="true" xsi:type="string">S</map>
+                            </valueMap>
+                            <prefer>toggle</prefer>
                         </settings>
-                    </select>
+                    </checkbox>
                 </formElements>
             </field>
 

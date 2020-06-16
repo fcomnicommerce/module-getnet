@@ -230,8 +230,8 @@
                     </item>
                 </argument>
             </field>
-            <!--
-            <field name="phone_number">
+
+            <!--field name="phone_number">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
                         <item name="label" xsi:type="string">Phone Number</item>
@@ -245,9 +245,9 @@
                         </item>
                     </item>
                 </argument>
-            </field>
+            </field-->
 
-            <field name="cellphone_number">
+            <!--field name="cellphone_number">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
                         <item name="label" xsi:type="string">Cellphone Number</item>
@@ -261,8 +261,7 @@
                         </item>
                     </item>
                 </argument>
-            </field>
-            -->
+            </field-->
 
             <field name="email">
                 <argument name="data" xsi:type="array">
@@ -605,8 +604,8 @@
                 </argument>
             </field>
         </fieldset>
-        <!--
-        <fieldset name="seller_working_hours">
+
+        <!--fieldset name="seller_working_hours">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="label" xsi:type="string" translate="true">Working Hours</item>
@@ -734,8 +733,7 @@
                     </item>
                 </argument>
             </field>
-        </fieldset>
-        -->
+        </fieldset-->
 
         <fieldset name="seller_bank_account">
             <argument name="data" xsi:type="array">

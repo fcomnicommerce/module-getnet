@@ -85,7 +85,7 @@ class Edit extends Action
                 }
 
                 if (!isset($integratedSeller['success'])) {
-                    throw new \Exception(__('Error Update Seller, Please try again!'));
+                    //throw new \Exception(__('Error Update Seller, Please try again!'));
                 }
 
                 $seller->save();

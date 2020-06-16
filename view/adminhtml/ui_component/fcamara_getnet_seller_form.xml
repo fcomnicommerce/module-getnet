@@ -652,7 +652,7 @@
                                     <item name="label" xsi:type="string">Sexta</item>
                                 </option>
                             </options>
-                            <caption translate="true">-- Please Select --</caption>
+                            <caption translate="true">&#45;&#45; Please Select &#45;&#45;</caption>
                         </settings>
                     </select>
                 </formElements>

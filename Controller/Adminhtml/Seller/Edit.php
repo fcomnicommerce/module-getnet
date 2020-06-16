@@ -73,8 +73,11 @@ class Edit extends Action
             $seller->addData($data['seller_information']);
             $seller->addData(['business_address' => json_encode($data['seller_address'])]);
             $seller->addData(['mailing_address' => json_encode($data['seller_address'])]);
-            $seller->addData(['working_hours' => json_encode($data['seller_working_hours'])]);
             $seller->addData(['bank_accounts' => json_encode($data['seller_bank_account'])]);
+
+            if (isset($data['seller_working_hours'])) {
+                $seller->addData(['working_hours' => json_encode($data['seller_working_hours'])]);
+            }
 
             try {
                 if ($data['seller_information']['type'] == 'PF') {

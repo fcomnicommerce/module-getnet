@@ -230,7 +230,7 @@
                     </item>
                 </argument>
             </field>
-
+            <!--
             <field name="phone_number">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
@@ -262,6 +262,7 @@
                     </item>
                 </argument>
             </field>
+            -->
 
             <field name="email">
                 <argument name="data" xsi:type="array">
@@ -604,7 +605,7 @@
                 </argument>
             </field>
         </fieldset>
-
+        <!--
         <fieldset name="seller_working_hours">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
@@ -734,6 +735,7 @@
                 </argument>
             </field>
         </fieldset>
+        -->
 
         <fieldset name="seller_bank_account">
             <argument name="data" xsi:type="array">

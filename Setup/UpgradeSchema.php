@@ -86,11 +86,11 @@ class UpgradeSchema implements UpgradeSchemaInterface
                         'Customer Name'
                     )
                     ->addColumn(
-                        'customer_email',
+                        'email',
                         \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
                         255,
                         [],
-                        'Customer Email'
+                        'Email'
                     )
                     ->addColumn(
                         'status',
@@ -169,6 +169,11 @@ class UpgradeSchema implements UpgradeSchemaInterface
                         255,
                         [],
                         'Merchant ID'
+                    )
+                    ->addColumn(
+                        'subseller_id',
+                        \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                        255
                     )
                     ->addColumn(
                         'type',
@@ -294,6 +299,61 @@ class UpgradeSchema implements UpgradeSchemaInterface
                     )
                     ->addColumn(
                         'state_fiscal_document_number',
+                        \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        255
+                    )
+                    ->addColumn(
+                        'fiscal_type',
+                        \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        255
+                    )
+                    ->addColumn(
+                        'lock_schedule',
+                        \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        255
+                    )
+                    ->addColumn(
+                        'lock_capture_payments',
+                        \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        255
+                    )
+                    ->addColumn(
+                        'url_callback',
+                        \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        255
+                    )
+                    ->addColumn(
+                        'business_entity_type',
+                        \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                        255
+                    )
+                    ->addColumn(
+                        'economic_activity_classification_code',
+                        \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                        255
+                    )
+                    ->addColumn(
+                        'monthly_gross_income',
+                        \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+                        255
+                    )
+                    ->addColumn(
+                        'federal_registration_status',
+                        \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        255
+                    )
+                    ->addColumn(
+                        'founding_date',
+                        \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        255
+                    )
+                    ->addColumn(
+                        'legal_representative',
+                        \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        255
+                    )
+                    ->addColumn(
+                        'shareholders',
                         \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
                         255
                     )

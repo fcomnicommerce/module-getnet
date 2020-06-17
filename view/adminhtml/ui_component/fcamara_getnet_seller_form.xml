@@ -267,20 +267,31 @@
                 </argument>
             </field>
 
-            <field name="acquirer_merchant_category_code">
+            <field name="acquirer_merchant_category_code" formElement="select">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
                         <item name="label" xsi:type="string">Código do subramo do domínio Getnet</item>
                         <item name="notice" xsi:type="string">Deve ter 4 dígitos numéricos; Informar conforme lista de domínios disponível na tabela de domínios acima</item>
-                        <item name="visible" xsi:type="boolean">true</item>
-                        <item name="dataType" xsi:type="string">text</item>
-                        <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
                         <item name="validation" xsi:type="array">
                             <item name="required-entry" xsi:type="boolean">true</item>
                         </item>
                     </item>
                 </argument>
+                <settings>
+                    <dataType>string</dataType>
+                    <imports>
+                        <link name="value">${ $.provider }:data.acquirer_merchant_category_code</link>
+                    </imports>
+                </settings>
+                <formElements>
+                    <select>
+                        <settings>
+                            <options class="FCamara\Getnet\Ui\Component\Form\AcquirerMerchantCategoryCode"/>
+                            <caption translate="true">-- Please Select --</caption>
+                        </settings>
+                    </select>
+                </formElements>
             </field>
 
             <field name="accepted_contract" formElement="checkbox">
@@ -355,19 +366,30 @@
                 </formElements>
             </field>
 
-            <field name="payment_plan">
+            <field name="payment_plan" formElement="select">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
                         <item name="label" xsi:type="string">Payment Plan</item>
-                        <item name="visible" xsi:type="boolean">true</item>
-                        <item name="dataType" xsi:type="string">text</item>
-                        <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
                         <item name="validation" xsi:type="array">
                             <item name="required-entry" xsi:type="boolean">true</item>
                         </item>
                     </item>
                 </argument>
+                <settings>
+                    <dataType>string</dataType>
+                    <imports>
+                        <link name="value">${ $.provider }:data.payment_plan</link>
+                    </imports>
+                </settings>
+                <formElements>
+                    <select>
+                        <settings>
+                            <options class="FCamara\Getnet\Ui\Component\Form\PaymentPlan"/>
+                            <caption translate="true">-- Please Select --</caption>
+                        </settings>
+                    </select>
+                </formElements>
             </field>
         </fieldset>
 

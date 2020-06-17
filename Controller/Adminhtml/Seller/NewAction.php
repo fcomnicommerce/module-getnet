@@ -73,7 +73,7 @@ class NewAction extends \Magento\Backend\App\Action
             try {
                 //Integrate Getnet
                 if ($data['seller_information']['type'] == 'PF') {
-                    $integratedSeller = $this->client->createSellerPf($data);
+                    $integratedSeller = $this->client->createSellerPf($seller->getData());
                 }
 
                 if (!isset($integratedSeller['subseller_id'])) {

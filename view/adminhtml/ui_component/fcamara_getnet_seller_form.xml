@@ -151,12 +151,12 @@
             <field name="legal_document_number">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string">Legal Document Number</item>
+                        <item name="label" xsi:type="string">CPF/CNPJ</item>
+                        <item name="notice" xsi:type="string">O número do CPF deve ser válido na receita federal do Brasil e estar em situação "REGULAR" ou "ATIVA".</item>
                         <item name="visible" xsi:type="boolean">true</item>
                         <item name="dataType" xsi:type="string">number</item>
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
-                        <item name="notice" xsi:type="string" translate="true">CPF/CNPJ Number</item>
                         <item name="validation" xsi:type="array">
                             <item name="required-entry" xsi:type="boolean">true</item>
                             <item name="required-number" xsi:type="boolean">true</item>
@@ -169,7 +169,8 @@
             <field name="legal_name">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string">Legal Name</item>
+                        <item name="label" xsi:type="string">Nome Completo</item>
+                        <item name="notice" xsi:type="string">Deve ter no mínimo dois nomes (ex: Mario Silveira); Não pode conter carateres especiais, acentos ou abreviações</item>
                         <item name="visible" xsi:type="boolean">true</item>
                         <item name="dataType" xsi:type="string">text</item>
                         <item name="formElement" xsi:type="string">input</item>
@@ -185,6 +186,7 @@
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
                         <item name="source" xsi:type="string">seller</item>
+                        <item name="notice" xsi:type="string">Deve ser maior que 18 anos; A data de nascimento deve ser referente ao CPF informado</item>
                         <item name="validation" xsi:type="array">
                             <item name="required-entry" xsi:type="boolean">true</item>
                         </item>
@@ -195,7 +197,7 @@
                         <rule name="validate-date" xsi:type="boolean">true</rule>
                     </validation>
                     <dataType>text</dataType>
-                    <label translate="true">Birth Date</label>
+                    <label translate="true">Data de Nascimento</label>
                     <visible>true</visible>
                     <dataScope>birth_date</dataScope>
                 </settings>
@@ -204,7 +206,8 @@
             <field name="mothers_name">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string">Mothers Name</item>
+                        <item name="label" xsi:type="string">Nome da Mãe</item>
+                        <item name="notice" xsi:type="string">Deve ter no mínimo dois nomes (ex.Maria Silveira); Não pode conter carateres especiais, acentos ou abreviações</item>
                         <item name="visible" xsi:type="boolean">true</item>
                         <item name="dataType" xsi:type="string">text</item>
                         <item name="formElement" xsi:type="string">input</item>
@@ -219,7 +222,7 @@
             <field name="occupation">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string">Occupation</item>
+                        <item name="label" xsi:type="string">Profissão/Ramo de atividade</item>
                         <item name="visible" xsi:type="boolean">true</item>
                         <item name="dataType" xsi:type="string">text</item>
                         <item name="formElement" xsi:type="string">input</item>
@@ -231,42 +234,27 @@
                 </argument>
             </field>
 
-            <!--field name="phone_number">
+            <field name="monthly_gross_income">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string">Phone Number</item>
+                        <item name="label" xsi:type="string">Valor da Renda do CPF informado</item>
+                        <item name="notice" xsi:type="string">Deve ser maior que zero</item>
                         <item name="visible" xsi:type="boolean">true</item>
-                        <item name="dataType" xsi:type="string">text</item>
+                        <item name="dataType" xsi:type="string">number</item>
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
-                        <item name="notice" xsi:type="string" translate="true">Example: (11) 9999-9999</item>
                         <item name="validation" xsi:type="array">
                             <item name="required-entry" xsi:type="boolean">true</item>
                         </item>
                     </item>
                 </argument>
-            </field-->
-
-            <!--field name="cellphone_number">
-                <argument name="data" xsi:type="array">
-                    <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string">Cellphone Number</item>
-                        <item name="visible" xsi:type="boolean">true</item>
-                        <item name="dataType" xsi:type="string">text</item>
-                        <item name="formElement" xsi:type="string">input</item>
-                        <item name="source" xsi:type="string">seller</item>
-                        <item name="notice" xsi:type="string" translate="true">Example: (11) 99999-9999</item>
-                        <item name="validation" xsi:type="array">
-                            <item name="required-entry" xsi:type="boolean">true</item>
-                        </item>
-                    </item>
-                </argument>
-            </field-->
+            </field>
 
             <field name="email">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
                         <item name="label" xsi:type="string">Email</item>
+                        <item name="notice" xsi:type="string">Deve ter um formato de e-mail válido (Exemplo: nome@dominio.com); Não pode conter acentos ou caracteres especiais; O dominio não pode ser @getnet e @santander</item>
                         <item name="visible" xsi:type="boolean">true</item>
                         <item name="dataType" xsi:type="string">text</item>
                         <item name="formElement" xsi:type="string">input</item>
@@ -282,7 +270,8 @@
             <field name="acquirer_merchant_category_code">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string">Acquirer Merchant Category Code</item>
+                        <item name="label" xsi:type="string">Código do subramo do domínio Getnet</item>
+                        <item name="notice" xsi:type="string">Deve ter 4 dígitos numéricos; Informar conforme lista de domínios disponível na tabela de domínios acima</item>
                         <item name="visible" xsi:type="boolean">true</item>
                         <item name="dataType" xsi:type="string">text</item>
                         <item name="formElement" xsi:type="string">input</item>
@@ -382,10 +371,94 @@
             </field>
         </fieldset>
 
+        <fieldset name="phone">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Telefone Fixo</item>
+                    <item name="collapsible" xsi:type="boolean">true</item>
+                    <item name="opened" xsi:type="boolean">false</item>
+                </item>
+            </argument>
+
+            <field name="area_code">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="label" xsi:type="string">DDD</item>
+                        <item name="notice" xsi:type="string">Deverá estar registrado na lista da ANATEL: 11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 22, 24, 27, 28, 31, 32, 33, 34, 35, 37, 38, 41, 42, 43, 44, 45, 46, 47, 48, 49, 51, 53, 54, 55, 61, 62, 63, 64, 65, 66, 69, 67, 68, 71, 73, 74, 75, 77, 79, 81, 87, 82, 83, 84, 85, 88, 86, 89, 91, 93, 94, 92, 97, 95, 96, 98, 99</item>
+                        <item name="visible" xsi:type="boolean">true</item>
+                        <item name="dataType" xsi:type="string">text</item>
+                        <item name="formElement" xsi:type="string">input</item>
+                        <item name="source" xsi:type="string">seller</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                </argument>
+            </field>
+
+            <field name="phone_number">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="label" xsi:type="string">Número</item>
+                        <item name="notice" xsi:type="string" translate="true">Deverá obedecer a regra da ANATEL para número de telefone fixo; O primeiro dígito somente pode ser: 2 ou 3 ou 4 ou 5; O total de dígitos deve ser = 8(oito)</item>
+                        <item name="visible" xsi:type="boolean">true</item>
+                        <item name="dataType" xsi:type="string">text</item>
+                        <item name="formElement" xsi:type="string">input</item>
+                        <item name="source" xsi:type="string">seller</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                </argument>
+            </field>
+        </fieldset>
+
+        <fieldset name="cellphone">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Telefone Celular</item>
+                    <item name="collapsible" xsi:type="boolean">true</item>
+                    <item name="opened" xsi:type="boolean">false</item>
+                </item>
+            </argument>
+
+            <field name="area_code">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="label" xsi:type="string">DDD</item>
+                        <item name="notice" xsi:type="string">Deverá estar registrado na lista da ANATEL: 11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 22, 24, 27, 28, 31, 32, 33, 34, 35, 37, 38, 41, 42, 43, 44, 45, 46, 47, 48, 49, 51, 53, 54, 55, 61, 62, 63, 64, 65, 66, 69, 67, 68, 71, 73, 74, 75, 77, 79, 81, 87, 82, 83, 84, 85, 88, 86, 89, 91, 93, 94, 92, 97, 95, 96, 98, 99</item>
+                        <item name="visible" xsi:type="boolean">true</item>
+                        <item name="dataType" xsi:type="string">text</item>
+                        <item name="formElement" xsi:type="string">input</item>
+                        <item name="source" xsi:type="string">seller</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                </argument>
+            </field>
+
+            <field name="phone_number">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="label" xsi:type="string">Número</item>
+                        <item name="notice" xsi:type="string" translate="true">Deverá ter 9 digito; Deverá obedecer a regra da ANATEL para número de celular; Para os DDD à seguir é preciso que primeiro digito seja = 9: 11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 22, 24, 27, 28, 31, 32, 33, 34, 35, 37, 38, 41, 42, 43, 44, 45, 68, 71, 73, 74, 75, 77, 79, 81, 87, 82, 83, 84, 85, 88, 86, 89, 91, 93, 94, 92, 97, 95, 96, 98, 99; Para os DDD à seguir é preciso que o primeiro digito seja = 9 e o segundo poderá ser: 9 ou 8 ou 7 e o total de digitos = 9: 41, 46, 47, 48, 49, 51, 53, 54, 55, 61, 62, 64, 65, 66, 67, 69, 68"</item>
+                        <item name="visible" xsi:type="boolean">true</item>
+                        <item name="dataType" xsi:type="string">text</item>
+                        <item name="formElement" xsi:type="string">input</item>
+                        <item name="source" xsi:type="string">seller</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                </argument>
+            </field>
+        </fieldset>
+
         <fieldset name="seller_address">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="label" xsi:type="string" translate="true">Address</item>
+                    <item name="label" xsi:type="string" translate="true">Endereço</item>
                     <item name="collapsible" xsi:type="boolean">true</item>
                     <item name="opened" xsi:type="boolean">false</item>
                 </item>
@@ -394,7 +467,8 @@
             <field name="street">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string">Street</item>
+                        <item name="label" xsi:type="string">Logradouro</item>
+                        <item name="notice" xsi:type="string"> Não pode ser vazio ou nulo; Não deve conter carateres especiais; Deverá conter o tipo de logradouro e nome do logradouro (Exemplo: AVENIDA BORGES DE MEDEIROS)</item>
                         <item name="visible" xsi:type="boolean">true</item>
                         <item name="dataType" xsi:type="string">text</item>
                         <item name="formElement" xsi:type="string">input</item>
@@ -409,7 +483,8 @@
             <field name="number">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string">Number</item>
+                        <item name="label" xsi:type="string">Número</item>
+                        <item name="notice" xsi:type="string">Deve conter apenas dígitos numéricos; Pode ser = 0 (zero)</item>
                         <item name="visible" xsi:type="boolean">true</item>
                         <item name="dataType" xsi:type="string">text</item>
                         <item name="formElement" xsi:type="string">input</item>
@@ -426,7 +501,8 @@
             <field name="district">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string">District</item>
+                        <item name="label" xsi:type="string">Bairro</item>
+                        <item name="notice" xsi:type="string">Não pode ser vazio ou nulo; Não deve conter carateres especiais (Exemplo incorreto: SANTO ANDRÉ, Exemplo correto: SANTO ANDRE)</item>
                         <item name="visible" xsi:type="boolean">true</item>
                         <item name="dataType" xsi:type="string">text</item>
                         <item name="formElement" xsi:type="string">input</item>
@@ -441,12 +517,12 @@
             <field name="city">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string">City</item>
+                        <item name="label" xsi:type="string">Cidade</item>
+                        <item name="notice" xsi:type="string" translate="true">Não pode ser vazio ou nulo; Não deve conter carateres especiais (Exemplo incorreto: SANTO ANDRÉ, Exemplo correto: SANTO ANDRE)</item>
                         <item name="visible" xsi:type="boolean">true</item>
                         <item name="dataType" xsi:type="string">text</item>
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
-                        <item name="notice" xsi:type="string" translate="true">Example: SAO PAULO</item>
                         <item name="validation" xsi:type="array">
                             <item name="required-entry" xsi:type="boolean">true</item>
                         </item>
@@ -589,12 +665,12 @@
             <field name="postal_code">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string">Postal Code</item>
+                        <item name="label" xsi:type="string">CEP</item>
+                        <item name="notice" xsi:type="string" translate="true">Deve conter apenas dígitos numéricos; Deve conter no máximo 8 dígitos; Deverá ser válido no cadastro de CEP dos correios</item>
                         <item name="visible" xsi:type="boolean">true</item>
                         <item name="dataType" xsi:type="string">text</item>
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
-                        <item name="notice" xsi:type="string" translate="true">Example: 09000000</item>
                         <item name="validation" xsi:type="array">
                             <item name="required-entry" xsi:type="boolean">true</item>
                             <item name="validate-number" xsi:type="boolean">true</item>
@@ -735,10 +811,10 @@
             </field>
         </fieldset-->
 
-        <fieldset name="seller_bank_account">
+        <fieldset name="bank_accounts">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="label" xsi:type="string" translate="true">Bank Account</item>
+                    <item name="label" xsi:type="string" translate="true">Domicílio(s) Bancário(s)</item>
                     <item name="collapsible" xsi:type="boolean">true</item>
                     <item name="opened" xsi:type="boolean">false</item>
                 </item>
@@ -747,7 +823,8 @@
             <field name="bank">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string">Bank</item>
+                        <item name="label" xsi:type="string">Código do Banco</item>
+                        <item name="notice" xsi:type="string">Deve conter no mínimo 1 e no máximo três digitos numéricos; Informar conforme lista de domínios disponível em: "domains/banks"</item>
                         <item name="visible" xsi:type="boolean">true</item>
                         <item name="dataType" xsi:type="string">text</item>
                         <item name="formElement" xsi:type="string">input</item>
@@ -764,7 +841,8 @@
             <field name="agency">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string">Agency</item>
+                        <item name="label" xsi:type="string">Agência</item>
+                        <item name="notice" xsi:type="string">Deverá conter no mínimo 1 e no máximo 4 digitos numéricos</item>
                         <item name="visible" xsi:type="boolean">true</item>
                         <item name="dataType" xsi:type="string">text</item>
                         <item name="formElement" xsi:type="string">input</item>
@@ -781,7 +859,8 @@
             <field name="account">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string">Account</item>
+                        <item name="label" xsi:type="string">Conta</item>
+                        <item name="notice" xsi:type="string">Deve conter somente digitos numéricos</item>
                         <item name="visible" xsi:type="boolean">true</item>
                         <item name="dataType" xsi:type="string">text</item>
                         <item name="formElement" xsi:type="string">input</item>
@@ -805,7 +884,7 @@
                 </argument>
                 <settings>
                     <dataType>text</dataType>
-                    <label translate="true">Account Type</label>
+                    <label translate="true">Tipo de Conta</label>
                     <dataScope>account_type</dataScope>
                 </settings>
                 <formElements>
@@ -830,13 +909,172 @@
             <field name="account_digit">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string">Account Digit</item>
+                        <item name="label" xsi:type="string">Dígito da Conta</item>
+                        <item name="notice" xsi:type="string">Deve conter 1 digito numérico; Caso o dígito da conta seja X, substitua por 0</item>
                         <item name="visible" xsi:type="boolean">true</item>
                         <item name="dataType" xsi:type="string">text</item>
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
                         <item name="validation" xsi:type="array">
                             <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                </argument>
+            </field>
+        </fieldset>
+
+        <fieldset name="list_commissions">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Lista de comissões</item>
+                    <item name="collapsible" xsi:type="boolean">true</item>
+                    <item name="opened" xsi:type="boolean">false</item>
+                </item>
+            </argument>
+
+            <field name="brand" formElement="select">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                </argument>
+                <settings>
+                    <dataType>text</dataType>
+                    <label translate="true">Bandeira</label>
+                    <dataScope>brand</dataScope>
+                </settings>
+                <formElements>
+                    <select>
+                        <settings>
+                            <options>
+                                <option name="1" xsi:type="array">
+                                    <item name="value" xsi:type="string">MASTERCARD</item>
+                                    <item name="label" xsi:type="string">Master Card</item>
+                                </option>
+                                <option name="2" xsi:type="array">
+                                    <item name="value" xsi:type="string">MAESTRO</item>
+                                    <item name="label" xsi:type="string">Maestro</item>
+                                </option>
+                                <option name="3" xsi:type="array">
+                                    <item name="value" xsi:type="string">VISA</item>
+                                    <item name="label" xsi:type="string">Visa</item>
+                                </option>
+                                <option name="4" xsi:type="array">
+                                    <item name="value" xsi:type="string">VISA ELECTRON</item>
+                                    <item name="label" xsi:type="string">Visa Electron</item>
+                                </option>
+                                <option name="5" xsi:type="array">
+                                    <item name="value" xsi:type="string">AMEX</item>
+                                    <item name="label" xsi:type="string">Amex</item>
+                                </option>
+                                <option name="6" xsi:type="array">
+                                    <item name="value" xsi:type="string">ELO CRÉDITO</item>
+                                    <item name="label" xsi:type="string">Elo Crédito</item>
+                                </option>
+                                <option name="7" xsi:type="array">
+                                    <item name="value" xsi:type="string">ELO DÉBITO</item>
+                                    <item name="label" xsi:type="string">Elo Débito</item>
+                                </option>
+                                <option name="8" xsi:type="array">
+                                    <item name="value" xsi:type="string">HIPERCARD</item>
+                                    <item name="label" xsi:type="string">Hipercard</item>
+                                </option>
+                            </options>
+                            <caption translate="true">-- Please Select --</caption>
+                        </settings>
+                    </select>
+                </formElements>
+            </field>
+
+            <field name="product" formElement="select">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                </argument>
+                <settings>
+                    <dataType>text</dataType>
+                    <label translate="true">Plano de venda</label>
+                    <dataScope>product</dataScope>
+                </settings>
+                <formElements>
+                    <select>
+                        <settings>
+                            <options>
+                                <option name="1" xsi:type="array">
+                                    <item name="value" xsi:type="string">DEBITO A VISTA</item>
+                                    <item name="label" xsi:type="string">Débito á Vista</item>
+                                </option>
+                                <option name="2" xsi:type="array">
+                                    <item name="value" xsi:type="string">CREDITO A VISTA</item>
+                                    <item name="label" xsi:type="string">Crédito á Vista</item>
+                                </option>
+                                <option name="3" xsi:type="array">
+                                    <item name="value" xsi:type="string">PARCELADO LOJISTA 3X</item>
+                                    <item name="label" xsi:type="string">Parcelado 3x</item>
+                                </option>
+                                <option name="4" xsi:type="array">
+                                    <item name="value" xsi:type="string">PARCELADO LOJISTA 6X</item>
+                                    <item name="label" xsi:type="string">Parcelado 6x</item>
+                                </option>
+                                <option name="5" xsi:type="array">
+                                    <item name="value" xsi:type="string">PARCELADO LOJISTA 9X</item>
+                                    <item name="label" xsi:type="string">Parcelado 9x</item>
+                                </option>
+                                <option name="6" xsi:type="array">
+                                    <item name="value" xsi:type="string">PARCELADO LOJISTA 12X</item>
+                                    <item name="label" xsi:type="string">Parcelado 12x</item>
+                                </option>
+                                <option name="7" xsi:type="array">
+                                    <item name="value" xsi:type="string">PARCELADO EMISSOR</item>
+                                    <item name="label" xsi:type="string">Parcelado Emissor</item>
+                                </option>
+                                <option name="8" xsi:type="array">
+                                    <item name="value" xsi:type="string">BOLETO</item>
+                                    <item name="label" xsi:type="string">Boleto</item>
+                                </option>
+                            </options>
+                            <caption translate="true">-- Please Select --</caption>
+                        </settings>
+                    </select>
+                </formElements>
+            </field>
+
+            <field name="commission_percentage">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="label" xsi:type="string">Valor percentual da taxa/comissão (%)</item>
+                        <item name="notice" xsi:type="string">Deve conter apenas dígitos numéricos e um separador de decimal (.); Deve conter dois dígitos de casa decimal; Valor deve estar entre 0.00 e 100.00</item>
+                        <item name="visible" xsi:type="boolean">true</item>
+                        <item name="dataType" xsi:type="string">number</item>
+                        <item name="formElement" xsi:type="string">input</item>
+                        <item name="source" xsi:type="string">seller</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                            <item name="required-number" xsi:type="boolean">true</item>
+                            <item name="validate-number" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                </argument>
+            </field>
+
+            <field name="payment_plan">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="label" xsi:type="string">Plano de pagamento</item>
+                        <item name="notice" xsi:type="string">Deve conter apenas dígitos numéricos</item>
+                        <item name="visible" xsi:type="boolean">true</item>
+                        <item name="dataType" xsi:type="string">number</item>
+                        <item name="formElement" xsi:type="string">input</item>
+                        <item name="source" xsi:type="string">seller</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                            <item name="required-number" xsi:type="boolean">true</item>
+                            <item name="validate-number" xsi:type="boolean">true</item>
                         </item>
                     </item>
                 </argument>

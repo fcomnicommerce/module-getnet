@@ -60,15 +60,15 @@ class NewAction extends \Magento\Backend\App\Action
 
         if (is_array($data)) {
             $seller = $this->seller->create();
-            $seller->addData(['merchant_id' => $data['seller_information']['legal_document_number']]);
+            $seller->addData(['merchant_id' => $data['seller_information']['merchant_id']]);
             $seller->addData($data['seller_information']);
             $seller->addData(['business_address' => json_encode($data['seller_address'])]);
             $seller->addData(['mailing_address' => json_encode($data['seller_address'])]);
-            $seller->addData(['bank_accounts' => json_encode($data['seller_bank_account'])]);
-
-            if (isset($data['seller_working_hours'])) {
-                $seller->addData(['working_hours' => json_encode($data['seller_working_hours'])]);
-            }
+            $seller->addData(['bank_accounts' => json_encode($data['bank_accounts'])]);
+            $seller->addData(['working_hours' => json_encode($data['working_hours'])]);
+            $seller->addData(['phone' => json_encode($data['phone'])]);
+            $seller->addData(['cellphone' => json_encode($data['cellphone'])]);
+            $seller->addData(['list_commissions' => json_encode($data['list_commissions'])]);
 
             try {
                 //Integrate Getnet

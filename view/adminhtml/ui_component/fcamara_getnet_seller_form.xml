@@ -244,7 +244,7 @@
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
                         <item name="validation" xsi:type="array">
-                            <item name="required-entry" xsi:type="boolean">true</item>
+                            <item name="required-entry" xsi:type="boolean">false</item>
                         </item>
                     </item>
                 </argument>
@@ -432,7 +432,7 @@
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
                         <item name="validation" xsi:type="array">
-                            <item name="required-entry" xsi:type="boolean">true</item>
+                            <item name="required-entry" xsi:type="boolean">false</item>
                         </item>
                     </item>
                 </argument>
@@ -448,7 +448,7 @@
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
                         <item name="validation" xsi:type="array">
-                            <item name="required-entry" xsi:type="boolean">true</item>
+                            <item name="required-entry" xsi:type="boolean">false</item>
                         </item>
                     </item>
                 </argument>
@@ -681,10 +681,10 @@
             </field>
         </fieldset>
 
-        <!--fieldset name="seller_working_hours">
+        <fieldset name="working_hours">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="label" xsi:type="string" translate="true">Working Hours</item>
+                    <item name="label" xsi:type="string" translate="true">Horário de funcionamento</item>
                     <item name="collapsible" xsi:type="boolean">true</item>
                     <item name="opened" xsi:type="boolean">false</item>
                 </item>
@@ -693,14 +693,15 @@
             <field name="start_day" formElement="select">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
+                        <item name="notice" xsi:type="string" translate="true">Deve informar o dia da semana incial conforme valores válidos</item>
                         <item name="validation" xsi:type="array">
-                            <item name="required-entry" xsi:type="boolean">true</item>
+                            <item name="required-entry" xsi:type="boolean">false</item>
                         </item>
                     </item>
                 </argument>
                 <settings>
                     <dataType>text</dataType>
-                    <label translate="true">Start Day</label>
+                    <label translate="true">Início</label>
                     <dataScope>start_day</dataScope>
                 </settings>
                 <formElements>
@@ -728,7 +729,7 @@
                                     <item name="label" xsi:type="string">Sexta</item>
                                 </option>
                             </options>
-                            <caption translate="true">&#45;&#45; Please Select &#45;&#45;</caption>
+                            <caption translate="true">-- Please Select --</caption>
                         </settings>
                     </select>
                 </formElements>
@@ -737,14 +738,15 @@
             <field name="end_day" formElement="select">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
+                        <item name="notice" xsi:type="string" translate="true">Deve informar o dia da semana incial conforme valores válidos</item>
                         <item name="validation" xsi:type="array">
-                            <item name="required-entry" xsi:type="boolean">true</item>
+                            <item name="required-entry" xsi:type="boolean">false</item>
                         </item>
                     </item>
                 </argument>
                 <settings>
                     <dataType>text</dataType>
-                    <label translate="true">End Day</label>
+                    <label translate="true">Final</label>
                     <dataScope>end_day</dataScope>
                 </settings>
                 <formElements>
@@ -781,14 +783,14 @@
             <field name="start_time">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string">Start Time</item>
+                        <item name="label" xsi:type="string">Horário de Início</item>
+                        <item name="notice" xsi:type="string" translate="true">Deve informar o horário incial no formato "hh:mm:ss"</item>
                         <item name="visible" xsi:type="boolean">true</item>
                         <item name="dataType" xsi:type="string">text</item>
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
-                        <item name="notice" xsi:type="string" translate="true">Example: 12:00:00</item>
                         <item name="validation" xsi:type="array">
-                            <item name="required-entry" xsi:type="boolean">true</item>
+                            <item name="required-entry" xsi:type="boolean">false</item>
                         </item>
                     </item>
                 </argument>
@@ -797,19 +799,19 @@
             <field name="end_time">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string">End Time</item>
+                        <item name="label" xsi:type="string">Horário de Término</item>
+                        <item name="notice" xsi:type="string" translate="true">Deve informar o horário incial no formato "hh:mm:ss"</item>
                         <item name="visible" xsi:type="boolean">true</item>
                         <item name="dataType" xsi:type="string">text</item>
                         <item name="formElement" xsi:type="string">input</item>
                         <item name="source" xsi:type="string">seller</item>
-                        <item name="notice" xsi:type="string" translate="true">Example: 24:00:00</item>
                         <item name="validation" xsi:type="array">
-                            <item name="required-entry" xsi:type="boolean">true</item>
+                            <item name="required-entry" xsi:type="boolean">false</item>
                         </item>
                     </item>
                 </argument>
             </field>
-        </fieldset-->
+        </fieldset>
 
         <fieldset name="bank_accounts">
             <argument name="data" xsi:type="array">

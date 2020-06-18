@@ -79,6 +79,17 @@ class NewAction extends \Magento\Backend\App\Action
                     throw new \Exception(__('Error Create Seller, Please try again!'));
                 }
 
+                $seller->addData([
+                    'subseller_id' => $integratedSeller['subseller_id'],
+                    'fiscal_type' => $integratedSeller['fiscal_type'],
+                    'enabled' => $integratedSeller['enabled'],
+                    'status' => $integratedSeller['status'],
+                    'capture_payments_enabled' => $integratedSeller['capture_payments_enabled'],
+                    'anticipation_enabled' => $integratedSeller['anticipation_enabled'],
+                    'lock_schedule' => $integratedSeller['lock_schedule'],
+                    'lock_capture_payments' => $integratedSeller['lock_capture_payments']
+                ]);
+
                 $seller->save();
 
                 $this->messageManager->addSuccessMessage('Seller Successfully Saved!');

@@ -134,7 +134,7 @@ class SellerClient
 
         $data = [
             'merchant_id' => $sellerData['merchant_id'],
-            'legal_document_number' => $sellerData['legal_document_number'],
+            'legal_document_number' => (int) $sellerData['legal_document_number'],
             'legal_name' => $sellerData['legal_name'],
             'birth_date' => date_format($birthDate, 'Y-m-d'),
             'mothers_name' => $sellerData['mothers_name'],
@@ -150,7 +150,7 @@ class SellerClient
                 'postal_code' => $businessAddress['postal_code']
             ],
             'mailing_address' => $businessAddress,
-            'working_hours' => json_decode($sellerData['working_hours'], true),
+            'working_hours' => [json_decode($sellerData['working_hours'], true)],
             'phone' => json_decode($sellerData['phone'], true),
             'cellphone' => json_decode($sellerData['cellphone'], true),
             'email' => $sellerData['email'],
@@ -175,6 +175,7 @@ class SellerClient
         $client = $this->httpClientFactory->create();
         $client->setUri($this->sellerConfig->pfCreatePreSubSellerEndpoint());
         $client->setConfig(self::CONFIG_HTTP_CLIENT);
+        $client->setHeaders(['content-type: application/json; charset=utf-8']);
         $client->setHeaders('Authorization', 'Bearer ' . $token);
         $client->setMethod(\Zend_Http_Client::POST);
         $client->setRawData(json_encode($data));

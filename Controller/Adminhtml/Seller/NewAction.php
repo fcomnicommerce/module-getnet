@@ -60,7 +60,6 @@ class NewAction extends \Magento\Backend\App\Action
 
         if (is_array($data)) {
             $seller = $this->seller->create();
-            $seller->addData(['merchant_id' => $data['seller_information']['merchant_id']]);
             $seller->addData($data['seller_information']);
             $seller->addData(['business_address' => json_encode($data['seller_address'])]);
             $seller->addData(['mailing_address' => json_encode($data['seller_address'])]);

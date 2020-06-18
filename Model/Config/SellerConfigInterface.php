@@ -53,6 +53,8 @@ interface SellerConfigInterface
      */
     public const XML_PATH_CLIENT_SECRET = 'payment/getnet/client_secret';
 
+    public const XML_PATH_MERCHANT_ID = 'payment/getnet/merchant_id';
+
     /**
      * Check if module is enabled
      *

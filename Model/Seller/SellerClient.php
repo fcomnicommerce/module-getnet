@@ -122,6 +122,7 @@ class SellerClient
     {
         $token = $this->authentication();
         $responseBody = false;
+        $sellerData['merchant_id'] = $this->sellerConfig->merchantId();
 
         if (!$token) {
             return $responseBody;
@@ -162,6 +163,32 @@ class SellerClient
         $client->setHeaders('Authorization', 'Bearer ' . $token);
         $client->setMethod(\Zend_Http_Client::PUT);
         $client->setRawData(json_encode($sellerData));
+
+        try {
+            $responseBody = json_decode($client->request()->getBody(), true);
+        } catch (\Exception $e) {
+            $this->logger->critical('Error message', ['exception' => $e]);
+        }
+
+        return $responseBody;
+    }
+
+    /**
+     * @return bool|mixed
+     */
+    public function pfConsultPaymentPlans()
+    {
+        $token = $this->authentication();
+        $responseBody = false;
+
+        if (!$token) {
+            return $responseBody;
+        }
+
+        $client = $this->httpClientFactory->create();
+        $client->setUri($this->sellerConfig->pfConsultPaymentPlansEndpoint($this->sellerConfig->merchantId()));
+        $client->setHeaders('Authorization', 'Bearer ' . $token);
+        $client->setMethod(\Zend_Http_Client::GET);
 
         try {
             $responseBody = json_decode($client->request()->getBody(), true);

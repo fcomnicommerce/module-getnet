@@ -81,6 +81,17 @@ class SellerConfig implements SellerConfigInterface
     /**
      * @return mixed
      */
+    public function merchantId()
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_MERCHANT_ID,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * @return mixed
+     */
     public function environment()
     {
         return $this->scopeConfig->getValue(

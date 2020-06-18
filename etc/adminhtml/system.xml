@@ -136,6 +136,10 @@
                         <label>Client Secret</label>
                         <config_path>payment/getnet/client_secret</config_path>
                     </field>
+                    <field id="merchant_id" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Merchant ID</label>
+                        <config_path>payment/getnet/merchant_id</config_path>
+                    </field>
                 </group>
                 <group id="split" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Split</label>

@@ -18,9 +18,24 @@ namespace FCamara\Getnet\Ui\Component\Form;
 
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\DataObject;
+use FCamara\Getnet\Model\Seller\SellerClient;
 
 class PaymentPlan extends DataObject implements OptionSourceInterface
 {
+    /**
+     * @var SellerClient
+     */
+    protected $sellerClient;
+
+    public function __construct(
+        SellerClient $sellerClient,
+        array $data = []
+    ) {
+        $this->sellerClient = $sellerClient;
+
+        parent::__construct($data);
+    }
+
     /**
      * Return array of options as value-label pairs
      *
@@ -28,10 +43,15 @@ class PaymentPlan extends DataObject implements OptionSourceInterface
      */
     public function toOptionArray()
     {
-        $options[] = [
-            'label' => 'Test',
-            'value' => 'Test'
-        ];
+        $options = [];
+        $paymentPlans = $this->sellerClient->pfConsultPaymentPlans();
+
+        foreach ($paymentPlans as $plan) {
+            $options[] = [
+                'label' => $plan['name'] . ' - Antecipação (' . $plan['anticipation'] . ')' ,
+                'value' => $plan['paymentplan_id']
+            ];
+        }
 
         return $options;
     }

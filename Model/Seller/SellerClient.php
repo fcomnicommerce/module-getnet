@@ -128,12 +128,56 @@ class SellerClient
             return $responseBody;
         }
 
+        $birthDate = date_create($sellerData['birth_date']);
+        $businessAddress = json_decode($sellerData['business_address'], true);
+        $bankAccounts = json_decode($sellerData['bank_accounts'], true);
+
+        $data = [
+            'merchant_id' => $sellerData['merchant_id'],
+            'legal_document_number' => $sellerData['legal_document_number'],
+            'legal_name' => $sellerData['legal_name'],
+            'birth_date' => date_format($birthDate, 'Y-m-d'),
+            'mothers_name' => $sellerData['mothers_name'],
+            'occupation' => $sellerData['occupation'],
+            'monthly_gross_income' => (double) $sellerData['monthly_gross_income'],
+            'business_address' => [
+                'mailing_address_equals' => 'S',
+                'street' => $businessAddress['street'],
+                'number' => $businessAddress['number'],
+                'district' => $businessAddress['district'],
+                'city' => $businessAddress['city'],
+                'state' => $businessAddress['state'],
+                'postal_code' => $businessAddress['postal_code']
+            ],
+            'mailing_address' => $businessAddress,
+            'working_hours' => json_decode($sellerData['working_hours'], true),
+            'phone' => json_decode($sellerData['phone'], true),
+            'cellphone' => json_decode($sellerData['cellphone'], true),
+            'email' => $sellerData['email'],
+            'acquirer_merchant_category_code' => $sellerData['acquirer_merchant_category_code'],
+            'bank_accounts' => [
+                'type_accounts' => 'unique',
+                'unique_account' => [
+                    'bank' => $bankAccounts['bank'],
+                    'agency' => $bankAccounts['agency'],
+                    'account' => $bankAccounts['account'],
+                    'account_type' => $bankAccounts['account_type'],
+                    'account_digit' => $bankAccounts['account_digit']
+                ]
+            ],
+            'list_commissions' => [json_decode($sellerData['list_commissions'], true)],
+            'accepted_contract' => $sellerData['accepted_contract'],
+            'liability_chargeback' => $sellerData['liability_chargeback'],
+            'marketplace_store' => $sellerData['marketplace_store'],
+            'payment_plan' => $sellerData['payment_plan']
+        ];
+
         $client = $this->httpClientFactory->create();
         $client->setUri($this->sellerConfig->pfCreatePreSubSellerEndpoint());
         $client->setConfig(self::CONFIG_HTTP_CLIENT);
         $client->setHeaders('Authorization', 'Bearer ' . $token);
         $client->setMethod(\Zend_Http_Client::POST);
-        $client->setRawData(json_encode($sellerData));
+        $client->setRawData(json_encode($data));
 
         try {
             $responseBody = json_decode($client->request()->getBody(), true);

@@ -69,27 +69,28 @@ class Edit extends Action
 
         if ($id && is_array($data)) {
             $seller = $this->seller->create()->load($id);
-            $seller->addData(['merchant_id' => '1']);
             $seller->addData($data['seller_information']);
             $seller->addData(['business_address' => json_encode($data['seller_address'])]);
             $seller->addData(['mailing_address' => json_encode($data['seller_address'])]);
-            $seller->addData(['bank_accounts' => json_encode($data['seller_bank_account'])]);
-
-            if (isset($data['seller_working_hours'])) {
-                $seller->addData(['working_hours' => json_encode($data['seller_working_hours'])]);
-            }
+            $seller->addData(['bank_accounts' => json_encode($data['bank_accounts'])]);
+            $seller->addData(['working_hours' => json_encode($data['working_hours'])]);
+            $seller->addData(['phone' => json_encode($data['phone'])]);
+            $seller->addData(['cellphone' => json_encode($data['cellphone'])]);
+            $seller->addData(['list_commissions' => json_encode($data['list_commissions'])]);
 
             try {
                 if ($data['seller_information']['type'] == 'PF') {
-                    $integratedSeller = $this->client->pfUpdateSubSeller($data);
+                    $updatedSeller = $this->client->pfUpdateSubSeller($seller->getData());
                 }
 
-                if (!isset($integratedSeller['success'])) {
+                if (!isset($updatedSeller['success'])) {
                     throw new \Exception(__('Error Update Seller, Please try again!'));
                 }
 
                 $seller->save();
+
                 $this->messageManager->addSuccessMessage('Seller Successfully Saved!');
+
                 $resultRedirect = $this->resultRedirectFactory->create();
 
                 return $resultRedirect->setPath('*/*/index');

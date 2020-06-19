@@ -19,7 +19,6 @@ namespace FCamara\Getnet\Controller\Adminhtml\Seller;
 use FCamara\Getnet\Model\Seller\SellerClient;
 use Magento\Backend\App\Action\Context;
 use FCamara\Getnet\Model\SellerFactory;
-use FCamara\Getnet\Model\Config\SellerConfig;
 
 class NewAction extends \Magento\Backend\App\Action
 {
@@ -34,26 +33,18 @@ class NewAction extends \Magento\Backend\App\Action
     protected $client;
 
     /**
-     * @var SellerConfig
-     */
-    protected $sellerConfig;
-
-    /**
      * NewAction constructor.
      * @param Context $context
      * @param SellerFactory $seller
      * @param SellerClient $client
-     * @param SellerConfig $sellerConfig
      */
     public function __construct(
         Context $context,
         SellerFactory $seller,
-        SellerClient $client,
-        SellerConfig $sellerConfig
+        SellerClient $client
     ) {
         $this->seller = $seller;
         $this->client = $client;
-        $this->sellerConfig = $sellerConfig;
 
         parent::__construct($context);
     }
@@ -78,7 +69,6 @@ class NewAction extends \Magento\Backend\App\Action
             $seller->addData(['phone' => json_encode($data['phone'])]);
             $seller->addData(['cellphone' => json_encode($data['cellphone'])]);
             $seller->addData(['list_commissions' => json_encode($data['list_commissions'])]);
-            $seller->addData(['merchant_id' => $this->sellerConfig->merchantId()]);
 
             try {
                 //Integrate Getnet
@@ -98,7 +88,8 @@ class NewAction extends \Magento\Backend\App\Action
                     'capture_payments_enabled' => $integratedSeller['capture_payments_enabled'],
                     'anticipation_enabled' => $integratedSeller['anticipation_enabled'],
                     'lock_schedule' => $integratedSeller['lock_schedule'],
-                    'lock_capture_payments' => $integratedSeller['lock_capture_payments']
+                    'lock_capture_payments' => $integratedSeller['lock_capture_payments'],
+                    'merchant_id' => $integratedSeller['merchant_id']
                 ]);
 
                 $seller->save();

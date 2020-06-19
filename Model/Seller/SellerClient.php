@@ -139,7 +139,7 @@ class SellerClient
             'birth_date' => date_format($birthDate, 'Y-m-d'),
             'mothers_name' => $sellerData['mothers_name'],
             'occupation' => $sellerData['occupation'],
-            'monthly_gross_income' => (double) $sellerData['monthly_gross_income'],
+            'monthly_gross_income' => $sellerData['monthly_gross_income'],
             'business_address' => [
                 'mailing_address_equals' => 'S',
                 'street' => $businessAddress['street'],
@@ -182,6 +182,7 @@ class SellerClient
 
         try {
             $responseBody = json_decode($client->request()->getBody(), true);
+            $responseBody['merchant_id'] = $this->sellerConfig->merchantId();
         } catch (\Exception $e) {
             $this->logger->critical('Error message', ['exception' => $e]);
         }

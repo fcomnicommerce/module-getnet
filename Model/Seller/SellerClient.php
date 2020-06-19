@@ -243,4 +243,32 @@ class SellerClient
 
         return $responseBody;
     }
+
+    /**
+     * @param $merchantId
+     * @param $cpf
+     * @return bool|mixed
+     */
+    public function pfCallback($merchantId, $cpf)
+    {
+        $token = $this->authentication();
+        $responseBody = false;
+
+        if (!$token) {
+            return $responseBody;
+        }
+
+        $client = $this->httpClientFactory->create();
+        $client->setUri($this->sellerConfig->pfCallbackEndpoint($merchantId, $cpf));
+        $client->setHeaders('Authorization', 'Bearer ' . $token);
+        $client->setMethod(\Zend_Http_Client::GET);
+
+        try {
+            $responseBody = json_decode($client->request()->getBody(), true);
+        } catch (\Exception $e) {
+            $this->logger->critical('Error message', ['exception' => $e]);
+        }
+
+        return $responseBody;
+    }
 }

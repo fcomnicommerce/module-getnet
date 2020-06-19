@@ -19,6 +19,7 @@ namespace FCamara\Getnet\Controller\Adminhtml\Seller;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use FCamara\Getnet\Model\Seller;
+use FCamara\Getnet\Model\Seller\SellerClient;
 
 class DeleteAction extends Action
 {
@@ -28,13 +29,20 @@ class DeleteAction extends Action
     protected $seller;
 
     /**
+     * @var SellerClient
+     */
+    protected $sellerClient;
+
+    /**
      * DeleteAction constructor.
      * @param Context $context
      * @param Seller $seller
+     * @param SellerClient $sellerClient
      */
-    public function __construct(Context $context, Seller $seller)
+    public function __construct(Context $context, Seller $seller, SellerClient $sellerClient)
     {
         $this->seller = $seller;
+        $this->sellerClient = $sellerClient;
 
         parent::__construct($context);
     }
@@ -45,6 +53,7 @@ class DeleteAction extends Action
     public function execute()
     {
         $id = $this->getRequest()->getParam('id');
+        $deAccredit = [];
 
         if (!($seller = $this->seller->load($id))) {
             $this->messageManager->addErrorMessage(__('Unable to proceed. Please, try again.'));
@@ -53,10 +62,18 @@ class DeleteAction extends Action
         }
 
         try {
+            if ($seller->getData('type') == 'PF') {
+                $deAccredit = $this->sellerClient->pfDeAccredit($seller->getData('subseller_id'));
+            }
+
+            if (!isset($deAccredit['success']) || !$deAccredit['success']) {
+                throw new \Exception(__('Error Delete Seller, Please try again!'));
+            }
+
             $seller->delete();
             $this->messageManager->addSuccessMessage(__('Seller has been deleted !'));
         } catch (\Exception $e) {
-            $this->messageManager->addErrorMessage(__('Error while trying to delete contact: '));
+            $this->messageManager->addErrorMessage($e->getMessage());
             $resultRedirect = $this->resultRedirectFactory->create();
             return $resultRedirect->setPath('*/*/index', array('_current' => true));
         }

@@ -134,7 +134,7 @@ class SellerClient
 
         $data = [
             'merchant_id' => $sellerData['merchant_id'],
-            'legal_document_number' => (int) $sellerData['legal_document_number'],
+            'legal_document_number' => $sellerData['legal_document_number'],
             'legal_name' => $sellerData['legal_name'],
             'birth_date' => date_format($birthDate, 'Y-m-d'),
             'mothers_name' => $sellerData['mothers_name'],
@@ -210,7 +210,7 @@ class SellerClient
         $data = [
             'subseller_id' => $sellerData['subseller_id'],
             'merchant_id' => $sellerData['merchant_id'],
-            'legal_document_number' => (int) $sellerData['legal_document_number'],
+            'legal_document_number' => $sellerData['legal_document_number'],
             'legal_name' => $sellerData['legal_name'],
             'birth_date' => date_format($birthDate, 'Y-m-d'),
             'mothers_name' => $sellerData['mothers_name'],

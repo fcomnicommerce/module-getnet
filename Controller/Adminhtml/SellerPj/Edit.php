@@ -19,8 +19,8 @@ namespace FCamara\Getnet\Controller\Adminhtml\SellerPj;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\View\Result\PageFactory;
+use FCamara\Getnet\Model\Seller\SellerClientPj;
 use FCamara\Getnet\Model\SellerFactory;
-use FCamara\Getnet\Model\Seller\SellerClient;
 
 class Edit extends Action
 {
@@ -35,7 +35,7 @@ class Edit extends Action
     protected $resultPageFactory;
 
     /**
-     * @var SellerClient
+     * @var SellerClientPj
      */
     protected $client;
 
@@ -44,13 +44,13 @@ class Edit extends Action
      * @param Context $context
      * @param PageFactory $resultPageFactory
      * @param SellerFactory $seller
-     * @param SellerClient $client
+     * @param SellerClientPj $client
      */
     public function __construct(
         Context $context,
         PageFactory $resultPageFactory,
         SellerFactory $seller,
-        SellerClient $client
+        SellerClientPj $client
     ) {
         $this->resultPageFactory = $resultPageFactory;
         $this->seller = $seller;
@@ -73,13 +73,10 @@ class Edit extends Action
             $seller->addData(['business_address' => json_encode($data['seller_address'])]);
             $seller->addData(['mailing_address' => json_encode($data['seller_address'])]);
             $seller->addData(['bank_accounts' => json_encode($data['bank_accounts'])]);
-            $seller->addData(['working_hours' => json_encode($data['working_hours'])]);
             $seller->addData(['phone' => json_encode($data['phone'])]);
-            $seller->addData(['cellphone' => json_encode($data['cellphone'])]);
-            $seller->addData(['list_commissions' => json_encode($data['list_commissions'])]);
 
             try {
-                $updatedSeller = $this->client->pfUpdateSubSeller($seller->getData());
+                $updatedSeller = $this->client->pjUpdateSubSeller($seller->getData());
 
                 if (!isset($updatedSeller['success'])) {
                     throw new \Exception(__('Error Update Seller, Please try again!'));

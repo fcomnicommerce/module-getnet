@@ -251,4 +251,33 @@ class SellerClientPj
 
         return $responseBody;
     }
+
+    /**
+     * @param $subSellerId
+     * @return bool|mixed
+     */
+    public function pjDeAccredit($subSellerId)
+    {
+        $token = $this->authentication();
+        $responseBody = false;
+
+        if (!$token) {
+            return $responseBody;
+        }
+
+        $client = $this->httpClientFactory->create();
+        $client->setUri($this->sellerConfig->pjDeAccreditEndpoint($this->sellerConfig->merchantId(), $subSellerId));
+        $client->setConfig(self::CONFIG_HTTP_CLIENT);
+        $client->setHeaders(['content-type: application/json; charset=utf-8']);
+        $client->setHeaders('Authorization', 'Bearer ' . $token);
+        $client->setMethod(\Zend_Http_Client::POST);
+
+        try {
+            $responseBody = json_decode($client->request()->getBody(), true);
+        } catch (\Exception $e) {
+            $this->logger->critical('Error message', ['exception' => $e]);
+        }
+
+        return $responseBody;
+    }
 }

@@ -19,7 +19,7 @@ namespace FCamara\Getnet\Controller\Adminhtml\SellerPj;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use FCamara\Getnet\Model\Seller;
-use FCamara\Getnet\Model\Seller\SellerClient;
+use FCamara\Getnet\Model\Seller\SellerClientPj;
 
 class DeleteAction extends Action
 {
@@ -29,7 +29,7 @@ class DeleteAction extends Action
     protected $seller;
 
     /**
-     * @var SellerClient
+     * @var SellerClientPj
      */
     protected $sellerClient;
 
@@ -37,9 +37,9 @@ class DeleteAction extends Action
      * DeleteAction constructor.
      * @param Context $context
      * @param Seller $seller
-     * @param SellerClient $sellerClient
+     * @param SellerClientPj $sellerClient
      */
-    public function __construct(Context $context, Seller $seller, SellerClient $sellerClient)
+    public function __construct(Context $context, Seller $seller, SellerClientPj $sellerClient)
     {
         $this->seller = $seller;
         $this->sellerClient = $sellerClient;
@@ -62,9 +62,13 @@ class DeleteAction extends Action
         }
 
         try {
-            $deAccredit = $this->sellerClient->pfDeAccredit($seller->getData('subseller_id'));
+            $deAccredit = $this->sellerClient->pjDeAccredit($seller->getData('subseller_id'));
 
             if (!isset($deAccredit['success']) || !$deAccredit['success']) {
+                foreach ($deAccredit['errors'] as $error) {
+                    $this->messageManager->addErrorMessage($error);
+                }
+
                 throw new \Exception(__('Error Delete Seller, Please try again!'));
             }
 

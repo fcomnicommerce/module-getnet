@@ -65,6 +65,10 @@ class DeleteAction extends Action
             $deAccredit = $this->sellerClient->pfDeAccredit($seller->getData('subseller_id'));
 
             if (!isset($deAccredit['success']) || !$deAccredit['success']) {
+                foreach ($deAccredit['errors'] as $error) {
+                    $this->messageManager->addErrorMessage($error);
+                }
+
                 throw new \Exception(__('Error Delete Seller, Please try again!'));
             }
 

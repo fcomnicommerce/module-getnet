@@ -100,34 +100,10 @@
                 </settings>
             </field>
 
-            <field name="type" formElement="select">
-                <argument name="data" xsi:type="array">
-                    <item name="config" xsi:type="array">
-                        <item name="notice" xsi:type="string" translate="true">Person Type</item>
-                        <item name="validation" xsi:type="array">
-                            <item name="required-entry" xsi:type="boolean">true</item>
-                        </item>
-                    </item>
-                </argument>
-                <settings>
-                    <dataType>text</dataType>
-                    <label translate="true">Type</label>
-                    <dataScope>type</dataScope>
-                </settings>
-                <formElements>
-                    <select>
-                        <settings>
-                            <options class="FCamara\Getnet\Ui\Component\Form\TypePerson" />
-                            <caption translate="true">-- Please Select --</caption>
-                        </settings>
-                    </select>
-                </formElements>
-            </field>
-
             <field name="legal_document_number">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string">CPF/CNPJ</item>
+                        <item name="label" xsi:type="string">CPF</item>
                         <item name="notice" xsi:type="string">O número do CPF deve ser válido na receita federal do Brasil e estar em situação "REGULAR" ou "ATIVA".</item>
                         <item name="visible" xsi:type="boolean">true</item>
                         <item name="dataType" xsi:type="string">number</item>

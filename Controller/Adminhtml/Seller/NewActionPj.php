@@ -20,7 +20,7 @@ use FCamara\Getnet\Model\Seller\SellerClient;
 use Magento\Backend\App\Action\Context;
 use FCamara\Getnet\Model\SellerFactory;
 
-class NewAction extends \Magento\Backend\App\Action
+class NewActionPj extends \Magento\Backend\App\Action
 {
     /**
      * @var SellerFactory
@@ -69,10 +69,12 @@ class NewAction extends \Magento\Backend\App\Action
             $seller->addData(['phone' => json_encode($data['phone'])]);
             $seller->addData(['cellphone' => json_encode($data['cellphone'])]);
             $seller->addData(['list_commissions' => json_encode($data['list_commissions'])]);
-            $seller->addData(['type' => 'PF']);
 
             try {
-                $integratedSeller = $this->client->createSellerPf($seller->getData());
+                //Integrate Getnet
+                if ($data['seller_information']['type'] == 'PF') {
+                    $integratedSeller = $this->client->createSellerPf($seller->getData());
+                }
 
                 if (!isset($integratedSeller['subseller_id'])) {
                     throw new \Exception(__('Error Create Seller, Please try again!'));

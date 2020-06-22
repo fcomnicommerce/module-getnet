@@ -21,14 +21,6 @@
             <item name="deps" xsi:type="string">fcamara_getnet_seller_listing.fcamara_getnet_seller_listing_data_source</item>
         </item>
         <item name="spinner" xsi:type="string">spinner_columns</item>
-        <item name="buttons" xsi:type="array">
-            <item name="add" xsi:type="array">
-                <item name="name" xsi:type="string">add</item>
-                <item name="label" xsi:type="string" translate="true">Add New Seller</item>
-                <item name="class" xsi:type="string">primary</item>
-                <item name="url" xsi:type="string">*/*/newaction</item>
-            </item>
-        </item>
     </argument>
     <listingToolbar name="listing_top">
         <argument name="data" xsi:type="array">

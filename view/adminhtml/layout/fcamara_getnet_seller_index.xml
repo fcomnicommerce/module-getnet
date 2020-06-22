@@ -19,6 +19,7 @@
     <body>
         <referenceContainer name="content">
             <uiComponent name="fcamara_getnet_seller_listing"/>
+            <block class="FCamara\Getnet\Block\Adminhtml\Seller\CustomActionList" name="fcamara_getnet.seller.customsplitbutton"/>
         </referenceContainer>
     </body>
 </page>

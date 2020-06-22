@@ -14,7 +14,7 @@
  * @author    Danilo Cavalcanti de Moura <danilo.moura@fcamara.com.br>
  */
 
-namespace FCamara\Getnet\Controller\Adminhtml\Seller;
+namespace FCamara\Getnet\Controller\Adminhtml\SellerPf;
 
 use FCamara\Getnet\Model\Seller\SellerClient;
 use Magento\Backend\App\Action\Context;
@@ -65,10 +65,7 @@ class NewAction extends \Magento\Backend\App\Action
             $seller->addData(['business_address' => json_encode($data['seller_address'])]);
             $seller->addData(['mailing_address' => json_encode($data['seller_address'])]);
             $seller->addData(['bank_accounts' => json_encode($data['bank_accounts'])]);
-            $seller->addData(['working_hours' => json_encode($data['working_hours'])]);
             $seller->addData(['phone' => json_encode($data['phone'])]);
-            $seller->addData(['cellphone' => json_encode($data['cellphone'])]);
-            $seller->addData(['list_commissions' => json_encode($data['list_commissions'])]);
             $seller->addData(['type' => 'PF']);
 
             try {
@@ -98,7 +95,7 @@ class NewAction extends \Magento\Backend\App\Action
             }
 
             $resultRedirect = $this->resultRedirectFactory->create();
-            return $resultRedirect->setPath('*/*/index');
+            return $resultRedirect->setPath('fcamara_getnet/seller/index');
         }
     }
 }

@@ -58,7 +58,7 @@ class DeleteAction extends Action
         if (!($seller = $this->seller->load($id))) {
             $this->messageManager->addErrorMessage(__('Unable to proceed. Please, try again.'));
             $resultRedirect = $this->resultRedirectFactory->create();
-            return $resultRedirect->setPath('*/*/index', array('_current' => true));
+            return $resultRedirect->setPath('fcamara_getnet/seller/index', array('_current' => true));
         }
 
         try {

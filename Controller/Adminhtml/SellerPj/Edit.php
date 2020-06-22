@@ -88,7 +88,7 @@ class Edit extends Action
 
                 $resultRedirect = $this->resultRedirectFactory->create();
 
-                return $resultRedirect->setPath('*/*/index');
+                return $resultRedirect->setPath('fcamara_getnet/seller/index');
             } catch (\Exception $e) {
                 $this->messageManager->addErrorMessage(__('Error saving the Seller, please try again!'));
             }

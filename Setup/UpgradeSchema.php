@@ -184,8 +184,8 @@ class UpgradeSchema implements UpgradeSchemaInterface
                     )
                     ->addColumn(
                         'legal_document_number',
-                        \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-                        null
+                        \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        255
                     )
                     ->addColumn(
                         'legal_name',

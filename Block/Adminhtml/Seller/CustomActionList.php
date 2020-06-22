@@ -63,7 +63,7 @@ class CustomActionList extends Container
             'pf' => [
                 'label' => __('Pessoa Física'),
                 'onclick' => "setLocation('" . $this->getUrl('fcamara_getnet/sellerpf/newaction') . "')",
-                'default' => true
+                'default' => false
             ],
             'pj' => [
                 'label' => __('Pessoa Jurídica'),

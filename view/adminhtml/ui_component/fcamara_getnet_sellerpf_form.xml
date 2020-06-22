@@ -186,22 +186,6 @@
                 </argument>
             </field>
 
-            <field name="monthly_gross_income">
-                <argument name="data" xsi:type="array">
-                    <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string">Valor da Renda do CPF informado</item>
-                        <item name="notice" xsi:type="string">Deve ser maior que zero</item>
-                        <item name="visible" xsi:type="boolean">true</item>
-                        <item name="dataType" xsi:type="string">number</item>
-                        <item name="formElement" xsi:type="string">input</item>
-                        <item name="source" xsi:type="string">seller</item>
-                        <item name="validation" xsi:type="array">
-                            <item name="required-entry" xsi:type="boolean">false</item>
-                        </item>
-                    </item>
-                </argument>
-            </field>
-
             <field name="email">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
@@ -387,48 +371,6 @@
             </field>
         </fieldset>
 
-        <fieldset name="cellphone">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="label" xsi:type="string" translate="true">Telefone Celular</item>
-                    <item name="collapsible" xsi:type="boolean">true</item>
-                    <item name="opened" xsi:type="boolean">false</item>
-                </item>
-            </argument>
-
-            <field name="area_code">
-                <argument name="data" xsi:type="array">
-                    <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string">DDD</item>
-                        <item name="notice" xsi:type="string">Deverá estar registrado na lista da ANATEL: 11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 22, 24, 27, 28, 31, 32, 33, 34, 35, 37, 38, 41, 42, 43, 44, 45, 46, 47, 48, 49, 51, 53, 54, 55, 61, 62, 63, 64, 65, 66, 69, 67, 68, 71, 73, 74, 75, 77, 79, 81, 87, 82, 83, 84, 85, 88, 86, 89, 91, 93, 94, 92, 97, 95, 96, 98, 99</item>
-                        <item name="visible" xsi:type="boolean">true</item>
-                        <item name="dataType" xsi:type="string">text</item>
-                        <item name="formElement" xsi:type="string">input</item>
-                        <item name="source" xsi:type="string">seller</item>
-                        <item name="validation" xsi:type="array">
-                            <item name="required-entry" xsi:type="boolean">false</item>
-                        </item>
-                    </item>
-                </argument>
-            </field>
-
-            <field name="phone_number">
-                <argument name="data" xsi:type="array">
-                    <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string">Número</item>
-                        <item name="notice" xsi:type="string" translate="true">Deverá ter 9 digito; Deverá obedecer a regra da ANATEL para número de celular; Para os DDD à seguir é preciso que primeiro digito seja = 9: 11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 22, 24, 27, 28, 31, 32, 33, 34, 35, 37, 38, 41, 42, 43, 44, 45, 68, 71, 73, 74, 75, 77, 79, 81, 87, 82, 83, 84, 85, 88, 86, 89, 91, 93, 94, 92, 97, 95, 96, 98, 99; Para os DDD à seguir é preciso que o primeiro digito seja = 9 e o segundo poderá ser: 9 ou 8 ou 7 e o total de digitos = 9: 41, 46, 47, 48, 49, 51, 53, 54, 55, 61, 62, 64, 65, 66, 67, 69, 68"</item>
-                        <item name="visible" xsi:type="boolean">true</item>
-                        <item name="dataType" xsi:type="string">text</item>
-                        <item name="formElement" xsi:type="string">input</item>
-                        <item name="source" xsi:type="string">seller</item>
-                        <item name="validation" xsi:type="array">
-                            <item name="required-entry" xsi:type="boolean">false</item>
-                        </item>
-                    </item>
-                </argument>
-            </field>
-        </fieldset>
-
         <fieldset name="seller_address">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
@@ -543,110 +485,6 @@
                         </item>
                     </item>
                 </argument>
-            </field>
-        </fieldset>
-
-        <fieldset name="working_hours">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="label" xsi:type="string" translate="true">Horário de funcionamento</item>
-                    <item name="collapsible" xsi:type="boolean">true</item>
-                    <item name="opened" xsi:type="boolean">false</item>
-                </item>
-            </argument>
-
-            <field name="start_day" formElement="select">
-                <argument name="data" xsi:type="array">
-                    <item name="config" xsi:type="array">
-                        <item name="notice" xsi:type="string" translate="true">Deve informar o dia da semana incial conforme valores válidos</item>
-                        <item name="validation" xsi:type="array">
-                            <item name="required-entry" xsi:type="boolean">false</item>
-                        </item>
-                    </item>
-                </argument>
-                <settings>
-                    <dataType>text</dataType>
-                    <label translate="true">Início</label>
-                    <dataScope>start_day</dataScope>
-                </settings>
-                <formElements>
-                    <select>
-                        <settings>
-                            <options class="FCamara\Getnet\Ui\Component\Form\DaysWeek" />
-                            <caption translate="true">-- Please Select --</caption>
-                        </settings>
-                    </select>
-                </formElements>
-            </field>
-
-            <field name="end_day" formElement="select">
-                <argument name="data" xsi:type="array">
-                    <item name="config" xsi:type="array">
-                        <item name="notice" xsi:type="string" translate="true">Deve informar o dia da semana incial conforme valores válidos</item>
-                        <item name="validation" xsi:type="array">
-                            <item name="required-entry" xsi:type="boolean">false</item>
-                        </item>
-                    </item>
-                </argument>
-                <settings>
-                    <dataType>text</dataType>
-                    <label translate="true">Final</label>
-                    <dataScope>end_day</dataScope>
-                </settings>
-                <formElements>
-                    <select>
-                        <settings>
-                            <options class="FCamara\Getnet\Ui\Component\Form\DaysWeek" />
-                            <caption translate="true">-- Please Select --</caption>
-                        </settings>
-                    </select>
-                </formElements>
-            </field>
-
-            <field name="start_time" formElement="select">
-                <argument name="data" xsi:type="array">
-                    <item name="config" xsi:type="array">
-                        <item name="validation" xsi:type="array">
-                            <item name="required-entry" xsi:type="boolean">false</item>
-                        </item>
-                    </item>
-                </argument>
-                <settings>
-                    <dataType>text</dataType>
-                    <label translate="true">Horário de Início</label>
-                    <dataScope>start_time</dataScope>
-                </settings>
-                <formElements>
-                    <select>
-                        <settings>
-                            <options class="FCamara\Getnet\Ui\Component\Form\Hours" />
-                            <caption translate="true">-- Please Select --</caption>
-                        </settings>
-                    </select>
-                </formElements>
-            </field>
-
-            <field name="end_time" formElement="select">
-                <argument name="data" xsi:type="array">
-                    <item name="config" xsi:type="array">
-                        <item name="validation" xsi:type="array">
-                            <item name="required-entry" xsi:type="boolean">false</item>
-                        </item>
-                    </item>
-                </argument>
-                <settings>
-                    <dataType>text</dataType>
-                    <label translate="true">Horário de Término</label>
-                    <dataScope>end_time</dataScope>
-                </settings>
-                <formElements>
-                    <select>
-                        <settings>
-                            <options class="FCamara\Getnet\Ui\Component\Form\Hours" />
-                            <caption translate="true">-- Please Select --</caption>
-                        </settings>
-                    </select>
-                </formElements>
             </field>
         </fieldset>
 
@@ -787,40 +625,7 @@
                 <formElements>
                     <select>
                         <settings>
-                            <options>
-                                <option name="1" xsi:type="array">
-                                    <item name="value" xsi:type="string">MASTERCARD</item>
-                                    <item name="label" xsi:type="string">Master Card</item>
-                                </option>
-                                <option name="2" xsi:type="array">
-                                    <item name="value" xsi:type="string">MAESTRO</item>
-                                    <item name="label" xsi:type="string">Maestro</item>
-                                </option>
-                                <option name="3" xsi:type="array">
-                                    <item name="value" xsi:type="string">VISA</item>
-                                    <item name="label" xsi:type="string">Visa</item>
-                                </option>
-                                <option name="4" xsi:type="array">
-                                    <item name="value" xsi:type="string">VISA ELECTRON</item>
-                                    <item name="label" xsi:type="string">Visa Electron</item>
-                                </option>
-                                <option name="5" xsi:type="array">
-                                    <item name="value" xsi:type="string">AMEX</item>
-                                    <item name="label" xsi:type="string">Amex</item>
-                                </option>
-                                <option name="6" xsi:type="array">
-                                    <item name="value" xsi:type="string">ELO CRÉDITO</item>
-                                    <item name="label" xsi:type="string">Elo Crédito</item>
-                                </option>
-                                <option name="7" xsi:type="array">
-                                    <item name="value" xsi:type="string">ELO DÉBITO</item>
-                                    <item name="label" xsi:type="string">Elo Débito</item>
-                                </option>
-                                <option name="8" xsi:type="array">
-                                    <item name="value" xsi:type="string">HIPERCARD</item>
-                                    <item name="label" xsi:type="string">Hipercard</item>
-                                </option>
-                            </options>
+                            <options class="FCamara\Getnet\Ui\Component\Form\Brands" />
                             <caption translate="true">-- Please Select --</caption>
                         </settings>
                     </select>
@@ -843,40 +648,7 @@
                 <formElements>
                     <select>
                         <settings>
-                            <options>
-                                <option name="1" xsi:type="array">
-                                    <item name="value" xsi:type="string">DEBITO A VISTA</item>
-                                    <item name="label" xsi:type="string">Débito á Vista</item>
-                                </option>
-                                <option name="2" xsi:type="array">
-                                    <item name="value" xsi:type="string">CREDITO A VISTA</item>
-                                    <item name="label" xsi:type="string">Crédito á Vista</item>
-                                </option>
-                                <option name="3" xsi:type="array">
-                                    <item name="value" xsi:type="string">PARCELADO LOJISTA 3X</item>
-                                    <item name="label" xsi:type="string">Parcelado 3x</item>
-                                </option>
-                                <option name="4" xsi:type="array">
-                                    <item name="value" xsi:type="string">PARCELADO LOJISTA 6X</item>
-                                    <item name="label" xsi:type="string">Parcelado 6x</item>
-                                </option>
-                                <option name="5" xsi:type="array">
-                                    <item name="value" xsi:type="string">PARCELADO LOJISTA 9X</item>
-                                    <item name="label" xsi:type="string">Parcelado 9x</item>
-                                </option>
-                                <option name="6" xsi:type="array">
-                                    <item name="value" xsi:type="string">PARCELADO LOJISTA 12X</item>
-                                    <item name="label" xsi:type="string">Parcelado 12x</item>
-                                </option>
-                                <option name="7" xsi:type="array">
-                                    <item name="value" xsi:type="string">PARCELADO EMISSOR</item>
-                                    <item name="label" xsi:type="string">Parcelado Emissor</item>
-                                </option>
-                                <option name="8" xsi:type="array">
-                                    <item name="value" xsi:type="string">BOLETO</item>
-                                    <item name="label" xsi:type="string">Boleto</item>
-                                </option>
-                            </options>
+                            <options class="FCamara\Getnet\Ui\Component\Form\ListCommissionsProduct" />
                             <caption translate="true">-- Please Select --</caption>
                         </settings>
                     </select>

@@ -14,13 +14,13 @@
  * @author    Danilo Cavalcanti de Moura <danilo.moura@fcamara.com.br>
  */
 
-namespace FCamara\Getnet\Controller\Adminhtml\Seller;
+namespace FCamara\Getnet\Controller\Adminhtml\SellerPf;
 
 use FCamara\Getnet\Model\Seller\SellerClient;
 use Magento\Backend\App\Action\Context;
 use FCamara\Getnet\Model\SellerFactory;
 
-class NewActionPj extends \Magento\Backend\App\Action
+class NewAction extends \Magento\Backend\App\Action
 {
     /**
      * @var SellerFactory
@@ -69,12 +69,10 @@ class NewActionPj extends \Magento\Backend\App\Action
             $seller->addData(['phone' => json_encode($data['phone'])]);
             $seller->addData(['cellphone' => json_encode($data['cellphone'])]);
             $seller->addData(['list_commissions' => json_encode($data['list_commissions'])]);
+            $seller->addData(['type' => 'PF']);
 
             try {
-                //Integrate Getnet
-                if ($data['seller_information']['type'] == 'PF') {
-                    $integratedSeller = $this->client->createSellerPf($seller->getData());
-                }
+                $integratedSeller = $this->client->createSellerPf($seller->getData());
 
                 if (!isset($integratedSeller['subseller_id'])) {
                     throw new \Exception(__('Error Create Seller, Please try again!'));
@@ -100,7 +98,7 @@ class NewActionPj extends \Magento\Backend\App\Action
             }
 
             $resultRedirect = $this->resultRedirectFactory->create();
-            return $resultRedirect->setPath('*/*/index');
+            return $resultRedirect->setPath('fcamara_getnet/seller/index');
         }
     }
 }

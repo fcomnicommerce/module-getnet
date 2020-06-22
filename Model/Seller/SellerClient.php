@@ -338,7 +338,6 @@ class SellerClient
         $client->setHeaders(['content-type: application/json; charset=utf-8']);
         $client->setHeaders('Authorization', 'Bearer ' . $token);
         $client->setMethod(\Zend_Http_Client::POST);
-        //$client->setRawData(json_encode([]));
 
         try {
             $responseBody = json_decode($client->request()->getBody(), true);

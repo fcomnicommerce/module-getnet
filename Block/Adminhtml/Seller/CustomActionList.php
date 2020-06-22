@@ -62,12 +62,12 @@ class CustomActionList extends Container
         $splitButtonOptions = [
             'pf' => [
                 'label' => __('Pessoa Física'),
-                'onclick' => "setLocation('" . $this->getUrl('fcamara_getnet/seller/newaction') . "')",
+                'onclick' => "setLocation('" . $this->getUrl('fcamara_getnet/sellerpf/newaction') . "')",
                 'default' => true
             ],
             'pj' => [
                 'label' => __('Pessoa Jurídica'),
-                'onclick' => "setLocation('" . $this->getUrl('fcamara_getnet/seller/newactionpj') . "')",
+                'onclick' => "setLocation('" . $this->getUrl('fcamara_getnet/sellerpj/newactionpj') . "')",
                 'default' => false
             ]
         ];

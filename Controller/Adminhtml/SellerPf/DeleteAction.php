@@ -14,7 +14,7 @@
  * @author    Danilo Cavalcanti de Moura <danilo.moura@fcamara.com.br>
  */
 
-namespace FCamara\Getnet\Controller\Adminhtml\Seller;
+namespace FCamara\Getnet\Controller\Adminhtml\SellerPf;
 
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
@@ -62,9 +62,7 @@ class DeleteAction extends Action
         }
 
         try {
-            if ($seller->getData('type') == 'PF') {
-                $deAccredit = $this->sellerClient->pfDeAccredit($seller->getData('subseller_id'));
-            }
+            $deAccredit = $this->sellerClient->pfDeAccredit($seller->getData('subseller_id'));
 
             if (!isset($deAccredit['success']) || !$deAccredit['success']) {
                 throw new \Exception(__('Error Delete Seller, Please try again!'));
@@ -75,10 +73,10 @@ class DeleteAction extends Action
         } catch (\Exception $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
             $resultRedirect = $this->resultRedirectFactory->create();
-            return $resultRedirect->setPath('*/*/index', array('_current' => true));
+            return $resultRedirect->setPath('fcamara_getnet/seller/index', array('_current' => true));
         }
 
         $resultRedirect = $this->resultRedirectFactory->create();
-        return $resultRedirect->setPath('*/*/index', array('_current' => true));
+        return $resultRedirect->setPath('fcamara_getnet/seller/index', array('_current' => true));
     }
 }

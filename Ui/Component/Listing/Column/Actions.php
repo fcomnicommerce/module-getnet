@@ -63,14 +63,15 @@ class Actions extends Column
                 $item[$this->getData('name')] = [
                     'edit' => [
                         'href' => $this->urlBuilder->getUrl(
-                            'fcamara_getnet/seller/edit',
+                            $item['type'] == 'PF' ? 'fcamara_getnet/sellerpf/edit' : 'fcamara_getnet/sellerpj/edit',
                             ['id' => $item['entity_id']]
                         ),
                         'label' => __('Edit')
                     ],
                     'remove' => [
                         'href' => $this->urlBuilder->getUrl(
-                            'fcamara_getnet/seller/deleteaction',
+                            $item['type'] == 'PF'
+                                ? 'fcamara_getnet/sellerpf/deleteaction' : 'fcamara_getnet/sellerpj/deleteaction',
                             ['id' => $item['entity_id']]
                         ),
                         'label' => __('Remove')

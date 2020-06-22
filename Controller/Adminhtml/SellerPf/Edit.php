@@ -14,13 +14,15 @@
  * @author    Danilo Cavalcanti de Moura <danilo.moura@fcamara.com.br>
  */
 
-namespace FCamara\Getnet\Controller\Adminhtml\Seller;
+namespace FCamara\Getnet\Controller\Adminhtml\SellerPf;
 
-use FCamara\Getnet\Model\Seller\SellerClient;
+use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
+use Magento\Framework\View\Result\PageFactory;
 use FCamara\Getnet\Model\SellerFactory;
+use FCamara\Getnet\Model\Seller\SellerClient;
 
-class NewAction extends \Magento\Backend\App\Action
+class Edit extends Action
 {
     /**
      * @var SellerFactory
@@ -28,21 +30,29 @@ class NewAction extends \Magento\Backend\App\Action
     protected $seller;
 
     /**
-     * @var Client
+     * @var PageFactory
+     */
+    protected $resultPageFactory;
+
+    /**
+     * @var SellerClient
      */
     protected $client;
 
     /**
-     * NewAction constructor.
+     * Edit constructor.
      * @param Context $context
+     * @param PageFactory $resultPageFactory
      * @param SellerFactory $seller
      * @param SellerClient $client
      */
     public function __construct(
         Context $context,
+        PageFactory $resultPageFactory,
         SellerFactory $seller,
         SellerClient $client
     ) {
+        $this->resultPageFactory = $resultPageFactory;
         $this->seller = $seller;
         $this->client = $client;
 
@@ -50,17 +60,15 @@ class NewAction extends \Magento\Backend\App\Action
     }
 
     /**
-     * @return \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\Result\Redirect|\Magento\Framework\Controller\ResultInterface
+     * @return \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\ResultInterface|\Magento\Framework\View\Result\Page
      */
     public function execute()
     {
-        $this->_view->loadLayout();
-        $this->_view->renderLayout();
         $data = $this->getRequest()->getParam('main_fieldset');
-        $integratedSeller = false;
+        $id = $this->getRequest()->getParam('id');
 
-        if (is_array($data)) {
-            $seller = $this->seller->create();
+        if ($id && is_array($data)) {
+            $seller = $this->seller->create()->load($id);
             $seller->addData($data['seller_information']);
             $seller->addData(['business_address' => json_encode($data['seller_address'])]);
             $seller->addData(['mailing_address' => json_encode($data['seller_address'])]);
@@ -69,36 +77,26 @@ class NewAction extends \Magento\Backend\App\Action
             $seller->addData(['phone' => json_encode($data['phone'])]);
             $seller->addData(['cellphone' => json_encode($data['cellphone'])]);
             $seller->addData(['list_commissions' => json_encode($data['list_commissions'])]);
-            $seller->addData(['type' => 'PF']);
 
             try {
-                $integratedSeller = $this->client->createSellerPf($seller->getData());
+                $updatedSeller = $this->client->pfUpdateSubSeller($seller->getData());
 
-                if (!isset($integratedSeller['subseller_id'])) {
-                    throw new \Exception(__('Error Create Seller, Please try again!'));
+                if (!isset($updatedSeller['success'])) {
+                    throw new \Exception(__('Error Update Seller, Please try again!'));
                 }
-
-                $seller->addData([
-                    'subseller_id' => $integratedSeller['subseller_id'],
-                    'fiscal_type' => $integratedSeller['fiscal_type'],
-                    'enabled' => $integratedSeller['enabled'],
-                    'status' => $integratedSeller['status'],
-                    'capture_payments_enabled' => $integratedSeller['capture_payments_enabled'],
-                    'anticipation_enabled' => $integratedSeller['anticipation_enabled'],
-                    'lock_schedule' => $integratedSeller['lock_schedule'],
-                    'lock_capture_payments' => $integratedSeller['lock_capture_payments'],
-                    'merchant_id' => $integratedSeller['merchant_id']
-                ]);
 
                 $seller->save();
 
                 $this->messageManager->addSuccessMessage('Seller Successfully Saved!');
-            } catch (\Exception $e) {
-                $this->messageManager->addErrorMessage($e->getMessage());
-            }
 
-            $resultRedirect = $this->resultRedirectFactory->create();
-            return $resultRedirect->setPath('*/*/index');
+                $resultRedirect = $this->resultRedirectFactory->create();
+
+                return $resultRedirect->setPath('*/*/index');
+            } catch (\Exception $e) {
+                $this->messageManager->addErrorMessage(__('Error saving the Seller, please try again!'));
+            }
         }
+
+        return $this->resultPageFactory->create();
     }
 }

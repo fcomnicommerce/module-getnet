@@ -73,6 +73,12 @@ class NewAction extends \Magento\Backend\App\Action
                 $integratedSeller = $this->client->createSellerPf($seller->getData());
 
                 if (!isset($integratedSeller['subseller_id'])) {
+                    if (isset($integratedSeller['ModelState'])) {
+                        foreach ($integratedSeller['ModelState'] as $key => $msg) {
+                            $this->messageManager->addErrorMessage($key . ': ' . $msg[0]);
+                        }
+                    }
+
                     throw new \Exception(__('Error Create Seller, Please try again!'));
                 }
 

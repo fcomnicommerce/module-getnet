@@ -79,6 +79,12 @@ class Edit extends Action
                 $updatedSeller = $this->client->pfUpdateSubSeller($seller->getData());
 
                 if (!isset($updatedSeller['success'])) {
+                    if (isset($updatedSeller['ModelState'])) {
+                        foreach ($updatedSeller['ModelState'] as $key => $msg) {
+                            $this->messageManager->addErrorMessage($key . ': ' . $msg[0]);
+                        }
+                    }
+
                     throw new \Exception(__('Error Update Seller, Please try again!'));
                 }
 

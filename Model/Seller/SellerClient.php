@@ -212,7 +212,6 @@ class SellerClient
             'birth_date' => date_format($birthDate, 'Y-m-d'),
             'mothers_name' => $sellerData['mothers_name'],
             'occupation' => $sellerData['occupation'],
-            'monthly_gross_income' => (double) $sellerData['monthly_gross_income'],
             'business_address' => [
                 'mailing_address_equals' => 'S',
                 'street' => $businessAddress['street'],
@@ -223,9 +222,7 @@ class SellerClient
                 'postal_code' => $businessAddress['postal_code']
             ],
             'mailing_address' => $businessAddress,
-            'working_hours' => [json_decode($sellerData['working_hours'], true)],
             'phone' => json_decode($sellerData['phone'], true),
-            'cellphone' => json_decode($sellerData['cellphone'], true),
             'email' => $sellerData['email'],
             'acquirer_merchant_category_code' => $sellerData['acquirer_merchant_category_code'],
             'bank_accounts' => [

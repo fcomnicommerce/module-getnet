@@ -67,7 +67,7 @@ class CustomActionList extends Container
             ],
             'pj' => [
                 'label' => __('Pessoa Jurídica'),
-                'onclick' => "setLocation('" . $this->getUrl('fcamara_getnet/sellerpj/newactionpj') . "')",
+                'onclick' => "setLocation('" . $this->getUrl('fcamara_getnet/sellerpj/newaction') . "')",
                 'default' => false
             ]
         ];

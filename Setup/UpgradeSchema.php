@@ -250,7 +250,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
                     ->addColumn(
                         'list_commissions',
                         \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-                        255
+                        null
                     )
                     ->addColumn(
                         'accepted_contract',

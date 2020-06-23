@@ -69,7 +69,6 @@ class DataProvider extends AbstractDataProvider
             $merchantId = $seller->getData('merchant_id');
             $legalDocumentNumber = $seller->getData('legal_document_number');
             $type = $seller->getData('type');
-            $listCommissionsSerialize = unserialize($seller->getData('list_commissions'));
 
             if ($type == 'PF') {
                 $registrationComplement = $this->client->pfCallback($merchantId, $legalDocumentNumber);
@@ -101,7 +100,7 @@ class DataProvider extends AbstractDataProvider
                 'seller_address' => json_decode($seller->getData('business_address'), true),
                 'working_hours' => json_decode($seller->getData('working_hours'), true),
                 'bank_accounts' => json_decode($seller->getData('bank_accounts'), true),
-                'list_commissions' => json_decode($listCommissionsSerialize, true),
+                'list_commissions' => json_decode($seller->getData('list_commissions'), true),
             ];
         }
 

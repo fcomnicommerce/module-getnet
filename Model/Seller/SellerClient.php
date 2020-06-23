@@ -168,10 +168,9 @@ class SellerClient
             'payment_plan' => $sellerData['payment_plan']
         ];
 
-        $listCommissionsSerialize = unserialize($sellerData['list_commissions']);
         $listCommissions = [];
 
-        foreach (json_decode($listCommissionsSerialize, true) as $key => $commission) {
+        foreach (json_decode($sellerData['list_commissions'], true) as $key => $commission) {
             if (!$commission['product'] || !$commission['commission_percentage'] || !$commission['payment_plan']) {
                 continue;
             }

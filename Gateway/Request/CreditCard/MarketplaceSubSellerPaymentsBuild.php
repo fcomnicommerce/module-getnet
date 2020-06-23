@@ -34,7 +34,19 @@ class MarketplaceSubSellerPaymentsBuild implements BuilderInterface
         /** @var PaymentDataObjectInterface $paymentDO */
         $paymentDO = $buildSubject['payment'];
         $order = $paymentDO->getOrder();
-        $payment = $paymentDO->getPayment();
+        $sellers = [];
+
+        foreach ($order->getItems() as $item) {
+            if ($item->getData('seller_id') && $item->getData('price') > 0) {
+                $sellers[$item->getData('seller_id')] = [
+                    'price' => $item->getData('price'),
+                    'discount_amount' => $item->getData('discount_amount'),
+                    'sku' => $item->getData('sku'),
+                    'name' => $item->getData('name'),
+                    'qty_ordered' => $item->getData('qty_ordered')
+                ];
+            }
+        }
 
         $response = [
             'marketplace_subseller_payments' => [

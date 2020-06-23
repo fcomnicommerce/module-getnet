@@ -51,7 +51,7 @@ class SellerId extends AbstractSource
             foreach ($items as $item) {
                 $this->_options[] = [
                     'label' => $item->getData('legal_name'),
-                    'value' => $item->getData('entity_id')
+                    'value' => $item->getData('subseller_id')
                 ];
             }
         }

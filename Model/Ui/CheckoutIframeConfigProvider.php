@@ -70,6 +70,10 @@ class CheckoutIframeConfigProvider implements ConfigProviderInterface
      */
     public function getConfig()
     {
+        if (!$this->creditCardConfig->isEnabledCheckoutIframe()) {
+            return [];
+        }
+
         $output['payment']['getnet_checkout_iframe'] = [];
         $quote = $this->checkoutSession->getQuote();
         $customer = $this->customerSession->getCustomer();

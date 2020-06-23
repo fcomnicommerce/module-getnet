@@ -117,7 +117,7 @@ interface ConfigInterface
     /**
      * Enabled config path Checkout Iframe
      */
-    const XML_PATH_ENABLED_CHECKOUT_IFRAME = 'payment/getnet/checkout_iframe_enabled';
+    const XML_PATH_ENABLED_CHECKOUT_IFRAME = 'payment/getnet_checkout_iframe/active';
 
     /**
      * Url config path Checkout Iframe

@@ -43,16 +43,14 @@ class PaymentPlan extends DataObject implements OptionSourceInterface
      */
     public function toOptionArray()
     {
-        $options = [];
+        $options = $paymentPlans = [];
         $paymentPlans = $this->sellerClient->pfConsultPaymentPlans();
 
-        if (count($paymentPlans)) {
-            foreach ($paymentPlans as $plan) {
-                $options[] = [
-                    'label' => $plan['name'] . ' - Antecipação (' . $plan['anticipation'] . ')' ,
-                    'value' => $plan['paymentplan_id']
-                ];
-            }
+        foreach ($paymentPlans as $plan) {
+            $options[] = [
+                'label' => $plan['name'] . ' - Antecipação (' . $plan['anticipation'] . ')' ,
+                'value' => $plan['paymentplan_id']
+            ];
         }
 
         return $options;

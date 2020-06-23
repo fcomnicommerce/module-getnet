@@ -162,12 +162,28 @@ class SellerClient
                     'account_digit' => $bankAccounts['account_digit']
                 ]
             ],
-            'list_commissions' => [json_decode($sellerData['list_commissions'], true)],
             'accepted_contract' => $sellerData['accepted_contract'],
             'liability_chargeback' => $sellerData['liability_chargeback'],
             'marketplace_store' => $sellerData['marketplace_store'],
             'payment_plan' => $sellerData['payment_plan']
         ];
+
+        $listCommissions = [];
+
+        foreach (json_decode($sellerData['list_commissions'], true) as $key => $commission) {
+            if (!$commission['product'] || !$commission['commission_percentage'] || !$commission['payment_plan']) {
+                continue;
+            }
+
+            $listCommissions[] = [
+                'brand' => $key,
+                'product' => $commission['product'],
+                'commission_percentage' => $commission['commission_percentage'],
+                'payment_plan' => $commission['payment_plan']
+            ];
+        }
+
+        $data['list_commissions'] = $listCommissions;
 
         $client = $this->httpClientFactory->create();
         $client->setUri($this->sellerConfig->pfCreatePreSubSellerEndpoint());

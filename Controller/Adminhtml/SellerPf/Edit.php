@@ -74,6 +74,7 @@ class Edit extends Action
             $seller->addData(['mailing_address' => json_encode($data['seller_address'])]);
             $seller->addData(['bank_accounts' => json_encode($data['bank_accounts'])]);
             $seller->addData(['phone' => json_encode($data['phone'])]);
+            $seller->addData(['list_commissions' => json_encode($data['list_commissions'])]);
 
             try {
                 $updatedSeller = $this->client->pfUpdateSubSeller($seller->getData());

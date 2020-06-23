@@ -46,13 +46,16 @@ interface SellerConfigInterface
     /**
      * Api client id config path
      */
-    public const XML_PATH_CLIENT_ID = 'payment/getnet/client_id';
+    public const XML_PATH_CLIENT_ID = 'getnet/split/client_id';
 
     /**
      * Api client secret config path
      */
-    public const XML_PATH_CLIENT_SECRET = 'payment/getnet/client_secret';
+    public const XML_PATH_CLIENT_SECRET = 'getnet/split/client_secret';
 
+    /**
+     * Api merchant id config path
+     */
     public const XML_PATH_MERCHANT_ID = 'payment/getnet/merchant_id';
 
     /**

@@ -369,6 +369,151 @@ class UpgradeSchema implements UpgradeSchemaInterface
             }
         }
 
+        if (version_compare($context->getVersion(), '0.7.0', '<')) {
+            $installer = $setup;
+            if ($installer->tableExists('fcamara_getnet_seller')) {
+                $installer->getConnection()->addColumn(
+                    $installer->getTable('fcamara_getnet_seller'),
+                    'sex',
+                    [
+                        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        'nullable' => true,
+                        'comment'  => 'Sex'
+                    ]
+                );
+
+                $installer->getConnection()->addColumn(
+                    $installer->getTable('fcamara_getnet_seller'),
+                    'marital_status',
+                    [
+                        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        'nullable' => true,
+                        'comment'  => 'Marital Status'
+                    ]
+                );
+
+                $installer->getConnection()->addColumn(
+                    $installer->getTable('fcamara_getnet_seller'),
+                    'nationality',
+                    [
+                        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        'nullable' => true,
+                        'comment'  => 'Nationality'
+                    ]
+                );
+
+                $installer->getConnection()->addColumn(
+                    $installer->getTable('fcamara_getnet_seller'),
+                    'fathers_name',
+                    [
+                        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        'nullable' => true,
+                        'comment'  => 'Fathers Name'
+                    ]
+                );
+
+                $installer->getConnection()->addColumn(
+                    $installer->getTable('fcamara_getnet_seller'),
+                    'spouse_name',
+                    [
+                        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        'nullable' => true,
+                        'comment'  => 'Spouse Name'
+                    ]
+                );
+
+                $installer->getConnection()->addColumn(
+                    $installer->getTable('fcamara_getnet_seller'),
+                    'birth_place',
+                    [
+                        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        'nullable' => true,
+                        'comment'  => 'Birth Place'
+                    ]
+                );
+
+                $installer->getConnection()->addColumn(
+                    $installer->getTable('fcamara_getnet_seller'),
+                    'birth_city',
+                    [
+                        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        'nullable' => true,
+                        'comment'  => 'Birth City'
+                    ]
+                );
+
+                $installer->getConnection()->addColumn(
+                    $installer->getTable('fcamara_getnet_seller'),
+                    'birth_state',
+                    [
+                        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        'nullable' => true,
+                        'comment'  => 'Birth State'
+                    ]
+                );
+
+                $installer->getConnection()->addColumn(
+                    $installer->getTable('fcamara_getnet_seller'),
+                    'birth_country',
+                    [
+                        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        'nullable' => true,
+                        'comment'  => 'Birth Country'
+                    ]
+                );
+
+                $installer->getConnection()->addColumn(
+                    $installer->getTable('fcamara_getnet_seller'),
+                    'ppe_indication',
+                    [
+                        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        'nullable' => true,
+                        'comment'  => 'PPE Indication'
+                    ]
+                );
+
+                $installer->getConnection()->addColumn(
+                    $installer->getTable('fcamara_getnet_seller'),
+                    'ppe_description',
+                    [
+                        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        'nullable' => true,
+                        'comment'  => 'PPE Description'
+                    ]
+                );
+
+                $installer->getConnection()->addColumn(
+                    $installer->getTable('fcamara_getnet_seller'),
+                    'identification_document',
+                    [
+                        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        'nullable' => true,
+                        'comment'  => 'Identification Document'
+                    ]
+                );
+
+                $installer->getConnection()->addColumn(
+                    $installer->getTable('fcamara_getnet_seller'),
+                    'patrimony',
+                    [
+                        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+                        'nullable' => true,
+                        'comment'  => 'Patrimony Value'
+                    ]
+                );
+
+                $installer->getConnection()->addColumn(
+                    $installer->getTable('fcamara_getnet_seller'),
+                    'social_value',
+                    [
+                        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+                        'nullable' => true,
+                        'comment'  => 'Social Value'
+                    ]
+                );
+            }
+        }
+
         $setup->endSetup();
     }
 }

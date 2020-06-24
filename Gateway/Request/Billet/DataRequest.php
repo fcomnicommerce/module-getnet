@@ -22,9 +22,39 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Magento\Payment\Gateway\Request\BuilderInterface;
+use FCamara\Getnet\Model\Config\SellerConfig;
+use FCamara\Getnet\Model\SellerFactory;
+use FCamara\Getnet\Model\Seller\SellerClient;
+use FCamara\Getnet\Model\Seller\SellerClientPj;
 
 class DataRequest implements BuilderInterface
 {
+    public const STATUS_SELLER_APPROVED = [
+        'Aprovado Transacionar',
+        'Aprovado Transacionar e Antecipar',
+        'Aprovado'
+    ];
+
+    /**
+     * @var SellerFactory
+     */
+    protected $seller;
+
+    /**
+     * @var SellerClient
+     */
+    protected $clientPf;
+
+    /**
+     * @var SellerClientPj
+     */
+    protected $clientPj;
+
+    /**
+     * @var SellerConfig
+     */
+    protected $sellerConfig;
+
     /**
      * @var ConfigInterface
      */
@@ -41,18 +71,31 @@ class DataRequest implements BuilderInterface
     private $timezone;
 
     /**
+     * DataRequest constructor.
      * @param ConfigInterface $config
      * @param TimezoneInterface $timezone
      * @param Session $checkoutSession
+     * @param SellerConfig $sellerConfig
+     * @param SellerFactory $seller
+     * @param SellerClient $clientPf
+     * @param SellerClientPj $clientPj
      */
     public function __construct(
         ConfigInterface $config,
         TimezoneInterface $timezone,
-        Session $checkoutSession
+        Session $checkoutSession,
+        SellerConfig $sellerConfig,
+        SellerFactory $seller,
+        SellerClient $clientPf,
+        SellerClientPj $clientPj
     ) {
         $this->config = $config;
         $this->checkoutSession = $checkoutSession;
         $this->timezone = $timezone;
+        $this->sellerConfig = $sellerConfig;
+        $this->seller = $seller;
+        $this->clientPf = $clientPf;
+        $this->clientPj = $clientPj;
     }
 
     /**
@@ -143,6 +186,75 @@ class DataRequest implements BuilderInterface
             ],
         ];
 
+        if ($this->sellerConfig->isEnabled()) {
+            $sellers = [];
+            $subSellerSalesAmount = [];
+
+            foreach ($order->getItems() as $item) {
+                if ($item->getPrice() <= 0) {
+                    continue;
+                }
+
+                $product = $item->getProduct();
+
+                if ($product->getSellerId()) {
+                    $sellerData = $this->seller->create()->loadBySubSellerId($product->getSellerId());
+
+                    if (!$this->checkSellerIsApproved($sellerData)) {
+                        continue;
+                    }
+
+                    $sellers[$product->getSellerId()]['order_items'][] = [
+                        'amount' => (($item->getPrice() - $item->getDiscountAmount()) * $item->getQtyOrdered()) * 100,
+                        'currency' => 'BRL',
+                        'id' => $product->getId(),
+                        'description' => $product->getName()
+                    ];
+                }
+            }
+
+            $amount = 0;
+            foreach ($sellers as $sellerId => $seller) {
+                foreach ($seller['order_items'] as $orderItem) {
+                    $amount += $orderItem['amount'];
+                    $subSellerSalesAmount[$sellerId] = ['subseller_sales_amount' => $amount];
+                }
+
+                $response['marketplace_subseller_payments'][] = [
+                    'subseller_sales_amount' => (int) $subSellerSalesAmount[$sellerId]['subseller_sales_amount'],
+                    'subseller_id' => $sellerId,
+                    'order_items' => $sellers[$sellerId]['order_items']
+                ];
+            }
+        }
+
         return $response;
+    }
+
+    /**
+     * @param $seller
+     * @return bool
+     */
+    protected function checkSellerIsApproved($seller)
+    {
+        $result = false;
+
+        if ($seller['type'] == 'PF') {
+            $pfCallback = $this->clientPf->pfCallback($seller['merchant_id'], $seller['legal_document_number']);
+
+            if (array_key_exists($pfCallback['status'], self::STATUS_SELLER_APPROVED)) {
+                $result = true;
+            }
+        }
+
+        if ($seller['type'] == 'PJ') {
+            $pfCallback = $this->clientPj->pjCallback($seller['merchant_id'], $seller['legal_document_number']);
+
+            if (array_key_exists($pfCallback['status'], self::STATUS_SELLER_APPROVED)) {
+                $result = true;
+            }
+        }
+
+        return $result;
     }
 }

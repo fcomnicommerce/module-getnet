@@ -17,7 +17,6 @@ declare(strict_types=1);
 
 namespace FCamara\Getnet\Gateway\Validator;
 
-
 use Magento\Payment\Gateway\Validator\AbstractValidator;
 use Magento\Payment\Gateway\Validator\ResultInterface;
 

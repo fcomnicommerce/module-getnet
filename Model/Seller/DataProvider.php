@@ -78,50 +78,10 @@ class DataProvider extends AbstractDataProvider
             $merchantId = $seller->getData('merchant_id');
             $legalDocumentNumber = $seller->getData('legal_document_number');
             $type = $seller->getData('type');
+            $registrationComplement = $this->registrationComplement($type, $merchantId, $legalDocumentNumber);
 
-            if ($type == 'PF') {
-                $registrationComplement = $this->client->pfCallback($merchantId, $legalDocumentNumber);
-
-                if (isset($registrationComplement['subseller_id'])) {
-                    $seller->addData([
-                        'subseller_id' => $registrationComplement['subseller_id'],
-                        'legal_document_number' => $registrationComplement['legal_document_number'],
-                        'fiscal_type' => $registrationComplement['fiscal_type'],
-                        'enabled' => $registrationComplement['enabled'],
-                        'status' => $registrationComplement['status'],
-                        'payment_plan' => $registrationComplement['payment_plan'],
-                        'capture_payments_enabled' => $registrationComplement['capture_payments_enabled'],
-                        'anticipation_enabled' => $registrationComplement['anticipation_enabled'],
-                        'accepted_contract' => $registrationComplement['accepted_contract'],
-                        'lock_schedule' => $registrationComplement['lock_schedule'],
-                        'lock_capture_payments' => $registrationComplement['lock_capture_payments']
-                    ]);
-
-                    $seller->save();
-                }
-            }
-
-            if ($type == 'PJ') {
-                $registrationComplement = $this->clientPj->pjCallback($merchantId, $legalDocumentNumber);
-
-                if (isset($registrationComplement['subseller_id'])) {
-                    $seller->addData([
-                        'subseller_id' => $registrationComplement['subseller_id'],
-                        'legal_document_number' => $registrationComplement['legal_document_number'],
-                        'fiscal_type' => $registrationComplement['fiscal_type'],
-                        'enabled' => $registrationComplement['enabled'],
-                        'status' => $registrationComplement['status'],
-                        'payment_plan' => $registrationComplement['payment_plan'],
-                        'capture_payments_enabled' => $registrationComplement['capture_payments_enabled'],
-                        'anticipation_enabled' => $registrationComplement['anticipation_enabled'],
-                        'accepted_contract' => $registrationComplement['accepted_contract'],
-                        'lock_schedule' => $registrationComplement['lock_schedule'],
-                        'lock_capture_payments' => $registrationComplement['lock_capture_payments']
-                    ]);
-
-                    $seller->save();
-                }
-            }
+            $seller->addData($registrationComplement);
+            $seller->save($registrationComplement);
 
 
             $this->loadedData[$seller->getId()]['main_fieldset'] = [
@@ -136,5 +96,43 @@ class DataProvider extends AbstractDataProvider
         }
 
         return $this->loadedData;
+    }
+
+    /**
+     * @param $type
+     * @param $merchantId
+     * @param $legalDocumentNumber
+     * @return array
+     */
+    protected function registrationComplement($type, $merchantId, $legalDocumentNumber)
+    {
+        $data = [];
+        $registrationComplement = [];
+
+        if ($type == 'PF') {
+            $registrationComplement = $this->client->pfCallback($merchantId, $legalDocumentNumber);
+        }
+
+        if ($type == 'PJ') {
+            $registrationComplement = $this->clientPj->pjCallback($merchantId, $legalDocumentNumber);
+        }
+
+        if (isset($registrationComplement['subseller_id'])) {
+            $data = [
+                'subseller_id' => $registrationComplement['subseller_id'],
+                'legal_document_number' => $registrationComplement['legal_document_number'],
+                'fiscal_type' => $registrationComplement['fiscal_type'],
+                'enabled' => $registrationComplement['enabled'],
+                'status' => $registrationComplement['status'],
+                'payment_plan' => $registrationComplement['payment_plan'],
+                'capture_payments_enabled' => $registrationComplement['capture_payments_enabled'],
+                'anticipation_enabled' => $registrationComplement['anticipation_enabled'],
+                'accepted_contract' => $registrationComplement['accepted_contract'],
+                'lock_schedule' => $registrationComplement['lock_schedule'],
+                'lock_capture_payments' => $registrationComplement['lock_capture_payments']
+            ];
+        }
+
+        return $data;
     }
 }

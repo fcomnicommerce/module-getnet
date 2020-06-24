@@ -19,9 +19,18 @@ namespace FCamara\Getnet\Gateway\Request\CreditCard;
 use Magento\Payment\Gateway\Request\BuilderInterface;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use FCamara\Getnet\Model\Config\SellerConfig;
+use FCamara\Getnet\Model\Seller;
 
 class MarketplaceSubSellerPaymentsBuild implements BuilderInterface
 {
+    public const STATUS_SELLER_APPROVED = [
+        'Aprovado Transacionar',
+        'Aprovado Transacionar e Antecipar',
+        'Aprovado'
+    ];
+
+    protected $seller;
+
     /**
      * @var SellerConfig
      */
@@ -30,10 +39,12 @@ class MarketplaceSubSellerPaymentsBuild implements BuilderInterface
     /**
      * MarketplaceSubSellerPaymentsBuild constructor.
      * @param SellerConfig $sellerConfig
+     * @param Seller $seller
      */
-    public function __construct(SellerConfig $sellerConfig)
+    public function __construct(SellerConfig $sellerConfig, SellerFactory $seller)
     {
         $this->sellerConfig = $sellerConfig;
+        $this->seller = $seller;
     }
 
     /**
@@ -65,6 +76,13 @@ class MarketplaceSubSellerPaymentsBuild implements BuilderInterface
             $product = $item->getProduct();
 
             if ($product->getSellerId()) {
+                $loadSeller = $this->seller->create();
+                $loadSeller->loadBySubSellerId($product->getSellerId());
+
+                if (!$this->checkSellerIsApproved($loadSeller)) {
+                    continue;
+                }
+
                 $sellers[$product->getSellerId()]['order_items'][] = [
                     'amount' => (($item->getPrice() - $item->getDiscountAmount()) * $item->getQtyOrdered()) * 100,
                     'currency' => 'BRL',
@@ -89,5 +107,10 @@ class MarketplaceSubSellerPaymentsBuild implements BuilderInterface
         }
 
         return $response;
+    }
+
+    protected function checkSellerIsApproved($seller)
+    {
+
     }
 }

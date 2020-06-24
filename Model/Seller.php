@@ -46,4 +46,14 @@ class Seller extends \Magento\Framework\Model\AbstractModel implements \Magento\
 
         return $values;
     }
+
+    /**
+     * @param $sellerId
+     * @return mixed
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function loadBySubSellerId($sellerId)
+    {
+        return $this->_getResource()->loadBySubSellerId($sellerId);
+    }
 }

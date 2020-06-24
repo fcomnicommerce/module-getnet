@@ -19,6 +19,13 @@ namespace FCamara\Getnet\Model\ResourceModel;
 class Seller extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
 {
     /**
+     * DB connection
+     *
+     * @var \Magento\Framework\DB\Adapter\AdapterInterface
+     */
+    protected $connection;
+
+    /**
      * Seller constructor.
      * @param \Magento\Framework\Model\ResourceModel\Db\Context $context
      */
@@ -28,8 +35,31 @@ class Seller extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
         parent::__construct($context);
     }
 
+    /**
+     * Initialize resource model. Get tablename from config
+     *
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('fcamara_getnet_seller', 'entity_id');
+        $this->connection = $this->getConnection();
+    }
+
+    /**
+     * @param $sellerId
+     * @return array
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function loadBySubSellerId($sellerId)
+    {
+        $select = $this->connection->select()->from($this->getMainTable())->where('subseller_id=:subseller_id');
+        $result = $this->connection->fetchRow($select, ['subseller_id' => $sellerId]);
+
+        if (!$result) {
+            return [];
+        }
+
+        return $result;
     }
 }

@@ -22,13 +22,13 @@ use FCamara\Getnet\Model\Config\SellerConfig;
 
 class SellerClient
 {
-    const SUCCESS_CODES = [
+    public const SUCCESS_CODES = [
         200,
         201,
         202
     ];
 
-    const CONFIG_HTTP_CLIENT = [
+    public const CONFIG_HTTP_CLIENT = [
         'maxredirects'    => 5,
         'strictredirects' => false,
         'useragent'       => 'Zend_Http_Client',

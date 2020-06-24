@@ -18,6 +18,7 @@ namespace FCamara\Getnet\Model\Seller;
 use FCamara\Getnet\Model\ResourceModel\Seller\CollectionFactory;
 use Magento\Ui\DataProvider\AbstractDataProvider;
 use FCamara\Getnet\Model\Seller\SellerClient;
+use FCamara\Getnet\Model\Seller\SellerClientPj;
 
 class DataProvider extends AbstractDataProvider
 {
@@ -27,12 +28,18 @@ class DataProvider extends AbstractDataProvider
     protected $client;
 
     /**
+     * @var \FCamara\Getnet\Model\Seller\SellerClientPj
+     */
+    protected $clientPj;
+
+    /**
      * DataProvider constructor.
      * @param $name
      * @param $primaryFieldName
      * @param $requestFieldName
      * @param CollectionFactory $sellerCollectionFactory
      * @param \FCamara\Getnet\Model\Seller\SellerClient $client
+     * @param \FCamara\Getnet\Model\Seller\SellerClientPj $clientPj
      * @param array $meta
      * @param array $data
      */
@@ -42,11 +49,13 @@ class DataProvider extends AbstractDataProvider
         $requestFieldName,
         CollectionFactory $sellerCollectionFactory,
         SellerClient $client,
+        SellerClientPj $clientPj,
         array $meta = [],
         array $data = []
     ) {
         $this->collection = $sellerCollectionFactory->create();
         $this->client = $client;
+        $this->clientPj = $clientPj;
 
         parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data);
     }
@@ -72,6 +81,28 @@ class DataProvider extends AbstractDataProvider
 
             if ($type == 'PF') {
                 $registrationComplement = $this->client->pfCallback($merchantId, $legalDocumentNumber);
+
+                if (isset($registrationComplement['subseller_id'])) {
+                    $seller->addData([
+                        'subseller_id' => $registrationComplement['subseller_id'],
+                        'legal_document_number' => $registrationComplement['legal_document_number'],
+                        'fiscal_type' => $registrationComplement['fiscal_type'],
+                        'enabled' => $registrationComplement['enabled'],
+                        'status' => $registrationComplement['status'],
+                        'payment_plan' => $registrationComplement['payment_plan'],
+                        'capture_payments_enabled' => $registrationComplement['capture_payments_enabled'],
+                        'anticipation_enabled' => $registrationComplement['anticipation_enabled'],
+                        'accepted_contract' => $registrationComplement['accepted_contract'],
+                        'lock_schedule' => $registrationComplement['lock_schedule'],
+                        'lock_capture_payments' => $registrationComplement['lock_capture_payments']
+                    ]);
+
+                    $seller->save();
+                }
+            }
+
+            if ($type == 'PJ') {
+                $registrationComplement = $this->clientPj->pjCallback($merchantId, $legalDocumentNumber);
 
                 if (isset($registrationComplement['subseller_id'])) {
                     $seller->addData([

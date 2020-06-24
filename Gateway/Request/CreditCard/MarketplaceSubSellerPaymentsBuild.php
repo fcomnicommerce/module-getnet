@@ -19,7 +19,9 @@ namespace FCamara\Getnet\Gateway\Request\CreditCard;
 use Magento\Payment\Gateway\Request\BuilderInterface;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use FCamara\Getnet\Model\Config\SellerConfig;
-use FCamara\Getnet\Model\Seller;
+use FCamara\Getnet\Model\SellerFactory;
+use FCamara\Getnet\Model\Seller\SellerClient;
+use FCamara\Getnet\Model\Seller\SellerClientPj;
 
 class MarketplaceSubSellerPaymentsBuild implements BuilderInterface
 {
@@ -29,7 +31,20 @@ class MarketplaceSubSellerPaymentsBuild implements BuilderInterface
         'Aprovado'
     ];
 
+    /**
+     * @var SellerFactory
+     */
     protected $seller;
+
+    /**
+     * @var SellerClient
+     */
+    protected $clientPf;
+
+    /**
+     * @var SellerClientPj
+     */
+    protected $clientPj;
 
     /**
      * @var SellerConfig
@@ -39,12 +54,21 @@ class MarketplaceSubSellerPaymentsBuild implements BuilderInterface
     /**
      * MarketplaceSubSellerPaymentsBuild constructor.
      * @param SellerConfig $sellerConfig
-     * @param Seller $seller
+     * @param SellerFactory $seller
+     * @param SellerClient $clientPf
+     * @param SellerClientPj $clientPj
      */
-    public function __construct(SellerConfig $sellerConfig, SellerFactory $seller)
-    {
+    public function __construct(
+        SellerConfig $sellerConfig,
+        SellerFactory $seller,
+        SellerClient $clientPf,
+        SellerClientPj $clientPj
+
+    ) {
         $this->sellerConfig = $sellerConfig;
         $this->seller = $seller;
+        $this->clientPf = $clientPf;
+        $this->clientPj = $clientPj;
     }
 
     /**
@@ -76,10 +100,9 @@ class MarketplaceSubSellerPaymentsBuild implements BuilderInterface
             $product = $item->getProduct();
 
             if ($product->getSellerId()) {
-                $loadSeller = $this->seller->create();
-                $loadSeller->loadBySubSellerId($product->getSellerId());
+                $sellerData = $this->seller->create()->loadBySubSellerId($product->getSellerId());
 
-                if (!$this->checkSellerIsApproved($loadSeller)) {
+                if (!$this->checkSellerIsApproved($sellerData)) {
                     continue;
                 }
 
@@ -109,8 +132,30 @@ class MarketplaceSubSellerPaymentsBuild implements BuilderInterface
         return $response;
     }
 
+    /**
+     * @param $seller
+     * @return bool
+     */
     protected function checkSellerIsApproved($seller)
     {
+        $result = false;
 
+        if ($seller['type'] == 'PF') {
+            $pfCallback = $this->clientPf->pfCallback($seller['merchant_id'], $seller['legal_document_number']);
+
+            if (array_key_exists($pfCallback['status'], self::STATUS_SELLER_APPROVED)) {
+                $result = true;
+            }
+        }
+
+        if ($seller['type'] == 'PJ') {
+            $pfCallback = $this->clientPj->pjCallback($seller['merchant_id'], $seller['legal_document_number']);
+
+            if (array_key_exists($pfCallback['status'], self::STATUS_SELLER_APPROVED)) {
+                $result = true;
+            }
+        }
+
+        return $result;
     }
 }

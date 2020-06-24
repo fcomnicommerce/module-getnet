@@ -18,9 +18,24 @@ namespace FCamara\Getnet\Gateway\Request\CreditCard;
 
 use Magento\Payment\Gateway\Request\BuilderInterface;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
+use FCamara\Getnet\Model\Config\SellerConfig;
 
 class MarketplaceSubSellerPaymentsBuild implements BuilderInterface
 {
+    /**
+     * @var SellerConfig
+     */
+    protected $sellerConfig;
+
+    /**
+     * MarketplaceSubSellerPaymentsBuild constructor.
+     * @param SellerConfig $sellerConfig
+     */
+    public function __construct(SellerConfig $sellerConfig)
+    {
+        $this->sellerConfig = $sellerConfig;
+    }
+
     /**
      * @param array $buildSubject
      * @return array
@@ -31,35 +46,47 @@ class MarketplaceSubSellerPaymentsBuild implements BuilderInterface
             throw new \InvalidArgumentException('Payment data object should be provided');
         }
 
+        if (!$this->sellerConfig->isEnabled()) {
+            return [];
+        }
+
         /** @var PaymentDataObjectInterface $paymentDO */
         $paymentDO = $buildSubject['payment'];
         $order = $paymentDO->getOrder();
         $sellers = [];
+        $subSellerSalesAmount = [];
+        $response = [];
 
         foreach ($order->getItems() as $item) {
-            if ($item->getData('seller_id') && $item->getData('price') > 0) {
-                $sellers[$item->getData('seller_id')] = [
-                    'price' => $item->getData('price'),
-                    'discount_amount' => $item->getData('discount_amount'),
-                    'sku' => $item->getData('sku'),
-                    'name' => $item->getData('name'),
-                    'qty_ordered' => $item->getData('qty_ordered')
+            if ($item->getPrice() <= 0) {
+                continue;
+            }
+
+            $product = $item->getProduct();
+
+            if ($product->getSellerId()) {
+                $sellers[$product->getSellerId()]['order_items'][] = [
+                    'amount' => (($item->getPrice() - $item->getDiscountAmount()) * $item->getQtyOrdered()) * 100,
+                    'currency' => 'BRL',
+                    'id' => $product->getId(),
+                    'description' => $product->getName()
                 ];
             }
         }
 
-        $response = [
-            'marketplace_subseller_payments' => [
-                'subseller_sales_amount' => 10202,
-                'subseller_id' => 10,
-                'order_items' => [
-                    'amount' => 10202,
-                    'currency' => 'BRL',
-                    'id' => 1,
-                    'description' => 'Descrição do Item/Produto'
-                ]
-            ]
-        ];
+        $amount = 0;
+        foreach ($sellers as $sellerId => $seller) {
+            foreach ($seller['order_items'] as $orderItem) {
+                $amount += $orderItem['amount'];
+                $subSellerSalesAmount[$sellerId] = ['subseller_sales_amount' => $amount];
+            }
+
+            $response['marketplace_subseller_payments'][] = [
+                'subseller_sales_amount' => (int) $subSellerSalesAmount[$sellerId]['subseller_sales_amount'],
+                'subseller_id' => $sellerId,
+                'order_items' => $sellers[$sellerId]['order_items']
+            ];
+        }
 
         return $response;
     }

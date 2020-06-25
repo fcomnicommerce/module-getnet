@@ -87,12 +87,24 @@ class DataProvider extends AbstractDataProvider
             $this->loadedData[$seller->getId()]['main_fieldset'] = [
                 'seller_information' => $seller->getData(),
                 'phone' => json_decode($seller->getData('phone'), true),
-                'cellphone' => json_decode($seller->getData('cellphone'), true),
                 'seller_address' => json_decode($seller->getData('business_address'), true),
-                'working_hours' => json_decode($seller->getData('working_hours'), true),
                 'bank_accounts' => json_decode($seller->getData('bank_accounts'), true),
                 'list_commissions' => json_decode($seller->getData('list_commissions'), true),
             ];
+
+            if ($seller->getData('cellphone')) {
+                $this->loadedData[$seller->getId()]['main_fieldset']['cellphone'] = json_decode(
+                    $seller->getData('cellphone'),
+                    true
+                );
+            }
+
+            if ($seller->getData('working_hours')) {
+                $this->loadedData[$seller->getId()]['main_fieldset']['working_hours'] = json_decode(
+                    $seller->getData('working_hours'),
+                    true
+                );
+            }
         }
 
         return $this->loadedData;

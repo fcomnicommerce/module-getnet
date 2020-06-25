@@ -339,7 +339,7 @@ class SellerClient
                     if (!$value) {
                         continue;
                     }
-                    $data['date'] = date_create($value);
+                    $data['date'] = date_format(date_create($value), 'Y-m-d');
                     break;
                 case 'working_hours':
                     if (!$value) {
@@ -347,18 +347,28 @@ class SellerClient
                     }
                     $data[$key] = json_decode($value, true);
                     break;
-                case 'phone':
+                    /*case 'phone':
                     if (!$value) {
                         continue;
                     }
-                    $data['phones'][] = json_decode($value, true);
+                    $phone = json_decode($value, true);
+                    $data['phones'][] = [
+                        'phone_type' => $key,
+                        'area_code' => $phone['area_code'],
+                        'phone_number' => $phone['phone_number']
+                    ];
                     break;
                 case 'cellphone':
                     if (!$value) {
                         continue;
                     }
-                    $data['phones'][] = json_decode($value, true);
-                    break;
+                    $cellphone = json_decode($value, true);
+                    $data['phones'][] = [
+                        'phone_type' => $key,
+                        'area_code' => $cellphone['area_code'],
+                        'phone_number' => $cellphone['phone_number']
+                    ];
+                    break;*/
                 case 'business_address':
                     if (!$value) {
                         continue;
@@ -390,15 +400,21 @@ class SellerClient
                     ];
                     break;
                 case 'identification_document':
-                    if (!$value) {
+                    $identificationDocument = json_decode($value, true);
+                    if (!$value || !$identificationDocument['document_type']) {
                         continue;
                     }
-                    $identificationDocument = json_decode($value, true);
                     $data[$key] = [
                         'document_type' => $identificationDocument['document_type'],
                         'document_number' => $identificationDocument['document_number'],
-                        'document_issue_date' => date_create($identificationDocument['document_issue_date']),
-                        'document_expiration_date' => date_create($identificationDocument['document_expiration_date']),
+                        'document_issue_date' => date_format(
+                            date_create($identificationDocument['document_issue_date']),
+                            'Y-m-d'
+                        ),
+                        'document_expiration_date' => date_format(
+                            date_create($identificationDocument['document_expiration_date']),
+                            'Y-m-d'
+                        ),
                         'document_issuer' => $identificationDocument['document_issuer'],
                         'document_issuer_state' => $identificationDocument['document_issuer_state']
                     ];
@@ -442,7 +458,9 @@ class SellerClient
                         ];
                     }
 
-                    $data[$key] = $listCommissions;
+                    if ($listCommissions) {
+                        $data[$key] = $listCommissions;
+                    }
                     break;
                 default:
                     break;

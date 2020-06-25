@@ -82,7 +82,7 @@ class Edit extends Action
             $seller->addData(['cellphone' => json_encode($data['cellphone'])]);
 
             try {
-                if ($seller->getStatus() == 'Tratativa Cadastro') {
+                if ($seller->getStatus() == self::STATUS_AWAITING_DEALING_MKP) {
                     $updatedSeller = $this->client->pfUpdateComplement($seller->getData());
                 } else {
                     $updatedSeller = $this->client->pfUpdateSubSeller($seller->getData());

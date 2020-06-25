@@ -181,4 +181,72 @@ class Data extends AbstractHelper
 
         return $data;
     }
+
+    /**
+     * @param array $sellerData
+     * @return array
+     */
+    public function pfUpdateSubSellerArray($sellerData = [])
+    {
+        $data = [];
+        $birthDate = date_create($sellerData['birth_date']);
+        $businessAddress = json_decode($sellerData['business_address'], true);
+        $bankAccounts = json_decode($sellerData['bank_accounts'], true);
+
+        $data = [
+            'subseller_id' => $sellerData['subseller_id'],
+            'merchant_id' => $sellerData['merchant_id'],
+            'legal_document_number' => $sellerData['legal_document_number'],
+            'legal_name' => $sellerData['legal_name'],
+            'birth_date' => date_format($birthDate, 'Y-m-d'),
+            'mothers_name' => $sellerData['mothers_name'],
+            'occupation' => $sellerData['occupation'],
+            'business_address' => [
+                'mailing_address_equals' => 'S',
+                'street' => $businessAddress['street'],
+                'number' => $businessAddress['number'],
+                'district' => $businessAddress['district'],
+                'city' => $businessAddress['city'],
+                'state' => $businessAddress['state'],
+                'postal_code' => $businessAddress['postal_code']
+            ],
+            'mailing_address' => $businessAddress,
+            'phone' => json_decode($sellerData['phone'], true),
+            'email' => $sellerData['email'],
+            'acquirer_merchant_category_code' => $sellerData['acquirer_merchant_category_code'],
+            'bank_accounts' => [
+                'type_accounts' => 'unique',
+                'unique_account' => [
+                    'bank' => $bankAccounts['bank'],
+                    'agency' => $bankAccounts['agency'],
+                    'account' => $bankAccounts['account'],
+                    'account_type' => $bankAccounts['account_type'],
+                    'account_digit' => $bankAccounts['account_digit']
+                ]
+            ],
+            'accepted_contract' => $sellerData['accepted_contract'],
+            'liability_chargeback' => $sellerData['liability_chargeback'],
+            'marketplace_store' => $sellerData['marketplace_store'],
+            'payment_plan' => (int) $sellerData['payment_plan']
+        ];
+
+        $listCommissions = [];
+
+        foreach (json_decode($sellerData['list_commissions'], true) as $key => $commission) {
+            if (!$commission['product'] || !$commission['commission_percentage'] || !$commission['payment_plan']) {
+                continue;
+            }
+
+            $listCommissions[] = [
+                'brand' => $key,
+                'product' => $commission['product'],
+                'commission_percentage' => $commission['commission_percentage'],
+                'payment_plan' => $commission['payment_plan']
+            ];
+        }
+
+        $data['list_commissions'] = $listCommissions;
+
+        return $data;
+    }
 }

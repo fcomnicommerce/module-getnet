@@ -19,6 +19,7 @@ use Magento\Checkout\Model\Session;
 use Psr\Log\LoggerInterface;
 use Magento\Framework\HTTP\ZendClientFactory;
 use FCamara\Getnet\Model\Config\SellerConfig;
+use FCamara\Getnet\Helper\Data as SellerHelper;
 
 class SellerClient
 {
@@ -64,11 +65,17 @@ class SellerClient
     private $logger;
 
     /**
+     * @var SellerHelper
+     */
+    protected $sellerHelper;
+
+    /**
      * SellerClient constructor.
      * @param ZendClientFactory $httpClientFactory
      * @param SellerConfig $sellerConfig
      * @param Session $session
      * @param LoggerInterface $logger
+     * @param SellerHelper $sellerHelper
      * @throws \Magento\Framework\Exception\LocalizedException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
@@ -76,12 +83,14 @@ class SellerClient
         ZendClientFactory $httpClientFactory,
         SellerConfig $sellerConfig,
         Session $session,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        SellerHelper $sellerHelper
     ) {
         $this->sellerConfig = $sellerConfig;
         $this->httpClientFactory = $httpClientFactory;
         $this->quote = $session->getQuote();
         $this->logger = $logger;
+        $this->sellerHelper = $sellerHelper;
     }
 
     /**
@@ -304,168 +313,7 @@ class SellerClient
             return $responseBody;
         }
 
-        $data = [];
-
-        foreach ($sellerData as $key => $value) {
-            switch ($key) {
-                case 'merchant_id':
-                case 'subseller_id':
-                case 'legal_document_number':
-                case 'legal_name':
-                case 'email':
-                case 'payment_plan':
-                case 'marketplace_store':
-                case 'sex':
-                case 'marital_status':
-                case 'nationality':
-                case 'mothers_name':
-                case 'fathers_name':
-                case 'spouse_name':
-                case 'birth_place':
-                case 'birth_city':
-                case 'birth_state':
-                case 'birth_country':
-                case 'occupation':
-                case 'monthly_income':
-                case 'ppe_indication':
-                case 'ppe_description':
-                case 'patrimony':
-                    if (!$value) {
-                        continue;
-                    }
-                    $data[$key] = $value;
-                    break;
-                case 'birth_date':
-                    if (!$value) {
-                        continue;
-                    }
-                    $data['date'] = date_format(date_create($value), 'Y-m-d');
-                    break;
-                case 'working_hours':
-                    if (!$value) {
-                        continue;
-                    }
-                    $data[$key] = json_decode($value, true);
-                    break;
-                    /*case 'phone':
-                    if (!$value) {
-                        continue;
-                    }
-                    $phone = json_decode($value, true);
-                    $data['phones'][] = [
-                        'phone_type' => $key,
-                        'area_code' => $phone['area_code'],
-                        'phone_number' => $phone['phone_number']
-                    ];
-                    break;
-                case 'cellphone':
-                    if (!$value) {
-                        continue;
-                    }
-                    $cellphone = json_decode($value, true);
-                    $data['phones'][] = [
-                        'phone_type' => $key,
-                        'area_code' => $cellphone['area_code'],
-                        'phone_number' => $cellphone['phone_number']
-                    ];
-                    break;*/
-                case 'business_address':
-                    if (!$value) {
-                        continue;
-                    }
-                    $businessAddress = json_decode($value, true);
-                    $data['adresses'][] = [
-                        'address_type' => 'business',
-                        'street' => $businessAddress['street'],
-                        'number' => $businessAddress['number'],
-                        'district' => $businessAddress['district'],
-                        'city' => $businessAddress['city'],
-                        'state' => $businessAddress['state'],
-                        'postal_code' => $businessAddress['postal_code']
-                    ];
-                    break;
-                case 'mailing_address':
-                    if (!$value) {
-                        continue;
-                    }
-                    $mailingAddress = json_decode($value, true);
-                    $data['adresses'][] = [
-                        'address_type' => 'mailing',
-                        'street' => $mailingAddress['street'],
-                        'number' => $mailingAddress['number'],
-                        'district' => $mailingAddress['district'],
-                        'city' => $mailingAddress['city'],
-                        'state' => $mailingAddress['state'],
-                        'postal_code' => $mailingAddress['postal_code']
-                    ];
-                    break;
-                case 'identification_document':
-                    $identificationDocument = json_decode($value, true);
-                    if (!$value || !$identificationDocument['document_type']) {
-                        continue;
-                    }
-                    $data[$key] = [
-                        'document_type' => $identificationDocument['document_type'],
-                        'document_number' => $identificationDocument['document_number'],
-                        'document_issue_date' => date_format(
-                            date_create($identificationDocument['document_issue_date']),
-                            'Y-m-d'
-                        ),
-                        'document_expiration_date' => date_format(
-                            date_create($identificationDocument['document_expiration_date']),
-                            'Y-m-d'
-                        ),
-                        'document_issuer' => $identificationDocument['document_issuer'],
-                        'document_issuer_state' => $identificationDocument['document_issuer_state']
-                    ];
-                    break;
-                case 'bank_accounts':
-                    if (!$value) {
-                        continue;
-                    }
-                    $bankAccounts = json_decode($value, true);
-                    $data[$key] = [
-                        'type_accounts' => 'unique',
-                        'unique_account' => [
-                            'bank' => $bankAccounts['bank'],
-                            'agency' => $bankAccounts['agency'],
-                            'account' => $bankAccounts['account'],
-                            'account_type' => $bankAccounts['account_type'],
-                            'account_digit' => $bankAccounts['account_digit']
-                        ]
-                    ];
-                    break;
-                case 'list_commissions':
-                    if (!$value) {
-                        continue;
-                    }
-                    $listCommissions = [];
-
-                    foreach (json_decode($value, true) as $keyCommission => $commission) {
-                        if (
-                            !$commission['product']
-                            || !$commission['commission_percentage']
-                            || !$commission['payment_plan']
-                        ) {
-                            continue;
-                        }
-
-                        $listCommissions[] = [
-                            'brand' => $keyCommission,
-                            'product' => $commission['product'],
-                            'commission_percentage' => $commission['commission_percentage'],
-                            'payment_plan' => $commission['payment_plan']
-                        ];
-                    }
-
-                    if ($listCommissions) {
-                        $data[$key] = $listCommissions;
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
+        $data = $this->sellerHelper->pfUpdateComplementArray($sellerData);
 
         $client = $this->httpClientFactory->create();
         $client->setUri($this->sellerConfig->pfComplementEndpoint());

@@ -24,6 +24,8 @@ use FCamara\Getnet\Model\Seller\SellerClient;
 
 class Edit extends Action
 {
+    public const STATUS_AWAITING_DEALING_MKP = 'Aguardando Tratativa MKP';
+
     /**
      * @var SellerFactory
      */
@@ -75,9 +77,16 @@ class Edit extends Action
             $seller->addData(['bank_accounts' => json_encode($data['bank_accounts'])]);
             $seller->addData(['phone' => json_encode($data['phone'])]);
             $seller->addData(['list_commissions' => json_encode($data['list_commissions'])]);
+            $seller->addData(['working_hours' => json_encode($data['working_hours'])]);
+            $seller->addData(['identification_document' => json_encode($data['identification_document'])]);
+            $seller->addData(['cellphone' => json_encode($data['cellphone'])]);
 
             try {
-                $updatedSeller = $this->client->pfUpdateSubSeller($seller->getData());
+                if ($seller->getStatus() == 'Tratativa Cadastro') {
+                    $updatedSeller = $this->client->pfUpdateComplement($seller->getData());
+                } else {
+                    $updatedSeller = $this->client->pfUpdateSubSeller($seller->getData());
+                }
 
                 if (!isset($updatedSeller['success'])) {
                     if (isset($updatedSeller['ModelState'])) {

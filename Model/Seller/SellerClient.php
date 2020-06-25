@@ -292,6 +292,181 @@ class SellerClient
     }
 
     /**
+     * @param array $sellerData
+     * @return bool|mixed
+     */
+    public function pfUpdateComplement($sellerData = [])
+    {
+        $token = $this->authentication();
+        $responseBody = false;
+
+        if (!$token) {
+            return $responseBody;
+        }
+
+        $data = [];
+
+        foreach ($sellerData as $key => $value) {
+            switch ($key) {
+                case 'merchant_id':
+                case 'subseller_id':
+                case 'legal_document_number':
+                case 'legal_name':
+                case 'email':
+                case 'payment_plan':
+                case 'marketplace_store':
+                case 'sex':
+                case 'marital_status':
+                case 'nationality':
+                case 'mothers_name':
+                case 'fathers_name':
+                case 'spouse_name':
+                case 'birth_place':
+                case 'birth_city':
+                case 'birth_state':
+                case 'birth_country':
+                case 'occupation':
+                case 'monthly_income':
+                case 'ppe_indication':
+                case 'ppe_description':
+                case 'patrimony':
+                    if (!$value) {
+                        continue;
+                    }
+                    $data[$key] = $value;
+                    break;
+                case 'birth_date':
+                    if (!$value) {
+                        continue;
+                    }
+                    $data['date'] = date_create($value);
+                    break;
+                case 'working_hours':
+                    if (!$value) {
+                        continue;
+                    }
+                    $data[$key] = json_decode($value, true);
+                    break;
+                case 'phone':
+                    if (!$value) {
+                        continue;
+                    }
+                    $data['phones'][] = json_decode($value, true);
+                    break;
+                case 'cellphone':
+                    if (!$value) {
+                        continue;
+                    }
+                    $data['phones'][] = json_decode($value, true);
+                    break;
+                case 'business_address':
+                    if (!$value) {
+                        continue;
+                    }
+                    $businessAddress = json_decode($value, true);
+                    $data['adresses'][] = [
+                        'address_type' => 'business',
+                        'street' => $businessAddress['street'],
+                        'number' => $businessAddress['number'],
+                        'district' => $businessAddress['district'],
+                        'city' => $businessAddress['city'],
+                        'state' => $businessAddress['state'],
+                        'postal_code' => $businessAddress['postal_code']
+                    ];
+                    break;
+                case 'mailing_address':
+                    if (!$value) {
+                        continue;
+                    }
+                    $mailingAddress = json_decode($value, true);
+                    $data['adresses'][] = [
+                        'address_type' => 'mailing',
+                        'street' => $mailingAddress['street'],
+                        'number' => $mailingAddress['number'],
+                        'district' => $mailingAddress['district'],
+                        'city' => $mailingAddress['city'],
+                        'state' => $mailingAddress['state'],
+                        'postal_code' => $mailingAddress['postal_code']
+                    ];
+                    break;
+                case 'identification_document':
+                    if (!$value) {
+                        continue;
+                    }
+                    $identificationDocument = json_decode($value, true);
+                    $data[$key] = [
+                        'document_type' => $identificationDocument['document_type'],
+                        'document_number' => $identificationDocument['document_number'],
+                        'document_issue_date' => date_create($identificationDocument['document_issue_date']),
+                        'document_expiration_date' => date_create($identificationDocument['document_expiration_date']),
+                        'document_issuer' => $identificationDocument['document_issuer'],
+                        'document_issuer_state' => $identificationDocument['document_issuer_state']
+                    ];
+                    break;
+                case 'bank_accounts':
+                    if (!$value) {
+                        continue;
+                    }
+                    $bankAccounts = json_decode($value, true);
+                    $data[$key] = [
+                        'type_accounts' => 'unique',
+                        'unique_account' => [
+                            'bank' => $bankAccounts['bank'],
+                            'agency' => $bankAccounts['agency'],
+                            'account' => $bankAccounts['account'],
+                            'account_type' => $bankAccounts['account_type'],
+                            'account_digit' => $bankAccounts['account_digit']
+                        ]
+                    ];
+                    break;
+                case 'list_commissions':
+                    if (!$value) {
+                        continue;
+                    }
+                    $listCommissions = [];
+
+                    foreach (json_decode($value, true) as $keyCommission => $commission) {
+                        if (
+                            !$commission['product']
+                            || !$commission['commission_percentage']
+                            || !$commission['payment_plan']
+                        ) {
+                            continue;
+                        }
+
+                        $listCommissions[] = [
+                            'brand' => $keyCommission,
+                            'product' => $commission['product'],
+                            'commission_percentage' => $commission['commission_percentage'],
+                            'payment_plan' => $commission['payment_plan']
+                        ];
+                    }
+
+                    $data[$key] = $listCommissions;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        $client = $this->httpClientFactory->create();
+        $client->setUri($this->sellerConfig->pfComplementEndpoint());
+        $client->setConfig(self::CONFIG_HTTP_CLIENT);
+        $client->setHeaders(['content-type: application/json; charset=utf-8']);
+        $client->setHeaders('Authorization', 'Bearer ' . $token);
+        $client->setMethod(\Zend_Http_Client::PUT);
+        $client->setRawData(json_encode($data));
+
+        try {
+            $responseBody = json_decode($client->request()->getBody(), true);
+        } catch (\Exception $e) {
+            $this->logger->critical('Error message', ['exception' => $e]);
+        }
+
+        return $responseBody;
+    }
+
+    /**
      * @return bool|mixed
      */
     public function pfConsultPaymentPlans()

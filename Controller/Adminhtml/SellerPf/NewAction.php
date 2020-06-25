@@ -67,6 +67,9 @@ class NewAction extends \Magento\Backend\App\Action
             $seller->addData(['bank_accounts' => json_encode($data['bank_accounts'])]);
             $seller->addData(['phone' => json_encode($data['phone'])]);
             $seller->addData(['list_commissions' => json_encode($data['list_commissions'])]);
+            $seller->addData(['working_hours' => json_encode($data['working_hours'])]);
+            $seller->addData(['identification_document' => json_encode($data['identification_document'])]);
+            $seller->addData(['cellphone' => json_encode($data['cellphone'])]);
             $seller->addData(['type' => 'PF']);
 
             try {

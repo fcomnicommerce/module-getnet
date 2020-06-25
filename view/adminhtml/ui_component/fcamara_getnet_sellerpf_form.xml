@@ -718,9 +718,6 @@
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
                         <item name="source" xsi:type="string">seller</item>
-                        <item name="validation" xsi:type="array">
-                            <item name="required-entry" xsi:type="boolean">false</item>
-                        </item>
                     </item>
                 </argument>
                 <settings>
@@ -728,7 +725,7 @@
                         <rule name="validate-date" xsi:type="boolean">true</rule>
                     </validation>
                     <dataType>text</dataType>
-                    <label translate="true">Data de Data de Emissão/Expedição do Documento de Identificação</label>
+                    <label translate="true">Data de Emissão/Expedição do Documento de Identificação</label>
                     <visible>true</visible>
                     <dataScope>document_issue_date</dataScope>
                 </settings>
@@ -738,9 +735,6 @@
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
                         <item name="source" xsi:type="string">seller</item>
-                        <item name="validation" xsi:type="array">
-                            <item name="required-entry" xsi:type="boolean">false</item>
-                        </item>
                     </item>
                 </argument>
                 <settings>

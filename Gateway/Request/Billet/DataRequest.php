@@ -213,8 +213,9 @@ class DataRequest implements BuilderInterface
                 }
             }
 
-            $amount = 0;
             foreach ($sellers as $sellerId => $seller) {
+                $amount = 0;
+
                 foreach ($seller['order_items'] as $orderItem) {
                     $amount += $orderItem['amount'];
                     $subSellerSalesAmount[$sellerId] = ['subseller_sales_amount' => $amount];

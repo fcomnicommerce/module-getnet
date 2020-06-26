@@ -271,7 +271,7 @@ class Data extends AbstractHelper
                 case 'list_commissions':
                     $listCommissions = [];
 
-                    foreach (json_decode($sellerData['list_commissions'], true) as $key => $commission) {
+                    foreach (json_decode($value, true) as $keyCommission => $commission) {
                         if (
                             !$commission['product']
                             || !$commission['commission_percentage']
@@ -281,14 +281,14 @@ class Data extends AbstractHelper
                         }
 
                         $listCommissions[] = [
-                            'brand' => $key,
+                            'brand' => $keyCommission,
                             'product' => $commission['product'],
                             'commission_percentage' => $commission['commission_percentage'],
                             'payment_plan' => $commission['payment_plan']
                         ];
                     }
 
-                    $data['list_commissions'] = $listCommissions;
+                    $data[$key] = $listCommissions;
                     break;
             }
         }
@@ -386,7 +386,7 @@ class Data extends AbstractHelper
                 case 'list_commissions':
                     $listCommissions = [];
 
-                    foreach (json_decode($sellerData['list_commissions'], true) as $key => $commission) {
+                    foreach (json_decode($value, true) as $keyCommission => $commission) {
                         if (
                             !$commission['product']
                             || !$commission['commission_percentage']
@@ -396,15 +396,123 @@ class Data extends AbstractHelper
                         }
 
                         $listCommissions[] = [
-                            'brand' => $key,
+                            'brand' => $keyCommission,
                             'product' => $commission['product'],
                             'commission_percentage' => $commission['commission_percentage'],
                             'payment_plan' => $commission['payment_plan']
                         ];
                     }
 
-                    $data['list_commissions'] = $listCommissions;
+                    $data[$key] = $listCommissions;
                     break;
+            }
+        }
+
+        return $data;
+    }
+
+    /**
+     * @param array $sellerData
+     * @return array
+     */
+    public function createSellerPjArray($sellerData = [])
+    {
+        $data = [];
+
+        foreach ($sellerData as $key => $value) {
+            switch ($key) {
+                case 'merchant_id':
+                case 'legal_document_number':
+                case 'legal_name':
+                case 'trade_name':
+                case 'state_fiscal_document_number':
+                case 'email':
+                case 'accepted_contract':
+                case 'liability_chargeback':
+                case 'marketplace_store':
+                case 'payment_plan':
+                case 'business_entity_type':
+                case 'economic_activity_classification_code':
+                case 'monthly_gross_income':
+                case 'federal_registration_status':
+                    if ($value) {
+                        $data[$key] = $value;
+                    }
+                    break;
+                case 'founding_date':
+                    if ($value) {
+                        $data[$key] = date_format(date_create($value), 'Y-m-d');
+                    }
+                    break;
+                case 'business_address':
+                    $businessAddress = json_decode($value, true);
+                    $data[$key] = [
+                        'mailing_address_equals' => 'S',
+                        'street' => $businessAddress['street'],
+                        'number' => $businessAddress['number'],
+                        'district' => $businessAddress['district'],
+                        'city' => $businessAddress['city'],
+                        'state' => $businessAddress['state'],
+                        'postal_code' => $businessAddress['postal_code']
+                    ];
+                    break;
+                case 'phone':
+                    $data[$key] = json_decode($value, true);
+                    break;
+                case 'cellphone':
+                    $cellphone = json_decode($value, true);
+                    if ($cellphone['area_code'] && $cellphone['phone_number']) {
+                        $data[$key] = $cellphone;
+                    }
+                    break;
+                case 'bank_accounts':
+                    $bankAccounts = json_decode($value, true);
+                    $data[$key] = [
+                        'type_accounts' => 'unique',
+                        'unique_account' => [
+                            'bank' => $bankAccounts['bank'],
+                            'agency' => $bankAccounts['agency'],
+                            'account' => $bankAccounts['account'],
+                            'account_type' => $bankAccounts['account_type'],
+                            'account_digit' => $bankAccounts['account_digit']
+                        ]
+                    ];
+                    break;
+                case 'list_commissions':
+                    $listCommissions = [];
+
+                    foreach (json_decode($value, true) as $keyCommission => $commission) {
+                        if (
+                            !$commission['product']
+                            || !$commission['commission_percentage']
+                            || !$commission['payment_plan']
+                        ) {
+                            continue;
+                        }
+
+                        $listCommissions[] = [
+                            'brand' => $keyCommission,
+                            'product' => $commission['product'],
+                            'commission_percentage' => $commission['commission_percentage'],
+                            'payment_plan' => $commission['payment_plan']
+                        ];
+                    }
+
+                    $data[$key] = $listCommissions;
+                    break;
+                case 'legal_representative':
+                    $legalRepresentative = json_decode($value, true);
+                    if (
+                        $legalRepresentative['name']
+                        && $legalRepresentative['birth_date']
+                        && $legalRepresentative['legal_document_number']
+                    ) {
+                        $data[$key] = [
+                            'name' => $legalRepresentative['name'],
+                            'birth_date' => date_format(date_create($legalRepresentative['birth_date']), 'Y-m-d'),
+                            'legal_document_number' => $legalRepresentative['legal_document_number']
+                        ];
+                    }
             }
         }
 

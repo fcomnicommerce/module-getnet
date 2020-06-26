@@ -280,6 +280,100 @@
                     </select>
                 </formElements>
             </field>
+
+            <field name="business_entity_type">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="label" xsi:type="string">Código da Natureza Jurídica</item>
+                        <item name="notice" xsi:type="string">Deve conter apenas dígitos numéricos; Deve ter 4 digitos numéricos</item>
+                        <item name="visible" xsi:type="boolean">true</item>
+                        <item name="dataType" xsi:type="string">text</item>
+                        <item name="formElement" xsi:type="string">input</item>
+                        <item name="source" xsi:type="string">seller</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">false</item>
+                            <item name="required-number" xsi:type="boolean">true</item>
+                            <item name="validate-number" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                </argument>
+            </field>
+
+            <field name="economic_activity_classification_code">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="label" xsi:type="string">CNAE</item>
+                        <item name="notice" xsi:type="string">Deve conter apenas dígitos numéricos; Deve ter 6 ou 7 digitos numéricos</item>
+                        <item name="visible" xsi:type="boolean">true</item>
+                        <item name="dataType" xsi:type="string">text</item>
+                        <item name="formElement" xsi:type="string">input</item>
+                        <item name="source" xsi:type="string">seller</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">false</item>
+                            <item name="required-number" xsi:type="boolean">true</item>
+                            <item name="validate-number" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                </argument>
+            </field>
+
+            <field name="monthly_gross_income">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="label" xsi:type="string">Faturamento Anual</item>
+                        <item name="notice" xsi:type="string">Deve conter apenas dígitos numéricos; Deve ser maior que zero</item>
+                        <item name="visible" xsi:type="boolean">true</item>
+                        <item name="dataType" xsi:type="string">text</item>
+                        <item name="formElement" xsi:type="string">input</item>
+                        <item name="source" xsi:type="string">seller</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">false</item>
+                            <item name="required-number" xsi:type="boolean">true</item>
+                            <item name="validate-number" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                </argument>
+            </field>
+
+            <field name="federal_registration_status" formElement="select">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="label" xsi:type="string">Situação na Receita Federal</item>
+                        <item name="source" xsi:type="string">seller</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">false</item>
+                        </item>
+                    </item>
+                </argument>
+                <settings>
+                    <dataType>string</dataType>
+                </settings>
+                <formElements>
+                    <select>
+                        <settings>
+                            <options class="FCamara\Getnet\Ui\Component\Form\FederalRegistrationStatus"/>
+                            <caption translate="true">-- Please Select --</caption>
+                        </settings>
+                    </select>
+                </formElements>
+            </field>
+
+            <field name="founding_date" formElement="date">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="source" xsi:type="string">seller</item>
+                    </item>
+                </argument>
+                <settings>
+                    <validation>
+                        <rule name="validate-date" xsi:type="boolean">true</rule>
+                    </validation>
+                    <dataType>text</dataType>
+                    <label translate="true">Data de Fundação do CNPJ</label>
+                    <visible>true</visible>
+                    <dataScope>founding_date</dataScope>
+                </settings>
+            </field>
         </fieldset>
 
         <fieldset name="phone">
@@ -318,6 +412,48 @@
                         <item name="source" xsi:type="string">seller</item>
                         <item name="validation" xsi:type="array">
                             <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                </argument>
+            </field>
+        </fieldset>
+
+        <fieldset name="cellphone">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Telefone Celular</item>
+                    <item name="collapsible" xsi:type="boolean">true</item>
+                    <item name="opened" xsi:type="boolean">false</item>
+                </item>
+            </argument>
+
+            <field name="area_code">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="label" xsi:type="string">DDD</item>
+                        <item name="notice" xsi:type="string">Deverá estar registrado na lista da ANATEL: 11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 22, 24, 27, 28, 31, 32, 33, 34, 35, 37, 38, 41, 42, 43, 44, 45, 46, 47, 48, 49, 51, 53, 54, 55, 61, 62, 63, 64, 65, 66, 69, 67, 68, 71, 73, 74, 75, 77, 79, 81, 87, 82, 83, 84, 85, 88, 86, 89, 91, 93, 94, 92, 97, 95, 96, 98, 99</item>
+                        <item name="visible" xsi:type="boolean">true</item>
+                        <item name="dataType" xsi:type="string">text</item>
+                        <item name="formElement" xsi:type="string">input</item>
+                        <item name="source" xsi:type="string">seller</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">false</item>
+                        </item>
+                    </item>
+                </argument>
+            </field>
+
+            <field name="phone_number">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="label" xsi:type="string">Número</item>
+                        <item name="notice" xsi:type="string" translate="true">Deverá ter 9 digito; Deverá obedecer a regra da ANATEL para número de celular; Para os DDD à seguir é preciso que primeiro digito seja = 9: 11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 22, 24, 27, 28, 31, 32, 33, 34, 35, 37, 38, 41, 42, 43, 44, 45, 68, 71, 73, 74, 75, 77, 79, 81, 87, 82, 83, 84, 85, 88, 86, 89, 91, 93, 94, 92, 97, 95, 96, 98, 99; Para os DDD à seguir é preciso que o primeiro digito seja = 9 e o segundo poderá ser: 9 ou 8 ou 7 e o total de digitos = 9: 41, 46, 47, 48, 49, 51, 53, 54, 55, 61, 62, 64, 65, 66, 67, 69, 68"</item>
+                        <item name="visible" xsi:type="boolean">true</item>
+                        <item name="dataType" xsi:type="string">text</item>
+                        <item name="formElement" xsi:type="string">input</item>
+                        <item name="source" xsi:type="string">seller</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">false</item>
                         </item>
                     </item>
                 </argument>
@@ -547,6 +683,692 @@
                         <item name="source" xsi:type="string">seller</item>
                         <item name="validation" xsi:type="array">
                             <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                </argument>
+            </field>
+        </fieldset>
+
+        <fieldset name="list_commissions">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Lista de Comissões</item>
+                    <item name="collapsible" xsi:type="boolean">true</item>
+                    <item name="opened" xsi:type="boolean">false</item>
+                </item>
+            </argument>
+
+            <fieldset name="MASTERCARD">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="label" xsi:type="string" translate="true">Master Card</item>
+                        <item name="collapsible" xsi:type="boolean">true</item>
+                        <item name="opened" xsi:type="boolean">false</item>
+                    </item>
+                </argument>
+
+                <field name="product" formElement="select">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="validation" xsi:type="array">
+                                <item name="required-entry" xsi:type="boolean">false</item>
+                            </item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <dataType>text</dataType>
+                        <label translate="true">Plano de venda</label>
+                        <dataScope>product</dataScope>
+                    </settings>
+                    <formElements>
+                        <select>
+                            <settings>
+                                <options class="FCamara\Getnet\Ui\Component\Form\ListCommissionsProduct" />
+                                <caption translate="true">-- Please Select --</caption>
+                            </settings>
+                        </select>
+                    </formElements>
+                </field>
+
+                <field name="commission_percentage">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="label" xsi:type="string">Valor percentual da taxa/comissão (%)</item>
+                            <item name="notice" xsi:type="string">Deve conter apenas dígitos numéricos e um separador de decimal (.); Deve conter dois dígitos de casa decimal; Valor deve estar entre 0.00 e 100.00</item>
+                            <item name="visible" xsi:type="boolean">true</item>
+                            <item name="dataType" xsi:type="string">number</item>
+                            <item name="formElement" xsi:type="string">input</item>
+                            <item name="source" xsi:type="string">seller</item>
+                            <item name="validation" xsi:type="array">
+                                <item name="required-entry" xsi:type="boolean">false</item>
+                                <item name="required-number" xsi:type="boolean">true</item>
+                                <item name="validate-number" xsi:type="boolean">true</item>
+                            </item>
+                        </item>
+                    </argument>
+                </field>
+
+                <field name="payment_plan" formElement="select">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="label" xsi:type="string">Plano de Pagamento</item>
+                            <item name="source" xsi:type="string">seller</item>
+                            <item name="validation" xsi:type="array">
+                                <item name="required-entry" xsi:type="boolean">false</item>
+                            </item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <dataType>string</dataType>
+                        <imports>
+                            <link name="value">${ $.provider }:data.list_commissions.payment_plan</link>
+                        </imports>
+                    </settings>
+                    <formElements>
+                        <select>
+                            <settings>
+                                <options class="FCamara\Getnet\Ui\Component\Form\PaymentPlan"/>
+                                <caption translate="true">-- Please Select --</caption>
+                            </settings>
+                        </select>
+                    </formElements>
+                </field>
+            </fieldset>
+
+            <fieldset name="MAESTRO">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="label" xsi:type="string" translate="true">Maestro</item>
+                        <item name="collapsible" xsi:type="boolean">true</item>
+                        <item name="opened" xsi:type="boolean">false</item>
+                    </item>
+                </argument>
+
+                <field name="product" formElement="select">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="validation" xsi:type="array">
+                                <item name="required-entry" xsi:type="boolean">false</item>
+                            </item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <dataType>text</dataType>
+                        <label translate="true">Plano de venda</label>
+                        <dataScope>product</dataScope>
+                    </settings>
+                    <formElements>
+                        <select>
+                            <settings>
+                                <options class="FCamara\Getnet\Ui\Component\Form\ListCommissionsProduct" />
+                                <caption translate="true">-- Please Select --</caption>
+                            </settings>
+                        </select>
+                    </formElements>
+                </field>
+
+                <field name="commission_percentage">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="label" xsi:type="string">Valor percentual da taxa/comissão (%)</item>
+                            <item name="notice" xsi:type="string">Deve conter apenas dígitos numéricos e um separador de decimal (.); Deve conter dois dígitos de casa decimal; Valor deve estar entre 0.00 e 100.00</item>
+                            <item name="visible" xsi:type="boolean">true</item>
+                            <item name="dataType" xsi:type="string">number</item>
+                            <item name="formElement" xsi:type="string">input</item>
+                            <item name="source" xsi:type="string">seller</item>
+                            <item name="validation" xsi:type="array">
+                                <item name="required-entry" xsi:type="boolean">false</item>
+                                <item name="required-number" xsi:type="boolean">true</item>
+                                <item name="validate-number" xsi:type="boolean">true</item>
+                            </item>
+                        </item>
+                    </argument>
+                </field>
+
+                <field name="payment_plan" formElement="select">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="label" xsi:type="string">Plano de Pagamento</item>
+                            <item name="source" xsi:type="string">seller</item>
+                            <item name="validation" xsi:type="array">
+                                <item name="required-entry" xsi:type="boolean">false</item>
+                            </item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <dataType>string</dataType>
+                        <imports>
+                            <link name="value">${ $.provider }:data.list_commissions.payment_plan</link>
+                        </imports>
+                    </settings>
+                    <formElements>
+                        <select>
+                            <settings>
+                                <options class="FCamara\Getnet\Ui\Component\Form\PaymentPlan"/>
+                                <caption translate="true">-- Please Select --</caption>
+                            </settings>
+                        </select>
+                    </formElements>
+                </field>
+            </fieldset>
+
+            <fieldset name="VISA">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="label" xsi:type="string" translate="true">Visa</item>
+                        <item name="collapsible" xsi:type="boolean">true</item>
+                        <item name="opened" xsi:type="boolean">false</item>
+                    </item>
+                </argument>
+
+                <field name="product" formElement="select">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="validation" xsi:type="array">
+                                <item name="required-entry" xsi:type="boolean">false</item>
+                            </item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <dataType>text</dataType>
+                        <label translate="true">Plano de venda</label>
+                        <dataScope>product</dataScope>
+                    </settings>
+                    <formElements>
+                        <select>
+                            <settings>
+                                <options class="FCamara\Getnet\Ui\Component\Form\ListCommissionsProduct" />
+                                <caption translate="true">-- Please Select --</caption>
+                            </settings>
+                        </select>
+                    </formElements>
+                </field>
+
+                <field name="commission_percentage">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="label" xsi:type="string">Valor percentual da taxa/comissão (%)</item>
+                            <item name="notice" xsi:type="string">Deve conter apenas dígitos numéricos e um separador de decimal (.); Deve conter dois dígitos de casa decimal; Valor deve estar entre 0.00 e 100.00</item>
+                            <item name="visible" xsi:type="boolean">true</item>
+                            <item name="dataType" xsi:type="string">number</item>
+                            <item name="formElement" xsi:type="string">input</item>
+                            <item name="source" xsi:type="string">seller</item>
+                            <item name="validation" xsi:type="array">
+                                <item name="required-entry" xsi:type="boolean">false</item>
+                                <item name="required-number" xsi:type="boolean">true</item>
+                                <item name="validate-number" xsi:type="boolean">true</item>
+                            </item>
+                        </item>
+                    </argument>
+                </field>
+
+                <field name="payment_plan" formElement="select">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="label" xsi:type="string">Plano de Pagamento</item>
+                            <item name="source" xsi:type="string">seller</item>
+                            <item name="validation" xsi:type="array">
+                                <item name="required-entry" xsi:type="boolean">false</item>
+                            </item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <dataType>string</dataType>
+                        <imports>
+                            <link name="value">${ $.provider }:data.list_commissions.payment_plan</link>
+                        </imports>
+                    </settings>
+                    <formElements>
+                        <select>
+                            <settings>
+                                <options class="FCamara\Getnet\Ui\Component\Form\PaymentPlan"/>
+                                <caption translate="true">-- Please Select --</caption>
+                            </settings>
+                        </select>
+                    </formElements>
+                </field>
+            </fieldset>
+
+            <fieldset name="VISA ELECTRON">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="label" xsi:type="string" translate="true">Visa Electron</item>
+                        <item name="collapsible" xsi:type="boolean">true</item>
+                        <item name="opened" xsi:type="boolean">false</item>
+                    </item>
+                </argument>
+
+                <field name="product" formElement="select">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="validation" xsi:type="array">
+                                <item name="required-entry" xsi:type="boolean">false</item>
+                            </item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <dataType>text</dataType>
+                        <label translate="true">Plano de venda</label>
+                        <dataScope>product</dataScope>
+                    </settings>
+                    <formElements>
+                        <select>
+                            <settings>
+                                <options class="FCamara\Getnet\Ui\Component\Form\ListCommissionsProduct" />
+                                <caption translate="true">-- Please Select --</caption>
+                            </settings>
+                        </select>
+                    </formElements>
+                </field>
+
+                <field name="commission_percentage">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="label" xsi:type="string">Valor percentual da taxa/comissão (%)</item>
+                            <item name="notice" xsi:type="string">Deve conter apenas dígitos numéricos e um separador de decimal (.); Deve conter dois dígitos de casa decimal; Valor deve estar entre 0.00 e 100.00</item>
+                            <item name="visible" xsi:type="boolean">true</item>
+                            <item name="dataType" xsi:type="string">number</item>
+                            <item name="formElement" xsi:type="string">input</item>
+                            <item name="source" xsi:type="string">seller</item>
+                            <item name="validation" xsi:type="array">
+                                <item name="required-entry" xsi:type="boolean">false</item>
+                                <item name="required-number" xsi:type="boolean">true</item>
+                                <item name="validate-number" xsi:type="boolean">true</item>
+                            </item>
+                        </item>
+                    </argument>
+                </field>
+
+                <field name="payment_plan" formElement="select">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="label" xsi:type="string">Plano de Pagamento</item>
+                            <item name="source" xsi:type="string">seller</item>
+                            <item name="validation" xsi:type="array">
+                                <item name="required-entry" xsi:type="boolean">false</item>
+                            </item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <dataType>string</dataType>
+                        <imports>
+                            <link name="value">${ $.provider }:data.list_commissions.payment_plan</link>
+                        </imports>
+                    </settings>
+                    <formElements>
+                        <select>
+                            <settings>
+                                <options class="FCamara\Getnet\Ui\Component\Form\PaymentPlan"/>
+                                <caption translate="true">-- Please Select --</caption>
+                            </settings>
+                        </select>
+                    </formElements>
+                </field>
+            </fieldset>
+
+            <fieldset name="AMEX">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="label" xsi:type="string" translate="true">American Express</item>
+                        <item name="collapsible" xsi:type="boolean">true</item>
+                        <item name="opened" xsi:type="boolean">false</item>
+                    </item>
+                </argument>
+
+                <field name="product" formElement="select">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="validation" xsi:type="array">
+                                <item name="required-entry" xsi:type="boolean">false</item>
+                            </item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <dataType>text</dataType>
+                        <label translate="true">Plano de venda</label>
+                        <dataScope>product</dataScope>
+                    </settings>
+                    <formElements>
+                        <select>
+                            <settings>
+                                <options class="FCamara\Getnet\Ui\Component\Form\ListCommissionsProduct" />
+                                <caption translate="true">-- Please Select --</caption>
+                            </settings>
+                        </select>
+                    </formElements>
+                </field>
+
+                <field name="commission_percentage">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="label" xsi:type="string">Valor percentual da taxa/comissão (%)</item>
+                            <item name="notice" xsi:type="string">Deve conter apenas dígitos numéricos e um separador de decimal (.); Deve conter dois dígitos de casa decimal; Valor deve estar entre 0.00 e 100.00</item>
+                            <item name="visible" xsi:type="boolean">true</item>
+                            <item name="dataType" xsi:type="string">number</item>
+                            <item name="formElement" xsi:type="string">input</item>
+                            <item name="source" xsi:type="string">seller</item>
+                            <item name="validation" xsi:type="array">
+                                <item name="required-entry" xsi:type="boolean">false</item>
+                                <item name="required-number" xsi:type="boolean">true</item>
+                                <item name="validate-number" xsi:type="boolean">true</item>
+                            </item>
+                        </item>
+                    </argument>
+                </field>
+
+                <field name="payment_plan" formElement="select">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="label" xsi:type="string">Plano de Pagamento</item>
+                            <item name="source" xsi:type="string">seller</item>
+                            <item name="validation" xsi:type="array">
+                                <item name="required-entry" xsi:type="boolean">false</item>
+                            </item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <dataType>string</dataType>
+                        <imports>
+                            <link name="value">${ $.provider }:data.list_commissions.payment_plan</link>
+                        </imports>
+                    </settings>
+                    <formElements>
+                        <select>
+                            <settings>
+                                <options class="FCamara\Getnet\Ui\Component\Form\PaymentPlan"/>
+                                <caption translate="true">-- Please Select --</caption>
+                            </settings>
+                        </select>
+                    </formElements>
+                </field>
+            </fieldset>
+
+            <fieldset name="ELO CRÉDITO">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="label" xsi:type="string" translate="true">Elo Crédito</item>
+                        <item name="collapsible" xsi:type="boolean">true</item>
+                        <item name="opened" xsi:type="boolean">false</item>
+                    </item>
+                </argument>
+
+                <field name="product" formElement="select">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="validation" xsi:type="array">
+                                <item name="required-entry" xsi:type="boolean">false</item>
+                            </item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <dataType>text</dataType>
+                        <label translate="true">Plano de venda</label>
+                        <dataScope>product</dataScope>
+                    </settings>
+                    <formElements>
+                        <select>
+                            <settings>
+                                <options class="FCamara\Getnet\Ui\Component\Form\ListCommissionsProduct" />
+                                <caption translate="true">-- Please Select --</caption>
+                            </settings>
+                        </select>
+                    </formElements>
+                </field>
+
+                <field name="commission_percentage">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="label" xsi:type="string">Valor percentual da taxa/comissão (%)</item>
+                            <item name="notice" xsi:type="string">Deve conter apenas dígitos numéricos e um separador de decimal (.); Deve conter dois dígitos de casa decimal; Valor deve estar entre 0.00 e 100.00</item>
+                            <item name="visible" xsi:type="boolean">true</item>
+                            <item name="dataType" xsi:type="string">number</item>
+                            <item name="formElement" xsi:type="string">input</item>
+                            <item name="source" xsi:type="string">seller</item>
+                            <item name="validation" xsi:type="array">
+                                <item name="required-entry" xsi:type="boolean">false</item>
+                                <item name="required-number" xsi:type="boolean">true</item>
+                                <item name="validate-number" xsi:type="boolean">true</item>
+                            </item>
+                        </item>
+                    </argument>
+                </field>
+
+                <field name="payment_plan" formElement="select">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="label" xsi:type="string">Plano de Pagamento</item>
+                            <item name="source" xsi:type="string">seller</item>
+                            <item name="validation" xsi:type="array">
+                                <item name="required-entry" xsi:type="boolean">false</item>
+                            </item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <dataType>string</dataType>
+                        <imports>
+                            <link name="value">${ $.provider }:data.list_commissions.payment_plan</link>
+                        </imports>
+                    </settings>
+                    <formElements>
+                        <select>
+                            <settings>
+                                <options class="FCamara\Getnet\Ui\Component\Form\PaymentPlan"/>
+                                <caption translate="true">-- Please Select --</caption>
+                            </settings>
+                        </select>
+                    </formElements>
+                </field>
+            </fieldset>
+
+            <fieldset name="ELO DÉBITO">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="label" xsi:type="string" translate="true">Elo Débito</item>
+                        <item name="collapsible" xsi:type="boolean">true</item>
+                        <item name="opened" xsi:type="boolean">false</item>
+                    </item>
+                </argument>
+
+                <field name="product" formElement="select">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="validation" xsi:type="array">
+                                <item name="required-entry" xsi:type="boolean">false</item>
+                            </item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <dataType>text</dataType>
+                        <label translate="true">Plano de venda</label>
+                        <dataScope>product</dataScope>
+                    </settings>
+                    <formElements>
+                        <select>
+                            <settings>
+                                <options class="FCamara\Getnet\Ui\Component\Form\ListCommissionsProduct" />
+                                <caption translate="true">-- Please Select --</caption>
+                            </settings>
+                        </select>
+                    </formElements>
+                </field>
+
+                <field name="commission_percentage">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="label" xsi:type="string">Valor percentual da taxa/comissão (%)</item>
+                            <item name="notice" xsi:type="string">Deve conter apenas dígitos numéricos e um separador de decimal (.); Deve conter dois dígitos de casa decimal; Valor deve estar entre 0.00 e 100.00</item>
+                            <item name="visible" xsi:type="boolean">true</item>
+                            <item name="dataType" xsi:type="string">number</item>
+                            <item name="formElement" xsi:type="string">input</item>
+                            <item name="source" xsi:type="string">seller</item>
+                            <item name="validation" xsi:type="array">
+                                <item name="required-entry" xsi:type="boolean">false</item>
+                                <item name="required-number" xsi:type="boolean">true</item>
+                                <item name="validate-number" xsi:type="boolean">true</item>
+                            </item>
+                        </item>
+                    </argument>
+                </field>
+
+                <field name="payment_plan" formElement="select">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="label" xsi:type="string">Plano de Pagamento</item>
+                            <item name="source" xsi:type="string">seller</item>
+                            <item name="validation" xsi:type="array">
+                                <item name="required-entry" xsi:type="boolean">false</item>
+                            </item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <dataType>string</dataType>
+                        <imports>
+                            <link name="value">${ $.provider }:data.list_commissions.payment_plan</link>
+                        </imports>
+                    </settings>
+                    <formElements>
+                        <select>
+                            <settings>
+                                <options class="FCamara\Getnet\Ui\Component\Form\PaymentPlan"/>
+                                <caption translate="true">-- Please Select --</caption>
+                            </settings>
+                        </select>
+                    </formElements>
+                </field>
+            </fieldset>
+
+            <fieldset name="HIPERCARD">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="label" xsi:type="string" translate="true">Hipercard</item>
+                        <item name="collapsible" xsi:type="boolean">true</item>
+                        <item name="opened" xsi:type="boolean">false</item>
+                    </item>
+                </argument>
+
+                <field name="product" formElement="select">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="validation" xsi:type="array">
+                                <item name="required-entry" xsi:type="boolean">false</item>
+                            </item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <dataType>text</dataType>
+                        <label translate="true">Plano de venda</label>
+                        <dataScope>product</dataScope>
+                    </settings>
+                    <formElements>
+                        <select>
+                            <settings>
+                                <options class="FCamara\Getnet\Ui\Component\Form\ListCommissionsProduct" />
+                                <caption translate="true">-- Please Select --</caption>
+                            </settings>
+                        </select>
+                    </formElements>
+                </field>
+
+                <field name="commission_percentage">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="label" xsi:type="string">Valor percentual da taxa/comissão (%)</item>
+                            <item name="notice" xsi:type="string">Deve conter apenas dígitos numéricos e um separador de decimal (.); Deve conter dois dígitos de casa decimal; Valor deve estar entre 0.00 e 100.00</item>
+                            <item name="visible" xsi:type="boolean">true</item>
+                            <item name="dataType" xsi:type="string">number</item>
+                            <item name="formElement" xsi:type="string">input</item>
+                            <item name="source" xsi:type="string">seller</item>
+                            <item name="validation" xsi:type="array">
+                                <item name="required-entry" xsi:type="boolean">false</item>
+                                <item name="required-number" xsi:type="boolean">true</item>
+                                <item name="validate-number" xsi:type="boolean">true</item>
+                            </item>
+                        </item>
+                    </argument>
+                </field>
+
+                <field name="payment_plan" formElement="select">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="label" xsi:type="string">Plano de Pagamento</item>
+                            <item name="source" xsi:type="string">seller</item>
+                            <item name="validation" xsi:type="array">
+                                <item name="required-entry" xsi:type="boolean">false</item>
+                            </item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <dataType>string</dataType>
+                        <imports>
+                            <link name="value">${ $.provider }:data.list_commissions.payment_plan</link>
+                        </imports>
+                    </settings>
+                    <formElements>
+                        <select>
+                            <settings>
+                                <options class="FCamara\Getnet\Ui\Component\Form\PaymentPlan"/>
+                                <caption translate="true">-- Please Select --</caption>
+                            </settings>
+                        </select>
+                    </formElements>
+                </field>
+            </fieldset>
+        </fieldset>
+
+        <fieldset name="legal_representative">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Representante legal do Subseller</item>
+                    <item name="collapsible" xsi:type="boolean">true</item>
+                    <item name="opened" xsi:type="boolean">false</item>
+                </item>
+            </argument>
+
+            <field name="name">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="label" xsi:type="string">Nome Completo</item>
+                        <item name="visible" xsi:type="boolean">true</item>
+                        <item name="dataType" xsi:type="string">text</item>
+                        <item name="formElement" xsi:type="string">input</item>
+                        <item name="source" xsi:type="string">seller</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">false</item>
+                        </item>
+                    </item>
+                </argument>
+            </field>
+
+            <field name="birth_date" formElement="date">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="source" xsi:type="string">seller</item>
+                    </item>
+                </argument>
+                <settings>
+                    <validation>
+                        <rule name="validate-date" xsi:type="boolean">true</rule>
+                    </validation>
+                    <dataType>text</dataType>
+                    <label translate="true">Data de Nascimento</label>
+                    <visible>true</visible>
+                    <dataScope>birth_date</dataScope>
+                </settings>
+            </field>
+
+            <field name="legal_document_number">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="label" xsi:type="string">CPF</item>
+                        <item name="notice" xsi:type="string">O número do CPF deve ser válido na receita federal do Brasil e estar em situação "REGULAR" ou "ATIVA".</item>
+                        <item name="visible" xsi:type="boolean">true</item>
+                        <item name="dataType" xsi:type="string">number</item>
+                        <item name="formElement" xsi:type="string">input</item>
+                        <item name="source" xsi:type="string">seller</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">false</item>
+                            <item name="required-number" xsi:type="boolean">true</item>
+                            <item name="validate-number" xsi:type="boolean">true</item>
                         </item>
                     </item>
                 </argument>

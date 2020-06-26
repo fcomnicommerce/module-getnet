@@ -20,6 +20,7 @@ use Magento\Checkout\Model\Session;
 use Psr\Log\LoggerInterface;
 use Magento\Framework\HTTP\ZendClientFactory;
 use FCamara\Getnet\Model\Config\SellerConfig;
+use FCamara\Getnet\Helper\Data as SellerHelper;
 
 class SellerClientPj
 {
@@ -65,11 +66,17 @@ class SellerClientPj
     private $logger;
 
     /**
-     * SellerClient constructor.
+     * @var SellerHelper
+     */
+    private $sellerHelper;
+
+    /**
+     * SellerClientPj constructor.
      * @param ZendClientFactory $httpClientFactory
      * @param SellerConfig $sellerConfig
      * @param Session $session
      * @param LoggerInterface $logger
+     * @param SellerHelper $sellerHelper
      * @throws \Magento\Framework\Exception\LocalizedException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
@@ -77,12 +84,14 @@ class SellerClientPj
         ZendClientFactory $httpClientFactory,
         SellerConfig $sellerConfig,
         Session $session,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        SellerHelper $sellerHelper
     ) {
         $this->sellerConfig = $sellerConfig;
         $this->httpClientFactory = $httpClientFactory;
         $this->quote = $session->getQuote();
         $this->logger = $logger;
+        $this->sellerHelper = $sellerHelper;
     }
 
     /**
@@ -129,42 +138,7 @@ class SellerClientPj
             return $responseBody;
         }
 
-        $businessAddress = json_decode($sellerData['business_address'], true);
-        $bankAccounts = json_decode($sellerData['bank_accounts'], true);
-
-        $data = [
-            'merchant_id' => $sellerData['merchant_id'],
-            'legal_document_number' => $sellerData['legal_document_number'],
-            'legal_name' => $sellerData['legal_name'],
-            'state_fiscal_document_number' => $sellerData['state_fiscal_document_number'],
-            'trade_name' => $sellerData['trade_name'],
-            'business_address' => [
-                'mailing_address_equals' => 'S',
-                'street' => $businessAddress['street'],
-                'number' => $businessAddress['number'],
-                'district' => $businessAddress['district'],
-                'city' => $businessAddress['city'],
-                'state' => $businessAddress['state'],
-                'postal_code' => $businessAddress['postal_code']
-            ],
-            'mailing_address' => $businessAddress,
-            'phone' => json_decode($sellerData['phone'], true),
-            'email' => $sellerData['email'],
-            'bank_accounts' => [
-                'type_accounts' => 'unique',
-                'unique_account' => [
-                    'bank' => $bankAccounts['bank'],
-                    'agency' => $bankAccounts['agency'],
-                    'account' => $bankAccounts['account'],
-                    'account_type' => $bankAccounts['account_type'],
-                    'account_digit' => $bankAccounts['account_digit']
-                ]
-            ],
-            'accepted_contract' => $sellerData['accepted_contract'],
-            'liability_chargeback' => $sellerData['liability_chargeback'],
-            'marketplace_store' => $sellerData['marketplace_store'],
-            'payment_plan' => $sellerData['payment_plan']
-        ];
+        $data = $this->sellerHelper->createSellerPjArray($sellerData);
 
         $client = $this->httpClientFactory->create();
         $client->setUri($this->sellerConfig->pjCreatePreSubSellerEndpoint());

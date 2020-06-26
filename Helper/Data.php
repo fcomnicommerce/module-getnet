@@ -295,4 +295,119 @@ class Data extends AbstractHelper
 
         return $data;
     }
+
+    /**
+     * @param array $sellerData
+     * @return array
+     */
+    public function createSellerPfArray($sellerData = [])
+    {
+        $data = [];
+
+        foreach ($sellerData as $key => $value) {
+            switch ($key) {
+                case 'merchant_id':
+                case 'legal_document_number':
+                case 'legal_name':
+                case 'mothers_name':
+                case 'occupation':
+                case 'monthly_gross_income':
+                case 'subseller_id':
+                case 'block_payments':
+                case 'email':
+                case 'acquirer_merchant_category_code':
+                case 'liability_chargeback':
+                case 'marketplace_store':
+                case 'payment_plan':
+                case 'accepted_contract':
+                    if ($value) {
+                        $data[$key] = $value;
+                    }
+                    break;
+                case 'birth_date':
+                    $data[$key] = date_format(date_create($value), 'Y-m-d');
+                    break;
+                case 'business_address':
+                    $businessAddress = json_decode($value, true);
+                    $data[$key] = [
+                        'mailing_address_equals' => 'S',
+                        'street' => $businessAddress['street'],
+                        'number' => $businessAddress['number'],
+                        'district' => $businessAddress['district'],
+                        'city' => $businessAddress['city'],
+                        'state' => $businessAddress['state'],
+                        'postal_code' => $businessAddress['postal_code']
+                    ];
+                    break;
+                case 'mailing_address':
+                    $mailingAddress = json_decode($value, true);
+                    $data[$key] = [
+                        'street' => $mailingAddress['street'],
+                        'number' => $mailingAddress['number'],
+                        'district' => $mailingAddress['district'],
+                        'city' => $mailingAddress['city'],
+                        'state' => $mailingAddress['state'],
+                        'postal_code' => $mailingAddress['postal_code']
+                    ];
+                    break;
+                case 'working_hours':
+                    $workingHours = json_decode($value, true);
+                    if (
+                        $workingHours['start_day']
+                        && $workingHours['end_day']
+                        && $workingHours['start_time']
+                        && $workingHours['end_time']
+                    ) {
+                        $data[$key] = $workingHours;
+                    }
+                    break;
+                case 'phone':
+                    $data[$key] = json_decode($value, true);
+                    break;
+                case 'cellphone':
+                    $cellphone = json_decode($value, true);
+                    if ($cellphone['area_code'] && $cellphone['phone_number']) {
+                        $data[$key] = $cellphone;
+                    }
+                    break;
+                case 'bank_accounts':
+                    $bankAccounts = json_decode($value, true);
+                    $data[$key] = [
+                        'type_accounts' => 'unique',
+                        'unique_account' => [
+                            'bank' => $bankAccounts['bank'],
+                            'agency' => $bankAccounts['agency'],
+                            'account' => $bankAccounts['account'],
+                            'account_type' => $bankAccounts['account_type'],
+                            'account_digit' => $bankAccounts['account_digit']
+                        ]
+                    ];
+                    break;
+                case 'list_commissions':
+                    $listCommissions = [];
+
+                    foreach (json_decode($sellerData['list_commissions'], true) as $key => $commission) {
+                        if (
+                            !$commission['product']
+                            || !$commission['commission_percentage']
+                            || !$commission['payment_plan']
+                        ) {
+                            continue;
+                        }
+
+                        $listCommissions[] = [
+                            'brand' => $key,
+                            'product' => $commission['product'],
+                            'commission_percentage' => $commission['commission_percentage'],
+                            'payment_plan' => $commission['payment_plan']
+                        ];
+                    }
+
+                    $data['list_commissions'] = $listCommissions;
+                    break;
+            }
+        }
+
+        return $data;
+    }
 }

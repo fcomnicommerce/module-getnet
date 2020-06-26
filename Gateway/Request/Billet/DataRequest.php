@@ -29,11 +29,9 @@ use FCamara\Getnet\Model\Seller\SellerClientPj;
 
 class DataRequest implements BuilderInterface
 {
-    public const STATUS_SELLER_APPROVED = [
-        'Aprovado Transacionar',
-        'Aprovado Transacionar e Antecipar',
-        'Aprovado'
-    ];
+    public const STATUS_APPROVED_TRANSACT = 'Aprovado Transacionar';
+    public const STATUS_APPROVED_TRANSACT_TO_ANTICIPATE = 'Aprovado Transacionar e Antecipar';
+    public const STATUS_APPROVED = 'Aprovado';
 
     /**
      * @var SellerFactory
@@ -243,15 +241,29 @@ class DataRequest implements BuilderInterface
         if ($seller['type'] == 'PF') {
             $pfCallback = $this->clientPf->pfCallback($seller['merchant_id'], $seller['legal_document_number']);
 
-            if (array_key_exists($pfCallback['status'], self::STATUS_SELLER_APPROVED)) {
+            if (
+                $pfCallback
+                && (
+                    $pfCallback['status'] == self::STATUS_APPROVED
+                    || $pfCallback['status'] == self::STATUS_APPROVED_TRANSACT
+                    || $pfCallback['status'] == self::STATUS_APPROVED_TRANSACT_TO_ANTICIPATE
+                )
+            ) {
                 $result = true;
             }
         }
 
         if ($seller['type'] == 'PJ') {
-            $pfCallback = $this->clientPj->pjCallback($seller['merchant_id'], $seller['legal_document_number']);
+            $pjCallback = $this->clientPj->pjCallback($seller['merchant_id'], $seller['legal_document_number']);
 
-            if (array_key_exists($pfCallback['status'], self::STATUS_SELLER_APPROVED)) {
+            if (
+                $pjCallback
+                && (
+                    $pjCallback['status'] == self::STATUS_APPROVED
+                    || $pjCallback['status'] == self::STATUS_APPROVED_TRANSACT
+                    || $pjCallback['status'] == self::STATUS_APPROVED_TRANSACT_TO_ANTICIPATE
+                )
+            ) {
                 $result = true;
             }
         }

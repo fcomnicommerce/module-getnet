@@ -18,17 +18,37 @@ namespace FCamara\Getnet\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
+use Magento\Sales\Model\ResourceModel\Order\Payment\CollectionFactory;
+use Magento\Sales\Model\OrderFactory;
 
 class Data extends AbstractHelper
 {
     public const MODULE_CODE = 'FCamara_Getnet';
 
     /**
+     * @var CollectionFactory
+     */
+    protected $paymentCollectionFactory;
+
+    /**
+     * @var OrderFactory
+     */
+    protected $orderFactory;
+
+    /**
      * Data constructor.
      * @param Context $context
+     * @param CollectionFactory $paymentCollectionFactory
+     * @param OrderFactory $orderFactory
      */
-    public function __construct(Context $context)
-    {
+    public function __construct(
+        Context $context,
+        CollectionFactory $paymentCollectionFactory,
+        OrderFactory $orderFactory
+    ) {
+        $this->paymentCollectionFactory = $paymentCollectionFactory;
+        $this->orderFactory = $orderFactory;
+
         parent::__construct($context);
     }
 
@@ -734,5 +754,24 @@ class Data extends AbstractHelper
         }
 
         return $data;
+    }
+
+    /**
+     * @param $paymentId
+     * @return mixed
+     */
+    public function getOrderByPaymentId($paymentId)
+    {
+        $collection = $this->paymentCollectionFactory->create()
+            ->addAttributeToSelect('parent_id')
+            ->addAttributeToFilter(
+                'additional_information',
+                ['like' => '%"payment_id":"' . $paymentId . '"%']
+            );
+
+        $orderId = $collection->getFirstItem()->getParentId();
+        $order = $this->orderFactory->create()->load($orderId);
+
+        return $order;
     }
 }

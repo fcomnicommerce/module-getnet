@@ -16,14 +16,18 @@
 
 namespace FCamara\Getnet\Controller\Adminhtml\SellerPj;
 
+use FCamara\Getnet\Model\Seller;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\View\Result\PageFactory;
 use FCamara\Getnet\Model\Seller\SellerClientPj;
 use FCamara\Getnet\Model\SellerFactory;
+use FCamara\Getnet\Helper\Data as SellerHelper;
 
 class Edit extends Action
 {
+    public const STATUS_AWAITING_DEALING_MKP = 'Aguardando Tratativa MKP';
+
     /**
      * @var SellerFactory
      */
@@ -40,21 +44,29 @@ class Edit extends Action
     protected $client;
 
     /**
+     * @var SellerHelper
+     */
+    protected $sellerHelper;
+
+    /**
      * Edit constructor.
      * @param Context $context
      * @param PageFactory $resultPageFactory
      * @param SellerFactory $seller
      * @param SellerClientPj $client
+     * @param SellerHelper $sellerHelper
      */
     public function __construct(
         Context $context,
         PageFactory $resultPageFactory,
         SellerFactory $seller,
-        SellerClientPj $client
+        SellerClientPj $client,
+        SellerHelper $sellerHelper
     ) {
         $this->resultPageFactory = $resultPageFactory;
         $this->seller = $seller;
         $this->client = $client;
+        $this->sellerHelper = $sellerHelper;
 
         parent::__construct($context);
     }
@@ -66,6 +78,7 @@ class Edit extends Action
     {
         $data = $this->getRequest()->getParam('main_fieldset');
         $id = $this->getRequest()->getParam('id');
+        $updatedSeller = [];
 
         if ($id && is_array($data)) {
             $seller = $this->seller->create()->load($id);
@@ -74,9 +87,16 @@ class Edit extends Action
             $seller->addData(['mailing_address' => json_encode($data['seller_address'])]);
             $seller->addData(['bank_accounts' => json_encode($data['bank_accounts'])]);
             $seller->addData(['phone' => json_encode($data['phone'])]);
+            $seller->addData(['cellphone' => json_encode($data['cellphone'])]);
+            $seller->addData(['legal_representative' => json_encode($data['legal_representative'])]);
+            $seller->addData(['list_commissions' => json_encode($data['list_commissions'])]);
 
             try {
-                $updatedSeller = $this->client->pjUpdateSubSeller($seller->getData());
+                if ($seller->getStatus() == self::STATUS_AWAITING_DEALING_MKP) {
+                    //$updatedSeller = $this->client->pjUpdateComplement($seller->getData());
+                } else {
+                    $updatedSeller = $this->client->pjUpdateSubSeller($seller->getData());
+                }
 
                 if (!isset($updatedSeller['success'])) {
                     if (isset($updatedSeller['ModelState'])) {

@@ -171,46 +171,42 @@ class SellerClientPj
             return $responseBody;
         }
 
-        $businessAddress = json_decode($sellerData['business_address'], true);
-        $bankAccounts = json_decode($sellerData['bank_accounts'], true);
-
-        $data = [
-            'subseller_id' => $sellerData['subseller_id'],
-            'merchant_id' => $sellerData['merchant_id'],
-            'legal_document_number' => $sellerData['legal_document_number'],
-            'legal_name' => $sellerData['legal_name'],
-            'state_fiscal_document_number' => $sellerData['state_fiscal_document_number'],
-            'trade_name' => $sellerData['trade_name'],
-            'business_address' => [
-                'mailing_address_equals' => 'S',
-                'street' => $businessAddress['street'],
-                'number' => $businessAddress['number'],
-                'district' => $businessAddress['district'],
-                'city' => $businessAddress['city'],
-                'state' => $businessAddress['state'],
-                'postal_code' => $businessAddress['postal_code']
-            ],
-            'mailing_address' => $businessAddress,
-            'phone' => json_decode($sellerData['phone'], true),
-            'email' => $sellerData['email'],
-            'bank_accounts' => [
-                'type_accounts' => 'unique',
-                'unique_account' => [
-                    'bank' => $bankAccounts['bank'],
-                    'agency' => $bankAccounts['agency'],
-                    'account' => $bankAccounts['account'],
-                    'account_type' => $bankAccounts['account_type'],
-                    'account_digit' => $bankAccounts['account_digit']
-                ]
-            ],
-            'accepted_contract' => $sellerData['accepted_contract'],
-            'liability_chargeback' => $sellerData['liability_chargeback'],
-            'marketplace_store' => $sellerData['marketplace_store'],
-            'payment_plan' => $sellerData['payment_plan']
-        ];
+        $data = $this->sellerHelper->pjUpdateSubSellerArray($sellerData);
 
         $client = $this->httpClientFactory->create();
         $client->setUri($this->sellerConfig->pjUpdateSubSellerEndpoint());
+        $client->setConfig(self::CONFIG_HTTP_CLIENT);
+        $client->setHeaders(['content-type: application/json; charset=utf-8']);
+        $client->setHeaders('Authorization', 'Bearer ' . $token);
+        $client->setMethod(\Zend_Http_Client::PUT);
+        $client->setRawData(json_encode($data));
+
+        try {
+            $responseBody = json_decode($client->request()->getBody(), true);
+        } catch (\Exception $e) {
+            $this->logger->critical('Error message', ['exception' => $e]);
+        }
+
+        return $responseBody;
+    }
+
+    /**
+     * @param array $sellerData
+     * @return bool|mixed
+     */
+    public function pjUpdateComplement($sellerData = [])
+    {
+        $token = $this->authentication();
+        $responseBody = false;
+
+        if (!$token) {
+            return $responseBody;
+        }
+
+        $data = $this->sellerHelper->pfUpdateComplementArray($sellerData);
+
+        $client = $this->httpClientFactory->create();
+        $client->setUri($this->sellerConfig->pfComplementEndpoint());
         $client->setConfig(self::CONFIG_HTTP_CLIENT);
         $client->setHeaders(['content-type: application/json; charset=utf-8']);
         $client->setHeaders('Authorization', 'Bearer ' . $token);

@@ -93,7 +93,7 @@ class Edit extends Action
 
             try {
                 if ($seller->getStatus() == self::STATUS_AWAITING_DEALING_MKP) {
-                    //$updatedSeller = $this->client->pjUpdateComplement($seller->getData());
+                    $updatedSeller = $this->client->pjUpdateComplement($seller->getData());
                 } else {
                     $updatedSeller = $this->client->pjUpdateSubSeller($seller->getData());
                 }

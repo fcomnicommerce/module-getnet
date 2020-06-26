@@ -203,7 +203,7 @@ class SellerClientPj
             return $responseBody;
         }
 
-        $data = $this->sellerHelper->pfUpdateComplementArray($sellerData);
+        $data = $this->sellerHelper->pjUpdateComplementArray($sellerData);
 
         $client = $this->httpClientFactory->create();
         $client->setUri($this->sellerConfig->pfComplementEndpoint());

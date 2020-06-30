@@ -34,7 +34,6 @@ class DataProvider extends AbstractDataProvider
 
     /**
      * DataProvider constructor.
-     * @param string $name
      * @param $primaryFieldName
      * @param $requestFieldName
      * @param CollectionFactory $sellerCollectionFactory
@@ -44,7 +43,6 @@ class DataProvider extends AbstractDataProvider
      * @param array $data
      */
     public function __construct(
-        $name,
         $primaryFieldName,
         $requestFieldName,
         CollectionFactory $sellerCollectionFactory,
@@ -57,7 +55,7 @@ class DataProvider extends AbstractDataProvider
         $this->client = $client;
         $this->clientPj = $clientPj;
 
-        parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data);
+        parent::__construct('seller_form_data_source', $primaryFieldName, $requestFieldName, $meta, $data);
     }
 
     /**

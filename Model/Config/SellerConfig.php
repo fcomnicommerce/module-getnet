@@ -92,6 +92,39 @@ class SellerConfig implements SellerConfigInterface
     /**
      * @return mixed
      */
+    public function guarantorDocumentType()
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_GUARANTOR_DOCUMENT_TYPE,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * @return mixed
+     */
+    public function guarantorDocumentNumber()
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_GUARANTOR_DOCUMENT_NUMBER,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * @return mixed
+     */
+    public function guarantorName()
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_GUARANTOR_NAME,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * @return mixed
+     */
     public function environment()
     {
         return $this->scopeConfig->getValue(

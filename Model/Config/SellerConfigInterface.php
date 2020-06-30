@@ -58,6 +58,12 @@ interface SellerConfigInterface
      */
     public const XML_PATH_MERCHANT_ID = 'payment/getnet/merchant_id';
 
+    public const XML_PATH_GUARANTOR_DOCUMENT_TYPE = 'getnet/split/guarantor_document_type';
+
+    public const XML_PATH_GUARANTOR_DOCUMENT_NUMBER = 'getnet/split/guarantor_document_number';
+
+    public const XML_PATH_GUARANTOR_NAME = 'getnet/split/guarantor_name';
+
     /**
      * Check if module is enabled
      *

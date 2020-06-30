@@ -188,6 +188,17 @@ class DataRequest implements BuilderInterface
             $sellers = [];
             $subSellerSalesAmount = [];
 
+            if ($this->sellerConfig->guarantorDocumentType() == 'PF') {
+                $response['boleto']['guarantor_document_type'] = 'CPF';
+            }
+
+            if ($this->sellerConfig->guarantorDocumentType() == 'PJ') {
+                $response['boleto']['guarantor_document_type'] = 'CNPJ';
+            }
+
+            $response['boleto']['guarantor_document_number'] = $this->sellerConfig->guarantorDocumentNumber();
+            $response['boleto']['guarantor_name'] = $this->sellerConfig->guarantorName();
+
             foreach ($order->getItems() as $item) {
                 if ($item->getPrice() <= 0) {
                     continue;
@@ -210,7 +221,6 @@ class DataRequest implements BuilderInterface
                     ];
                 }
             }
-
             foreach ($sellers as $sellerId => $seller) {
                 $amount = 0;
 

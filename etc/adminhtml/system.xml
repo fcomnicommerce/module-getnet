@@ -156,6 +156,20 @@
                         <label>Client Secret</label>
                         <config_path>getnet/split/client_secret</config_path>
                     </field>
+                    <field id="guarantor_document_type" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="170" translate="label" type="select">
+                        <label>Guarantor Document Type</label>
+                        <comment />
+                        <source_model>FCamara\Getnet\Ui\Component\Form\TypePerson</source_model>
+                        <config_path>getnet/split/guarantor_document_type</config_path>
+                    </field>
+                    <field id="guarantor_document_number" translate="label" type="text" sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Guarantor Document Number</label>
+                        <config_path>getnet/split/guarantor_document_number</config_path>
+                    </field>
+                    <field id="guarantor_name" translate="label" type="text" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Guarantor Name</label>
+                        <config_path>getnet/split/guarantor_name</config_path>
+                    </field>
                 </group>
                 <group id="methods" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Methods</label>

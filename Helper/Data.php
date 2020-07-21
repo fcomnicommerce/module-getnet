@@ -346,7 +346,7 @@ class Data extends AbstractHelper
                     break;
                 case 'birth_date':
                     $date = str_replace("/", "-", $value);
-                    $data[$key] = date("'Y-m-d'", strtotime($date));
+                    $data[$key] = date("Y-m-d", strtotime($date));
                     break;
                 case 'business_address':
                     $businessAddress = json_decode($value, true);

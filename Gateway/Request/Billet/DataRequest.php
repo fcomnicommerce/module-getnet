@@ -162,7 +162,7 @@ class DataRequest implements BuilderInterface
                 'product_type' => 'service',
             ],
             'boleto' => [
-                'our_number' => $this->config->ourNumber(),
+                //'our_number' => $this->config->ourNumber(),
                 'expiration_date' => $expirationDate,
                 'instructions' => $this->config->instructions(),
                 'provider' => $this->config->billetProvider(),

@@ -94,7 +94,7 @@ class MockDataRequest implements BuilderInterface
                     'product_type' => 'service',
                 ],
                 'boleto' =>[
-                    'our_number' => '000001946598',
+                    //'our_number' => '000001946598',
                     'document_number' => '170500000019763',
                     'expiration_date' => '30/11/2019',
                     'instructions' => 'Não receber após o vencimento',

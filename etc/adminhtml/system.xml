@@ -190,10 +190,10 @@
                             <source_model>FCamara\Getnet\Model\Adminhtml\Source\PaymentProvider</source_model>
                             <config_path>payment/getnet_billet/provider</config_path>
                         </field>
-                        <field id="our_number" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label" type="text">
+                        <!-- field id="our_number" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label" type="text">
                             <label>Our Number</label>
                             <config_path>payment/getnet_billet/our_number</config_path>
-                        </field>
+                        </field -->
                         <field id="expiration_days" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label" type="text">
                             <label>Expiration Days</label>
                             <config_path>payment/getnet_billet/expiration_days</config_path>

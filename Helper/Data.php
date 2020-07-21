@@ -93,7 +93,9 @@ class Data extends AbstractHelper
                     if (!$value) {
                         continue;
                     }
-                    $data['date'] = date_format(date_create($value), 'Y-m-d');
+
+                    $date = str_replace("/", "-", $value);
+                    $data[$key] = date("Y-m-d", strtotime($date));
                     break;
                 case 'working_hours':
                     if (!$value) {
@@ -230,7 +232,9 @@ class Data extends AbstractHelper
                     }
                     break;
                 case 'birth_date':
-                    $data[$key] = date_format(date_create($value), 'Y-m-d');
+                    $date = str_replace("/", "-", $value);
+                    $data[$key] = date("Y-m-d", strtotime($date));
+
                     break;
                 case 'business_address':
                     $businessAddress = json_decode($value, true);

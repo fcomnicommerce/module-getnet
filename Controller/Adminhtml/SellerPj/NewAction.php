@@ -81,6 +81,12 @@ class NewAction extends \Magento\Backend\App\Action
                         }
                     }
 
+                    if (isset($integratedSeller['errors'])) {
+                        foreach ($integratedSeller['errors'] as $error) {
+                            $this->messageManager->addErrorMessage($error);
+                        }
+                    }
+
                     throw new \Exception(__('Error Create Seller, Please try again!'));
                 }
 

@@ -320,6 +320,14 @@ class Client implements ClientInterface
                     $this->saveCardData($requestParameters, $ccNumber);
                 }
             }
+
+            $this->logger->debug(
+                'Getnet | Authorize',
+                [
+                    'request_body' => json_encode($requestParameters),
+                    'response_body' => json_encode($responseBody)
+                ]
+            );
         } catch (\Exception $e) {
             $this->logger->critical('Error message', ['exception' => $e]);
         }
@@ -593,6 +601,14 @@ class Client implements ClientInterface
 
                 $report->save();
             }
+
+            $this->logger->debug(
+                'Getnet | Capture',
+                [
+                    'request_body' => json_encode($requestParameters),
+                    'response_body' => json_encode($responseBody)
+                ]
+            );
         } catch (\Exception $e) {
             $this->logger->critical('Error message', ['exception' => $e]);
         }

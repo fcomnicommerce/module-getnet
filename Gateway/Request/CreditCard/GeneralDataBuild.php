@@ -41,7 +41,7 @@ class GeneralDataBuild implements BuilderInterface
         $order = $paymentDO->getOrder();
 
         $response = [
-            'amount' => (int) $order->getGrandTotalAmount() * 100,
+            'amount' => (int) floor($order->getGrandTotalAmount() * 100),
             'currency' => 'BRL',
         ];
 

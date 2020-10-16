@@ -42,7 +42,7 @@ class AmountBuild implements BuilderInterface
         $payment = $paymentDO->getPayment();
 
         $response = [
-            'amount' => (int) $order->getGrandTotalAmount() * 100,
+            'amount' => (int) floor($order->getGrandTotalAmount() * 100),
             'payment_id' => $payment->getAdditionalInformation("payment_id"),
         ];
 

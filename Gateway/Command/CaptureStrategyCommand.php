@@ -15,7 +15,6 @@
 
 namespace FCamara\Getnet\Gateway\Command;
 
-use Magento\AuthorizenetAcceptjs\Gateway\SubjectReader;
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Payment\Gateway\Command\CommandPoolInterface;
@@ -52,29 +51,21 @@ class CaptureStrategyCommand implements CommandInterface
     private $searchCriteriaBuilder;
 
     /**
-     * @var SubjectReader
-     */
-    private $subjectReader;
-
-    /**
      * @param CommandPoolInterface $commandPool
      * @param TransactionRepositoryInterface $repository
      * @param FilterBuilder $filterBuilder
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param SubjectReader $subjectReader
      */
     public function __construct(
         CommandPoolInterface $commandPool,
         TransactionRepositoryInterface $repository,
         FilterBuilder $filterBuilder,
-        SearchCriteriaBuilder $searchCriteriaBuilder,
-        SubjectReader $subjectReader
+        SearchCriteriaBuilder $searchCriteriaBuilder
     ) {
         $this->commandPool = $commandPool;
         $this->transactionRepository = $repository;
         $this->filterBuilder = $filterBuilder;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
-        $this->subjectReader = $subjectReader;
     }
 
     /**
@@ -83,11 +74,22 @@ class CaptureStrategyCommand implements CommandInterface
     public function execute(array $commandSubject): void
     {
         /** @var PaymentDataObjectInterface $paymentDO */
-        $paymentDO = $this->subjectReader->readPayment($commandSubject);
+        $paymentDO = $this->readPayment($commandSubject);
 
         $command = $this->getCommand($paymentDO);
         $this->commandPool->get($command)
             ->execute($commandSubject);
+    }
+
+    public function readPayment(array $subject)
+    {
+        if (!isset($subject['payment'])
+            || !$subject['payment'] instanceof PaymentDataObjectInterface
+        ) {
+            throw new \InvalidArgumentException('Payment data object should be provided');
+        }
+
+        return $subject['payment'];
     }
 
     /**

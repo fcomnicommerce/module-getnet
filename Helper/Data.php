@@ -61,6 +61,9 @@ class Data extends AbstractHelper
         $data = [];
 
         foreach ($sellerData as $key => $value) {
+            if (!$value) {
+                continue;
+            }
             switch ($key) {
                 case 'merchant_id':
                 case 'subseller_id':
@@ -84,29 +87,16 @@ class Data extends AbstractHelper
                 case 'ppe_indication':
                 case 'ppe_description':
                 case 'patrimony':
-                    if (!$value) {
-                        continue;
-                    }
                     $data[$key] = $value;
                     break;
                 case 'birth_date':
-                    if (!$value) {
-                        continue;
-                    }
-
                     $date = str_replace("/", "-", $value);
                     $data[$key] = date("Y-m-d", strtotime($date));
                     break;
                 case 'working_hours':
-                    if (!$value) {
-                        continue;
-                    }
                     $data[$key] = json_decode($value, true);
                     break;
                 case 'business_address':
-                    if (!$value) {
-                        continue;
-                    }
                     $businessAddress = json_decode($value, true);
                     $data['adresses'][] = [
                         'address_type' => 'business',
@@ -119,9 +109,6 @@ class Data extends AbstractHelper
                     ];
                     break;
                 case 'mailing_address':
-                    if (!$value) {
-                        continue;
-                    }
                     $mailingAddress = json_decode($value, true);
                     $data['adresses'][] = [
                         'address_type' => 'mailing',
@@ -135,8 +122,8 @@ class Data extends AbstractHelper
                     break;
                 case 'identification_document':
                     $identificationDocument = json_decode($value, true);
-                    if (!$value || !$identificationDocument['document_type']) {
-                        continue;
+                    if (!$identificationDocument['document_type']) {
+                        continue 2;
                     }
                     $data[$key] = [
                         'document_type' => $identificationDocument['document_type'],
@@ -154,9 +141,6 @@ class Data extends AbstractHelper
                     ];
                     break;
                 case 'bank_accounts':
-                    if (!$value) {
-                        continue;
-                    }
                     $bankAccounts = json_decode($value, true);
                     $data[$key] = [
                         'type_accounts' => 'unique',
@@ -170,9 +154,6 @@ class Data extends AbstractHelper
                     ];
                     break;
                 case 'list_commissions':
-                    if (!$value) {
-                        continue;
-                    }
                     $listCommissions = [];
 
                     foreach (json_decode($value, true) as $keyCommission => $commission) {
@@ -652,6 +633,9 @@ class Data extends AbstractHelper
         $data = [];
 
         foreach ($sellerData as $key => $value) {
+            if (!$value) {
+                continue;
+            }
             switch ($key) {
                 case 'merchant_id':
                 case 'subseller_id':
@@ -678,9 +662,6 @@ class Data extends AbstractHelper
                     }
                     break;
                 case 'business_address':
-                    if (!$value) {
-                        continue;
-                    }
                     $businessAddress = json_decode($value, true);
                     $data['adresses'][] = [
                         'address_type' => 'business',
@@ -693,9 +674,6 @@ class Data extends AbstractHelper
                     ];
                     break;
                 case 'mailing_address':
-                    if (!$value) {
-                        continue;
-                    }
                     $mailingAddress = json_decode($value, true);
                     $data['adresses'][] = [
                         'address_type' => 'mailing',

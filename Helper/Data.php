@@ -61,9 +61,6 @@ class Data extends AbstractHelper
         $data = [];
 
         foreach ($sellerData as $key => $value) {
-            if (!$value) {
-                continue;
-            }
             switch ($key) {
                 case 'merchant_id':
                 case 'subseller_id':
@@ -122,6 +119,9 @@ class Data extends AbstractHelper
                     ];
                     break;
                 case 'mailing_address':
+                    if (!$value) {
+                        break;
+                    }
                     $mailingAddress = json_decode($value, true);
                     $data['adresses'][] = [
                         'address_type' => 'mailing',
@@ -135,8 +135,8 @@ class Data extends AbstractHelper
                     break;
                 case 'identification_document':
                     $identificationDocument = json_decode($value, true);
-                    if (!$identificationDocument['document_type']) {
-                        continue 2;
+                    if (!$value || !$identificationDocument['document_type']) {
+                        break;
                     }
                     $data[$key] = [
                         'document_type' => $identificationDocument['document_type'],
@@ -154,6 +154,9 @@ class Data extends AbstractHelper
                     ];
                     break;
                 case 'bank_accounts':
+                    if (!$value) {
+                        break;
+                    }
                     $bankAccounts = json_decode($value, true);
                     $data[$key] = [
                         'type_accounts' => 'unique',
@@ -167,6 +170,9 @@ class Data extends AbstractHelper
                     ];
                     break;
                 case 'list_commissions':
+                    if (!$value) {
+                        break;
+                    }
                     $listCommissions = [];
 
                     foreach (json_decode($value, true) as $keyCommission => $commission) {
@@ -646,9 +652,6 @@ class Data extends AbstractHelper
         $data = [];
 
         foreach ($sellerData as $key => $value) {
-            if (!$value) {
-                continue;
-            }
             switch ($key) {
                 case 'merchant_id':
                 case 'subseller_id':
@@ -675,6 +678,9 @@ class Data extends AbstractHelper
                     }
                     break;
                 case 'business_address':
+                    if (!$value) {
+                        break;
+                    }
                     $businessAddress = json_decode($value, true);
                     $data['adresses'][] = [
                         'address_type' => 'business',
@@ -687,6 +693,9 @@ class Data extends AbstractHelper
                     ];
                     break;
                 case 'mailing_address':
+                    if (!$value) {
+                        break;
+                    }
                     $mailingAddress = json_decode($value, true);
                     $data['adresses'][] = [
                         'address_type' => 'mailing',

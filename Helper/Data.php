@@ -87,16 +87,29 @@ class Data extends AbstractHelper
                 case 'ppe_indication':
                 case 'ppe_description':
                 case 'patrimony':
+                    if (!$value) {
+                        break;
+                    }
                     $data[$key] = $value;
                     break;
                 case 'birth_date':
+                    if (!$value) {
+                        break;
+                    }
+
                     $date = str_replace("/", "-", $value);
                     $data[$key] = date("Y-m-d", strtotime($date));
                     break;
                 case 'working_hours':
+                    if (!$value) {
+                        break;
+                    }
                     $data[$key] = json_decode($value, true);
                     break;
                 case 'business_address':
+                    if (!$value) {
+                        break;
+                    }
                     $businessAddress = json_decode($value, true);
                     $data['adresses'][] = [
                         'address_type' => 'business',

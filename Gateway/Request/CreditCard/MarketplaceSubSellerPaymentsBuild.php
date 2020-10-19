@@ -122,7 +122,7 @@ class MarketplaceSubSellerPaymentsBuild implements BuilderInterface
             }
 
             $response['marketplace_subseller_payments'][] = [
-                'subseller_sales_amount' => (int) $subSellerSalesAmount[$sellerId]['subseller_sales_amount'],
+                'subseller_sales_amount' => (int) ceil($subSellerSalesAmount[$sellerId]['subseller_sales_amount']),
                 'subseller_id' => $sellerId,
                 'order_items' => $sellers[$sellerId]['order_items']
             ];

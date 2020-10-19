@@ -290,7 +290,7 @@ class Client implements ClientInterface
                     $report->addData(['status' => 'DENIED']);
 
                     if (count($error)) {
-                        $report->addData(['status_message' => $error['error_code'] . ': ' . $error['description']]);
+                        $report->addData(['status_message' => $error['error_code'] . ': ' . $error['description_detail']]);
                     }
 
                     $report->addData(['payment_type' => $this->quote->getPayment()->getMethod()]);
@@ -367,7 +367,7 @@ class Client implements ClientInterface
                 $report->addData(['status' => 'DENIED']);
 
                 if (count($error)) {
-                    $report->addData(['status_message' => $error['error_code'] . ': ' . $error['description']]);
+                    $report->addData(['status_message' => $error['error_code'] . ': ' . $error['description_detail']]);
                 }
 
                 $report->addData(['payment_type' => $this->quote->getPayment()->getMethod()]);
@@ -469,7 +469,7 @@ class Client implements ClientInterface
 
             $requestParameters = [
                 'payment_id' => $responseAuthorizeBody['payment_id'],
-                'amount' => $responseAuthorizeBody['amount'],
+                'amount' => (int) ceil($responseAuthorizeBody['amount'] * 100),
                 'seller_id' => $responseAuthorizeBody['seller_id'],
                 'customer' => [
                     'name' => $requestParameters['customer']['name'],
@@ -517,7 +517,7 @@ class Client implements ClientInterface
                 }
 
                 $requestParameters['marketplace_subseller_payments'][] = [
-                    'subseller_sales_amount' => (int) $subSellerSalesAmount[$sellerId]['subseller_sales_amount'],
+                    'subseller_sales_amount' => (int) ceil($subSellerSalesAmount[$sellerId]['subseller_sales_amount']),
                     'subseller_id' => $sellerId,
                     'order_items' => $sellers[$sellerId]['order_items']
                 ];
@@ -564,7 +564,7 @@ class Client implements ClientInterface
                 $report->addData(['status' => 'DENIED']);
 
                 if (count($error)) {
-                    $report->addData(['status_message' => $error['error_code'] . ': ' . $error['description']]);
+                    $report->addData(['status_message' => $error['error_code'] . ': ' . $error['description_detail']]);
                 }
 
                 $report->addData(['payment_type' => $this->quote->getPayment()->getMethod()]);

@@ -85,13 +85,13 @@ class Data extends AbstractHelper
                 case 'ppe_description':
                 case 'patrimony':
                     if (!$value) {
-                        continue;
+                        break;
                     }
                     $data[$key] = $value;
                     break;
                 case 'birth_date':
                     if (!$value) {
-                        continue;
+                        break;
                     }
 
                     $date = str_replace("/", "-", $value);
@@ -99,13 +99,13 @@ class Data extends AbstractHelper
                     break;
                 case 'working_hours':
                     if (!$value) {
-                        continue;
+                        break;
                     }
                     $data[$key] = json_decode($value, true);
                     break;
                 case 'business_address':
                     if (!$value) {
-                        continue;
+                        break;
                     }
                     $businessAddress = json_decode($value, true);
                     $data['adresses'][] = [
@@ -120,7 +120,7 @@ class Data extends AbstractHelper
                     break;
                 case 'mailing_address':
                     if (!$value) {
-                        continue;
+                        break;
                     }
                     $mailingAddress = json_decode($value, true);
                     $data['adresses'][] = [
@@ -136,7 +136,7 @@ class Data extends AbstractHelper
                 case 'identification_document':
                     $identificationDocument = json_decode($value, true);
                     if (!$value || !$identificationDocument['document_type']) {
-                        continue;
+                        break;
                     }
                     $data[$key] = [
                         'document_type' => $identificationDocument['document_type'],
@@ -155,7 +155,7 @@ class Data extends AbstractHelper
                     break;
                 case 'bank_accounts':
                     if (!$value) {
-                        continue;
+                        break;
                     }
                     $bankAccounts = json_decode($value, true);
                     $data[$key] = [
@@ -171,7 +171,7 @@ class Data extends AbstractHelper
                     break;
                 case 'list_commissions':
                     if (!$value) {
-                        continue;
+                        break;
                     }
                     $listCommissions = [];
 
@@ -679,7 +679,7 @@ class Data extends AbstractHelper
                     break;
                 case 'business_address':
                     if (!$value) {
-                        continue;
+                        break;
                     }
                     $businessAddress = json_decode($value, true);
                     $data['adresses'][] = [
@@ -694,7 +694,7 @@ class Data extends AbstractHelper
                     break;
                 case 'mailing_address':
                     if (!$value) {
-                        continue;
+                        break;
                     }
                     $mailingAddress = json_decode($value, true);
                     $data['adresses'][] = [

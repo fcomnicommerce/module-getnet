@@ -15,7 +15,7 @@
 
 namespace FCamara\Getnet\Gateway\Command;
 
-use Magento\AuthorizenetAcceptjs\Gateway\SubjectReader;
+use Magento\Payment\Gateway\Helper\SubjectReader;
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Payment\Gateway\Command\CommandPoolInterface;

@@ -469,7 +469,7 @@ class Client implements ClientInterface
 
             $requestParameters = [
                 'payment_id' => $responseAuthorizeBody['payment_id'],
-                'amount' => (int) ceil($responseAuthorizeBody['amount'] * 100),
+                'amount' => (int) $responseAuthorizeBody['amount'],
                 'seller_id' => $responseAuthorizeBody['seller_id'],
                 'customer' => [
                     'name' => $requestParameters['customer']['name'],

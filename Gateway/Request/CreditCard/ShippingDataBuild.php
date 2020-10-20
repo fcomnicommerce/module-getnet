@@ -69,8 +69,8 @@ class ShippingDataBuild implements BuilderInterface
             'first_name' => $shipping->getFirstname(),
             'name' => $customer->getFirstname() . ' ' . $customer->getLastname(),
             'email' => $customer->getEmail(),
-            'phone_number' =>  $shipping->getTelephone(),
-            'shipping_amount' => (int) $paymentDO->getPayment()->getOrder()->getShippingAmount() * 100,
+            'phone_number' =>  preg_replace("/[^0-9]/", "", $shipping->getTelephone()),
+            'shipping_amount' => (int) ($paymentDO->getPayment()->getOrder()->getShippingAmount() * 100),
             'address' =>[
                 'street' => $street,
                 'number' => $number,

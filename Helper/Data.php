@@ -767,6 +767,8 @@ class Data extends AbstractHelper
      */
     public function getOrderByPaymentId($paymentId)
     {
+        $order = [];
+
         $collection = $this->paymentCollectionFactory->create()
             ->addAttributeToSelect('parent_id')
             ->addAttributeToFilter(
@@ -775,7 +777,10 @@ class Data extends AbstractHelper
             );
 
         $orderId = $collection->getFirstItem()->getParentId();
-        $order = $this->orderFactory->create()->load($orderId);
+
+        if ($orderId) {
+            $order = $this->orderFactory->create()->load($orderId);
+        }
 
         return $order;
     }

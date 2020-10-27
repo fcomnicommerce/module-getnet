@@ -457,6 +457,7 @@ class Client implements ClientInterface
     {
         $token = $this->authentication();
         $responseBody = false;
+        $responseAuthorizeBody = false;
         $requestParameters['seller_id'] = $this->creditCardConfig->sellerId();
         $client = $this->httpClientFactory->create();
 
@@ -466,19 +467,9 @@ class Client implements ClientInterface
             if (!isset($responseAuthorizeBody['payment_id'])) {
                 return $responseAuthorizeBody;
             }
-
-            $requestParameters = [
-                'payment_id' => $responseAuthorizeBody['payment_id'],
-                'amount' => (int) ceil($responseAuthorizeBody['amount'] * 100),
-                'seller_id' => $responseAuthorizeBody['seller_id'],
-                'customer' => [
-                    'name' => $requestParameters['customer']['name'],
-                    'email' => $requestParameters['customer']['email']
-                ]
-            ];
         }
 
-        if ($this->sellerConfig->isEnabled()) {
+        if ($this->sellerConfig->isEnabled() && !isset($requestParameters['marketplace_subseller_payments'])) {
             $order = $this->helper->getOrderByPaymentId($requestParameters['payment_id']);
 
             $sellers = [];
@@ -522,6 +513,22 @@ class Client implements ClientInterface
                     'order_items' => $sellers[$sellerId]['order_items']
                 ];
             }
+        }
+
+        if ($this->sellerConfig->isEnabled() && isset($requestParameters['marketplace_subseller_payments'])) {
+            $requestParameters['payment_id'] = $responseAuthorizeBody['payment_id'];
+        }
+
+        if (!$this->sellerConfig->isEnabled()) {
+            $requestParameters = [
+                'payment_id' => $responseAuthorizeBody['payment_id'],
+                'amount' => (int) $responseAuthorizeBody['amount'],
+                'seller_id' => $responseAuthorizeBody['seller_id'],
+                'customer' => [
+                    'name' => $requestParameters['customer']['name'],
+                    'email' => $requestParameters['customer']['email']
+                ]
+            ];
         }
 
         $client->setUri(

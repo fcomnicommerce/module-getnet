@@ -462,11 +462,7 @@ class Client implements ClientInterface
         $client = $this->httpClientFactory->create();
 
         if (!isset($requestParameters['payment_id'])) {
-            $responseAuthorizeBody = $this->authorize($requestParameters);
-
-            if (!isset($responseAuthorizeBody['payment_id'])) {
-                return $responseAuthorizeBody;
-            }
+            return $requestParameters;
         }
 
         if ($this->sellerConfig->isEnabled() && !isset($requestParameters['marketplace_subseller_payments'])) {

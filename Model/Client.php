@@ -462,7 +462,7 @@ class Client implements ClientInterface
         $client = $this->httpClientFactory->create();
         unset($requestParameters['cc_number']);
 
-        if (!$this->sellerConfig->isEnabled()) {
+        if (!$this->sellerConfig->isEnabled() && isset($requestParameters['marketplace_subseller_payments'])) {
             unset($requestParameters['marketplace_subseller_payments']);
         }
 
@@ -471,7 +471,6 @@ class Client implements ClientInterface
         $client->setHeaders('Authorization', 'Bearer ' . $token);
         $client->setMethod(\Zend_Http_Client::POST);
         $client->setRawData(json_encode($requestParameters));
-
 
         try {
             $responseBody = json_decode($client->request()->getBody(), true);

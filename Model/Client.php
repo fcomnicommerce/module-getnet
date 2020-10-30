@@ -460,80 +460,13 @@ class Client implements ClientInterface
         $responseAuthorizeBody = false;
         $requestParameters['seller_id'] = $this->creditCardConfig->sellerId();
         $client = $this->httpClientFactory->create();
-
-        if (!isset($requestParameters['payment_id'])) {
-            return $requestParameters;
-        }
-
-        if ($this->sellerConfig->isEnabled() && !isset($requestParameters['marketplace_subseller_payments'])) {
-            $order = $this->helper->getOrderByPaymentId($requestParameters['payment_id']);
-
-            $sellers = [];
-            $subSellerSalesAmount = [];
-            $response = [];
-
-            foreach ($order->getItems() as $item) {
-                if ($item->getPrice() <= 0) {
-                    continue;
-                }
-
-                $product = $item->getProduct();
-
-                if ($product->getSellerId()) {
-                    $sellerData = $this->seller->create()->loadBySubSellerId($product->getSellerId());
-
-                    if (!$this->checkSellerIsApproved($sellerData)) {
-                        continue;
-                    }
-
-                    $sellers[$product->getSellerId()]['order_items'][] = [
-                        'amount' => (($item->getPrice() - $item->getDiscountAmount()) * $item->getQtyOrdered()) * 100,
-                        'currency' => 'BRL',
-                        'id' => $product->getId(),
-                        'description' => $product->getName()
-                    ];
-                }
-            }
-
-            foreach ($sellers as $sellerId => $seller) {
-                $amount = 0;
-
-                foreach ($seller['order_items'] as $orderItem) {
-                    $amount += $orderItem['amount'];
-                    $subSellerSalesAmount[$sellerId] = ['subseller_sales_amount' => $amount];
-                }
-
-                $requestParameters['marketplace_subseller_payments'][] = [
-                    'subseller_sales_amount' => (int) ceil($subSellerSalesAmount[$sellerId]['subseller_sales_amount']),
-                    'subseller_id' => $sellerId,
-                    'order_items' => $sellers[$sellerId]['order_items']
-                ];
-            }
-        }
-
-        if ($this->sellerConfig->isEnabled() && isset($requestParameters['marketplace_subseller_payments'])) {
-            $requestParameters['payment_id'] = $responseAuthorizeBody['payment_id'];
-        }
+        unset($requestParameters['cc_number']);
 
         if (!$this->sellerConfig->isEnabled()) {
-            $requestParameters = [
-                'payment_id' => $responseAuthorizeBody['payment_id'],
-                'amount' => (int) $responseAuthorizeBody['amount'],
-                'seller_id' => $responseAuthorizeBody['seller_id'],
-                'customer' => [
-                    'name' => $requestParameters['customer']['name'],
-                    'email' => $requestParameters['customer']['email']
-                ]
-            ];
+            unset($requestParameters['marketplace_subseller_payments']);
         }
 
-        $client->setUri(
-            str_replace(
-                '{payment_id}',
-                $requestParameters['payment_id'],
-                $this->creditCardConfig->captureEndpoint()
-            )
-        );
+        $client->setUri($this->creditCardConfig->authorizeEndpoint());
         $client->setHeaders(['content-type: application/json; charset=utf-8']);
         $client->setHeaders('Authorization', 'Bearer ' . $token);
         $client->setMethod(\Zend_Http_Client::POST);

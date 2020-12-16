@@ -527,9 +527,18 @@ class Client implements ClientInterface
                 }
 
                 $report->addData(['status' => $responseBody['status']]);
-                $report->addData(
-                    ['status_message' => $responseBody['status'] . ': ' . $responseBody['credit_confirm']['message']]
-                );
+
+                if (isset($responseBody['credit_confirm'])) {
+                    $report->addData(
+                        ['status_message' => $responseBody['status'] . ': ' . $responseBody['credit_confirm']['message']]
+                    );
+                }
+
+                if (isset($responseBody['credit'])) {
+                    $report->addData(
+                        ['status_message' => $responseBody['status'] . ': ' . $responseBody['credit']['reason_message']]
+                    );
+                }
                 $report->addData(['payment_type' => 'getnet_credit_card']);
                 $report->addData(['request_body' => json_encode($requestParameters)]);
                 $report->addData(['response_body' => json_encode($responseBody)]);

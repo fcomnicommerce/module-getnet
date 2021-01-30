@@ -16,47 +16,44 @@
 
 namespace FCamara\Getnet\Model\Eav\Entity\Attribute\Source;
 
-use FCamara\Getnet\Model\ResourceModel\Seller\Collection;
-use Magento\Eav\Model\Entity\Attribute\Source\AbstractSource;
 use FCamara\Getnet\Model\ResourceModel\Seller\CollectionFactory;
+use FCamara\Getnet\Model\Seller\SellerClient;
+use FCamara\Getnet\Model\Seller\SellerClientPj;
+use Magento\Eav\Model\Entity\Attribute\Source\AbstractSource;
 
 class SellerId extends AbstractSource
 {
+    const STATUS_APPROVED_TRANSACT = 'Aprovado Transacionar';
+    const STATUS_APPROVED_TRANSACT_TO_ANTICIPATE = 'Aprovado Transacionar e Antecipar';
+    const STATUS_APPROVED = 'Aprovado';
+
     /**
      * @var FCamara\Getnet\Model\ResourceModel\Seller\CollectionFactory
      */
     protected $sellerCollection;
 
     /**
+     * @var SellerClient
+     */
+    protected $clientPf;
+
+    /**
+     * @var SellerClientPj
+     */
+    protected $clientPj;
+
+    /**
      * SellerId constructor.
      * @param CollectionFactory $sellerCollection
      */
     public function __construct(
-        CollectionFactory $sellerCollection
+        CollectionFactory $sellerCollection,
+        SellerClient $clientPf,
+        SellerClientPj $clientPj
     ) {
         $this->sellerCollection = $sellerCollection->create();
-    }
-
-    /**
-     * Retrieve all options array
-     *
-     * @return array
-     */
-    public function getAllOptions()
-    {
-        if ($this->_options === null) {
-            $items = $this->sellerCollection->getItems();
-
-            $this->_options = [['value' => '', 'label' => __('-- Please Select --')]];
-            foreach ($items as $item) {
-                $this->_options[] = [
-                    'label' => $item->getData('legal_name'),
-                    'value' => $item->getData('subseller_id')
-                ];
-            }
-        }
-
-        return $this->_options;
+        $this->clientPf = $clientPf;
+        $this->clientPj = $clientPj;
     }
 
     /**
@@ -73,6 +70,70 @@ class SellerId extends AbstractSource
         }
 
         return $_options;
+    }
+
+    /**
+     * Retrieve all options array
+     *
+     * @return array
+     */
+    public function getAllOptions()
+    {
+        if ($this->_options === null) {
+            $items = $this->sellerCollection->getItems();
+
+            $this->_options = [['value' => '', 'label' => __('-- Please Select --')]];
+            foreach ($items as $item) {
+                if (!$this->checkSellerIsApproved($item)) {
+                    continue;
+                }
+
+                $this->_options[] = [
+                    'label' => $item->getData('legal_name'),
+                    'value' => $item->getData('subseller_id')
+                ];
+            }
+        }
+
+        return $this->_options;
+    }
+
+    protected function checkSellerIsApproved($seller)
+    {
+        $seller = $seller->getData();
+        $result = false;
+
+        if ($seller['type'] == 'PF') {
+            $pfCallback = $this->clientPf->pfCallback($seller['merchant_id'], $seller['legal_document_number']);
+
+            if (
+                $pfCallback
+                && (
+                    $pfCallback['status'] == self::STATUS_APPROVED
+                    || $pfCallback['status'] == self::STATUS_APPROVED_TRANSACT
+                    || $pfCallback['status'] == self::STATUS_APPROVED_TRANSACT_TO_ANTICIPATE
+                )
+            ) {
+                $result = true;
+            }
+        }
+
+        if ($seller['type'] == 'PJ') {
+            $pjCallback = $this->clientPj->pjCallback($seller['merchant_id'], $seller['legal_document_number']);
+
+            if (
+                $pjCallback
+                && (
+                    $pjCallback['status'] == self::STATUS_APPROVED
+                    || $pjCallback['status'] == self::STATUS_APPROVED_TRANSACT
+                    || $pjCallback['status'] == self::STATUS_APPROVED_TRANSACT_TO_ANTICIPATE
+                )
+            ) {
+                $result = true;
+            }
+        }
+
+        return $result;
     }
 
     /**

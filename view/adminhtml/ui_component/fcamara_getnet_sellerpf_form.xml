@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- 
+<!--
 /**
  * DISCLAIMER
  *
@@ -1174,6 +1174,24 @@
                     </argument>
                 </field>
 
+                <field name="commission_value">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="label" xsi:type="string">Valor fixo da taxa/comissão</item>
+                            <item name="notice" xsi:type="string">Deve conter apenas dígitos numéricos e um separador de decimal (.); Deve conter dois dígitos de casa decimal; Valor deve estar entre 0.00 e 100.00</item>
+                            <item name="visible" xsi:type="boolean">true</item>
+                            <item name="dataType" xsi:type="string">number</item>
+                            <item name="formElement" xsi:type="string">input</item>
+                            <item name="source" xsi:type="string">seller</item>
+                            <item name="validation" xsi:type="array">
+                                <item name="required-entry" xsi:type="boolean">false</item>
+                                <item name="required-number" xsi:type="boolean">true</item>
+                                <item name="validate-number" xsi:type="boolean">true</item>
+                            </item>
+                        </item>
+                    </argument>
+                </field>
+
                 <field name="payment_plan" formElement="select">
                     <argument name="data" xsi:type="array">
                         <item name="config" xsi:type="array">
@@ -1237,6 +1255,24 @@
                     <argument name="data" xsi:type="array">
                         <item name="config" xsi:type="array">
                             <item name="label" xsi:type="string">Valor percentual da taxa/comissão (%)</item>
+                            <item name="notice" xsi:type="string">Deve conter apenas dígitos numéricos e um separador de decimal (.); Deve conter dois dígitos de casa decimal; Valor deve estar entre 0.00 e 100.00</item>
+                            <item name="visible" xsi:type="boolean">true</item>
+                            <item name="dataType" xsi:type="string">number</item>
+                            <item name="formElement" xsi:type="string">input</item>
+                            <item name="source" xsi:type="string">seller</item>
+                            <item name="validation" xsi:type="array">
+                                <item name="required-entry" xsi:type="boolean">false</item>
+                                <item name="required-number" xsi:type="boolean">true</item>
+                                <item name="validate-number" xsi:type="boolean">true</item>
+                            </item>
+                        </item>
+                    </argument>
+                </field>
+
+                <field name="commission_value">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="label" xsi:type="string">Valor fixo da taxa/comissão</item>
                             <item name="notice" xsi:type="string">Deve conter apenas dígitos numéricos e um separador de decimal (.); Deve conter dois dígitos de casa decimal; Valor deve estar entre 0.00 e 100.00</item>
                             <item name="visible" xsi:type="boolean">true</item>
                             <item name="dataType" xsi:type="string">number</item>
@@ -1328,6 +1364,24 @@
                     </argument>
                 </field>
 
+                <field name="commission_value">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="label" xsi:type="string">Valor fixo da taxa/comissão</item>
+                            <item name="notice" xsi:type="string">Deve conter apenas dígitos numéricos e um separador de decimal (.); Deve conter dois dígitos de casa decimal; Valor deve estar entre 0.00 e 100.00</item>
+                            <item name="visible" xsi:type="boolean">true</item>
+                            <item name="dataType" xsi:type="string">number</item>
+                            <item name="formElement" xsi:type="string">input</item>
+                            <item name="source" xsi:type="string">seller</item>
+                            <item name="validation" xsi:type="array">
+                                <item name="required-entry" xsi:type="boolean">false</item>
+                                <item name="required-number" xsi:type="boolean">true</item>
+                                <item name="validate-number" xsi:type="boolean">true</item>
+                            </item>
+                        </item>
+                    </argument>
+                </field>
+
                 <field name="payment_plan" formElement="select">
                     <argument name="data" xsi:type="array">
                         <item name="config" xsi:type="array">
@@ -1391,6 +1445,24 @@
                     <argument name="data" xsi:type="array">
                         <item name="config" xsi:type="array">
                             <item name="label" xsi:type="string">Valor percentual da taxa/comissão (%)</item>
+                            <item name="notice" xsi:type="string">Deve conter apenas dígitos numéricos e um separador de decimal (.); Deve conter dois dígitos de casa decimal; Valor deve estar entre 0.00 e 100.00</item>
+                            <item name="visible" xsi:type="boolean">true</item>
+                            <item name="dataType" xsi:type="string">number</item>
+                            <item name="formElement" xsi:type="string">input</item>
+                            <item name="source" xsi:type="string">seller</item>
+                            <item name="validation" xsi:type="array">
+                                <item name="required-entry" xsi:type="boolean">false</item>
+                                <item name="required-number" xsi:type="boolean">true</item>
+                                <item name="validate-number" xsi:type="boolean">true</item>
+                            </item>
+                        </item>
+                    </argument>
+                </field>
+
+                <field name="commission_value">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="label" xsi:type="string">Valor fixo da taxa/comissão</item>
                             <item name="notice" xsi:type="string">Deve conter apenas dígitos numéricos e um separador de decimal (.); Deve conter dois dígitos de casa decimal; Valor deve estar entre 0.00 e 100.00</item>
                             <item name="visible" xsi:type="boolean">true</item>
                             <item name="dataType" xsi:type="string">number</item>
@@ -1482,6 +1554,24 @@
                     </argument>
                 </field>
 
+                <field name="commission_value">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="label" xsi:type="string">Valor fixo da taxa/comissão</item>
+                            <item name="notice" xsi:type="string">Deve conter apenas dígitos numéricos e um separador de decimal (.); Deve conter dois dígitos de casa decimal; Valor deve estar entre 0.00 e 100.00</item>
+                            <item name="visible" xsi:type="boolean">true</item>
+                            <item name="dataType" xsi:type="string">number</item>
+                            <item name="formElement" xsi:type="string">input</item>
+                            <item name="source" xsi:type="string">seller</item>
+                            <item name="validation" xsi:type="array">
+                                <item name="required-entry" xsi:type="boolean">false</item>
+                                <item name="required-number" xsi:type="boolean">true</item>
+                                <item name="validate-number" xsi:type="boolean">true</item>
+                            </item>
+                        </item>
+                    </argument>
+                </field>
+
                 <field name="payment_plan" formElement="select">
                     <argument name="data" xsi:type="array">
                         <item name="config" xsi:type="array">
@@ -1545,6 +1635,24 @@
                     <argument name="data" xsi:type="array">
                         <item name="config" xsi:type="array">
                             <item name="label" xsi:type="string">Valor percentual da taxa/comissão (%)</item>
+                            <item name="notice" xsi:type="string">Deve conter apenas dígitos numéricos e um separador de decimal (.); Deve conter dois dígitos de casa decimal; Valor deve estar entre 0.00 e 100.00</item>
+                            <item name="visible" xsi:type="boolean">true</item>
+                            <item name="dataType" xsi:type="string">number</item>
+                            <item name="formElement" xsi:type="string">input</item>
+                            <item name="source" xsi:type="string">seller</item>
+                            <item name="validation" xsi:type="array">
+                                <item name="required-entry" xsi:type="boolean">false</item>
+                                <item name="required-number" xsi:type="boolean">true</item>
+                                <item name="validate-number" xsi:type="boolean">true</item>
+                            </item>
+                        </item>
+                    </argument>
+                </field>
+
+                <field name="commission_value">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="label" xsi:type="string">Valor fixo da taxa/comissão</item>
                             <item name="notice" xsi:type="string">Deve conter apenas dígitos numéricos e um separador de decimal (.); Deve conter dois dígitos de casa decimal; Valor deve estar entre 0.00 e 100.00</item>
                             <item name="visible" xsi:type="boolean">true</item>
                             <item name="dataType" xsi:type="string">number</item>
@@ -1636,6 +1744,24 @@
                     </argument>
                 </field>
 
+                <field name="commission_value">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="label" xsi:type="string">Valor fixo da taxa/comissão</item>
+                            <item name="notice" xsi:type="string">Deve conter apenas dígitos numéricos e um separador de decimal (.); Deve conter dois dígitos de casa decimal; Valor deve estar entre 0.00 e 100.00</item>
+                            <item name="visible" xsi:type="boolean">true</item>
+                            <item name="dataType" xsi:type="string">number</item>
+                            <item name="formElement" xsi:type="string">input</item>
+                            <item name="source" xsi:type="string">seller</item>
+                            <item name="validation" xsi:type="array">
+                                <item name="required-entry" xsi:type="boolean">false</item>
+                                <item name="required-number" xsi:type="boolean">true</item>
+                                <item name="validate-number" xsi:type="boolean">true</item>
+                            </item>
+                        </item>
+                    </argument>
+                </field>
+
                 <field name="payment_plan" formElement="select">
                     <argument name="data" xsi:type="array">
                         <item name="config" xsi:type="array">
@@ -1699,6 +1825,24 @@
                     <argument name="data" xsi:type="array">
                         <item name="config" xsi:type="array">
                             <item name="label" xsi:type="string">Valor percentual da taxa/comissão (%)</item>
+                            <item name="notice" xsi:type="string">Deve conter apenas dígitos numéricos e um separador de decimal (.); Deve conter dois dígitos de casa decimal; Valor deve estar entre 0.00 e 100.00</item>
+                            <item name="visible" xsi:type="boolean">true</item>
+                            <item name="dataType" xsi:type="string">number</item>
+                            <item name="formElement" xsi:type="string">input</item>
+                            <item name="source" xsi:type="string">seller</item>
+                            <item name="validation" xsi:type="array">
+                                <item name="required-entry" xsi:type="boolean">false</item>
+                                <item name="required-number" xsi:type="boolean">true</item>
+                                <item name="validate-number" xsi:type="boolean">true</item>
+                            </item>
+                        </item>
+                    </argument>
+                </field>
+
+                <field name="commission_value">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="label" xsi:type="string">Valor fixo da taxa/comissão</item>
                             <item name="notice" xsi:type="string">Deve conter apenas dígitos numéricos e um separador de decimal (.); Deve conter dois dígitos de casa decimal; Valor deve estar entre 0.00 e 100.00</item>
                             <item name="visible" xsi:type="boolean">true</item>
                             <item name="dataType" xsi:type="string">number</item>

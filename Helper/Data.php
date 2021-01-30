@@ -188,6 +188,7 @@ class Data extends AbstractHelper
                             'brand' => $keyCommission,
                             'product' => $commission['product'],
                             'commission_percentage' => $commission['commission_percentage'],
+                            'commission_value' => $commission['commission_value'] ? $commission['commission_value'] : 0,
                             'payment_plan' => $commission['payment_plan']
                         ];
                     }
@@ -308,6 +309,7 @@ class Data extends AbstractHelper
                             'brand' => $keyCommission,
                             'product' => $commission['product'],
                             'commission_percentage' => $commission['commission_percentage'],
+                            'commission_value' => $commission['commission_value'] ? $commission['commission_value'] : 0,
                             'payment_plan' => $commission['payment_plan']
                         ];
                     }
@@ -424,6 +426,7 @@ class Data extends AbstractHelper
                             'brand' => $keyCommission,
                             'product' => $commission['product'],
                             'commission_percentage' => $commission['commission_percentage'],
+                            'commission_value' => $commission['commission_value'] ? $commission['commission_value'] : 0,
                             'payment_plan' => $commission['payment_plan']
                         ];
                     }
@@ -519,6 +522,7 @@ class Data extends AbstractHelper
                             'brand' => $keyCommission,
                             'product' => $commission['product'],
                             'commission_percentage' => $commission['commission_percentage'],
+                            'commission_value' => $commission['commission_value'] ? $commission['commission_value'] : 0,
                             'payment_plan' => $commission['payment_plan']
                         ];
                     }
@@ -618,6 +622,7 @@ class Data extends AbstractHelper
                             'brand' => $keyCommission,
                             'product' => $commission['product'],
                             'commission_percentage' => $commission['commission_percentage'],
+                            'commission_value' => $commission['commission_value'] ? $commission['commission_value'] : 0,
                             'payment_plan' => $commission['payment_plan']
                         ];
                     }
@@ -736,6 +741,7 @@ class Data extends AbstractHelper
                             'brand' => $keyCommission,
                             'product' => $commission['product'],
                             'commission_percentage' => $commission['commission_percentage'],
+                            'commission_value' => $commission['commission_value'] ? $commission['commission_value'] : 0,
                             'payment_plan' => $commission['payment_plan']
                         ];
                     }

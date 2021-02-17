@@ -18,12 +18,20 @@ namespace FCamara\Getnet\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
-use Magento\Sales\Model\ResourceModel\Order\Payment\CollectionFactory;
 use Magento\Sales\Model\OrderFactory;
+use Magento\Sales\Model\ResourceModel\Order\Payment\CollectionFactory;
 
 class Data extends AbstractHelper
 {
     public const MODULE_CODE = 'FCamara_Getnet';
+
+    protected const CREDIT_BRANDS = [
+        'VISA',
+        'MASTERCARD',
+        'AMEX',
+        'ELO CRÉDITO',
+        'HIPERCARD'
+    ];
 
     /**
      * @var CollectionFactory
@@ -175,7 +183,23 @@ class Data extends AbstractHelper
                     }
                     $listCommissions = [];
 
-                    foreach (json_decode($value, true) as $keyCommission => $commission) {
+                    $comissionsToArray = json_decode($value, true);
+                    $sigleComission = $comissionsToArray['SINGLECOMISSION'];
+                    unset($comissionsToArray['SINGLECOMISSION']);
+
+                    foreach ($comissionsToArray as $keyCommission => $commission) {
+                        if (!empty($sigleComission) && in_array($keyCommission, self::CREDIT_BRANDS)) {
+                            $listCommissions[] = [
+                                'brand' => $keyCommission,
+                                'product' => $sigleComission['product'],
+                                'commission_percentage' => $sigleComission['commission_percentage'],
+                                'commission_value' => $sigleComission['commission_value'] ? $sigleComission['commission_value'] : 0,
+                                'payment_plan' => $sigleComission['payment_plan']
+                            ];
+
+                            continue;
+                        }
+
                         if (
                             !$commission['product']
                             || !$commission['commission_percentage']
@@ -188,6 +212,7 @@ class Data extends AbstractHelper
                             'brand' => $keyCommission,
                             'product' => $commission['product'],
                             'commission_percentage' => $commission['commission_percentage'],
+                            'commission_value' => $commission['commission_value'] ? $commission['commission_value'] : 0,
                             'payment_plan' => $commission['payment_plan']
                         ];
                     }
@@ -295,7 +320,23 @@ class Data extends AbstractHelper
                 case 'list_commissions':
                     $listCommissions = [];
 
-                    foreach (json_decode($value, true) as $keyCommission => $commission) {
+                    $comissionsToArray = json_decode($value, true);
+                    $sigleComission = $comissionsToArray['SINGLECOMISSION'];
+                    unset($comissionsToArray['SINGLECOMISSION']);
+
+                    foreach ($comissionsToArray as $keyCommission => $commission) {
+                        if (!empty($sigleComission) && in_array($keyCommission, self::CREDIT_BRANDS)) {
+                            $listCommissions[] = [
+                                'brand' => $keyCommission,
+                                'product' => $sigleComission['product'],
+                                'commission_percentage' => $sigleComission['commission_percentage'],
+                                'commission_value' => $sigleComission['commission_value'] ? $sigleComission['commission_value'] : 0,
+                                'payment_plan' => $sigleComission['payment_plan']
+                            ];
+
+                            continue;
+                        }
+
                         if (
                             !$commission['product']
                             || !$commission['commission_percentage']
@@ -308,6 +349,7 @@ class Data extends AbstractHelper
                             'brand' => $keyCommission,
                             'product' => $commission['product'],
                             'commission_percentage' => $commission['commission_percentage'],
+                            'commission_value' => $commission['commission_value'] ? $commission['commission_value'] : 0,
                             'payment_plan' => $commission['payment_plan']
                         ];
                     }
@@ -411,7 +453,23 @@ class Data extends AbstractHelper
                 case 'list_commissions':
                     $listCommissions = [];
 
-                    foreach (json_decode($value, true) as $keyCommission => $commission) {
+                    $comissionsToArray = json_decode($value, true);
+                    $sigleComission = $comissionsToArray['SINGLECOMISSION'];
+                    unset($comissionsToArray['SINGLECOMISSION']);
+
+                    foreach ($comissionsToArray as $keyCommission => $commission) {
+                        if (!empty($sigleComission) && in_array($keyCommission, self::CREDIT_BRANDS)) {
+                            $listCommissions[] = [
+                                'brand' => $keyCommission,
+                                'product' => $sigleComission['product'],
+                                'commission_percentage' => $sigleComission['commission_percentage'],
+                                'commission_value' => $sigleComission['commission_value'] ? $sigleComission['commission_value'] : 0,
+                                'payment_plan' => $sigleComission['payment_plan']
+                            ];
+
+                            continue;
+                        }
+
                         if (
                             !$commission['product']
                             || !$commission['commission_percentage']
@@ -424,6 +482,7 @@ class Data extends AbstractHelper
                             'brand' => $keyCommission,
                             'product' => $commission['product'],
                             'commission_percentage' => $commission['commission_percentage'],
+                            'commission_value' => $commission['commission_value'] ? $commission['commission_value'] : 0,
                             'payment_plan' => $commission['payment_plan']
                         ];
                     }
@@ -506,7 +565,23 @@ class Data extends AbstractHelper
                 case 'list_commissions':
                     $listCommissions = [];
 
-                    foreach (json_decode($value, true) as $keyCommission => $commission) {
+                    $comissionsToArray = json_decode($value, true);
+                    $sigleComission = $comissionsToArray['SINGLECOMISSION'];
+                    unset($comissionsToArray['SINGLECOMISSION']);
+
+                    foreach ($comissionsToArray as $keyCommission => $commission) {
+                        if (!empty($sigleComission) && in_array($keyCommission, self::CREDIT_BRANDS)) {
+                            $listCommissions[] = [
+                                'brand' => $keyCommission,
+                                'product' => $sigleComission['product'],
+                                'commission_percentage' => $sigleComission['commission_percentage'],
+                                'commission_value' => $sigleComission['commission_value'] ? $sigleComission['commission_value'] : 0,
+                                'payment_plan' => $sigleComission['payment_plan']
+                            ];
+
+                            continue;
+                        }
+
                         if (
                             !$commission['product']
                             || !$commission['commission_percentage']
@@ -519,6 +594,7 @@ class Data extends AbstractHelper
                             'brand' => $keyCommission,
                             'product' => $commission['product'],
                             'commission_percentage' => $commission['commission_percentage'],
+                            'commission_value' => $commission['commission_value'] ? $commission['commission_value'] : 0,
                             'payment_plan' => $commission['payment_plan']
                         ];
                     }
@@ -605,7 +681,23 @@ class Data extends AbstractHelper
                 case 'list_commissions':
                     $listCommissions = [];
 
-                    foreach (json_decode($value, true) as $keyCommission => $commission) {
+                    $comissionsToArray = json_decode($value, true);
+                    $sigleComission = $comissionsToArray['SINGLECOMISSION'];
+                    unset($comissionsToArray['SINGLECOMISSION']);
+
+                    foreach ($comissionsToArray as $keyCommission => $commission) {
+                        if (!empty($sigleComission) && in_array($keyCommission, self::CREDIT_BRANDS)) {
+                            $listCommissions[] = [
+                                'brand' => $keyCommission,
+                                'product' => $sigleComission['product'],
+                                'commission_percentage' => $sigleComission['commission_percentage'],
+                                'commission_value' => $sigleComission['commission_value'] ? $sigleComission['commission_value'] : 0,
+                                'payment_plan' => $sigleComission['payment_plan']
+                            ];
+
+                            continue;
+                        }
+
                         if (
                             !$commission['product']
                             || !$commission['commission_percentage']
@@ -618,6 +710,7 @@ class Data extends AbstractHelper
                             'brand' => $keyCommission,
                             'product' => $commission['product'],
                             'commission_percentage' => $commission['commission_percentage'],
+                            'commission_value' => $commission['commission_value'] ? $commission['commission_value'] : 0,
                             'payment_plan' => $commission['payment_plan']
                         ];
                     }
@@ -723,7 +816,23 @@ class Data extends AbstractHelper
                 case 'list_commissions':
                     $listCommissions = [];
 
-                    foreach (json_decode($value, true) as $keyCommission => $commission) {
+                    $comissionsToArray = json_decode($value, true);
+                    $sigleComission = $comissionsToArray['SINGLECOMISSION'];
+                    unset($comissionsToArray['SINGLECOMISSION']);
+
+                    foreach ($comissionsToArray as $keyCommission => $commission) {
+                        if (!empty($sigleComission) && in_array($keyCommission, self::CREDIT_BRANDS)) {
+                            $listCommissions[] = [
+                                'brand' => $keyCommission,
+                                'product' => $sigleComission['product'],
+                                'commission_percentage' => $sigleComission['commission_percentage'],
+                                'commission_value' => $sigleComission['commission_value'] ? $sigleComission['commission_value'] : 0,
+                                'payment_plan' => $sigleComission['payment_plan']
+                            ];
+
+                            continue;
+                        }
+
                         if (
                             !$commission['product']
                             || !$commission['commission_percentage']
@@ -736,6 +845,7 @@ class Data extends AbstractHelper
                             'brand' => $keyCommission,
                             'product' => $commission['product'],
                             'commission_percentage' => $commission['commission_percentage'],
+                            'commission_value' => $commission['commission_value'] ? $commission['commission_value'] : 0,
                             'payment_plan' => $commission['payment_plan']
                         ];
                     }

@@ -139,10 +139,10 @@ class SellerConfig implements SellerConfigInterface
     public function endpoint()
     {
         if ($this->environment() == \FCamara\Getnet\Model\Adminhtml\Source\Environment::SANDBOX_ENVIRONMENT) {
-            return $this->sandboxEndpoint();
+            return rtrim($this->sandboxEndpoint(), '/');
         }
 
-        return $this->productionEndpoint();
+        return rtrim($this->productionEndpoint(), '/');
     }
 
     /**

@@ -525,7 +525,8 @@ class Data extends AbstractHelper
                     break;
                 case 'founding_date':
                     if ($value) {
-                        $data[$key] = date_format(date_create($value), 'Y-m-d');
+                        $date = str_replace("/", "-", $value);
+                        $data[$key] = date("Y-m-d", strtotime($date));
                     }
                     break;
                 case 'business_address':
@@ -651,7 +652,8 @@ class Data extends AbstractHelper
                     break;
                 case 'founding_date':
                     if ($value) {
-                        $data[$key] = date_format(date_create($value), 'Y-m-d');
+                        $date = str_replace("/", "-", $value);
+                        $data[$key] = date("Y-m-d", strtotime($date));
                     }
                     break;
                 case 'business_address':
@@ -767,13 +769,15 @@ class Data extends AbstractHelper
                     break;
                 case 'founding_date':
                     if ($value) {
-                        $data['date'] = date_format(date_create($value), 'Y-m-d');
+                        $date = str_replace("/", "-", $value);
+                        $data[$key] = date("Y-m-d", strtotime($date));
                     }
                     break;
                 case 'business_address':
                     if (!$value) {
                         break;
                     }
+
                     $businessAddress = json_decode($value, true);
                     $data['adresses'][] = [
                         'address_type' => 'business',

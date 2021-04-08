@@ -30,7 +30,12 @@ interface ClientInterface
         "Visa" => "Visa",
         "Amex" => "Amex",
         "Elo" => "Elo",
-        "Hipercard" => "Hipercard"
+        "Hipercard" => "Hipercard",
+        "mastercard" => "Mastercard",
+        "visa" => "Visa",
+        "amex" => "Amex",
+        "elo" => "Elo",
+        "hipercard" => "Hipercard"
     ];
 
     const CREDIT_CARD_MONTH_EXP = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];

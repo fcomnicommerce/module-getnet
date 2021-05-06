@@ -188,7 +188,7 @@ class Data extends AbstractHelper
                     unset($comissionsToArray['SINGLECOMISSION']);
 
                     foreach ($comissionsToArray as $keyCommission => $commission) {
-                        if (!empty($sigleComission) && in_array($keyCommission, self::CREDIT_BRANDS)) {
+                        if ($this->isValidArray($sigleComission) && in_array($keyCommission, self::CREDIT_BRANDS)) {
                             $listCommissions[] = [
                                 'brand' => $keyCommission,
                                 'product' => $sigleComission['product'],
@@ -325,7 +325,7 @@ class Data extends AbstractHelper
                     unset($comissionsToArray['SINGLECOMISSION']);
 
                     foreach ($comissionsToArray as $keyCommission => $commission) {
-                        if (!empty($sigleComission) && in_array($keyCommission, self::CREDIT_BRANDS)) {
+                        if ($this->isValidArray($sigleComission) && in_array($keyCommission, self::CREDIT_BRANDS)) {
                             $listCommissions[] = [
                                 'brand' => $keyCommission,
                                 'product' => $sigleComission['product'],
@@ -458,7 +458,7 @@ class Data extends AbstractHelper
                     unset($comissionsToArray['SINGLECOMISSION']);
 
                     foreach ($comissionsToArray as $keyCommission => $commission) {
-                        if (!empty($sigleComission) && in_array($keyCommission, self::CREDIT_BRANDS)) {
+                        if ($this->isValidArray($sigleComission) && in_array($keyCommission, self::CREDIT_BRANDS)) {
                             $listCommissions[] = [
                                 'brand' => $keyCommission,
                                 'product' => $sigleComission['product'],
@@ -526,6 +526,7 @@ class Data extends AbstractHelper
                 case 'founding_date':
                     if ($value) {
                         $date = str_replace("/", "-", $value);
+                        $erro = date("Y-m-d", strtotime($date));
                         $data[$key] = date("Y-m-d", strtotime($date));
                     }
                     break;
@@ -571,7 +572,7 @@ class Data extends AbstractHelper
                     unset($comissionsToArray['SINGLECOMISSION']);
 
                     foreach ($comissionsToArray as $keyCommission => $commission) {
-                        if (!empty($sigleComission) && in_array($keyCommission, self::CREDIT_BRANDS)) {
+                        if ($this->isValidArray($sigleComission) && in_array($keyCommission, self::CREDIT_BRANDS)) {
                             $listCommissions[] = [
                                 'brand' => $keyCommission,
                                 'product' => $sigleComission['product'],
@@ -688,7 +689,7 @@ class Data extends AbstractHelper
                     unset($comissionsToArray['SINGLECOMISSION']);
 
                     foreach ($comissionsToArray as $keyCommission => $commission) {
-                        if (!empty($sigleComission) && in_array($keyCommission, self::CREDIT_BRANDS)) {
+                        if ($this->isValidArray($sigleComission) && in_array($keyCommission, self::CREDIT_BRANDS)) {
                             $listCommissions[] = [
                                 'brand' => $keyCommission,
                                 'product' => $sigleComission['product'],
@@ -825,7 +826,7 @@ class Data extends AbstractHelper
                     unset($comissionsToArray['SINGLECOMISSION']);
 
                     foreach ($comissionsToArray as $keyCommission => $commission) {
-                        if (!empty($sigleComission) && in_array($keyCommission, self::CREDIT_BRANDS)) {
+                        if ($this->isValidArray($sigleComission) && in_array($keyCommission, self::CREDIT_BRANDS)) {
                             $listCommissions[] = [
                                 'brand' => $keyCommission,
                                 'product' => $sigleComission['product'],
@@ -897,5 +898,15 @@ class Data extends AbstractHelper
         }
 
         return $order;
+    }
+
+    private function isValidArray($data)
+    {
+        foreach ($data as $item) {
+            if (!empty($item)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

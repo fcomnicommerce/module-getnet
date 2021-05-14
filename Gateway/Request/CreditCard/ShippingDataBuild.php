@@ -63,7 +63,7 @@ class ShippingDataBuild implements BuilderInterface
         $complement = $address[2];
         $district = $address[3];
 
-        $postcode =  $this->cleanZipcode($shipping->getPostcode());
+        $postcode = $this->cleanZipcode($shipping->getPostcode());
 
         $response['shippings'][] = [
             'first_name' => $shipping->getFirstname(),
@@ -92,7 +92,7 @@ class ShippingDataBuild implements BuilderInterface
     private function cleanZipcode($postcode)
     {
         $postcode = explode("-", $postcode);
-        return count($postcode) > 1 ? $postcode[0] . $postcode[1] : $postcode;
+        return count($postcode) > 1 ? $postcode[0] . $postcode[1] : $postcode[0];
     }
 
     private function getAddressLines($billingAddress)

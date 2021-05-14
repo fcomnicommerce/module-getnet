@@ -94,7 +94,7 @@ class ShippingDataBuild implements BuilderInterface
     private function cleanZipcode($postcode)
     {
         $postcode = explode("-", $postcode);
-        return count($postcode) > 1 ? $postcode[0] . $postcode[1] : $postcode;
+        return count($postcode) > 1 ? $postcode[0] . $postcode[1] : $postcode[0];
     }
 
     private function getAddressLines($billingAddress)

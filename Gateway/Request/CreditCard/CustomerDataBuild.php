@@ -151,6 +151,6 @@ class CustomerDataBuild implements BuilderInterface
     public function cleanZipcode($postcode)
     {
         $postcode = explode("-", $postcode);
-        return count($postcode) > 1 ? $postcode[0] . $postcode[1] : $postcode;
+        return count($postcode) > 1 ? $postcode[0] . $postcode[1] : $postcode[0];
     }
 }

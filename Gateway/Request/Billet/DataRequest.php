@@ -171,7 +171,7 @@ class DataRequest implements BuilderInterface
                 'first_name' => $customer->getFirstname(),
                 'name' => $customer->getFirstname() . ' ' . $customer->getLastname(),
                 'document_type' => 'CPF',
-                'document_number' => $customer->getTaxvat(),
+                'document_number' => $this->formatCpfCnpj($customer->getTaxvat()),
                 'billing_address' => [
                     'street' => $street,
                     'number' => $number,
@@ -279,5 +279,10 @@ class DataRequest implements BuilderInterface
         }
 
         return $result;
+    }
+
+    private function formatCpfCnpj($number)
+    {
+        return preg_replace("/[^0-9]/", "", $number);
     }
 }

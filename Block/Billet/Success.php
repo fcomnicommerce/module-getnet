@@ -94,7 +94,7 @@ class Success extends \Magento\Checkout\Block\Success
         $response = $order->getPayment()->getAdditionalInformation('billet_data');
 
         if (isset($response['_links'][1]['href'])) {
-            return $this->config->endpoint() . $response['_links'][1]['href'];
+            return rtrim($this->config->endpoint(), '/') . $response['_links'][1]['href'];
         }
 
         return '';
@@ -109,7 +109,7 @@ class Success extends \Magento\Checkout\Block\Success
         $response = $order->getPayment()->getAdditionalInformation('billet_data');
 
         if (isset($response['_links'][0]['href'])) {
-            return $this->config->endpoint() . $response['_links'][0]['href'];
+            return rtrim($this->config->endpoint(), '/') . $response['_links'][0]['href'];
         }
 
         return '';

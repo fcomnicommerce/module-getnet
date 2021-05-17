@@ -34,7 +34,7 @@ class Data extends AbstractHelper
     ];
     protected const CREDIT_MODULES = [
         'CREDITO A VISTA',
-        '"PARCELADO LOJISTA 3X',
+        'PARCELADO LOJISTA 3X',
         'PARCELADO LOJISTA 6X',
         'PARCELADO LOJISTA 9X',
         'PARCELADO EMISSOR'

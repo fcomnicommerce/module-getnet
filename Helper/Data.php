@@ -32,6 +32,13 @@ class Data extends AbstractHelper
         'ELO CRÉDITO',
         'HIPERCARD'
     ];
+    protected const CREDIT_MODULES = [
+        'CREDITO A VISTA',
+        '"PARCELADO LOJISTA 3X',
+        'PARCELADO LOJISTA 6X',
+        'PARCELADO LOJISTA 9X',
+        'PARCELADO EMISSOR'
+    ];
 
     /**
      * @var CollectionFactory
@@ -184,37 +191,38 @@ class Data extends AbstractHelper
                     $listCommissions = [];
 
                     $comissionsToArray = json_decode($value, true);
-                    $sigleComission = $comissionsToArray['SINGLECOMISSION'];
-                    unset($comissionsToArray['SINGLECOMISSION']);
-
                     foreach ($comissionsToArray as $keyCommission => $commission) {
-                        if ($this->isValidArray($sigleComission) && in_array($keyCommission, self::CREDIT_BRANDS)) {
-                            $listCommissions[] = [
-                                'brand' => $keyCommission,
-                                'product' => $sigleComission['product'],
-                                'commission_percentage' => $sigleComission['commission_percentage'],
-                                'commission_value' => $sigleComission['commission_value'] ? $sigleComission['commission_value'] : 0,
-                                'payment_plan' => $sigleComission['payment_plan']
-                            ];
-
-                            continue;
-                        }
-
                         if (
-                            !$commission['product']
-                            || !$commission['commission_percentage']
+                            !$commission['commission_percentage']
                             || !$commission['payment_plan']
                         ) {
                             continue;
                         }
 
-                        $listCommissions[] = [
-                            'brand' => $keyCommission,
-                            'product' => $commission['product'],
-                            'commission_percentage' => $commission['commission_percentage'],
-                            'commission_value' => $commission['commission_value'] ? $commission['commission_value'] : 0,
-                            'payment_plan' => $commission['payment_plan']
-                        ];
+                        if ($keyCommission == 'CREDITCARD') {
+                            foreach (self::CREDIT_BRANDS as $brand) {
+
+                                foreach (self::CREDIT_MODULES as $module) {
+                                    $listCommissions[] = [
+                                        'brand' => $brand,
+                                        'product' => $module,
+                                        'commission_percentage' => $commission['commission_percentage'],
+                                        'commission_value' => $commission['commission_value'] ? $commission['commission_value'] : 0,
+                                        'payment_plan' => $commission['payment_plan']
+                                    ];
+                                }
+                            }
+                        }
+
+                        if ($keyCommission == 'BOLETO') {
+                            $listCommissions[] = [
+                                'brand' => 'BOLETO',
+                                'product' => 'BOLETO',
+                                'commission_percentage' => $commission['commission_percentage'],
+                                'commission_value' => $commission['commission_value'] ? $commission['commission_value'] : 0,
+                                'payment_plan' => $commission['payment_plan']
+                            ];
+                        }
                     }
 
                     if ($listCommissions) {
@@ -321,37 +329,38 @@ class Data extends AbstractHelper
                     $listCommissions = [];
 
                     $comissionsToArray = json_decode($value, true);
-                    $sigleComission = $comissionsToArray['SINGLECOMISSION'];
-                    unset($comissionsToArray['SINGLECOMISSION']);
-
                     foreach ($comissionsToArray as $keyCommission => $commission) {
-                        if ($this->isValidArray($sigleComission) && in_array($keyCommission, self::CREDIT_BRANDS)) {
-                            $listCommissions[] = [
-                                'brand' => $keyCommission,
-                                'product' => $sigleComission['product'],
-                                'commission_percentage' => $sigleComission['commission_percentage'],
-                                'commission_value' => $sigleComission['commission_value'] ? $sigleComission['commission_value'] : 0,
-                                'payment_plan' => $sigleComission['payment_plan']
-                            ];
-
-                            continue;
-                        }
-
                         if (
-                            !$commission['product']
-                            || !$commission['commission_percentage']
+                            !$commission['commission_percentage']
                             || !$commission['payment_plan']
                         ) {
                             continue;
                         }
 
-                        $listCommissions[] = [
-                            'brand' => $keyCommission,
-                            'product' => $commission['product'],
-                            'commission_percentage' => $commission['commission_percentage'],
-                            'commission_value' => $commission['commission_value'] ? $commission['commission_value'] : 0,
-                            'payment_plan' => $commission['payment_plan']
-                        ];
+                        if ($keyCommission == 'CREDITCARD') {
+                            foreach (self::CREDIT_BRANDS as $brand) {
+
+                                foreach (self::CREDIT_MODULES as $module) {
+                                    $listCommissions[] = [
+                                        'brand' => $brand,
+                                        'product' => $module,
+                                        'commission_percentage' => $commission['commission_percentage'],
+                                        'commission_value' => $commission['commission_value'] ? $commission['commission_value'] : 0,
+                                        'payment_plan' => $commission['payment_plan']
+                                    ];
+                                }
+                            }
+                        }
+
+                        if ($keyCommission == 'BOLETO') {
+                            $listCommissions[] = [
+                                'brand' => 'BOLETO',
+                                'product' => 'BOLETO',
+                                'commission_percentage' => $commission['commission_percentage'],
+                                'commission_value' => $commission['commission_value'] ? $commission['commission_value'] : 0,
+                                'payment_plan' => $commission['payment_plan']
+                            ];
+                        }
                     }
 
                     $data[$key] = $listCommissions;
@@ -454,37 +463,39 @@ class Data extends AbstractHelper
                     $listCommissions = [];
 
                     $comissionsToArray = json_decode($value, true);
-                    $sigleComission = $comissionsToArray['SINGLECOMISSION'];
-                    unset($comissionsToArray['SINGLECOMISSION']);
 
                     foreach ($comissionsToArray as $keyCommission => $commission) {
-                        if ($this->isValidArray($sigleComission) && in_array($keyCommission, self::CREDIT_BRANDS)) {
-                            $listCommissions[] = [
-                                'brand' => $keyCommission,
-                                'product' => $sigleComission['product'],
-                                'commission_percentage' => $sigleComission['commission_percentage'],
-                                'commission_value' => $sigleComission['commission_value'] ? $sigleComission['commission_value'] : 0,
-                                'payment_plan' => $sigleComission['payment_plan']
-                            ];
-
-                            continue;
-                        }
-
                         if (
-                            !$commission['product']
-                            || !$commission['commission_percentage']
+                            !$commission['commission_percentage']
                             || !$commission['payment_plan']
                         ) {
                             continue;
                         }
 
-                        $listCommissions[] = [
-                            'brand' => $keyCommission,
-                            'product' => $commission['product'],
-                            'commission_percentage' => $commission['commission_percentage'],
-                            'commission_value' => $commission['commission_value'] ? $commission['commission_value'] : 0,
-                            'payment_plan' => $commission['payment_plan']
-                        ];
+                        if ($keyCommission == 'CREDITCARD') {
+                            foreach (self::CREDIT_BRANDS as $brand) {
+
+                                foreach (self::CREDIT_MODULES as $module) {
+                                    $listCommissions[] = [
+                                        'brand' => $brand,
+                                        'product' => $module,
+                                        'commission_percentage' => $commission['commission_percentage'],
+                                        'commission_value' => $commission['commission_value'] ? $commission['commission_value'] : 0,
+                                        'payment_plan' => $commission['payment_plan']
+                                    ];
+                                }
+                            }
+                        }
+
+                        if ($keyCommission == 'BOLETO') {
+                            $listCommissions[] = [
+                                'brand' => 'BOLETO',
+                                'product' => 'BOLETO',
+                                'commission_percentage' => $commission['commission_percentage'],
+                                'commission_value' => $commission['commission_value'] ? $commission['commission_value'] : 0,
+                                'payment_plan' => $commission['payment_plan']
+                            ];
+                        }
                     }
 
                     $data[$key] = $listCommissions;
@@ -568,37 +579,38 @@ class Data extends AbstractHelper
                     $listCommissions = [];
 
                     $comissionsToArray = json_decode($value, true);
-                    $sigleComission = $comissionsToArray['SINGLECOMISSION'];
-                    unset($comissionsToArray['SINGLECOMISSION']);
-
                     foreach ($comissionsToArray as $keyCommission => $commission) {
-                        if ($this->isValidArray($sigleComission) && in_array($keyCommission, self::CREDIT_BRANDS)) {
-                            $listCommissions[] = [
-                                'brand' => $keyCommission,
-                                'product' => $sigleComission['product'],
-                                'commission_percentage' => $sigleComission['commission_percentage'],
-                                'commission_value' => $sigleComission['commission_value'] ? $sigleComission['commission_value'] : 0,
-                                'payment_plan' => $sigleComission['payment_plan']
-                            ];
-
-                            continue;
-                        }
-
                         if (
-                            !$commission['product']
-                            || !$commission['commission_percentage']
+                            !$commission['commission_percentage']
                             || !$commission['payment_plan']
                         ) {
                             continue;
                         }
 
-                        $listCommissions[] = [
-                            'brand' => $keyCommission,
-                            'product' => $commission['product'],
-                            'commission_percentage' => $commission['commission_percentage'],
-                            'commission_value' => $commission['commission_value'] ? $commission['commission_value'] : 0,
-                            'payment_plan' => $commission['payment_plan']
-                        ];
+                        if ($keyCommission == 'CREDITCARD') {
+                            foreach (self::CREDIT_BRANDS as $brand) {
+
+                                foreach (self::CREDIT_MODULES as $module) {
+                                    $listCommissions[] = [
+                                        'brand' => $brand,
+                                        'product' => $module,
+                                        'commission_percentage' => $commission['commission_percentage'],
+                                        'commission_value' => $commission['commission_value'] ? $commission['commission_value'] : 0,
+                                        'payment_plan' => $commission['payment_plan']
+                                    ];
+                                }
+                            }
+                        }
+
+                        if ($keyCommission == 'BOLETO') {
+                            $listCommissions[] = [
+                                'brand' => 'BOLETO',
+                                'product' => 'BOLETO',
+                                'commission_percentage' => $commission['commission_percentage'],
+                                'commission_value' => $commission['commission_value'] ? $commission['commission_value'] : 0,
+                                'payment_plan' => $commission['payment_plan']
+                            ];
+                        }
                     }
 
                     $data[$key] = $listCommissions;
@@ -685,37 +697,38 @@ class Data extends AbstractHelper
                     $listCommissions = [];
 
                     $comissionsToArray = json_decode($value, true);
-                    $sigleComission = $comissionsToArray['SINGLECOMISSION'];
-                    unset($comissionsToArray['SINGLECOMISSION']);
-
                     foreach ($comissionsToArray as $keyCommission => $commission) {
-                        if ($this->isValidArray($sigleComission) && in_array($keyCommission, self::CREDIT_BRANDS)) {
-                            $listCommissions[] = [
-                                'brand' => $keyCommission,
-                                'product' => $sigleComission['product'],
-                                'commission_percentage' => $sigleComission['commission_percentage'],
-                                'commission_value' => $sigleComission['commission_value'] ? $sigleComission['commission_value'] : 0,
-                                'payment_plan' => $sigleComission['payment_plan']
-                            ];
-
-                            continue;
-                        }
-
                         if (
-                            !$commission['product']
-                            || !$commission['commission_percentage']
+                            !$commission['commission_percentage']
                             || !$commission['payment_plan']
                         ) {
                             continue;
                         }
 
-                        $listCommissions[] = [
-                            'brand' => $keyCommission,
-                            'product' => $commission['product'],
-                            'commission_percentage' => $commission['commission_percentage'],
-                            'commission_value' => $commission['commission_value'] ? $commission['commission_value'] : 0,
-                            'payment_plan' => $commission['payment_plan']
-                        ];
+                        if ($keyCommission == 'CREDITCARD') {
+                            foreach (self::CREDIT_BRANDS as $brand) {
+
+                                foreach (self::CREDIT_MODULES as $module) {
+                                    $listCommissions[] = [
+                                        'brand' => $brand,
+                                        'product' => $module,
+                                        'commission_percentage' => $commission['commission_percentage'],
+                                        'commission_value' => $commission['commission_value'] ? $commission['commission_value'] : 0,
+                                        'payment_plan' => $commission['payment_plan']
+                                    ];
+                                }
+                            }
+                        }
+
+                        if ($keyCommission == 'BOLETO') {
+                            $listCommissions[] = [
+                                'brand' => 'BOLETO',
+                                'product' => 'BOLETO',
+                                'commission_percentage' => $commission['commission_percentage'],
+                                'commission_value' => $commission['commission_value'] ? $commission['commission_value'] : 0,
+                                'payment_plan' => $commission['payment_plan']
+                            ];
+                        }
                     }
 
                     $data[$key] = $listCommissions;
@@ -822,37 +835,38 @@ class Data extends AbstractHelper
                     $listCommissions = [];
 
                     $comissionsToArray = json_decode($value, true);
-                    $sigleComission = $comissionsToArray['SINGLECOMISSION'];
-                    unset($comissionsToArray['SINGLECOMISSION']);
-
                     foreach ($comissionsToArray as $keyCommission => $commission) {
-                        if ($this->isValidArray($sigleComission) && in_array($keyCommission, self::CREDIT_BRANDS)) {
-                            $listCommissions[] = [
-                                'brand' => $keyCommission,
-                                'product' => $sigleComission['product'],
-                                'commission_percentage' => $sigleComission['commission_percentage'],
-                                'commission_value' => $sigleComission['commission_value'] ? $sigleComission['commission_value'] : 0,
-                                'payment_plan' => $sigleComission['payment_plan']
-                            ];
-
-                            continue;
-                        }
-
                         if (
-                            !$commission['product']
-                            || !$commission['commission_percentage']
+                            !$commission['commission_percentage']
                             || !$commission['payment_plan']
                         ) {
                             continue;
                         }
 
-                        $listCommissions[] = [
-                            'brand' => $keyCommission,
-                            'product' => $commission['product'],
-                            'commission_percentage' => $commission['commission_percentage'],
-                            'commission_value' => $commission['commission_value'] ? $commission['commission_value'] : 0,
-                            'payment_plan' => $commission['payment_plan']
-                        ];
+                        if ($keyCommission == 'CREDITCARD') {
+                            foreach (self::CREDIT_BRANDS as $brand) {
+
+                                foreach (self::CREDIT_MODULES as $module) {
+                                    $listCommissions[] = [
+                                        'brand' => $brand,
+                                        'product' => $module,
+                                        'commission_percentage' => $commission['commission_percentage'],
+                                        'commission_value' => $commission['commission_value'] ? $commission['commission_value'] : 0,
+                                        'payment_plan' => $commission['payment_plan']
+                                    ];
+                                }
+                            }
+                        }
+
+                        if ($keyCommission == 'BOLETO') {
+                            $listCommissions[] = [
+                                'brand' => 'BOLETO',
+                                'product' => 'BOLETO',
+                                'commission_percentage' => $commission['commission_percentage'],
+                                'commission_value' => $commission['commission_value'] ? $commission['commission_value'] : 0,
+                                'payment_plan' => $commission['payment_plan']
+                            ];
+                        }
                     }
 
                     $data[$key] = $listCommissions;

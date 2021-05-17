@@ -19,6 +19,7 @@ namespace FCamara\Getnet\Controller\Adminhtml\SellerPf;
 use FCamara\Getnet\Model\Seller\SellerClient;
 use Magento\Backend\App\Action\Context;
 use FCamara\Getnet\Model\SellerFactory;
+use Magento\Framework\Controller\ResultFactory;
 
 class NewAction extends \Magento\Backend\App\Action
 {
@@ -110,8 +111,10 @@ class NewAction extends \Magento\Backend\App\Action
                 $this->messageManager->addErrorMessage($e->getMessage());
             }
 
-            $resultRedirect = $this->resultRedirectFactory->create();
-            return $resultRedirect->setPath('fcamara_getnet/seller/index');
+            $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
+            $resultRedirect->setPath($this->_redirect->getRefererUrl(), $this->getRequest()->getParams());
+
+            return $resultRedirect;
         }
     }
 }

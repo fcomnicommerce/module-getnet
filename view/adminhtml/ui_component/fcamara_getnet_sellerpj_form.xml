@@ -729,6 +729,7 @@
                     <argument name="data" xsi:type="array">
                         <item name="config" xsi:type="array">
                             <item name="label" xsi:type="string">Valor fixo da taxa/comissão</item>
+                            <item name="notice" xsi:type="string">Só é necessário preencher um dos campos de comissão. Em caso de preenchimento do percentual e valor, os valores serão somados e descontado dos sellers</item>
                             <item name="visible" xsi:type="boolean">true</item>
                             <item name="dataType" xsi:type="string">number</item>
                             <item name="formElement" xsi:type="string">input</item>
@@ -800,6 +801,7 @@
                     <argument name="data" xsi:type="array">
                         <item name="config" xsi:type="array">
                             <item name="label" xsi:type="string">Valor fixo da taxa/comissão</item>
+                            <item name="notice" xsi:type="string">Só é necessário preencher um dos campos de comissão. Em caso de preenchimento do percentual e valor, os valores serão somados e descontado dos sellers</item>
                             <item name="visible" xsi:type="boolean">true</item>
                             <item name="dataType" xsi:type="string">number</item>
                             <item name="formElement" xsi:type="string">input</item>

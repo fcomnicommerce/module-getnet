@@ -37,6 +37,7 @@ class Data extends AbstractHelper
         'PARCELADO LOJISTA 3X',
         'PARCELADO LOJISTA 6X',
         'PARCELADO LOJISTA 9X',
+        'PARCELADO LOJISTA 12X',
         'PARCELADO EMISSOR'
     ];
 
@@ -192,10 +193,7 @@ class Data extends AbstractHelper
 
                     $comissionsToArray = json_decode($value, true);
                     foreach ($comissionsToArray as $keyCommission => $commission) {
-                        if (
-                            !$commission['commission_percentage']
-                            || !$commission['payment_plan']
-                        ) {
+                        if (!$commission['payment_plan']) {
                             continue;
                         }
 
@@ -330,10 +328,7 @@ class Data extends AbstractHelper
 
                     $comissionsToArray = json_decode($value, true);
                     foreach ($comissionsToArray as $keyCommission => $commission) {
-                        if (
-                            !$commission['commission_percentage']
-                            || !$commission['payment_plan']
-                        ) {
+                        if (!$commission['payment_plan']) {
                             continue;
                         }
 
@@ -465,10 +460,7 @@ class Data extends AbstractHelper
                     $comissionsToArray = json_decode($value, true);
 
                     foreach ($comissionsToArray as $keyCommission => $commission) {
-                        if (
-                            !$commission['commission_percentage']
-                            || !$commission['payment_plan']
-                        ) {
+                        if (!$commission['payment_plan']) {
                             continue;
                         }
 
@@ -580,10 +572,7 @@ class Data extends AbstractHelper
 
                     $comissionsToArray = json_decode($value, true);
                     foreach ($comissionsToArray as $keyCommission => $commission) {
-                        if (
-                            !$commission['commission_percentage']
-                            || !$commission['payment_plan']
-                        ) {
+                        if (!$commission['payment_plan']) {
                             continue;
                         }
 
@@ -698,10 +687,7 @@ class Data extends AbstractHelper
 
                     $comissionsToArray = json_decode($value, true);
                     foreach ($comissionsToArray as $keyCommission => $commission) {
-                        if (
-                            !$commission['commission_percentage']
-                            || !$commission['payment_plan']
-                        ) {
+                        if (!$commission['payment_plan']) {
                             continue;
                         }
 
@@ -836,10 +822,7 @@ class Data extends AbstractHelper
 
                     $comissionsToArray = json_decode($value, true);
                     foreach ($comissionsToArray as $keyCommission => $commission) {
-                        if (
-                            !$commission['commission_percentage']
-                            || !$commission['payment_plan']
-                        ) {
+                        if (!$commission['payment_plan']) {
                             continue;
                         }
 

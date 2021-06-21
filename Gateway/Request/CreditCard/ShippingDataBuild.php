@@ -104,8 +104,7 @@ class ShippingDataBuild implements BuilderInterface
         $positions = [$streetPos, $numberPos, $complementPos, $districtPos];
         $addressLines = [];
         foreach ($positions as $position) {
-            $function_pos = "getStreetLine" . $position;
-            $addressLines[] = $billingAddress->$function_pos();
+            $addressLines[] = $billingAddress->getStreetLine($position);
         }
         return $addressLines;
     }

@@ -83,13 +83,45 @@ define(
                 var allInstallments = [];
                 var totalPrice  = window.checkoutConfig.quoteData.grand_total;
                 var installmentsQty = window.checkoutConfig.payment.getnet_credit_card.qty_installments;
+                var installmentInterestPct =
+                    window.checkoutConfig.payment.getnet_credit_card.installments_interest_pct;
+                var installmentInterestType =
+                    window.checkoutConfig.payment.getnet_credit_card.installments_interest_type;
+                var maxNonInterestInstallments =
+                    window.checkoutConfig.payment.getnet_credit_card.max_non_interest_installments;
+
+
+                // $output['payment'][self::PAYMENT_CODE]['qty_installments'] = $qtyInstallments;
+                // $output['payment'][self::PAYMENT_CODE]['installments_interest_pct'] = $installmentsInterestPct;
+                // $output['payment'][self::PAYMENT_CODE]['max_non_interest_installments'] = $maxNonInterestInstalments;
+                // $output['payment'][self::PAYMENT_CODE]['installments_interest_type'] = $installmentsInterest;
+
 
                 for (var i = 1; i <= installmentsQty; i++) {
-                    var installmentPrice = (totalPrice/i).toFixed(2).toString().replace(".", ",");
-                    allInstallments.push({
-                        'value': i,
-                        'installment': i + ' x R$ ' + installmentPrice
-                    });
+                    if (installmentInterestType === 'INSTALL_NO_INTEREST'
+                        || i <= maxNonInterestInstallments
+                            && installmentInterestType !== 'INSTALL_NO_INTEREST') {
+                        var installmentPrice =
+                            (totalPrice / i).toFixed(2).toString().replace(".", ",");
+                        var semJuros = '';
+                        if (i > 1) {
+                            semJuros = ' sem juros';
+                        }
+                        allInstallments.push({
+                            'value': i,
+                            'installment': i + ' x R$ ' + installmentPrice + semJuros
+                        });
+
+                    } else {
+                        var installmentPrice =
+                            (totalPrice * (1 + installmentInterestPct * 0.01) / i)
+                                .toFixed(2).toString().replace(".", ",");
+                        allInstallments.push({
+                            'value': i,
+                            'installment': i + ' x R$ ' + installmentPrice
+                        });
+
+                    }
                 }
 
                 return allInstallments;

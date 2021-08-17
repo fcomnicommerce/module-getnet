@@ -64,6 +64,17 @@ interface CreditCardConfigInterface
     const XML_PATH_MIN_INSTALLMENTS = 'payment/getnet_credit_card/min_installment';
 
     /**
+     * Credit card installments interest in %
+     */
+    const XML_PATH_INSTALLMENTS_INTEREST = 'payment/getnet_credit_card/installments_interest';
+
+    /**
+     * Credit card minimum installment config path
+     */
+    const XML_PATH_MAX_NON_INTEREST_INSTALLMENTS = 'payment/getnet_credit_card/max_non_interest_installments';
+
+
+    /**
      * Check if getnet credit card method is active
      *
      * @return bool
@@ -159,9 +170,23 @@ interface CreditCardConfigInterface
     public function qtyInstallments();
 
     /**
-     * Return credit card minimum installment
+     * Return credit card minimum installment value
      *
      * @return mixed
      */
     public function minInstallment();
+
+    /**
+     * Return credit card installment interest in %
+     *
+     * @return mixed
+     */
+    public function installmentInterest();
+
+    /**
+     * Return maximum installments with no interest
+     *
+     * @return mixed
+     */
+    public function maxNonInterestInstalments();
 }

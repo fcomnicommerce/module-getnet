@@ -118,6 +118,11 @@ class CreditCardConfig extends Config implements CreditCardConfigInterface
         );
     }
 
+    public function interest()
+    {
+
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -244,5 +249,27 @@ class CreditCardConfig extends Config implements CreditCardConfigInterface
     public function createSellerPfEndpoint()
     {
         return $this->endpoint() . '/v1/mgm/pf/create-presubseller';
+    }
+
+    /**
+     * @return string
+     */
+    public function installmentInterest()
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_INSTALLMENTS_INTEREST,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * @return string
+     */
+    public function maxNonInterestInstalments()
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_MAX_NON_INTEREST_INSTALLMENTS,
+            ScopeInterface::SCOPE_STORE
+        );
     }
 }

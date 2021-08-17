@@ -251,24 +251,34 @@
                             <config_path>payment/getnet_credit_card/order_status</config_path>
                         </field>
                         <field id="installments" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
-                            <label>Installments</label>
+                            <label>Installments type</label>
                             <source_model>FCamara\Getnet\Model\Adminhtml\Source\CreditCardInstallmentsAction</source_model>
                             <config_path>payment/getnet_credit_card/installments</config_path>
                         </field>
+
                         <field id="sort_order" translate="label" type="text" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Sort Order</label>
                             <frontend_class>validate-number</frontend_class>
                             <config_path>payment/getnet_credit_card/sort_order</config_path>
                         </field>
                         <field id="qty_installments" translate="label" type="text" sortOrder="170" showInDefault="1" showInWebsite="1" showInStore="1">
-                            <label>Quantity Installments</label>
+                            <label>Maximum Installments Quantity</label>
                             <frontend_class>validate-number</frontend_class>
                             <config_path>payment/getnet_credit_card/qty_installments</config_path>
                         </field>
                         <field id="min_installment" translate="label" type="text" sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="1">
-                            <label>Minimum installment</label>
+                            <label>Minimum installment value</label>
                             <frontend_class>validate-number</frontend_class>
                             <config_path>payment/getnet_credit_card/min_installment</config_path>
+                        </field>
+                        <field id="installments_interest" translate="label" type="text" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Installments interest %</label>
+                            <config_path>payment/getnet_credit_card/installments_interest</config_path>
+                        </field>
+                        <field id="max_non_interest_installments" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Maximum Installments Quantity Without Interest</label>
+                            <comment>Interest will be applied to installment quantities above this value</comment>
+                            <config_path>payment/getnet_credit_card/max_non_interest_installments</config_path>
                         </field>
                     </group>
                     <group id="debit_card" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">

@@ -66,6 +66,13 @@ class InstallmentsConfigProvider implements ConfigProviderInterface
             $qtyInstallments = (int) $this->creditCardConfig->qtyInstallments();
             $minInstallment = (int) $this->creditCardConfig->minInstallment();
             $grandTotal = $this->checkoutSession->getQuote()->getGrandTotal();
+            $installmentsInterestPct = $this->creditCardConfig->installmentInterest();
+            $installmentsInterest = $this->creditCardConfig->installments();
+
+            $maxNonInterestInstalments = 1;
+            if ($installmentsInterest !== 'INSTALL_NO_INTEREST') {
+                $maxNonInterestInstalments = $this->creditCardConfig->maxNonInterestInstalments();
+            }
 
             $installmentValue = $grandTotal / $qtyInstallments;
 
@@ -74,6 +81,9 @@ class InstallmentsConfigProvider implements ConfigProviderInterface
             }
 
             $output['payment'][self::PAYMENT_CODE]['qty_installments'] = $qtyInstallments;
+            $output['payment'][self::PAYMENT_CODE]['installments_interest_pct'] = $installmentsInterestPct;
+            $output['payment'][self::PAYMENT_CODE]['max_non_interest_installments'] = $maxNonInterestInstalments;
+            $output['payment'][self::PAYMENT_CODE]['installments_interest_type'] = $installmentsInterest;
 
         } catch (\Exception $e) {
             $this->logger->critical('Error message', ['exception' => $e]);

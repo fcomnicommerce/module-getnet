@@ -89,14 +89,6 @@ define(
                     window.checkoutConfig.payment.getnet_credit_card.installments_interest_type;
                 var maxNonInterestInstallments =
                     window.checkoutConfig.payment.getnet_credit_card.max_non_interest_installments;
-
-
-                // $output['payment'][self::PAYMENT_CODE]['qty_installments'] = $qtyInstallments;
-                // $output['payment'][self::PAYMENT_CODE]['installments_interest_pct'] = $installmentsInterestPct;
-                // $output['payment'][self::PAYMENT_CODE]['max_non_interest_installments'] = $maxNonInterestInstalments;
-                // $output['payment'][self::PAYMENT_CODE]['installments_interest_type'] = $installmentsInterest;
-
-
                 for (var i = 1; i <= installmentsQty; i++) {
                     if (installmentInterestType === 'INSTALL_NO_INTEREST'
                         || i <= maxNonInterestInstallments

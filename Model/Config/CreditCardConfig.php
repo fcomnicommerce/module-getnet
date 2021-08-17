@@ -118,11 +118,6 @@ class CreditCardConfig extends Config implements CreditCardConfigInterface
         );
     }
 
-    public function interest()
-    {
-
-    }
-
     /**
      * {@inheritDoc}
      */

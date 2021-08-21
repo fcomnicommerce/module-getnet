@@ -354,11 +354,11 @@
     </virtualType>
 
     <!-- DebitCard AuthorizeClient Initialization -->
-<!--    <type name="FCamara\Getnet\Gateway\Http\Client\DebitCard\AuthorizeClient">
+    <type name="FCamara\Getnet\Gateway\Http\Client\DebitCard\AuthorizeClient">
         <arguments>
             <argument name="logger" xsi:type="object">GetnetGatewayDebitCardLogger</argument>
         </arguments>
-    </type>-->
+    </type>
 
     <!-- Logger, initialized with GetnetGatewayDebitCardConfig -->
     <virtualType name="GetnetGatewayDebitCardLogger" type="Magento\Payment\Model\Method\Logger">
@@ -406,6 +406,9 @@
     <!-- API -->
     <preference for="FCamara\Getnet\Api\CardsInterface" type="FCamara\Getnet\Model\Cards" />
     <preference for="FCamara\Getnet\Api\AmountInterface" type="FCamara\Getnet\Model\CheckoutIframeAmount" />
+    <preference for="FCamara\Getnet\Api\GenerateQRCodeInterface" type="FCamara\Getnet\Model\Service\Pix\GenerateQRCode" />
+    <preference for="FCamara\Getnet\Api\ServiceNotificationPixInterface" type="FCamara\Getnet\Model\Service\Pix\ServiceNotificationPix" />
+    <preference for="FCamara\Getnet\Api\StatusByOrderIdInterface" type="FCamara\Getnet\Model\Service\Pix\StatusByOrderId" />
     <!-- API -->
 
     <!-- ADMIN REPORT GRID -->

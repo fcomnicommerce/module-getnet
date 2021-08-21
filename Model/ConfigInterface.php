@@ -23,6 +23,11 @@ interface ConfigInterface
     const XML_PATH_BILLET_ACTIVE = 'payment/getnet_billet/active';
 
     /**
+     * Pix enabled config path
+     */
+    const XML_PATH_PIX_ACTIVE = 'payment/getnet_pix/active';
+
+    /**
      * Api seller id config path
      */
     const XML_PATH_SELLER_ID = 'payment/getnet/seller_id';

@@ -31,6 +31,14 @@
                                                         <item name="renders" xsi:type="array">
                                                             <!-- merge payment method renders here -->
                                                             <item name="children" xsi:type="array">
+                                                                <item name="getnet_pix" xsi:type="array">
+                                                                    <item name="component" xsi:type="string">FCamara_Getnet/js/view/payment/getnet_pix</item>
+                                                                    <item name="methods" xsi:type="array">
+                                                                        <item name="getnet_pix" xsi:type="array">
+                                                                            <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
+                                                                        </item>
+                                                                    </item>
+                                                                </item>
                                                                 <item name="getnet_billet" xsi:type="array">
                                                                     <item name="component" xsi:type="string">FCamara_Getnet/js/view/payment/getnet_billet</item>
                                                                     <item name="methods" xsi:type="array">

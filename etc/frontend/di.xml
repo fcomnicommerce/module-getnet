@@ -14,6 +14,7 @@
             </argument>
         </arguments>
     </type>
+
     <type name="Magento\Checkout\Model\CompositeConfigProvider">
         <arguments>
             <argument name="configProviders" xsi:type="array">
@@ -68,4 +69,6 @@
             </argument>
         </arguments>
     </type>
+
+    <preference for="Magento\Sales\Block\Order\Info" type="FCamara\Getnet\Block\Order\Info" />
 </config>

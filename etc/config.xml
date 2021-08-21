@@ -64,6 +64,14 @@
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
             </getnet_checkout_iframe>
+            <getnet_pix>
+                <active>0</active>
+                <title>PIX</title>
+                <model>FCamara\Getnet\Model\GetnetPix</model>
+                <debug>1</debug>
+                <order_status>pending_payment</order_status>
+                <group>offline</group>
+            </getnet_pix>
         </payment>
     </default>
 </config>

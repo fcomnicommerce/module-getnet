@@ -90,22 +90,24 @@ class SavedCardConfigProvider implements ConfigProviderInterface
 
             $cards = $this->client->cardList($this->customerSession->getCustomerId());
 
-            foreach ($cards['cards'] as $card) {
-                $output['payment']['saved_cards'][] = [
-                    'card_id' => $card['card_id'],
-                    'last_four_digits' => $card['last_four_digits'],
-                    'expiration_month' => $card['expiration_month'],
-                    'expiration_year' => $card['expiration_year'],
-                    'brand' => $card['brand'],
-                    'cardholder_name' => $card['cardholder_name'],
-                    'customer_id' => $card['customer_id'],
-                    'number_token' => $card['number_token'],
-                    'used_at' => $card['used_at'],
-                    'created_at' => $card['created_at'],
-                    'updated_at' => $card['updated_at'],
-                    'status' => $card['status'],
-                    'card_data' => __('Final card ') . $card['last_four_digits'] . ' - ' . $card['brand']
-                ];
+            if (isset($cards['cards'])) {
+                foreach ($cards['cards'] as $card) {
+                    $output['payment']['saved_cards'][] = [
+                        'card_id' => $card['card_id'],
+                        'last_four_digits' => $card['last_four_digits'],
+                        'expiration_month' => $card['expiration_month'],
+                        'expiration_year' => $card['expiration_year'],
+                        'brand' => $card['brand'],
+                        'cardholder_name' => $card['cardholder_name'],
+                        'customer_id' => $card['customer_id'],
+                        'number_token' => $card['number_token'],
+                        'used_at' => $card['used_at'],
+                        'created_at' => $card['created_at'],
+                        'updated_at' => $card['updated_at'],
+                        'status' => $card['status'],
+                        'card_data' => __('Final card ') . $card['last_four_digits'] . ' - ' . $card['brand']
+                    ];
+                }
             }
         } catch (\Exception $e) {
             $this->logger->critical('Error message', ['exception' => $e]);

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- 
+<!--
 /**
  * DISCLAIMER
  *
@@ -18,6 +18,27 @@
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
     <route url="/V1/getnet/checkoutiframe/amount/:id" method="GET">
         <service class="FCamara\Getnet\Api\AmountInterface" method="getAmountByQuote"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <route url="/V1/getnet/generateqrcode" method="POST">
+        <service class="FCamara\Getnet\Api\GenerateQRCodeInterface" method="execute"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <route url="/V1/getnet/servicepix" method="GET">
+        <service class="FCamara\Getnet\Api\ServiceNotificationPixInterface" method="execute"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <route url="/V1/getnet/status-order/:id" method="GET">
+        <service class="FCamara\Getnet\Api\StatusByOrderIdInterface" method="execute"/>
         <resources>
             <resource ref="anonymous"/>
         </resources>
